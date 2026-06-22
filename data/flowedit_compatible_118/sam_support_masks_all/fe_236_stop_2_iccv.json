@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.17037200927734375,
+  "anchor_box_xyxy": [
+    295,
+    69,
+    504,
+    331
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_236_stop_2_iccv_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      294.1534423828125,
+      68.51710510253906,
+      505.22528076171875,
+      332.1868896484375
+    ]
+  ],
+  "chosen_phrase": "stop sign",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_236_stop_2_iccv",
+  "labels": [
+    "stop sign"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.85,
+  "num_boxes": 1,
+  "phrase": "stop sign",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.8428653478622437
+  ],
+  "support_area": 0.17768478393554688,
+  "support_box_xyxy": [
+    295,
+    69,
+    504,
+    331
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_236_stop_2_iccv_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 3,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.85,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

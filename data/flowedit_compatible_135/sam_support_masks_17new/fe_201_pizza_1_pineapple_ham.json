@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.557464599609375,
+  "anchor_box_xyxy": [
+    0,
+    73,
+    512,
+    429
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_201_pizza_1_pineapple_ham_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      0.04833984375,
+      70.52772521972656,
+      512.0474243164062,
+      429.3033447265625
+    ]
+  ],
+  "chosen_phrase": "pizza",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_201_pizza_1_pineapple_ham",
+  "labels": [
+    "pizza"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "pizza",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.8586668372154236
+  ],
+  "support_area": 0.575531005859375,
+  "support_box_xyxy": [
+    0,
+    73,
+    512,
+    429
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_201_pizza_1_pineapple_ham_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

@@ -1,0 +1,79 @@
+{
+  "anchor_box_xyxy": [
+    105,
+    193,
+    398,
+    406
+  ],
+  "anchor_mask_area_ratio": 0.11531448364257812,
+  "anchor_output": null,
+  "blur": 5,
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      103.36405944824219,
+      190.18838500976562,
+      398.00115966796875,
+      405.9101867675781
+    ]
+  ],
+  "dilate": 6,
+  "eyes_anchor_area_ratio": 0.11531448364257812,
+  "eyes_anchor_area_threshold": 0.16,
+  "eyes_anchor_box_area_ratio": 0.23807144165039062,
+  "eyes_anchor_box_area_threshold": 0.34,
+  "eyes_anchor_fallback_used": false,
+  "eyes_anchor_max_area_ratio": 0.16,
+  "eyes_anchor_max_box_area_ratio": 0.34,
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/iguana.png",
+  "labels": [
+    "lizard"
+  ],
+  "mask_area_ratio": 0.13208389282226562,
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.7,
+  "num_boxes": 1,
+  "output": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_masks_t4/fe_141_iguana_1_green_lizard_lizard_sam.png",
+  "phrase": "lizard",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9727714657783508
+  ],
+  "semantic_edit_words": [
+    "green",
+    "green",
+    "green"
+  ],
+  "semantic_phrase_after_quality_gate": "lizard",
+  "semantic_phrase_explicit": "lizard",
+  "semantic_phrase_inferred": "lizard",
+  "source_prompt": "A large orange lizard sitting on a rock near the ocean. The lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the lizard''s resting spot.",
+  "support_band_ratio": 0.55,
+  "support_box_xyxy": [
+    105,
+    193,
+    398,
+    406
+  ],
+  "support_expand_x": 0.0,
+  "support_expand_y": 0.0,
+  "support_overlap_ratio": 0.2,
+  "support_plan_params": {},
+  "support_plan_rule": {
+    "anchor": "large",
+    "keywords": [
+      "green"
+    ],
+    "params": {},
+    "relation": "inside",
+    "type": "color_attribute"
+  },
+  "support_relation": "inside",
+  "support_relation_after_quality_gate": "inside",
+  "support_relation_inferred": "inside",
+  "support_relation_requested": "auto",
+  "support_threshold": 0.2,
+  "target_prompt": "A large green lizard sitting on a rock near the ocean. The green lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the green lizard''s resting spot.",
+  "text_threshold": 0.15
+}

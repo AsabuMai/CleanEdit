@@ -1,0 +1,71 @@
+{
+  "anchor_area": 0.77056884765625,
+  "anchor_box_xyxy": [
+    20,
+    27,
+    495,
+    490
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      20.9405517578125,
+      24.953857421875,
+      494.32403564453125,
+      489.60955810546875
+    ]
+  ],
+  "chosen_phrase": "pizza",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_207_pizza_tomato_olive_1_pepperoni",
+  "labels": [
+    "pizza"
+  ],
+  "manual_fix": {
+    "reason": "T2 pizza topping mask used a square support bbox that included table/background.",
+    "spec": {
+      "blur_radius": 2.0,
+      "from_anchor_ellipse": 0.84
+    },
+    "updated_at_jst": "2026-06-20 15:54:56"
+  },
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "pizza",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.8065768480300903
+  ],
+  "support_area": 0.466033935546875,
+  "support_area_before_manual_fix": 0.466033935546875,
+  "support_box_xyxy": [
+    58,
+    64,
+    458,
+    453
+  ],
+  "support_box_xyxy_before_manual_fix": [
+    58,
+    64,
+    458,
+    453
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_support.png",
+  "support_mask_before_manual_fix": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_support_auto_backup.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

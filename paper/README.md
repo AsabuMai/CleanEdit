@@ -1,63 +1,63 @@
-# Paper Workspace
+# Paper Materials
 
-Current source of truth for the WACV paper package.
+Current paper scope is now the FlowEdit-135 benchmark-style evaluation, not the
+older Phase2 15-case diagnostic set.
 
-## Active Experiment Design
+Use these current files:
 
-- `wacv_experiment_design.md`: canonical 2026-06-05 experiment design and claim boundary.
-- `core6_phase1_images_prompts.md`: frozen strict Core-6 Phase 1 task/image plan.
-- `phase2_core6_images_prompts.md`: planned Phase 2 Core-6 expansion manifest.
-- `e2_status_lock.md`: E2 method/backbone status and paper-use lock.
-- `results.md`: current result readout and safe wording.
-- `figures.md`: current main/supplement figure plan.
-- `tables.md`: current main/supplement table plan.
+- `results.md`
+- `tables.md`
+- `figures.md`
+- `limitations.md`
+- `wacv_experiment_design.md`
+- `flowedit135_experiment_report_2026-06-21.md`
+- `references.bib`
 
-## Active Manuscript Files
+Older Phase2 materials remain useful for method development history, ablations,
+and appendix context, but they should not be treated as the main paper evidence.
 
-- `manuscript.md`: main manuscript draft to keep synchronized with the current experiment design.
-- `draft.md`: working draft/notes; useful for section material, not the final authority.
-- `outline.md`: current paper structure sketch.
-- `argument_blueprint.md`: claim/evidence map.
-- `limitations.md`: limitation language aligned to strict Core-6.
-- `references.bib`: bibliography stub/source file.
+## Active Evidence
 
-## Current Experimental Scope
+- `data/flowedit_compatible_135/manifest.json`
+- `data/flowedit_compatible_135/local_target_prompts.json`
+- `data/flowedit_compatible_135/eval_masks/`
+- `outputs/flowedit135_metric_runs/`
+- `experiments/flowedit135_fixedmask_metrics_20260621/metrics.csv`
+- `experiments/flowedit135_fixedmask_metrics_20260621/summary_by_method.csv`
+- `experiments/flowedit135_fixedmask_metrics_20260621/summary_by_family_method.csv`
+- `experiments/flowedit135_fixedmask_metrics_20260621/metric_audit.json`
+- `paper/assets/tradeoff_overall_edit_preservation_compact.png`
+- `paper/assets/tradeoff_by_family_edit_preservation.png`
 
-The active strict Core-5 tasks are (revised 2026-06-10; distinct from the
-archived 2026-05 Core-5):
+## Main Claim
 
-```text
-cat_crown
-bowl_apple_inside
-tshirt_star
-red_chair_blue
-pillow_same_color_cable_knit
-```
-
-Removal (`backpack_remove_toy_charm`) is no longer a headline E1 row: decoupled
-clean-displacement control has no defined edit target for fill content, so it
-is reported as an E5 boundary probe with removal-aware metrics
-(`t6_removal_aware_metrics.csv`) and the VAE fill-texture ceiling analysis.
-
-The active E2 design is a layered fairness experiment:
+The evidence supports a preservation-first claim:
 
 ```text
-E2.1: backbone calibration for reconstruction/direct-target floors.
-E2.2: same-backbone SD3 algorithm comparison against RF-native and preservation-control rows.
-E2.3: native preservation-aware RF / FLUX implementation comparison, reported separately.
-E2.4: support-matched diagnostic to separate localization input from controller design.
-Non-RF supplement: InstructPix2Pix and H-Edit / P2P-style only for positioning.
+Our method achieves the strongest non-edit-region preservation on FlowEdit-135
+while remaining on the edit-preservation Pareto frontier.
 ```
 
-Do not promote archived Core-5, old Core-6, or server-snapshot rows into the
-main claim unless they are rerun under the current strict protocol.
+The paper should not claim that the method is the most aggressive editor or that
+it wins every edit-success metric. The data show a clear trade-off: SAM-Flow-SD3
+and related baselines can produce stronger local CLIP edit scores, while our
+method changes the background far less.
 
-## Archives
+## Evaluation Snapshot
 
-- `archive_superseded_2026-06-03/`: superseded drafts and handoff/precheck files that conflict with the current experiment design.
-- `archive_old_core6_20260602/`: old Core-6/server-evidence materials.
-- `archive_superseded_2026-06-02/`: earlier experiment-plan drafts.
-- `server_snapshot_2026-06-02/`: raw snapshot from the server before the current cleanup.
+- Dataset: FlowEdit-compatible 135 tasks.
+- Task families: T1 attached accessory, T2 container insertion, T3 surface
+  decal, T4 local recolor, T5 same-color material.
+- Methods: 13 total, including Ours, FlowEdit, SplitFlow, SAM-Flow, FireFlow,
+  RF-Solver-Edit, ReFLEx, InstructPix2Pix, LEDITS++, OT-RF enhanced, and DRFS.
+- Completed runs: 1755/1755.
+- Fixed evaluation regions: 135/135.
+- Local target prompts: 135/135.
 
-Use archived material only for history, diagnostics, or wording recovery. The
-active files listed above are the paper-facing source of truth.
+## Writing Notes
+
+- Use `local_clip_t` and CLIP direction as edit-strength evidence.
+- Use `bg_lpips`, `bg_l1`, `bg_dino_source`, and `bg_ssim_luma` as the main
+  preservation evidence.
+- Refer to masks as fixed evaluation regions, not exact segmentation masks.
+- Put text-editing and very large fixed-region cases in limitations or appendix.

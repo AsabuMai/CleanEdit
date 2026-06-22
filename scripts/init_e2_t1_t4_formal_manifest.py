@@ -105,6 +105,11 @@ BASELINES = {
         "backbone": "stabilityai/stable-diffusion-3-medium-diffusers + prompt decomposition",
         "runner": "scripts/archive_legacy_2026-05-11/run_splitflow_baseline.py",
     },
+    "sam_flow_sd3": {
+        "paper_bucket": "E2.2 same-backbone SD3 source-anchored masked-flow baseline",
+        "backbone": "stabilityai/stable-diffusion-3-medium-diffusers",
+        "runner": "scripts/run_samflow_baseline.py --baselines sam_flow_sd3",
+    },
     "fireflow": {
         "paper_bucket": "E2.3 native-FLUX contextual baseline",
         "backbone": "black-forest-labs/FLUX.1-dev",
@@ -120,11 +125,16 @@ BASELINES = {
         "backbone": "black-forest-labs/FLUX.1-dev",
         "runner": "scripts/archive_legacy_2026-05-11/run_reflex_baseline.py",
     },
+    "sam_flow_flux": {
+        "paper_bucket": "E2.3 native-FLUX source-anchored masked-flow contextual baseline",
+        "backbone": "black-forest-labs/FLUX.1-dev",
+        "runner": "scripts/run_samflow_baseline.py --baselines sam_flow_flux",
+    },
 }
 
 
 DEFAULT_TASKS = " ".join(TASKS)
-DEFAULT_BASELINES = "flowedit flowalign splitflow fireflow rf_solver_edit reflex"
+DEFAULT_BASELINES = "flowedit flowalign splitflow sam_flow_sd3 fireflow rf_solver_edit reflex sam_flow_flux"
 
 
 def main() -> int:

@@ -1,0 +1,85 @@
+{
+  "created_utc": "2026-06-11T10:18:30.403291+00:00",
+  "entries": [
+    {
+      "path": "scripts/evaluate_paper_metrics.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/evaluate_paper_metrics.py"
+    },
+    {
+      "path": "scripts/run_wacv_phase1.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_wacv_phase1.sh"
+    },
+    {
+      "path": "scripts/run_pretty_matrix.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_pretty_matrix.sh"
+    },
+    {
+      "path": "scripts/run_pretty_matrix.sh.bak_phase2_20260605",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_pretty_matrix.sh.bak_phase2_20260605"
+    },
+    {
+      "path": "scripts/core6_tasks.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/core6_tasks.sh"
+    },
+    {
+      "path": "scripts/core6_methods.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/core6_methods.sh"
+    },
+    {
+      "path": "scripts/fill_e2_native_flux_visual_audit.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/fill_e2_native_flux_visual_audit.py"
+    },
+    {
+      "path": "scripts/fill_e2_support_matched_visual_audit.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/fill_e2_support_matched_visual_audit.py"
+    },
+    {
+      "path": "scripts/run_flux_e21_calibration.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_flux_e21_calibration.sh"
+    },
+    {
+      "path": "scripts/run_leditspp_baseline.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_leditspp_baseline.py"
+    },
+    {
+      "path": "scripts/run_e2_native_flux_seed10_gate_gpu01.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_e2_native_flux_seed10_gate_gpu01.sh"
+    },
+    {
+      "path": "scripts/run_e2_native_flux_seed11_12_gpu01.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_e2_native_flux_seed11_12_gpu01.sh"
+    },
+    {
+      "path": "scripts/run_e2_native_flux_metrics_gpu01.sh",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_e2_native_flux_metrics_gpu01.sh"
+    },
+    {
+      "path": "scripts/prepare_e2_native_flux_artifacts.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/prepare_e2_native_flux_artifacts.py"
+    },
+    {
+      "path": "scripts/init_e2_native_flux_visual_audit.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/init_e2_native_flux_visual_audit.py"
+    },
+    {
+      "path": "scripts/make_phase2_e1_seed10_review.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/make_phase2_e1_seed10_review.py"
+    }
+  ]
+}

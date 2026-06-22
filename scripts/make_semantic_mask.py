@@ -323,6 +323,8 @@ def _front_glasses_from_head_anchor(
     *,
     threshold: float,
     auto_eye: bool,
+    fallback_lens_y_frac: float | None = None,
+    fallback_half_eye_span_frac: float | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     height, width = anchor.shape[:2]
     x0, y0, x1, y1 = bbox
@@ -406,8 +408,14 @@ def _front_glasses_from_head_anchor(
     used_auto_eye = len(eye_centers) == 2
     if not used_auto_eye:
         cx = 0.5 * (x0 + x1)
-        lens_y = y0 + (0.54 if auto_eye else 0.40) * bh
-        half_eye_span = (0.18 if auto_eye else 0.12) * bw
+        lens_y_frac = 0.54 if auto_eye else 0.40
+        half_span_frac = 0.18 if auto_eye else 0.12
+        if fallback_lens_y_frac is not None:
+            lens_y_frac = float(np.clip(fallback_lens_y_frac, 0.05, 0.85))
+        if fallback_half_eye_span_frac is not None:
+            half_span_frac = float(np.clip(fallback_half_eye_span_frac, 0.05, 0.40))
+        lens_y = y0 + lens_y_frac * bh
+        half_eye_span = half_span_frac * bw
         eye_centers = [(cx - half_eye_span, lens_y), (cx + half_eye_span, lens_y)]
 
     (left_x, left_y), (right_x, right_y) = sorted(eye_centers, key=lambda point: point[0])
@@ -477,6 +485,8 @@ def support_from_anchor_mask(
     expand_y: float = 0.0,
     band_ratio: float = 0.55,
     overlap_ratio: float = 0.20,
+    front_glasses_lens_y_frac: float | None = None,
+    front_glasses_half_eye_span_frac: float | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Derive an edit support from a grounded anchor mask.
 
@@ -590,6 +600,8 @@ def support_from_anchor_mask(
                 bbox,
                 threshold=threshold,
                 auto_eye=relation == "front_glasses_auto",
+                fallback_lens_y_frac=front_glasses_lens_y_frac,
+                fallback_half_eye_span_frac=front_glasses_half_eye_span_frac,
             )
         else:
             raise ValueError(f"Unsupported --support-relation: {relation}")
@@ -808,6 +820,18 @@ def main() -> None:
     parser.add_argument("--support-band-ratio", type=float, default=0.55)
     parser.add_argument("--support-overlap-ratio", type=float, default=0.20)
     parser.add_argument("--support-threshold", type=float, default=0.2)
+    parser.add_argument(
+        "--front-glasses-lens-y-frac",
+        type=float,
+        default=None,
+        help="Optional fallback vertical eye-line fraction inside the grounded head box for front_glasses relations.",
+    )
+    parser.add_argument(
+        "--front-glasses-half-eye-span-frac",
+        type=float,
+        default=None,
+        help="Optional fallback half eye-span fraction inside the grounded head box for front_glasses relations.",
+    )
     parser.add_argument("--eyes-anchor-max-area-ratio", type=float, default=0.16)
     parser.add_argument("--eyes-anchor-max-box-area-ratio", type=float, default=0.34)
     parser.add_argument(
@@ -912,6 +936,8 @@ def main() -> None:
         expand_y=support_expand_y,
         band_ratio=support_band_ratio,
         overlap_ratio=support_overlap_ratio,
+        front_glasses_lens_y_frac=args.front_glasses_lens_y_frac,
+        front_glasses_half_eye_span_frac=args.front_glasses_half_eye_span_frac,
     )
     if args.dilate > 1:
         kernel = args.dilate + 1 if args.dilate % 2 == 0 else args.dilate

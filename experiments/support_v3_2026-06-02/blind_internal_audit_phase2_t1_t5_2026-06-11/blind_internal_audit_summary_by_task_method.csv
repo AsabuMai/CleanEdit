@@ -1,0 +1,61 @@
+family,task,method,method_display,n,edit_correct_1_5_mean,relation_correct_1_5_mean,source_preservation_1_5_mean,locality_1_5_mean,artifact_severity_1_5_mean,overall_1_5_mean,failure_type_counts
+T1_attached_accessory,cat_crown,adaptive_full_generic_support,Generic support control,9,1.000,1.000,3.667,4.000,2.333,3.000,under_edit:9
+T1_attached_accessory,cat_crown,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,3.667,4.000,3.333,2.333,under_edit:9
+T1_attached_accessory,cat_crown,direct_target,Direct target guidance,9,1.000,1.000,1.000,1.000,5.000,1.000,under_edit:9
+T1_attached_accessory,cat_crown,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,4.667,4.000,2.333,5.000,none:9
+T1_attached_accessory,dog_bow_tie_phase2,adaptive_full_generic_support,Generic support control,9,2.000,2.000,3.667,4.000,2.333,3.000,under_edit:9
+T1_attached_accessory,dog_bow_tie_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,3.667,4.000,2.333,3.000,under_edit:9
+T1_attached_accessory,dog_bow_tie_phase2,direct_target,Direct target guidance,9,3.000,3.000,1.000,2.000,5.000,2.000,identity_drift:9
+T1_attached_accessory,dog_bow_tie_phase2,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,3.667,4.000,2.333,5.000,none:9
+T1_attached_accessory,dog_front_sunglasses_phase2,adaptive_full_generic_support,Generic support control,9,1.000,1.000,3.667,4.000,2.333,3.000,under_edit:9
+T1_attached_accessory,dog_front_sunglasses_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,2.667,3.000,3.333,2.000,under_edit:9
+T1_attached_accessory,dog_front_sunglasses_phase2,direct_target,Direct target guidance,9,1.000,1.000,1.000,2.000,4.333,1.000,under_edit:9
+T1_attached_accessory,dog_front_sunglasses_phase2,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,4.667,4.000,2.333,5.000,none:9
+T2_container_insertion,bowl_apple_inside,adaptive_full_generic_support,Generic support control,9,3.000,3.000,2.667,4.000,2.333,3.000,identity_drift:3;under_edit:6
+T2_container_insertion,bowl_apple_inside,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,3.667,4.000,3.333,2.333,under_edit:9
+T2_container_insertion,bowl_apple_inside,direct_target,Direct target guidance,9,1.000,1.000,1.000,1.000,5.000,1.000,under_edit:9
+T2_container_insertion,bowl_apple_inside,support_v3_controller_rmsgap,DeCE-RF,9,4.000,4.000,3.667,4.000,2.333,4.000,none:9
+T2_container_insertion,brown_bowl_lemon_phase2,adaptive_full_generic_support,Generic support control,9,2.667,2.667,3.667,4.000,2.333,3.222,under_edit:9
+T2_container_insertion,brown_bowl_lemon_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,4.000,1.333,3.000,under_edit:9
+T2_container_insertion,brown_bowl_lemon_phase2,direct_target,Direct target guidance,9,1.333,1.333,1.000,1.667,4.556,1.000,under_edit:9
+T2_container_insertion,brown_bowl_lemon_phase2,support_v3_controller_rmsgap,DeCE-RF,9,3.333,3.333,5.000,5.000,1.333,4.333,none:9
+T2_container_insertion,white_bowl_orange_tabletop_phase2,adaptive_full_generic_support,Generic support control,9,3.000,3.000,5.000,5.000,1.333,4.000,under_edit:9
+T2_container_insertion,white_bowl_orange_tabletop_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,5.000,5.000,1.333,3.333,under_edit:9
+T2_container_insertion,white_bowl_orange_tabletop_phase2,direct_target,Direct target guidance,9,2.000,2.000,1.000,2.000,4.333,2.000,under_edit:9
+T2_container_insertion,white_bowl_orange_tabletop_phase2,support_v3_controller_rmsgap,DeCE-RF,9,3.333,3.333,5.000,5.000,1.333,4.556,none:9
+T3_surface_decal,mug_heart,adaptive_full_generic_support,Generic support control,9,1.000,1.000,5.000,5.000,1.333,4.000,under_edit:9
+T3_surface_decal,mug_heart,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,5.000,5.000,1.333,3.333,under_edit:9
+T3_surface_decal,mug_heart,direct_target,Direct target guidance,9,1.000,1.000,2.667,2.000,3.333,2.000,under_edit:9
+T3_surface_decal,mug_heart,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,4.667,5.000,2.333,5.000,none:9
+T3_surface_decal,tote_leaf,adaptive_full_generic_support,Generic support control,9,1.000,1.000,4.667,4.000,2.333,3.000,under_edit:9
+T3_surface_decal,tote_leaf,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,4.000,1.333,3.000,under_edit:9
+T3_surface_decal,tote_leaf,direct_target,Direct target guidance,9,2.000,2.000,1.667,2.000,4.333,2.000,under_edit:9
+T3_surface_decal,tote_leaf,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,5.000,5.000,1.333,5.000,none:9
+T3_surface_decal,tshirt_star,adaptive_full_generic_support,Generic support control,9,1.000,1.000,5.000,5.000,2.333,3.000,under_edit:9
+T3_surface_decal,tshirt_star,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,5.000,5.000,1.333,3.333,under_edit:9
+T3_surface_decal,tshirt_star,direct_target,Direct target guidance,9,2.000,2.000,1.667,2.000,4.333,2.000,under_edit:9
+T3_surface_decal,tshirt_star,support_v3_controller_rmsgap,DeCE-RF,9,5.000,5.000,5.000,5.000,1.333,5.000,none:9
+T4_local_recolor,green_mug_orange_phase2,adaptive_full_generic_support,Generic support control,9,3.000,3.000,5.000,5.000,1.333,4.333,under_edit:9
+T4_local_recolor,green_mug_orange_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,5.000,2.333,3.000,under_edit:9
+T4_local_recolor,green_mug_orange_phase2,direct_target,Direct target guidance,9,2.000,2.000,1.667,2.000,4.333,2.000,under_edit:9
+T4_local_recolor,green_mug_orange_phase2,support_v3_controller_rmsgap,DeCE-RF,9,4.000,4.000,5.000,5.000,1.333,5.000,none:9
+T4_local_recolor,red_office_chair_to_blue_office_chair,adaptive_full_generic_support,Generic support control,9,4.000,4.000,3.667,4.000,2.333,4.000,under_edit:9
+T4_local_recolor,red_office_chair_to_blue_office_chair,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,4.000,1.333,3.000,under_edit:9
+T4_local_recolor,red_office_chair_to_blue_office_chair,direct_target,Direct target guidance,9,2.000,2.000,1.000,2.000,5.000,1.333,under_edit:9
+T4_local_recolor,red_office_chair_to_blue_office_chair,support_v3_controller_rmsgap,DeCE-RF,9,4.667,4.667,5.000,4.000,1.333,4.778,none:9
+T4_local_recolor,yellow_vase_blue_phase2,adaptive_full_generic_support,Generic support control,9,3.000,3.000,5.000,5.000,1.333,4.333,under_edit:9
+T4_local_recolor,yellow_vase_blue_phase2,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,4.000,1.333,3.000,under_edit:9
+T4_local_recolor,yellow_vase_blue_phase2,direct_target,Direct target guidance,9,2.000,2.000,1.000,2.000,4.333,2.000,under_edit:9
+T4_local_recolor,yellow_vase_blue_phase2,support_v3_controller_rmsgap,DeCE-RF,9,4.000,4.000,5.000,5.000,1.333,5.000,none:9
+T5_same_color_material,pillow_same_color_cable_knit,adaptive_full_generic_support,Generic support control,9,2.000,2.000,5.000,5.000,2.333,4.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,3.667,4.000,2.333,3.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit,direct_target,Direct target guidance,9,2.000,2.000,1.000,2.000,5.000,1.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit,support_v3_controller_rmsgap,DeCE-RF,9,3.000,3.000,5.000,5.000,1.333,4.333,none:9
+T5_same_color_material,pillow_same_color_cable_knit_armchair,adaptive_full_generic_support,Generic support control,9,2.000,2.000,5.000,5.000,2.333,4.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_armchair,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,4.667,5.000,2.333,3.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_armchair,direct_target,Direct target guidance,9,2.000,2.000,1.000,1.000,5.000,1.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_armchair,support_v3_controller_rmsgap,DeCE-RF,9,2.000,2.000,5.000,5.000,1.333,4.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_grey,adaptive_full_generic_support,Generic support control,9,1.000,1.000,4.667,5.000,2.333,3.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_grey,base_only,RF reconstruction / base reconstruction,9,1.000,1.000,1.667,4.000,2.333,2.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_grey,direct_target,Direct target guidance,9,2.000,2.000,1.000,1.000,5.000,1.000,under_edit:9
+T5_same_color_material,pillow_same_color_cable_knit_grey,support_v3_controller_rmsgap,DeCE-RF,9,2.000,2.000,5.000,5.000,1.333,4.000,under_edit:9

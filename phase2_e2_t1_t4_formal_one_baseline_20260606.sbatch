@@ -39,7 +39,7 @@ if [[ "$INIT_MANIFEST" == "1" ]]; then
   python3 -m py_compile scripts/init_e2_t1_t4_formal_manifest.py
   python3 scripts/init_e2_t1_t4_formal_manifest.py \
     --out "$MANIFEST" \
-    --baselines "flowedit flowalign splitflow fireflow rf_solver_edit reflex" \
+    --baselines "flowedit flowalign splitflow sam_flow_sd3 fireflow rf_solver_edit reflex sam_flow_flux" \
     --tasks "$TASKS" \
     --seeds "$SEEDS"
 else
@@ -109,6 +109,18 @@ case "$BASELINE" in
       --manifest "$MANIFEST" \
       --reflex-root "$BASE/src/ReFlex" \
       --python "$BASE/envs/reflex-py310/bin/python" \
+      --tasks "$TASKS" \
+      --seeds "$SEEDS" \
+      --max-image-size 512 \
+      --skip-complete
+    ;;
+  sam_flow_sd3|sam_flow_flux)
+    python3 -m py_compile scripts/run_samflow_baseline.py
+    "$BASE/envs/sam-flow-py310/bin/python" scripts/run_samflow_baseline.py \
+      --manifest "$MANIFEST" \
+      --samflow-root "$BASE/src/Sam-Flow" \
+      --python "$BASE/envs/sam-flow-py310/bin/python" \
+      --baselines "$BASELINE" \
       --tasks "$TASKS" \
       --seeds "$SEEDS" \
       --max-image-size 512 \

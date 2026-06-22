@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.19384002685546875,
+  "anchor_box_xyxy": [
+    22,
+    123,
+    464,
+    436
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      18.324905395507812,
+      120.05184936523438,
+      465.7183837890625,
+      437.9259948730469
+    ]
+  ],
+  "chosen_phrase": "horse",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_140_horse_4_brown_horse",
+  "labels": [
+    "horse"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "horse",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9554742574691772
+  ],
+  "support_area": 0.22453689575195312,
+  "support_box_xyxy": [
+    22,
+    123,
+    464,
+    436
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

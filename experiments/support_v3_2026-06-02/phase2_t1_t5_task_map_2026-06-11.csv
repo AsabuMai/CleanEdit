@@ -1,0 +1,16 @@
+family,family_index,task
+T1_attached_accessory,1,cat_crown
+T1_attached_accessory,2,dog_bow_tie_phase2
+T1_attached_accessory,3,dog_front_sunglasses_phase2
+T2_container_insertion,1,bowl_apple_inside
+T2_container_insertion,2,white_bowl_orange_tabletop_phase2
+T2_container_insertion,3,brown_bowl_lemon_phase2
+T3_surface_decal,1,tshirt_star
+T3_surface_decal,2,mug_heart
+T3_surface_decal,3,tote_leaf
+T4_local_recolor,1,red_office_chair_to_blue_office_chair
+T4_local_recolor,2,green_mug_orange_phase2
+T4_local_recolor,3,yellow_vase_blue_phase2
+T5_same_color_material,1,pillow_same_color_cable_knit
+T5_same_color_material,2,pillow_same_color_cable_knit_grey
+T5_same_color_material,3,pillow_same_color_cable_knit_armchair

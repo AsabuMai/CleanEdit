@@ -1,0 +1,165 @@
+[
+  {
+    "key": "fe_130_gray_bird_4_golden_sculpture",
+    "flowedit_idx": 130,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+    "source_prompt": "A small blue and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+    "target_prompt": "A small golden sculpture of a bird perched on a wooden fence or post. The golden sculpture is positioned towards the left side of the image",
+    "global_mask": true,
+    "host_tokens": "bird",
+    "new_tokens": "golden,sculpture,wooden",
+    "pp_aspect_mapping": {
+      "bird": [
+        "golden",
+        "sculpture",
+        "wooden"
+      ]
+    }
+  },
+  {
+    "key": "fe_101_dog_snow_5_golden",
+    "flowedit_idx": 101,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/dog_snow.png",
+    "source_prompt": "A German Shepherd dog standing in a snowy field.",
+    "target_prompt": "A Golden Retriever dog standing in a snowy field.",
+    "global_mask": true,
+    "host_tokens": "dog",
+    "new_tokens": "golden",
+    "pp_aspect_mapping": {
+      "dog": [
+        "golden"
+      ]
+    }
+  },
+  {
+    "key": "fe_039_cat_and_dog_2_bronze",
+    "flowedit_idx": 39,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+    "source_prompt": "A dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+    "target_prompt": "A bronze sculpture of a dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+    "global_mask": true,
+    "host_tokens": "dog",
+    "new_tokens": "bronze,sculpture",
+    "pp_aspect_mapping": {
+      "dog": [
+        "bronze",
+        "sculpture"
+      ]
+    }
+  },
+  {
+    "key": "fe_213_rabbit_1_sculpture",
+    "flowedit_idx": 213,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/rabbit.png",
+    "source_prompt": "A small brown and white rabbit sitting in a grassy field. The rabbit is surrounded by a variety of white flowers.",
+    "target_prompt": "A small sculpture of a rabbit sitting in a grassy field. The rabbit is surrounded by a variety of white flowers.",
+    "global_mask": true,
+    "host_tokens": "rabbit",
+    "new_tokens": "sculpture",
+    "pp_aspect_mapping": {
+      "rabbit": [
+        "sculpture"
+      ]
+    }
+  },
+  {
+    "key": "fe_037_castle_1_lego_castle",
+    "flowedit_idx": 37,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/castle.png",
+    "source_prompt": "A majestic castle with a tall, pointed roof, situated on a hillside. The sky above the castle is filled with clouds, creating a dramatic atmosphere. There are several windows on the castle, with some located on the lower levels and others on the upper levels.",
+    "target_prompt": "A majestic castle made out of lego bricks with a tall, pointed roof, situated on a hillside. The sky above the lego castle is filled with clouds, creating a dramatic atmosphere. There are several windows on the lego castle, with some located on the lower levels and others on the upper levels.",
+    "global_mask": true,
+    "host_tokens": "castle",
+    "new_tokens": "lego",
+    "pp_aspect_mapping": {
+      "castle": [
+        "lego"
+      ]
+    }
+  },
+  {
+    "key": "fe_003_bear_4_sculpture",
+    "flowedit_idx": 3,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large sculpture of a brown bear walking through a stream of water. The stream appears to be shallow, as the sculpture of the bear is able to walk through it without any difficulty.",
+    "global_mask": true,
+    "host_tokens": "bear",
+    "new_tokens": "sculpture",
+    "pp_aspect_mapping": {
+      "bear": [
+        "sculpture"
+      ]
+    }
+  },
+  {
+    "key": "fe_046_cat_crown_1_black_top_hat",
+    "flowedit_idx": 46,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "accessory_replacement_or_mixed_color",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_crown.png",
+    "source_prompt": "A gray cat sitting on a black cloth, wearing a crown. The crown is placed on the cat''s head.",
+    "target_prompt": "A gray cat sitting on a black cloth, wearing a top hat. The top hat is placed on the cat''s head.",
+    "global_mask": true,
+    "host_tokens": "cat",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "cat": [
+        "hat"
+      ]
+    }
+  },
+  {
+    "key": "fe_192_parrots_1_top_hat",
+    "flowedit_idx": 192,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+    "source_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+    "target_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow. Both parrots have a top hat on their head.",
+    "global_mask": true,
+    "host_tokens": "parrots",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "parrots": [
+        "hat"
+      ]
+    }
+  }
+]

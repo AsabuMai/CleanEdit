@@ -30,13 +30,10 @@ fi
   --csv-output "$EXP/e2_t1_t4_baseline_fixed_mask_metrics.csv" \
   --json-output "$EXP/e2_t1_t4_baseline_fixed_mask_metrics.json" \
   --task-names "$TASKS" \
-  --method-names "flowedit flowalign splitflow fireflow rf_solver_edit reflex" \
+  --method-names "flowedit flowalign splitflow sam_flow_sd3 fireflow rf_solver_edit reflex sam_flow_flux" \
   --seeds "10 11 12" \
   --eval-mask-dir "$EXP/normalized_512/eval_masks" \
-  --preserve-floor-csv "$EXP/e4_t1_t4_reconstruction_floor_metrics.csv" \
-  --clip-model openai/clip-vit-large-patch14 \
-  --dino-model facebook/dinov2-base \
-  --allow-download
+  --preserve-floor-csv "$EXP/e4_t1_t4_reconstruction_floor_metrics.csv"
 
 "$PY" - <<'PY'
 import csv
@@ -64,7 +61,7 @@ def avg(rows, key):
             pass
     return "" if not values else f"{sum(values) / len(values):.4f}"
 
-for baseline in ["flowedit", "flowalign", "splitflow", "fireflow", "rf_solver_edit", "reflex"]:
+for baseline in ["flowedit", "flowalign", "splitflow", "sam_flow_sd3", "fireflow", "rf_solver_edit", "reflex", "sam_flow_flux"]:
     rows = metrics_by_method[baseline]
     counts = status_by_baseline[baseline]
     summary.append({

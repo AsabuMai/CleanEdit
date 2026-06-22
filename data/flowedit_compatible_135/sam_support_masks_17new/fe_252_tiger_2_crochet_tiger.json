@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.3132476806640625,
+  "anchor_box_xyxy": [
+    24,
+    105,
+    368,
+    421
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_252_tiger_2_crochet_tiger_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      23.006637573242188,
+      102.6702880859375,
+      371.6492919921875,
+      423.0484619140625
+    ]
+  ],
+  "chosen_phrase": "tiger",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_252_tiger_2_crochet_tiger",
+  "labels": [
+    "tiger"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "tiger",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9622483849525452
+  ],
+  "support_area": 0.3248291015625,
+  "support_box_xyxy": [
+    24,
+    105,
+    368,
+    421
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_252_tiger_2_crochet_tiger_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

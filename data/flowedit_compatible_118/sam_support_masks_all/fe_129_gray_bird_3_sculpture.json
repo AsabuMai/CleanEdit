@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.17626953125,
+  "anchor_box_xyxy": [
+    87,
+    104,
+    462,
+    435
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_129_gray_bird_3_sculpture_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      84.54414367675781,
+      100.910400390625,
+      464.24871826171875,
+      434.139892578125
+    ]
+  ],
+  "chosen_phrase": "bird",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_129_gray_bird_3_sculpture",
+  "labels": [
+    "bird"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "bird",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9499651193618774
+  ],
+  "support_area": 0.19594955444335938,
+  "support_box_xyxy": [
+    87,
+    104,
+    462,
+    435
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_129_gray_bird_3_sculpture_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

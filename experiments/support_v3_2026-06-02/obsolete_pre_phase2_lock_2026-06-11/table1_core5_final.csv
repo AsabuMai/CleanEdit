@@ -1,0 +1,5 @@
+method,label,n,task_success_true,task_success_denominator,outside_l1,inside_l1,source_ssim_luma,dino_source,edit_score,clip_delta,runtime_s,peak_mem_gb
+base_only,RF reconstruction,15,0,9,0.0708,0.0564,0.5786,0.6153,-0.0185,-0.0185,48.2565,12.2403
+direct_target,Direct target,15,0,9,0.0911,0.0912,0.5141,0.5659,-0.0042,-0.0042,47.4771,12.2403
+adaptive_full_generic_support,Generic support,15,1,9,0.0470,0.0791,0.6757,0.8798,0.0069,0.0069,66.1155,13.2479
+support_v3_controller_rmsgap,DeCE-RF-SD3,15,9,9,0.0393,0.0972,0.7094,0.8661,0.0476,0.0476,70.1749,13.4388

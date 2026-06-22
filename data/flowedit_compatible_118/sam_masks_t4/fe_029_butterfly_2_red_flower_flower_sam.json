@@ -1,0 +1,69 @@
+{
+  "anchor_box_xyxy": [
+    100,
+    260,
+    384,
+    382
+  ],
+  "anchor_mask_area_ratio": 0.07244110107421875,
+  "anchor_output": null,
+  "blur": 5,
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      98.68026733398438,
+      257.1415710449219,
+      385.2395324707031,
+      385.2561340332031
+    ]
+  ],
+  "dilate": 6,
+  "eyes_anchor_area_ratio": 0.07244110107421875,
+  "eyes_anchor_area_threshold": 0.16,
+  "eyes_anchor_box_area_ratio": 0.132171630859375,
+  "eyes_anchor_box_area_threshold": 0.34,
+  "eyes_anchor_fallback_used": false,
+  "eyes_anchor_max_area_ratio": 0.16,
+  "eyes_anchor_max_box_area_ratio": 0.34,
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+  "labels": [
+    "flower"
+  ],
+  "mask_area_ratio": 0.08365249633789062,
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.7,
+  "num_boxes": 1,
+  "output": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_masks_t4/fe_029_butterfly_2_red_flower_flower_sam.png",
+  "phrase": "flower",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.7084238529205322
+  ],
+  "semantic_edit_words": [
+    "right"
+  ],
+  "semantic_phrase_after_quality_gate": "flower",
+  "semantic_phrase_explicit": "flower",
+  "semantic_phrase_inferred": "flower",
+  "source_prompt": "A beautiful purple flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the left side of the flower.",
+  "support_band_ratio": 0.55,
+  "support_box_xyxy": [
+    100,
+    260,
+    384,
+    382
+  ],
+  "support_expand_x": 0.0,
+  "support_expand_y": 0.0,
+  "support_overlap_ratio": 0.2,
+  "support_plan_params": {},
+  "support_plan_rule": null,
+  "support_relation": "inside",
+  "support_relation_after_quality_gate": "inside",
+  "support_relation_inferred": "inside",
+  "support_relation_requested": "auto",
+  "support_threshold": 0.2,
+  "target_prompt": "A beautiful red flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the right side of the flower.",
+  "text_threshold": 0.15
+}

@@ -1,0 +1,26 @@
+{
+  "started_at": "2026-06-11T22:36:54+0900",
+  "command_count": 2,
+  "mode": "subprocess_fallback",
+  "records": [
+    {
+      "index": 1,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 192.85815749003086
+    },
+    {
+      "index": 2,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 64.24728768499335
+    }
+  ],
+  "finished_at": "2026-06-11T22:41:11+0900"
+}

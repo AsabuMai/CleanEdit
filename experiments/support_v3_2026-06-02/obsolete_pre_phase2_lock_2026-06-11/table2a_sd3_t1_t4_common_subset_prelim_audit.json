@@ -1,0 +1,119 @@
+{
+  "status": "complete_t1_t4_diagnostic",
+  "scope": "Phase2 T1-T4 diagnostic subset. Final Table 2a is built from the full T1-T5 common subset by scripts/build_final_paper_tables.py.",
+  "task_count": 12,
+  "seed_count": 3,
+  "expected_rows_per_method": 36,
+  "tasks": [
+    "cat_crown",
+    "dog_bow_tie_phase2",
+    "dog_front_sunglasses_phase2",
+    "bowl_apple_inside",
+    "white_bowl_orange_tabletop_phase2",
+    "brown_bowl_lemon_phase2",
+    "tshirt_star",
+    "mug_heart",
+    "tote_leaf",
+    "red_office_chair_to_blue_office_chair",
+    "green_mug_orange_phase2",
+    "yellow_vase_blue_phase2"
+  ],
+  "seeds": [
+    "10",
+    "11",
+    "12"
+  ],
+  "methods": {
+    "direct_target": {
+      "source": "e1_t1_t4_directgeneric_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "adaptive_full_generic_support": {
+      "source": "e1_t1_t4_directgeneric_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "flowedit": {
+      "source": "e2_t1_t4_baseline_fixed_mask_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "flowalign": {
+      "source": "e2_t1_t4_baseline_fixed_mask_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "splitflow": {
+      "source": "e2_t1_t4_baseline_fixed_mask_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "support_v3_fixed": {
+      "source": "table2a_e4_common_subset_clipdino_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    },
+    "support_v3_controller_rmsgap": {
+      "source": "table2a_e4_common_subset_clipdino_metrics.csv",
+      "status": "complete",
+      "row_count": 36,
+      "pair_count": 36,
+      "missing_pairs": [],
+      "duplicate_count": 0,
+      "missing_metrics": {
+        "dino_source_similarity": 0,
+        "edit_score": 0,
+        "clip_target_minus_source": 0
+      }
+    }
+  }
+}

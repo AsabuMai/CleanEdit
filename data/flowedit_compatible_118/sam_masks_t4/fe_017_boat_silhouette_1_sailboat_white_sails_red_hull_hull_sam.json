@@ -1,0 +1,72 @@
+{
+  "anchor_box_xyxy": [
+    123,
+    205,
+    271,
+    347
+  ],
+  "anchor_mask_area_ratio": 0.049457550048828125,
+  "anchor_output": null,
+  "blur": 5,
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      122.82154846191406,
+      200.26312255859375,
+      272.651611328125,
+      348.00146484375
+    ]
+  ],
+  "dilate": 6,
+  "eyes_anchor_area_ratio": 0.049457550048828125,
+  "eyes_anchor_area_threshold": 0.16,
+  "eyes_anchor_box_area_ratio": 0.080169677734375,
+  "eyes_anchor_box_area_threshold": 0.34,
+  "eyes_anchor_fallback_used": false,
+  "eyes_anchor_max_area_ratio": 0.16,
+  "eyes_anchor_max_box_area_ratio": 0.34,
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/boat_silhouette.png",
+  "labels": [
+    "hull"
+  ],
+  "mask_area_ratio": 0.05999755859375,
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.7,
+  "num_boxes": 1,
+  "output": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_masks_t4/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_hull_sam.png",
+  "phrase": "hull",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.6370614767074585
+  ],
+  "semantic_edit_words": [
+    "sailboat",
+    "has",
+    "sails",
+    "hull"
+  ],
+  "semantic_phrase_after_quality_gate": "hull",
+  "semantic_phrase_explicit": "hull",
+  "semantic_phrase_inferred": "hull",
+  "source_prompt": "A serene scene of a lake with a silhouette of a sailboat floating on the water. The silhouette of the boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+  "support_band_ratio": 0.55,
+  "support_box_xyxy": [
+    123,
+    205,
+    271,
+    347
+  ],
+  "support_expand_x": 0.0,
+  "support_expand_y": 0.0,
+  "support_overlap_ratio": 0.2,
+  "support_plan_params": {},
+  "support_plan_rule": null,
+  "support_relation": "inside",
+  "support_relation_after_quality_gate": "inside",
+  "support_relation_inferred": "inside",
+  "support_relation_requested": "auto",
+  "support_threshold": 0.2,
+  "target_prompt": "A serene scene of a lake with a sailboat floating on the water. The sailboat has white sails and red hull. The boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+  "text_threshold": 0.15
+}

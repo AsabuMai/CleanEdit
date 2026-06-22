@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.0494842529296875,
+  "anchor_box_xyxy": [
+    123,
+    205,
+    271,
+    347
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      121.25302124023438,
+      199.92694091796875,
+      272.7567443847656,
+      347.953369140625
+    ]
+  ],
+  "chosen_phrase": "sailboat",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_017_boat_silhouette_1_sailboat_white_sails_red_hull",
+  "labels": [
+    "sailboat"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "sailboat",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.8668538331985474
+  ],
+  "support_area": 0.060031890869140625,
+  "support_box_xyxy": [
+    123,
+    205,
+    271,
+    347
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

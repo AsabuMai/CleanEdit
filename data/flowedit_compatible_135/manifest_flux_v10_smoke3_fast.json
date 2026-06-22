@@ -1,0 +1,88 @@
+[
+  {
+    "key": "fe_010_beer_glass_1_cocktail",
+    "flowedit_idx": 10,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/beer_glass.png",
+    "source_prompt": "A wine glass filled with beer.",
+    "target_prompt": "A wine glass filled with a vibrant red cocktail, garnished with an orange wedge.",
+    "global_mask": false,
+    "host_tokens": "glass",
+    "new_tokens": "cocktail",
+    "pp_aspect_mapping": {
+      "glass": [
+        "cocktail"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail.json",
+    "sam_phrase": "glass",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_000_bear_1_black_bear",
+    "flowedit_idx": 0,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large black bear walking through a stream of water. The stream appears to be shallow, as the black bear is able to walk through it without any difficulty.",
+    "global_mask": false,
+    "host_tokens": "bear",
+    "new_tokens": "black",
+    "pp_edit_action": {
+      "black": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bear": [
+        "black"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear.json",
+    "sam_phrase": "bear",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_055_cat_7_wooden_sculpture",
+    "flowedit_idx": 55,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat.png",
+    "source_prompt": "A small, fluffy kitten sitting in a grassy field. The kitten is positioned in the center of the scene, surrounded by a field. The kitten appears to be looking at something in the field.",
+    "target_prompt": "A small wooden sculpture of a kitten sitting in a grassy field. The wooden sculpture of a kitten is positioned in the center of the scene, surrounded by a field. The wooden sculpture of a kitten appears to be looking at something in the field.",
+    "global_mask": false,
+    "host_tokens": "kitten",
+    "new_tokens": "wooden,sculpture",
+    "pp_aspect_mapping": {
+      "kitten": [
+        "wooden",
+        "sculpture"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_055_cat_7_wooden_sculpture_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_055_cat_7_wooden_sculpture_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_055_cat_7_wooden_sculpture.json",
+    "sam_phrase": "kitten",
+    "sam_support_relation": "inside"
+  }
+]

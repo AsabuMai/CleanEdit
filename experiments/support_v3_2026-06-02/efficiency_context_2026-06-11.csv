@@ -1,0 +1,12 @@
+method,label,backbone,n,expected_n,nfe,resolution,runtime_s_mean,runtime_s_available,peak_gpu_gb_mean,peak_gpu_gb_available,inversion_recorded,offload_recorded
+base_only,RF reconstruction,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",31.33,45/45,12.24,45/45,yes,not_recorded
+direct_target,Direct target,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",32.08,45/45,12.24,45/45,yes,not_recorded
+adaptive_full_generic_support,Generic support,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",50.18,45/45,13.25,45/45,yes,not_recorded
+support_v3_fixed,Fixed DeCE-SD3,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",68.35,45/45,13.45,45/45,yes,not_recorded
+support_v3_controller_rmsgap,DeCE-RF-SD3,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",56.89,45/45,13.35,45/45,yes,not_recorded
+flowedit,FlowEdit-SD3,SD3,45,45,"T_steps=28,n_max=24","336x512,512x336,512x352,512x432",not_recorded,0/45,not_recorded,0/45,not_recorded,not_recorded
+flowalign,FlowAlign-SD3,SD3,45,45,33,"336x512,512x336,512x352,512x432",not_recorded,0/45,not_recorded,0/45,not_recorded,not_recorded
+splitflow,SplitFlow-SD3,SD3,45,45,"T_steps=50,n_max=33","336x512,512x336,512x352,512x432",not_recorded,0/45,not_recorded,0/45,not_recorded,not_recorded
+fireflow,FireFlow-FLUX/context,FLUX/context,45,45,8,"336x512,512x336,512x352,512x432",not_recorded,0/45,not_recorded,0/45,not_recorded,yes
+rf_solver_edit,RF-Solver-Edit-FLUX/context,FLUX/context,45,45,15,"336x512,512x336,512x352,512x432",not_recorded,0/45,not_recorded,0/45,not_recorded,yes
+reflex,ReFlex-FLUX/context,FLUX/context,45,45,28,"341x512,342x512,512x341,512x342,512x356,512x440",not_recorded,0/45,not_recorded,0/45,not_recorded,not_recorded

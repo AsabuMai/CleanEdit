@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.11670684814453125,
+  "anchor_box_xyxy": [
+    247,
+    149,
+    430,
+    452
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      243.75927734375,
+      139.8072967529297,
+      431.82476806640625,
+      453.99884033203125
+    ]
+  ],
+  "chosen_phrase": "butterflies",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_027_butterflies_1_yellow",
+  "labels": [
+    "butterflies"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "butterflies",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.4867504835128784
+  ],
+  "support_area": 0.12994384765625,
+  "support_box_xyxy": [
+    247,
+    149,
+    430,
+    452
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

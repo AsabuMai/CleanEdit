@@ -1,0 +1,188 @@
+{
+  "started_at": "2026-06-13T12:38:30+0900",
+  "command_count": 20,
+  "mode": "subprocess_fallback",
+  "records": [
+    {
+      "index": 1,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 25.987125971005298
+    },
+    {
+      "index": 2,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 25.75055410602363
+    },
+    {
+      "index": 3,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 34.85031650902238
+    },
+    {
+      "index": 4,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 34.88000731199281
+    },
+    {
+      "index": 5,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_rf_diff_editfield/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 30.876473728043493
+    },
+    {
+      "index": 6,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 37.717409202014096
+    },
+    {
+      "index": 7,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 36.441792780999094
+    },
+    {
+      "index": 8,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.93259403097909
+    },
+    {
+      "index": 9,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 42.52548677800223
+    },
+    {
+      "index": 10,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_legacy_conversion/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.050243264005985
+    },
+    {
+      "index": 11,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 37.53750629199203
+    },
+    {
+      "index": 12,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 37.72419091197662
+    },
+    {
+      "index": 13,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.197516904969234
+    },
+    {
+      "index": 14,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 43.867142803967
+    },
+    {
+      "index": 15,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_clean/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.21523004799383
+    },
+    {
+      "index": 16,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 37.153819750994444
+    },
+    {
+      "index": 17,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 37.19473205303075
+    },
+    {
+      "index": 18,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.862416921008844
+    },
+    {
+      "index": 19,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 42.92205657501472
+    },
+    {
+      "index": 20,
+      "command_file": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/command.txt",
+      "output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/result.png",
+      "stats_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/stats.json",
+      "metadata_output": "/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap_ablate_support_attn_velocity/seed_10/metadata.json",
+      "status": "complete",
+      "runtime_seconds": 40.90635869902326
+    }
+  ],
+  "finished_at": "2026-06-13T12:50:58+0900"
+}

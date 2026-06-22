@@ -67,3 +67,17 @@ phase2_review/
 flux/
 sd3/
 tmp_reference_*/
+
+# uv bootstrap env
+.uv-bootstrap-py39/
+
+# scratch / tmp working dirs
+tmp/
+tmp_*/
+.tmp/
+__codex_upload_tmp__/
+remote_backups/
+scripts/backups_*/
+
+# numbered editor backups (e.g. .bak2_20260617)
+*.bak[0-9]*

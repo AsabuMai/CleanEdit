@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#SBATCH -p a100
+#SBATCH -w a100-01
+#SBATCH --gres=shard:1
+#SBATCH -c 8
+#SBATCH --mem=80G
+#SBATCH --time=02:00:00
+#SBATCH -J fe135-subjpres8-v8
+#SBATCH -o /cluster/users/grad/2025/25t8103/project/logs/fe135_subjectpreserve_probe8_v8_sd3_%j.log
+
+set -uo pipefail
+
+PROJ=/cluster/users/grad/2025/25t8103/project
+export HF_HUB_CACHE=$PROJ/.cache/huggingface/hub
+export HUGGINGFACE_HUB_CACHE=$PROJ/.cache/huggingface/hub
+export HF_HOME=$PROJ/.cache/huggingface
+export HF_HUB_OFFLINE=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
+hostname
+date
+cd "$PROJ"
+
+MANIFEST=$PROJ/data/flowedit_compatible_135/manifest_subjectpreserve_probe8.json \
+OUT=outputs/fe135_subjectpreserve_probe8_v8_sd3 \
+SUBJECT_PRESERVE_MODE=1 \
+SUBJECT_OBJECT_PROVIDER=operation_support_v3 \
+SUBJECT_GROUNDING_METHOD=external_mask \
+"$PROJ/.venv/bin/python" scripts/pie_sd3_batch_kindaware.py
+
+date
+echo fe135_subjectpreserve_probe8_v8_sd3_complete

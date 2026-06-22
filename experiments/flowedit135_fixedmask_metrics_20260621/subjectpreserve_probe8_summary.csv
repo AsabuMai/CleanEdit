@@ -1,0 +1,9 @@
+task,family,tar_guidance,core_scale,subject_scale,traj_subject,mask_mode,provider
+fe_094_dog_6_red_top_hat,T1_attached_accessory,8.0,,,0.55,subject_core,operation_support_v3
+fe_031_cake_1_berries,T2_container_insertion,8.0,,,0.55,subject_core,operation_support_v3
+fe_201_pizza_1_pineapple_ham,T2_container_insertion,8.0,,,0.55,subject_core,operation_support_v3
+fe_116_free_wifi_1_free_beer,T3_surface_decal,8.0,,,0.55,subject_core,operation_support_v3
+fe_244_stop_sticker_1_cvpr,T3_surface_decal,8.0,,,0.55,subject_core,operation_support_v3
+fe_025_bus_3_pink_van,T4_local_recolor,8.0,,,0.55,subject_core,operation_support_v3
+fe_055_cat_7_wooden_sculpture,T5_same_color_material,8.0,,,0.55,subject_core,operation_support_v3
+fe_175_meditation1_4_golden_statue,T5_same_color_material,8.0,,,0.55,subject_core,operation_support_v3

@@ -1,218 +1,121 @@
-# Figure Plan
+# Figures
 
-Current source of truth: `paper/wacv_experiment_design.md`.
-
-The main paper should use five figures by default and six at most. Target
-about 50-70 result image cells total. More than that starts to read as a
-gallery and weakens the algorithmic story.
-
-Completed legacy server evidence is documented in `paper/archive_old_core6_20260602/old_core6_server_results.md`.
-The active strict Core-6 evidence is now the revised category-based Phase 1
-matrix under `experiments/support_v3_2026-06-02/`: attached accessory,
-container-constrained spatial insertion, surface decal, local recolor, surface
-material strip editing, and simple exposed-object removal. Use the archived
-server grids only as supplementary diagnostics; they are not the source of
-truth for the updated strict T2/T5 rows.
-
-Use only complete runs with `result.png`, `stats.json`, `metadata.json`, and
-`command.txt`.
-
-## Main-Paper Figure Budget
-
-| Figure | Content | Approx. result cells | Role |
-| --- | --- | ---: | --- |
-| Figure 1 | teaser: two examples, Source/Target/Direct/Generic/DeCE-RF | 10 | motivation |
-| Figure 2 | method overview | 0 | explain the algorithm |
-| Figure 3 | E1 Core-6 qualitative grid | 24-30 | main effect |
-| Figure 4 | E2 fairness comparison with backbone labels | 12-18 | matched RF alternatives plus optional native context |
-| Figure 5 | E4 Pareto + timestep diagnostics | 0 | controller evidence |
-| Figure 6 | E5 extension/failure cases, optional | 12-18 | scope boundary |
-
-Main-paper target:
+Current FlowEdit-135 figure set:
 
 ```text
-tight: 45-55 result image cells
-complete: 60-75 result image cells
+paper/assets/tradeoff_overall_edit_preservation_compact.png
+paper/assets/tradeoff_overall_edit_preservation_compact.pdf
+paper/assets/tradeoff_by_family_edit_preservation.png
+paper/assets/tradeoff_by_family_edit_preservation.pdf
+experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
+experiments/flowedit135_fixedmask_metrics_20260621/review_hard_ours_vs_sam.jpg
+data/flowedit_compatible_135/eval_masks/_contact_sheet.jpg
 ```
 
-Supplement target:
+## Main Figure: Edit-Preservation Trade-Off
+
+Use:
 
 ```text
-150-300 image cells: all seeds, full grids, support masks, RF baselines,
-Pareto sweeps, and failure taxonomy.
+paper/assets/tradeoff_overall_edit_preservation_compact.png
 ```
 
-## E1 Main Qualitative Grid
-
-Primary qualitative grid:
+Suggested caption:
 
 ```text
-Source | Target/Instruction | Direct target | Generic support | DeCE-RF
+Edit-preservation trade-off on FlowEdit-135. The x-axis measures local edit
+strength with local CLIP-T, and the y-axis measures non-edit-region
+preservation as -log10(BG-LPIPS), where BG is the complement of a dilated fixed
+evaluation region. Ours achieves the strongest preservation and lies on the
+Pareto frontier, while SAM-Flow-SD3 produces stronger local edit scores at the
+cost of higher background drift.
 ```
 
-Updated strict Core-6 target rows:
+Markdown preview:
+
+![Edit-preservation trade-off](assets/tradeoff_overall_edit_preservation_compact.png)
+
+## Qualitative Comparison Figure
+
+Use:
 
 ```text
-T1 attached accessory: cat_crown
-T2 container-constrained spatial insertion: bowl_apple_inside
-T3 surface decal/logo: tshirt_star
-T4 local recolor: red_chair_blue
-T5 localized same-color material replacement: pillow_same_color_corduroy_panel
-T6 simple exposed removal: backpack_remove_toy_charm
+experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
 ```
 
-Current generated strict evidence and audit grids:
+This figure is useful for internal selection and appendix material. For the
+main paper, crop it to fewer methods:
 
 ```text
-experiments/support_v3_2026-06-02/visual_audit/
-experiments/support_v3_2026-06-02/strict_visual_human_quick_audit.csv
-experiments/support_v3_2026-06-02/strict_fixed_mask_metrics.csv
+source | fixed eval region | Ours | SAM-Flow-SD3 | FlowEdit-SD3 | SplitFlow-SD3 | OT-RF enhanced
 ```
 
-Paper-use guidance:
+Recommended examples:
 
-- `cat_crown`: use as the attached-accessory success case.
-- `dog_sunglasses`: diagnostic only; DeCE-RF eyewear placement is too high for a strong figure.
-- `tshirt_star`: use as the strict surface-decal success case.
-- `mug_heart`: diagnostic only; visually clean but too small/weak for the main grid.
-- `bowl_apple_inside`: use as the strict T2 insertion row.
-- `pillow_same_color_corduroy_panel`: use as the revised T5 same-color material-panel candidate after it passes the same visual and metric lock. Keep `pillow_vertical_fabric_strip` as a diagnostic blue-strip example, not the main T5 figure.
-- `backpack_remove_toy_charm`: use as exposed-object removal success with a
-  caveat that global CLIP underestimates removal quality.
-- `red_chair_blue`: server evidence supports it as the localized
-  attribute/recolor row; do not claim general recoloring.
-- `red_office_chair_to_blue_office_chair`: fallback only if `red_chair_blue`
-  fails final visual audit.
+- `fe_046_cat_crown_1_black_top_hat`
+- `fe_094_dog_6_red_top_hat`
+- `fe_208_pizza_tomato_olive_2_mushrooms`
+- `fe_024_bus_2_volkswagen_logo`
+- `fe_118_gas_station_1_cvpr`
+- `fe_000_bear_1_black_bear`
+- `fe_221_rocks_6_colorful_wooden_blocks`
+- `fe_171_meditation_1_wooden_statue`
 
-Do not include `support_v3_fixed` in this main qualitative grid unless the
-layout still fits. Fixed DeCE belongs mainly in the controller ablation figure
-and table.
+Use the figure to show the qualitative trade-off: Ours preserves source
+appearance and background tightly; stronger editing baselines often alter more
+of the image.
 
-## E2 Fairness Figure
+## Hard-Case Figure
 
-Status: the strict same-backbone SD3 target-mode RF comparison is complete for
-FlowEdit, FlowAlign, and SplitFlow. The redesigned E2 now treats this as E2.2,
-not as the whole baseline story. E2.1 calibration, E2.3 native preservation-aware
-RF rows, and E2.4 support-matched diagnostics are added to address backbone and
-input-condition fairness.
-
-Current E2 audit artifacts:
+Use:
 
 ```text
-experiments/support_v3_2026-06-02/e2_baseline_download_registry.csv
-experiments/support_v3_2026-06-02/e2_baseline_runnable_validation.csv
-experiments/support_v3_2026-06-02/e2_baseline_audit.md
+experiments/flowedit135_fixedmask_metrics_20260621/review_hard_ours_vs_sam.jpg
 ```
 
-Current same-backbone SD3 artifacts:
+This should not be a main positive-only figure. It is valuable for limitation
+discussion because it shows that text-like T3 surface-decal edits are often
+under-edited by Ours, while SAM-Flow-SD3 rewrites them more aggressively.
+
+## Family-Level Trade-Off Figure
+
+Use:
 
 ```text
-experiments/support_v3_2026-06-02/e2_strict_rf_baseline_manifest.csv
-experiments/support_v3_2026-06-02/e2_reduced_rf_fixed_mask_metrics.csv
-experiments/support_v3_2026-06-02/e2_reduced_rf_comparison_summary.md
-experiments/support_v3_2026-06-02/e2_reduced_rf_visual_audit.md
-experiments/support_v3_2026-06-02/visual_audit/e2_flowedit_seed10_grid.png
-experiments/support_v3_2026-06-02/visual_audit/e2_flowedit_seed11_grid.png
-experiments/support_v3_2026-06-02/visual_audit/e2_flowedit_seed12_grid.png
+paper/assets/tradeoff_by_family_edit_preservation.png
 ```
 
-Figure 4 should be compact and must show the backbone in every method label.
-Preferred columns if no native row is runnable:
+Recommended appendix caption:
 
 ```text
-Source | FlowEdit-SD3 | FlowAlign-SD3 or SplitFlow-SD3 | Fixed DeCE-SD3 | DeCE-RF-SD3
+Family-level edit-preservation trade-off. Orange stars denote Ours and grey
+dots denote baselines. Ours consistently occupies the high-preservation region
+for T1-T5, while edit strength varies by family.
 ```
 
-Preferred columns if one native preservation-aware row is runnable:
+## Fixed Evaluation Region Audit
+
+Use:
 
 ```text
-Source | FlowEdit-SD3 | Fixed DeCE-SD3 | Native RF row with backbone label | DeCE-RF-SD3
+data/flowedit_compatible_135/eval_masks/_contact_sheet.jpg
+data/flowedit_compatible_135/eval_masks/_audit.csv
 ```
 
-Use two or three representative strict examples. Do not crowd Figure 4 with all
-baselines. The main quantitative E2 evidence is Table 2a; Figure 4 should make
-the locality/preservation difference legible.
+This belongs in the appendix or reviewer-response material. It documents that
+all 135 tasks have fixed evaluation regions. The regions are not claimed to be
+exact segmentation masks.
 
-Caption requirement:
+## Archived Phase2 Figures
+
+The older Phase2 figures remain useful for internal method history but should
+not be used as the main benchmark result:
 
 ```text
-Backbone is shown in each method label. Same-backbone SD3 rows support the
-algorithmic comparison; native-backbone rows, when included, are contextual.
+paper/assets/phase2_main_qual_grid_seed12_2026-06-11.png
+paper/assets/phase2_result_figure2_table1_metrics.png
+paper/assets/phase2_external_baseline_bars_sd3.png
+paper/assets/phase2_external_baseline_bars_flux_context.png
+paper/assets/phase2_result_figure4_family_preservation.png
+paper/assets/phase2_result_figure5_proxy_audit.png
 ```
-
-Do not present this figure as a broad RF/FLUX victory claim.
-
-## Extension Probe Figure
-
-Rows:
-
-```text
-laptop_remove_sticker
-whiteboard_probe_red_star_sticker
-```
-
-Columns:
-
-```text
-Source | Base DeCE-RF | Extension route | Support / gate annotation
-```
-
-Paper-use guidance:
-
-- `laptop_remove_sticker`: show high-confidence completion clean-delta as a
-  planar removal extension. Label it as `DeCE-RF + completion prior`, not as
-  the base DeCE-RF method.
-- `whiteboard_probe_red_star_sticker`: show non-glyph replacement in a
-  semantic letter field. Label it as `DeCE-RF + replacement route`.
-
-## Support Figure
-
-Recommended row:
-
-```text
-tshirt_star
-```
-
-Panels:
-
-```text
-attention evidence | clean disagreement | velocity disagreement |
-operation-conditioned support | M_edit/M_core | M_preserve
-```
-
-## Feedback Figure
-
-Use `cat_crown`, `tshirt_star`, or `pillow_same_color_corduroy_panel`, comparing:
-
-```text
-support_v3_fixed | DeCE-RF across stress levels
-```
-
-Curves:
-
-```text
-edit-preserve Pareto frontier
-edit target gap
-preserve drift
-adaptive edit weight
-adaptive preserve weight
-projection norm / ratio
-```
-
-Do not make the feedback claim from a single fixed-vs-full comparison. The
-figure should show either a Pareto frontier or timestep trajectories.
-
-## Limitation Figure
-
-Keep failures tied to the current claim boundary:
-
-```text
-dog_remove_tennis_ball: occluded-object removal / host completion failure
-whiteboard_remove_yellow_letter: glyph-field hallucination under blank removal
-dog_replace_tennis_ball_star: partial replacement with mixed target/source residual
-fridge magnet removals: accurate support but cluttered-surface completion damage
-```
-
-Do not reuse the old backpack-blue/yellow-car/rabbit-sunglasses panels as
-current main-result evidence unless they are explicitly labeled as legacy
-diagnostics.

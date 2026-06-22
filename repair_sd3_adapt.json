@@ -1,0 +1,26 @@
+{
+  "add": {
+    "--adaptive-preserve-drift-budget": "0.26",
+    "--adaptive-preserve-gain": "2.0",
+    "--adaptive-edit-gain": "3.8",
+    "--adaptive-edit-target-rms": "0.58"
+  },
+  "decal": {
+    "--adaptive-preserve-drift-budget": "0.22",
+    "--adaptive-preserve-gain": "2.8",
+    "--adaptive-edit-gain": "3.6",
+    "--adaptive-edit-target-rms": "0.54"
+  },
+  "material": {
+    "--adaptive-preserve-drift-budget": "0.18",
+    "--adaptive-preserve-gain": "3.0",
+    "--adaptive-edit-gain": "3.0",
+    "--adaptive-edit-target-rms": "0.50"
+  },
+  "recolor": {
+    "--adaptive-preserve-drift-budget": "0.30",
+    "--adaptive-preserve-gain": "2.5",
+    "--adaptive-edit-gain": "3.0",
+    "--adaptive-edit-target-rms": "0.55"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.043689727783203125,
+  "anchor_box_xyxy": [
+    240,
+    355,
+    430,
+    468
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      239.16831970214844,
+      354.31231689453125,
+      430.80615234375,
+      468.9085693359375
+    ]
+  ],
+  "chosen_phrase": "bicycle",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_015_bikes_5_green_bicycle",
+  "labels": [
+    "bicycle"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "bicycle",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9056091904640198
+  ],
+  "support_area": 0.054943084716796875,
+  "support_box_xyxy": [
+    240,
+    355,
+    430,
+    468
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

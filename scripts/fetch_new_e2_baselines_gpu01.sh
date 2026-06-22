@@ -41,5 +41,6 @@ fetch_repo() {
 
 fetch_repo "OT-RF" "https://github.com/marianlupascu/OT-RF.git" "abca084f614d23b1d08ef7c1f3bd9d99d25e356a"
 fetch_repo "DeltaRectifiedFlowSampling" "https://github.com/gaspardbd/DeltaRectifiedFlowSampling.git" "567b28bc9b0a639950026de28ad16fb8a93725f3"
+fetch_repo "Sam-Flow" "https://github.com/chwbob/Sam-Flow.git" "f5f70c9dcc77b0dc6b90c29bb863452128850cb5"
 
 echo fetch_new_baselines_complete

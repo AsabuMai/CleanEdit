@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.026500701904296875,
+  "anchor_box_xyxy": [
+    187,
+    287,
+    332,
+    347
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_221_rocks_6_colorful_wooden_blocks_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      185.76528930664062,
+      286.444580078125,
+      332.8227233886719,
+      346.48291015625
+    ]
+  ],
+  "chosen_phrase": "rocks",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_221_rocks_6_colorful_wooden_blocks",
+  "labels": [
+    "rocks"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "rocks",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.34899765253067017
+  ],
+  "support_area": 0.029705047607421875,
+  "support_box_xyxy": [
+    187,
+    287,
+    332,
+    347
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_221_rocks_6_colorful_wooden_blocks_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

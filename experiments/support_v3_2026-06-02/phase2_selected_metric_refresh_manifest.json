@@ -1,0 +1,269 @@
+{
+  "rows": 33,
+  "items": [
+    {
+      "task": "cat_crown",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/cat_crown/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "cat_crown",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/cat_crown/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "cat_crown",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/cat_crown/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "dog_bow_tie_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_bow_tie_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "dog_bow_tie_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_bow_tie_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "dog_bow_tie_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_bow_tie_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "dog_front_sunglasses_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_front_sunglasses_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "dog_front_sunglasses_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_front_sunglasses_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "dog_front_sunglasses_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/dog_front_sunglasses_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "bowl_apple_inside",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/bowl_apple_inside/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "bowl_apple_inside",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/bowl_apple_inside/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "bowl_apple_inside",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/bowl_apple_inside/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "white_bowl_orange_tabletop_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_10/result.png"
+    },
+    {
+      "task": "white_bowl_orange_tabletop_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_11/result.png"
+    },
+    {
+      "task": "white_bowl_orange_tabletop_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_12/result.png"
+    },
+    {
+      "task": "brown_bowl_lemon_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/brown_bowl_lemon_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "brown_bowl_lemon_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/brown_bowl_lemon_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "brown_bowl_lemon_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/brown_bowl_lemon_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "mug_heart",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/mug_heart/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_10/result.png"
+    },
+    {
+      "task": "mug_heart",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/mug_heart/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_11/result.png"
+    },
+    {
+      "task": "mug_heart",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/mug_heart/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_12/result.png"
+    },
+    {
+      "task": "tote_leaf",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/tote_leaf/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "tote_leaf",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/tote_leaf/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "tote_leaf",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/tote_leaf/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "red_office_chair_to_blue_office_chair",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "red_office_chair_to_blue_office_chair",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "red_office_chair_to_blue_office_chair",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "green_mug_orange_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/green_mug_orange_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "green_mug_orange_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/green_mug_orange_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "green_mug_orange_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/green_mug_orange_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    },
+    {
+      "task": "yellow_vase_blue_phase2",
+      "seed": "10",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/yellow_vase_blue_phase2/support_v3_controller_rmsgap/seed_10",
+      "target_run_dir": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10",
+      "selected_result_image": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_10/result.png"
+    },
+    {
+      "task": "yellow_vase_blue_phase2",
+      "seed": "11",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/yellow_vase_blue_phase2/support_v3_controller_rmsgap/seed_11",
+      "target_run_dir": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11",
+      "selected_result_image": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_11/result.png"
+    },
+    {
+      "task": "yellow_vase_blue_phase2",
+      "seed": "12",
+      "method": "support_v3_controller_rmsgap",
+      "link_run_dir": "outputs/phase2_selected_metric_refresh_20260612/yellow_vase_blue_phase2/support_v3_controller_rmsgap/seed_12",
+      "target_run_dir": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12",
+      "selected_result_image": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png"
+    }
+  ]
+}

@@ -408,10 +408,10 @@ run_hedit
 run_ledits
 run_pix2pix_zero
 run_masactrl
-run_reflex
+record "ReFlex" "skipped_moved_h100" "" "" "FLUX/context baseline moved to h100; use scripts/run_phase2_t5_reflex_retry_gpu01.sh for ReFlex retries."
 run_stable_flow
-run_fireflow
-run_rf_solver
+record "FireFlow" "skipped_moved_h100" "" "" "FLUX/context baseline moved to h100; use scripts/run_flux_baseline_long_gpu01.sh."
+record "RF-Solver-Edit" "skipped_moved_h100" "" "" "FLUX/context baseline moved to h100; use scripts/run_flux_baseline_long_gpu01.sh."
 
 echo "summary=$SUMMARY"
 cat "$SUMMARY"

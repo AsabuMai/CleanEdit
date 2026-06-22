@@ -962,6 +962,7 @@ def HRecSD3Edit(
     M_generic_support_score = None
     M_operation_support_grounding = None
     M_operation_support_relation = None
+    M_subject_local_core = None
     generic_support_stats: dict[str, float | int | str] = {}
     auto_anchor_mask = None
     auto_anchor_box = None
@@ -1485,6 +1486,39 @@ def HRecSD3Edit(
                 elif external_edit_mask_mode == "union":
                     M_edit = torch.maximum(M_edit, external_mask)
                     M_core = torch.maximum(M_core, external_mask)
+                elif external_edit_mask_mode == "subject_core":
+                    # Keep the external segmentation as a broad subject support,
+                    # but use the pre-external local edit support as the strong
+                    # core. For operation_support_v3, the postprocessed edit
+                    # mask can become too tiny, so reinforce it with the
+                    # operation relation map and support score before clipping
+                    # it to the broad subject. This gives a local edit core and
+                    # a larger subject/preserve ring without making the whole
+                    # external SAM mask the strongest edit region.
+                    local_core = M_edit
+                    if M_generic_support_score is not None:
+                        score_core = M_generic_support_score.to(dtype=local_core.dtype, device=local_core.device)
+                        if score_core.shape[-2:] != local_core.shape[-2:]:
+                            score_core = torch.nn.functional.interpolate(
+                                score_core,
+                                size=local_core.shape[-2:],
+                                mode="bilinear",
+                                align_corners=False,
+                            )
+                        local_core = torch.maximum(local_core, score_core.clamp(0.0, 1.0))
+                    if M_operation_support_relation is not None:
+                        relation_core = M_operation_support_relation.to(dtype=local_core.dtype, device=local_core.device)
+                        if relation_core.shape[-2:] != local_core.shape[-2:]:
+                            relation_core = torch.nn.functional.interpolate(
+                                relation_core,
+                                size=local_core.shape[-2:],
+                                mode="bilinear",
+                                align_corners=False,
+                            )
+                        local_core = torch.maximum(local_core, relation_core.clamp(0.0, 1.0))
+                    M_edit = external_mask
+                    M_subject_local_core = torch.minimum(local_core, external_mask).clamp(0.0, 1.0)
+                    M_core = M_subject_local_core
                 else:
                     raise ValueError(f"Unsupported external_edit_mask_mode: {external_edit_mask_mode}")
                 if edit_mask_dilate_kernel > 1:
@@ -1603,6 +1637,11 @@ def HRecSD3Edit(
                     save_mask_image(
                         M_operation_support_relation.to(dtype=torch.float32),
                         os.path.join(mask_output_dir, "operation_v3_relation_map.png"),
+                    )
+                if M_subject_local_core is not None:
+                    save_mask_image(
+                        M_subject_local_core.to(dtype=torch.float32),
+                        os.path.join(mask_output_dir, "subject_local_core.png"),
                     )
                 save_mask_image(M_edit.to(dtype=torch.float32), os.path.join(mask_output_dir, "subject_final.png"))
                 save_mask_image(M_core.to(dtype=torch.float32), os.path.join(mask_output_dir, "core_final.png"))

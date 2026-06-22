@@ -1,0 +1,4 @@
+method,label,n,task_success_true,task_success_denominator,outside_l1,inside_l1,source_ssim_luma,dino_source,edit_score,clip_delta,runtime_s,peak_mem_gb
+fireflow,FireFlow-FLUX/context,45,,,0.0660,0.0991,0.7946,0.6806,0.0223,0.0223,,
+rf_solver_edit,RF-Solver-Edit-FLUX/context,45,,,0.0540,0.0806,0.8319,0.7505,0.0295,0.0295,,
+reflex,ReFlex-FLUX/context,45,,,0.0830,0.1321,0.7913,0.7156,0.0329,0.0329,,

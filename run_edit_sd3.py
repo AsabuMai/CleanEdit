@@ -107,6 +107,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--image", required=True, help="Path to source image.")
     parser.add_argument("--source-prompt", required=True, help="Source prompt.")
     parser.add_argument("--prompt", required=True, help="Target prompt.")
+    parser.add_argument("--negative-prompt", default="", help="Optional negative prompt for target denoising.")
     parser.add_argument("--output", required=True, help="Output image path.")
     parser.add_argument(
         "--max-image-size",
@@ -936,9 +937,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--final-edit-mask-mode",
         dest="external_edit_mask_mode",
         type=str,
-        choices=("replace", "intersect", "union"),
+        choices=("replace", "intersect", "union", "subject_core"),
         default="replace",
-        help="How --final-edit-mask combines with the current edit mask.",
+        help=(
+            "How --final-edit-mask combines with the current edit mask. "
+            "'subject_core' uses the external mask as the broad editable subject "
+            "while deriving a local edit core from the current operation support, "
+            "clipped to that subject."
+        ),
     )
     parser.add_argument(
         "--proposal-edit-image",
@@ -1194,7 +1200,7 @@ def main() -> None:
         x_src=x_src,
         src_prompt=source_prompt,
         tar_prompt=target_prompt,
-        negative_prompt="",
+        negative_prompt=args.negative_prompt,
         T_steps=args.num_inference_steps,
         src_guidance_scale=args.src_guidance_scale,
         tar_guidance_scale=args.tar_guidance_scale,
@@ -1541,6 +1547,7 @@ def main() -> None:
         "effective_source_prompt": source_prompt,
         "target_prompt": args.prompt,
         "effective_target_prompt": target_prompt,
+        "negative_prompt": args.negative_prompt,
         "output": args.output,
         "stats_output": args.stats_output,
         "clean_estimate_debug_dir": args.clean_estimate_debug_dir,
@@ -1694,6 +1701,8 @@ def main() -> None:
         "velocity_conversion_mode": args.velocity_conversion_mode,
         "linear_path_t_min": args.linear_path_t_min,
         "rec_stop_timestep": args.rec_stop_timestep,
+        "edit_core_scale": args.edit_core_scale,
+        "edit_subject_scale": args.edit_subject_scale,
         "trajectory_preserve_scale": args.trajectory_preserve_scale,
         "trajectory_subject_preserve_scale": args.trajectory_subject_preserve_scale,
         "edit_initial_noise_scale": args.edit_initial_noise_scale,

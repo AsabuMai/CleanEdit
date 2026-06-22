@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.239105224609375,
+  "anchor_box_xyxy": [
+    84,
+    112,
+    438,
+    400
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_246_stop_sticker_3_iccv_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      83.29539489746094,
+      110.99272155761719,
+      439.61383056640625,
+      400.831298828125
+    ]
+  ],
+  "chosen_phrase": "sticker",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_246_stop_sticker_3_iccv",
+  "labels": [
+    "sticker"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.85,
+  "num_boxes": 1,
+  "phrase": "sticker",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.8889367580413818
+  ],
+  "support_area": 0.25139617919921875,
+  "support_box_xyxy": [
+    84,
+    112,
+    438,
+    400
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_246_stop_sticker_3_iccv_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 3,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.85,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

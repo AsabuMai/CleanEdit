@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-#SBATCH -p a100
-#SBATCH -w a100-01
+#SBATCH -p h100
+#SBATCH -w h100-01
 #SBATCH --gres=shard:1
 #SBATCH --time=03:30:00
-#SBATCH -J flux-long
-#SBATCH -o /cluster/users/grad/2025/25t8103/project/_baselines/logs/generation_matrix/flux_long_%j.out
-#SBATCH -e /cluster/users/grad/2025/25t8103/project/_baselines/logs/generation_matrix/flux_long_%j.err
+#SBATCH -J flux-long-h100
+#SBATCH -o /cluster/users/grad/2025/25t8103/project/_baselines/logs/generation_matrix/flux_long_h100_%j.out
+#SBATCH -e /cluster/users/grad/2025/25t8103/project/_baselines/logs/generation_matrix/flux_long_h100_%j.err
 
 set -u
 
@@ -13,7 +13,7 @@ PROJECT=/cluster/users/grad/2025/25t8103/project
 BASE="$PROJECT/_baselines"
 SRC="$BASE/src"
 OUT_ROOT="$BASE/generation_matrix"
-RUN_ID="flux_long_${SLURM_JOB_ID:-manual}"
+RUN_ID=flux_long_h100_${SLURM_JOB_ID:-manual}
 RUN_DIR="$OUT_ROOT/$RUN_ID"
 LOG_DIR="$RUN_DIR/logs"
 SUMMARY="$RUN_DIR/summary.csv"
@@ -31,8 +31,8 @@ cd "$PROJECT" || exit 1
 
 host="$(hostname)"
 echo "host=$host"
-if [[ "$host" != "a100-01.gpu01.cis.k.hosei.ac.jp" ]]; then
-  echo "Refusing to run FLUX baselines outside a100-01" >&2
+if [[ "$host" != "h100-01.gpu01.cis.k.hosei.ac.jp" ]]; then
+  echo "Refusing to run FLUX baselines outside h100-01" >&2
   exit 2
 fi
 

@@ -1,0 +1,87 @@
+[
+  {
+    "key": "flow_bear_black",
+    "config": "6_change_attribute_color_40",
+    "family": "F4",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large black bear walking through a stream of water. The stream appears to be shallow, as the black bear is able to walk through it without any difficulty.",
+    "global_mask": true,
+    "pp_edit_action": {
+      "black": {
+        "position": 2,
+        "edit_type": 6,
+        "action": "brown"
+      }
+    },
+    "pp_aspect_mapping": {
+      "bear": [
+        "black"
+      ]
+    }
+  },
+  {
+    "key": "flow_owl_white",
+    "config": "6_change_attribute_color_40",
+    "family": "F4",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+    "source_prompt": "A small, brown owl standing on a patch of grass.",
+    "target_prompt": "A small, white owl standing on a patch of grass.",
+    "global_mask": true,
+    "pp_edit_action": {
+      "white": {
+        "position": 2,
+        "edit_type": 6,
+        "action": "brown"
+      }
+    },
+    "pp_aspect_mapping": {
+      "owl": [
+        "white"
+      ]
+    }
+  },
+  {
+    "key": "flow_owl_glass",
+    "config": "7_change_attribute_material_40",
+    "family": "F5",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+    "source_prompt": "A small, brown owl standing on a patch of grass.",
+    "target_prompt": "A small glass sculpture of a brown owl standing on a patch of grass.",
+    "global_mask": true,
+    "pp_edit_action": {
+      "glass sculpture": {
+        "position": 2,
+        "edit_type": 7,
+        "action": "+"
+      }
+    },
+    "pp_aspect_mapping": {
+      "owl": [
+        "glass",
+        "sculpture"
+      ]
+    }
+  },
+  {
+    "key": "flow_butterfly_orange",
+    "config": "6_change_attribute_color_40",
+    "family": "F4",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+    "source_prompt": "A beautiful purple flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the left side of the flower.",
+    "target_prompt": "A beautiful purple flower with an orange butterfly perched on top of it. The butterfly is positioned towards the right side of the flower.",
+    "global_mask": true,
+    "pp_edit_action": {
+      "orange": {
+        "position": 7,
+        "edit_type": 6,
+        "action": "white"
+      }
+    },
+    "pp_aspect_mapping": {
+      "butterfly": [
+        "orange"
+      ]
+    }
+  }
+]

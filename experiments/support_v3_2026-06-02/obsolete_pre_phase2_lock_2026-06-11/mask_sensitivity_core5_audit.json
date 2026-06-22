@@ -1,0 +1,56 @@
+{
+  "status": "complete",
+  "expected_rows_per_variant": 60,
+  "metric_row_counts": {
+    "eroded": 60,
+    "base": 60,
+    "dilated": 60
+  },
+  "mask_areas": {
+    "eroded": {
+      "cat_crown": 0.06898716517857142,
+      "bowl_apple_inside": 0.06999860491071429,
+      "tshirt_star": 0.04639253162202381,
+      "red_chair_blue": 0.15691342561141305,
+      "pillow_same_color_cable_knit": 0.07703218005952381
+    },
+    "base": {
+      "cat_crown": 0.09184337797619048,
+      "bowl_apple_inside": 0.09208751860119048,
+      "tshirt_star": 0.0648193359375,
+      "red_chair_blue": 0.18696925951086957,
+      "pillow_same_color_cable_knit": 0.10555594308035714
+    },
+    "dilated": {
+      "cat_crown": 0.11707124255952381,
+      "bowl_apple_inside": 0.11650158110119048,
+      "tshirt_star": 0.0855712890625,
+      "red_chair_blue": 0.21921705163043478,
+      "pillow_same_color_cable_knit": 0.13731166294642858
+    }
+  },
+  "rankings_by_outside_l1": {
+    "eroded": [
+      "support_v3_controller_rmsgap",
+      "adaptive_full_generic_support",
+      "base_only",
+      "direct_target"
+    ],
+    "base": [
+      "support_v3_controller_rmsgap",
+      "adaptive_full_generic_support",
+      "base_only",
+      "direct_target"
+    ],
+    "dilated": [
+      "support_v3_controller_rmsgap",
+      "adaptive_full_generic_support",
+      "base_only",
+      "direct_target"
+    ]
+  },
+  "full_order_stable": true,
+  "top_method_stable": true,
+  "ranking_reference": "outside_mask_l1 ascending",
+  "mask_kernel_size": 15
+}

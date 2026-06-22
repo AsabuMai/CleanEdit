@@ -4,29 +4,30 @@ import argparse
 import csv
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 
 RESAMPLE_BICUBIC = getattr(getattr(Image, "Resampling", Image), "BICUBIC", Image.BICUBIC)
 RESAMPLE_BILINEAR = getattr(getattr(Image, "Resampling", Image), "BILINEAR", Image.BILINEAR)
 REQUIRED_FILES = ("result.png", "stats.json", "metadata.json", "command.txt")
+# Default scope for a bare metrics run: current strict Core-5 Table 1.
+# Removal and superseded T5 probes are evaluated only when passed explicitly.
 MAIN_TASKS = (
     "cat_crown",
     "bowl_apple_inside",
     "tshirt_star",
     "red_chair_blue",
-    "pillow_vertical_fabric_strip",
-    "backpack_remove_toy_charm",
+    "pillow_same_color_cable_knit",
 )
 MAIN_METHODS = (
     "base_only",
     "direct_target",
     "adaptive_full_generic_support",
-    "support_v3_fixed",
     "support_v3_controller_rmsgap",
 )
 MAIN_SEEDS = ("10", "11", "12")
@@ -36,6 +37,19 @@ METHOD_DISPLAY_NAMES = {
     "adaptive_full_generic_support": "Generic support control",
     "support_v3_fixed": "Fixed DeCE displacement",
     "support_v3_controller_rmsgap": "DeCE-RF",
+    "ours_sd3": "Ours (SD3)",
+    "fireflow": "FireFlow",
+    "rf_solver_edit": "RF-Solver-Edit",
+    "flowedit_flux": "FlowEdit (FLUX)",
+    "flowedit_sd3": "FlowEdit (SD3)",
+    "splitflow_sd3": "SplitFlow (SD3)",
+    "reflex": "ReFLEx",
+    "sam_flow_flux": "SAM-Flow (FLUX)",
+    "sam_flow_sd3": "SAM-Flow (SD3)",
+    "instruct_pix2pix": "InstructPix2Pix",
+    "ledits_pp": "LEDITS++",
+    "otrf_enh_sd3": "OT-RF enhanced (SD3)",
+    "drfs_sd3": "DRFS (SD3)",
 }
 MASK_CANDIDATES = (
     "masks/operation_v3_edit_mask.png",
@@ -50,6 +64,31 @@ MASK_CANDIDATES = (
     "masks/subject.png",
 )
 
+LOCAL_TARGET_PROMPTS = {
+    "cat_crown": "a small golden crown on a cat's head",
+    "dog_bow_tie_phase2": "a red bow tie on a dog's neck",
+    "dog_front_sunglasses_phase2": "black sunglasses on a dog's face",
+    "bowl_apple_inside": "a red apple inside a bowl",
+    "white_bowl_orange_tabletop_phase2": "an orange beside a white bowl",
+    "brown_bowl_lemon_phase2": "a yellow lemon inside a wooden bowl",
+    "tshirt_star": "a red star on a white t-shirt",
+    "mug_heart": "a red heart on a white mug",
+    "tote_leaf": "a green leaf decal on a tote bag",
+    "red_office_chair_to_blue_office_chair": "a blue office chair",
+    "green_mug_orange_phase2": "an orange mug",
+    "yellow_vase_blue_phase2": "a blue vase",
+    "pillow_same_color_cable_knit": "a cable-knit pillow",
+    "pillow_same_color_cable_knit_grey": "a grey cable-knit pillow",
+    "pillow_same_color_cable_knit_armchair": "a cable-knit pillow on an armchair",
+}
+
+
+_LP_PATH = os.environ.get("LOCAL_PROMPTS_JSON")
+if _LP_PATH and Path(_LP_PATH).exists():
+    with Path(_LP_PATH).open(encoding="utf-8") as handle:
+        local_prompts = json.load(handle)
+    LOCAL_TARGET_PROMPTS.update(local_prompts)
+    print("[local-prompts] merged", len(local_prompts), "from", _LP_PATH, flush=True)
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -89,14 +128,19 @@ def max_value(rows: list[dict[str, Any]], key: str) -> float:
     return max((scalar(row, key) for row in rows), default=0.0)
 
 
-def simple_ssim_luma(a: np.ndarray, b: np.ndarray) -> float:
+def luma_image(image: np.ndarray) -> np.ndarray:
     wa = np.array([0.299, 0.587, 0.114], dtype=np.float32)
-    ya = (a * wa).sum(axis=2)
-    yb = (b * wa).sum(axis=2)
+    return (image * wa).sum(axis=2)
+
+
+def ssim_luma_map(a: np.ndarray, b: np.ndarray) -> tuple[float, np.ndarray]:
+    ya = luma_image(a)
+    yb = luma_image(b)
     try:
         from skimage.metrics import structural_similarity
 
-        return float(structural_similarity(ya, yb, data_range=1.0))
+        score, sim_map = structural_similarity(ya, yb, data_range=1.0, full=True)
+        return float(score), np.asarray(sim_map, dtype=np.float32)
     except Exception:
         pass
 
@@ -110,14 +154,33 @@ def simple_ssim_luma(a: np.ndarray, b: np.ndarray) -> float:
     c2 = 0.03**2
     denom = (mu_a**2 + mu_b**2 + c1) * (var_a + var_b + c2)
     if denom <= 0:
-        return 1.0
-    return ((2 * mu_a * mu_b + c1) * (2 * cov + c2)) / denom
+        return 1.0, np.ones_like(ya, dtype=np.float32)
+    score = ((2 * mu_a * mu_b + c1) * (2 * cov + c2)) / denom
+    return float(score), np.full_like(ya, score, dtype=np.float32)
+
+
+def simple_ssim_luma(a: np.ndarray, b: np.ndarray) -> float:
+    score, _ = ssim_luma_map(a, b)
+    return score
 
 
 def psnr_from_mse(mse: float) -> float:
     if mse <= 1e-12:
         return 99.0
     return 10.0 * math.log10(1.0 / mse)
+
+
+def dilate_mask(mask: np.ndarray, kernel_size: int) -> np.ndarray:
+    kernel_size = max(1, int(kernel_size))
+    if kernel_size % 2 == 0:
+        kernel_size += 1
+    image = Image.fromarray((mask * 255).astype(np.uint8))
+    return np.asarray(image.filter(ImageFilter.MaxFilter(kernel_size)), dtype=np.float32) / 255.0
+
+
+def composite_bg(result: np.ndarray, source: np.ndarray, bg: np.ndarray) -> np.ndarray:
+    bg_mask = bg.astype(np.float32)[:, :, None]
+    return result * bg_mask + source * (1.0 - bg_mask)
 
 
 def blue_ratio(image: np.ndarray, mask: np.ndarray | None) -> float:
@@ -156,7 +219,13 @@ class ClipScorer:
     def score_image(self, image: Image.Image, texts: list[str]) -> list[float]:
         if not texts:
             return []
-        inputs = self.processor(text=texts, images=image.convert("RGB"), return_tensors="pt", padding=True).to(self.device)
+        inputs = self.processor(
+            text=texts,
+            images=image.convert("RGB"),
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+        ).to(self.device)
         with self.torch.no_grad():
             image_features = self.model.get_image_features(pixel_values=inputs["pixel_values"])
             text_features = self.model.get_text_features(
@@ -170,6 +239,9 @@ class ClipScorer:
 
     def image_embedding(self, image_path: Path):
         image = Image.open(image_path).convert("RGB")
+        return self.image_embedding_pil(image)
+
+    def image_embedding_pil(self, image: Image.Image):
         inputs = self.processor(images=image, return_tensors="pt").to(self.device)
         with self.torch.no_grad():
             image_features = self.model.get_image_features(pixel_values=inputs["pixel_values"])
@@ -190,7 +262,12 @@ class ClipScorer:
     ) -> float:
         source_inputs = self.processor(images=Image.open(source_image).convert("RGB"), return_tensors="pt").to(self.device)
         result_inputs = self.processor(images=Image.open(result_image).convert("RGB"), return_tensors="pt").to(self.device)
-        text_inputs = self.processor(text=[source_prompt, target_prompt], return_tensors="pt", padding=True).to(self.device)
+        text_inputs = self.processor(
+            text=[source_prompt, target_prompt],
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+        ).to(self.device)
         with self.torch.no_grad():
             source_img = self.model.get_image_features(pixel_values=source_inputs["pixel_values"])
             result_img = self.model.get_image_features(pixel_values=result_inputs["pixel_values"])
@@ -237,6 +314,9 @@ class DinoScorer:
 
     def embedding(self, image_path: Path):
         image = Image.open(image_path).convert("RGB")
+        return self.embedding_pil(image)
+
+    def embedding_pil(self, image: Image.Image):
         inputs = self.processor(images=image, return_tensors="pt").to(self.device)
         with self.torch.no_grad():
             outputs = self.model(**inputs)
@@ -252,11 +332,14 @@ class DinoScorer:
         emb_b = self.embedding(image_b)
         return float((emb_a * emb_b).sum(dim=-1).detach().cpu().item())
 
+    def similarity_pil(self, image_a: Image.Image, image_b: Image.Image) -> float:
+        emb_a = self.embedding_pil(image_a.convert("RGB"))
+        emb_b = self.embedding_pil(image_b.convert("RGB"))
+        return float((emb_a * emb_b).sum(dim=-1).detach().cpu().item())
+
 
 class GroundingSuccessChecker:
-    """Detection-based task-specific success: object presence plus a spatial
-    relation check against a host object. CLIP-style scores alone cannot
-    certify localized edit success (paper/wacv_experiment_design.md, Metrics)."""
+    """Detection-based task success: object presence plus host relation."""
 
     def __init__(self, model_name: str, device: str, allow_download: bool):
         import torch
@@ -266,11 +349,17 @@ class GroundingSuccessChecker:
         self.device = torch.device(device if device != "auto" else ("cuda" if torch.cuda.is_available() else "cpu"))
         self.processor = GroundingDinoProcessor.from_pretrained(model_name, local_files_only=not allow_download)
         self.model = GroundingDinoForObjectDetection.from_pretrained(
-            model_name, local_files_only=not allow_download
+            model_name,
+            local_files_only=not allow_download,
         ).to(self.device)
         self.model.eval()
 
-    def detect(self, image: Image.Image, phrase: str, box_threshold: float = 0.25) -> tuple[float, tuple[float, float, float, float]] | None:
+    def detect(
+        self,
+        image: Image.Image,
+        phrase: str,
+        box_threshold: float = 0.25,
+    ) -> tuple[float, tuple[float, float, float, float]] | None:
         prompt = phrase if phrase.endswith(".") else f"{phrase}."
         inputs = self.processor(images=image, text=prompt, return_tensors="pt").to(self.device)
         with self.torch.no_grad():
@@ -306,7 +395,6 @@ def relation_correct(
     inter = inter_w * inter_h
     obj_area = max(1.0, (ox1 - ox0) * (oy1 - oy0))
     if relation == "above_host":
-        # Object sits at/over the host's upper region with horizontal overlap.
         horizontal = inter_w / max(1.0, ox1 - ox0) >= 0.5
         vertical = ocy <= hy0 + 0.45 * host_h
         return horizontal and vertical
@@ -359,8 +447,9 @@ def evaluate_run(
     mask_candidates: tuple[str, ...] = MASK_CANDIDATES,
     eval_mask_dir: Path | None = None,
     removal_phrases: dict[str, tuple[str, str]] | None = None,
-    success_checker: "GroundingSuccessChecker | None" = None,
+    success_checker: GroundingSuccessChecker | None = None,
     success_specs: dict[str, tuple[str, str, str]] | None = None,
+    bg_dilate_px: int = 31,
 ) -> dict[str, Any]:
     present = {name: (run_dir / name).exists() for name in REQUIRED_FILES}
     missing = [name for name, exists in present.items() if not exists]
@@ -395,6 +484,9 @@ def evaluate_run(
         {
             "source_prompt": metadata.get("source_prompt") or metadata.get("effective_source_prompt"),
             "target_prompt": metadata.get("target_prompt") or metadata.get("effective_target_prompt"),
+            "family": metadata.get("family", ""),
+            "family_label": metadata.get("family_label", ""),
+            "flowedit_idx": metadata.get("flowedit_idx", ""),
             "source_image": str(source_path),
             "result_image": str(result_path),
             "avg_rec_energy": avg(rows, "rec_energy"),
@@ -450,6 +542,19 @@ def evaluate_run(
                 break
     outside = np.ones(size[::-1], dtype=bool) if mask is None else mask <= 0.2
     inside = None if mask is None else mask > 0.2
+    if mask is None:
+        bg = outside
+        dilated_mask_area = 0.0
+    else:
+        dilated = dilate_mask(mask, bg_dilate_px)
+        bg = dilated <= 0.2
+        if not np.any(bg):
+            bg = outside
+        dilated_mask_area = float((dilated > 0.2).mean())
+    ssim_full, ssim_map = ssim_luma_map(source, result)
+    bg_mse = float(sq_diff[bg].mean()) if np.any(bg) else 0.0
+    bg_l1 = float(diff[bg].mean()) if np.any(bg) else 0.0
+    bg_ssim_luma = float(ssim_map[bg].mean()) if np.any(bg) else ssim_full
 
     record.update(
         {
@@ -462,30 +567,34 @@ def evaluate_run(
             "source_l1": float(diff.mean()),
             "source_rmse": float(math.sqrt(float((diff**2).mean()))),
             "source_psnr": psnr_from_mse(float(sq_diff.mean())),
-            "source_ssim_luma": simple_ssim_luma(source, result),
-            "source_ssim": simple_ssim_luma(source, result),
+            "source_ssim_luma": ssim_full,
+            "source_ssim": ssim_full,
             "outside_mask_l1": float(diff[outside].mean()) if np.any(outside) else 0.0,
             "outside_mask_rmse": float(math.sqrt(float(sq_diff[outside].mean()))) if np.any(outside) else 0.0,
             "outside_mask_psnr": psnr_from_mse(float(sq_diff[outside].mean())) if np.any(outside) else 0.0,
+            "outside_l1": float(diff[outside].mean()) if np.any(outside) else 0.0,
+            "bg_dilate_px": bg_dilate_px if mask is not None else 0,
+            "bg_mask_area": float(bg.mean()) if np.any(bg) else 0.0,
+            "dilated_edit_mask_area": dilated_mask_area,
+            "bg_l1": bg_l1,
+            "bg_psnr": psnr_from_mse(bg_mse),
+            "bg_ssim_luma": bg_ssim_luma,
+            "bg_ssim": bg_ssim_luma,
             "inside_mask_l1": float(diff[inside].mean()) if inside is not None and np.any(inside) else 0.0,
             "inside_mask_rmse": float(math.sqrt(float(sq_diff[inside].mean()))) if inside is not None and np.any(inside) else 0.0,
             "inside_mask_psnr": psnr_from_mse(float(sq_diff[inside].mean())) if inside is not None and np.any(inside) else 0.0,
+            "inside_l1": float(diff[inside].mean()) if inside is not None and np.any(inside) else 0.0,
             "inside_blue_ratio": blue_ratio(result, mask),
         }
     )
     if mask is not None and inside is not None and np.any(inside):
-        # Texture-consistency diagnostic: gradient energy inside the mask vs a
-        # ring just outside it, both measured on the result. Near 1.0 means the
-        # filled/edited region matches the surrounding material texture.
-        from PIL import ImageFilter as _ImageFilter
-
         result_luma = (
             0.299 * result[..., 0] + 0.587 * result[..., 1] + 0.114 * result[..., 2]
         ) * 255.0
         grad_y, grad_x = np.gradient(result_luma)
         grad_mag = np.hypot(grad_x, grad_y)
         dilated = np.asarray(
-            Image.fromarray((mask * 255).astype(np.uint8)).filter(_ImageFilter.MaxFilter(31)),
+            Image.fromarray((mask * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(31)),
             dtype=np.float32,
         ) / 255.0
         ring = (dilated > 0.5) & (mask <= 0.2)
@@ -502,6 +611,7 @@ def evaluate_run(
         if len(scores) == 2:
             record["clip_source_score"] = scores[0]
             record["clip_target_score"] = scores[1]
+            record["clip_t"] = scores[1]
             record["clip_target_minus_source"] = scores[1] - scores[0]
             record["edit_score"] = scores[1] - scores[0]
         record["clip_image_source_similarity"] = clip_scorer.image_similarity(source_path, result_path)
@@ -516,8 +626,15 @@ def evaluate_run(
         if len(local_scores) == 2:
             record["local_clip_source_score"] = local_scores[0]
             record["local_clip_target_score"] = local_scores[1]
+            record["local_clip_t_full_prompt"] = local_scores[1]
             record["local_clip_target_minus_source"] = local_scores[1] - local_scores[0]
             record["local_crop_box"] = ",".join(str(value) for value in bbox)
+        local_target_prompt = LOCAL_TARGET_PROMPTS.get(task)
+        if local_target_prompt:
+            target_only = clip_scorer.score_image(result_image.crop(bbox), [local_target_prompt])
+            if target_only:
+                record["local_clip_prompt"] = local_target_prompt
+                record["local_clip_t"] = target_only[0]
         removal_entry = (removal_phrases or {}).get(task)
         if removal_entry is not None and mask is not None:
             object_phrase, background_phrase = removal_entry
@@ -530,7 +647,6 @@ def evaluate_run(
                 record["removal_background_phrase"] = background_phrase
                 record["removal_object_clip_source"] = src_local[0]
                 record["removal_object_clip_result"] = res_local[0]
-                # Higher = the removed object is less recognizable in the result.
                 record["removal_object_clip_drop"] = src_local[0] - res_local[0]
                 record["removal_background_clip_gain"] = res_local[1] - src_local[1]
                 record["removal_edit_score"] = (
@@ -558,6 +674,10 @@ def evaluate_run(
         record["task_success"] = bool(obj_hit) and bool(record["success_relation_correct"])
     if dino_scorer is not None:
         record["dino_source_similarity"] = dino_scorer.similarity(source_path, result_path)
+        bg_result = composite_bg(result, source, bg)
+        bg_result_image = Image.fromarray((np.clip(bg_result, 0.0, 1.0) * 255).astype(np.uint8))
+        source_image_for_bg = Image.fromarray((np.clip(source, 0.0, 1.0) * 255).astype(np.uint8))
+        record["bg_dino_source"] = dino_scorer.similarity_pil(source_image_for_bg, bg_result_image)
     if lpips_scorer is not None:
         record["lpips_full"] = lpips_scorer.score(source, result)
         if mask is None:
@@ -568,6 +688,9 @@ def evaluate_run(
             outside_source = source
             outside_result = result * outside_mask + source * (1.0 - outside_mask)
         record["lpips_outside"] = lpips_scorer.score(outside_source, outside_result)
+        bg_result = composite_bg(result, source, bg)
+        record["bg_lpips"] = lpips_scorer.score(source, bg_result)
+        record["bg_lpips_x100"] = record["bg_lpips"] * 100.0
     return record
 
 
@@ -590,6 +713,12 @@ def main() -> int:
     parser.add_argument("--dino-device", default="auto")
     parser.add_argument("--compute-lpips", action="store_true")
     parser.add_argument("--lpips-device", default="auto")
+    parser.add_argument(
+        "--bg-dilate-px",
+        type=int,
+        default=31,
+        help="Odd-pixel dilation width for defining BG as 1 - dilate(edit mask).",
+    )
     parser.add_argument(
         "--allow-download",
         action="store_true",
@@ -693,7 +822,9 @@ def main() -> int:
     if success_specs:
         try:
             success_checker = GroundingSuccessChecker(
-                args.success_grounding_model, args.success_device, args.allow_download
+                args.success_grounding_model,
+                args.success_device,
+                args.allow_download,
             )
         except Exception as exc:
             print(f"WARNING: success checker unavailable: {exc}")
@@ -743,27 +874,35 @@ def main() -> int:
         if item.strip()
     )
 
-    records = [
-        evaluate_run(
-            path,
-            args.outputs_dir,
-            clip_scorer=clip_scorer,
-            dino_scorer=dino_scorer,
-            lpips_scorer=lpips_scorer,
-            failure_annotations=failure_annotations,
-            mask_candidates=mask_candidates,
-            eval_mask_dir=args.eval_mask_dir,
-            removal_phrases=removal_phrases,
-            success_checker=success_checker,
-            success_specs=success_specs,
-        )
-        for path in find_run_dirs(
+    run_dirs = list(
+        find_run_dirs(
             args.outputs_dir,
             task_names=task_names,
             method_names=method_names,
             seeds=seeds,
         )
-    ]
+    )
+    records = []
+    total = len(run_dirs)
+    for index, path in enumerate(run_dirs, start=1):
+        records.append(
+            evaluate_run(
+                path,
+                args.outputs_dir,
+                clip_scorer=clip_scorer,
+                dino_scorer=dino_scorer,
+                lpips_scorer=lpips_scorer,
+                failure_annotations=failure_annotations,
+                mask_candidates=mask_candidates,
+                eval_mask_dir=args.eval_mask_dir,
+                removal_phrases=removal_phrases,
+                success_checker=success_checker,
+                success_specs=success_specs,
+                bg_dilate_px=args.bg_dilate_px,
+            )
+        )
+        if index == total or index % 25 == 0:
+            print(f"evaluated: {index}/{total}", flush=True)
     args.json_output.parent.mkdir(parents=True, exist_ok=True)
     args.json_output.write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
 

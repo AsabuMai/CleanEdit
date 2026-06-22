@@ -1,0 +1,13 @@
+variant,method,label,n,outside_l1,inside_l1,source_ssim_luma
+eroded,support_v3_controller_rmsgap,DeCE-RF-SD3,15,0.0404,0.1026,0.7094
+eroded,adaptive_full_generic_support,Generic support,15,0.0480,0.0782,0.6757
+eroded,base_only,RF reconstruction,15,0.0707,0.0517,0.5786
+eroded,direct_target,Direct target,15,0.0918,0.0838,0.5141
+base,support_v3_controller_rmsgap,DeCE-RF-SD3,15,0.0393,0.0972,0.7094
+base,adaptive_full_generic_support,Generic support,15,0.0470,0.0791,0.6757
+base,base_only,RF reconstruction,15,0.0708,0.0564,0.5786
+base,direct_target,Direct target,15,0.0911,0.0912,0.5141
+dilated,support_v3_controller_rmsgap,DeCE-RF-SD3,15,0.0388,0.0894,0.7094
+dilated,adaptive_full_generic_support,Generic support,15,0.0464,0.0767,0.6757
+dilated,base_only,RF reconstruction,15,0.0708,0.0590,0.5786
+dilated,direct_target,Direct target,15,0.0899,0.0984,0.5141

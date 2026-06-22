@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.120452880859375,
+  "anchor_box_xyxy": [
+    189,
+    70,
+    425,
+    221
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_167_luna_4_eccv_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      187.41006469726562,
+      66.66182708740234,
+      425.7015075683594,
+      222.67312622070312
+    ]
+  ],
+  "chosen_phrase": "neon sign",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_167_luna_4_eccv",
+  "labels": [
+    "neon sign"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.85,
+  "num_boxes": 1,
+  "phrase": "neon sign",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.846336841583252
+  ],
+  "support_area": 0.12789154052734375,
+  "support_box_xyxy": [
+    189,
+    70,
+    425,
+    221
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_167_luna_4_eccv_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 3,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.85,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

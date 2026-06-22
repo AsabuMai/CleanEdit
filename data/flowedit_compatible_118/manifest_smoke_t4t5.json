@@ -1,0 +1,191 @@
+[
+ {
+  "key": "fe_000_bear_1_black_bear",
+  "flowedit_idx": 0,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+  "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+  "target_prompt": "A large black bear walking through a stream of water. The stream appears to be shallow, as the black bear is able to walk through it without any difficulty.",
+  "global_mask": true,
+  "host_tokens": "bear",
+  "new_tokens": "black",
+  "pp_edit_action": {
+   "black": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "bear": [
+    "black"
+   ]
+  }
+ },
+ {
+  "key": "fe_004_bear_grass_1_black_bear",
+  "flowedit_idx": 4,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear_grass.png",
+  "source_prompt": "A large brown bear walking through a grassy field.",
+  "target_prompt": "A large black bear walking through a grassy field.",
+  "global_mask": true,
+  "host_tokens": "bear",
+  "new_tokens": "black",
+  "pp_edit_action": {
+   "black": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "bear": [
+    "black"
+   ]
+  }
+ },
+ {
+  "key": "fe_015_bikes_5_green_bicycle",
+  "flowedit_idx": 15,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+  "source_prompt": "A bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+  "target_prompt": "A green bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+  "global_mask": true,
+  "host_tokens": "bicycle",
+  "new_tokens": "green",
+  "pp_edit_action": {
+   "green": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "bicycle": [
+    "green"
+   ]
+  }
+ },
+ {
+  "key": "fe_016_bikes_6_yellow_bicycle",
+  "flowedit_idx": 16,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+  "source_prompt": "A bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+  "target_prompt": "A yellow bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+  "global_mask": true,
+  "host_tokens": "bicycle",
+  "new_tokens": "yellow",
+  "pp_edit_action": {
+   "yellow": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "bicycle": [
+    "yellow"
+   ]
+  }
+ },
+ {
+  "key": "fe_003_bear_4_sculpture",
+  "flowedit_idx": 3,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+  "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+  "target_prompt": "A large sculpture of a brown bear walking through a stream of water. The stream appears to be shallow, as the sculpture of the bear is able to walk through it without any difficulty.",
+  "global_mask": true,
+  "host_tokens": "bear",
+  "new_tokens": "sculpture",
+  "pp_aspect_mapping": {
+   "bear": [
+    "sculpture"
+   ]
+  }
+ },
+ {
+  "key": "fe_007_bear_grass_4_sculpture",
+  "flowedit_idx": 7,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear_grass.png",
+  "source_prompt": "A large brown bear walking through a grassy field.",
+  "target_prompt": "A large sculpture of a brown bear walking through a grassy field.",
+  "global_mask": true,
+  "host_tokens": "bear",
+  "new_tokens": "sculpture",
+  "pp_aspect_mapping": {
+   "bear": [
+    "sculpture"
+   ]
+  }
+ },
+ {
+  "key": "fe_020_brown_owl_2_glass_sculpture",
+  "flowedit_idx": 20,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+  "source_prompt": "A small, brown owl standing on a patch of grass.",
+  "target_prompt": "A small glass sculpture of a brown owl standing on a patch of grass.",
+  "global_mask": true,
+  "host_tokens": "owl",
+  "new_tokens": "glass,sculpture",
+  "pp_aspect_mapping": {
+   "owl": [
+    "glass",
+    "sculpture"
+   ]
+  }
+ },
+ {
+  "key": "fe_021_brown_owl_3_origami_owl",
+  "flowedit_idx": 21,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+  "source_prompt": "A small, brown owl standing on a patch of grass.",
+  "target_prompt": "A small origami owl standing on a patch of grass.",
+  "global_mask": true,
+  "host_tokens": "owl",
+  "new_tokens": "origami",
+  "pp_aspect_mapping": {
+   "owl": [
+    "origami"
+   ]
+  }
+ }
+]

@@ -1,0 +1,18 @@
+{
+  "add": {
+    "--adaptive-edit-gain": "4.0",
+    "--adaptive-edit-target-rms": "0.52"
+  },
+  "decal": {
+    "--adaptive-edit-gain": "3.8",
+    "--adaptive-edit-target-rms": "0.50"
+  },
+  "material": {
+    "--adaptive-edit-gain": "3.2",
+    "--adaptive-edit-target-rms": "0.48",
+    "--adaptive-preserve-gain": "1.4"
+  },
+  "recolor": {
+    "--adaptive-edit-gain": "3.0"
+  }
+}

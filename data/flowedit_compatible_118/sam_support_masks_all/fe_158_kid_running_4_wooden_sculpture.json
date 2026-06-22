@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.08953094482421875,
+  "anchor_box_xyxy": [
+    188,
+    99,
+    309,
+    442
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_158_kid_running_4_wooden_sculpture_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      186.63404846191406,
+      96.844970703125,
+      310.0747375488281,
+      444.71856689453125
+    ]
+  ],
+  "chosen_phrase": "boy",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_158_kid_running_4_wooden_sculpture",
+  "labels": [
+    "boy"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "boy",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9494717717170715
+  ],
+  "support_area": 0.09818649291992188,
+  "support_box_xyxy": [
+    188,
+    99,
+    309,
+    442
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_158_kid_running_4_wooden_sculpture_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

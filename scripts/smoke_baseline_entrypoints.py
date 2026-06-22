@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import argparse
 import os
 import re
 import subprocess
@@ -49,6 +50,9 @@ SPECS = {
     ),
     "ReFlex": SmokeSpec(
         "ReFlex", "cmd_help", SRC / "ReFlex", ("img_edit.py", "--help")
+    ),
+    "Sam-Flow": SmokeSpec(
+        "Sam-Flow", "cmd_help", SRC / "Sam-Flow", ("scripts/run_image.py", "--help")
     ),
     "stable-flow": SmokeSpec(
         "stable-flow",
@@ -180,8 +184,17 @@ def run_one(row: dict[str, str]) -> dict[str, str]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--only", nargs="*", default=None)
+    args = parser.parse_args()
+    selected = set(args.only or [])
     rows = list(csv.DictReader(REGISTRY.open(newline="", encoding="utf-8")))
+    if selected:
+        rows = [row for row in rows if row.get("repo_name") in selected or row.get("env_name") in selected]
     results = [run_one(row) for row in rows]
+    if not results:
+        print("no smoke rows selected")
+        return 0
     with OUT.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(results[0].keys()))
         writer.writeheader()

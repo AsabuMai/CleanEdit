@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.05033111572265625,
+  "anchor_box_xyxy": [
+    35,
+    100,
+    222,
+    484
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_195_parrots2_1_crown_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      33.647254943847656,
+      99.36566162109375,
+      223.66751098632812,
+      484.9705810546875
+    ]
+  ],
+  "chosen_phrase": "parrots",
+  "family": "F1",
+  "family_label": "T1_attached_accessory",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_195_parrots2_1_crown",
+  "labels": [
+    "parrots"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "parrots",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.603272557258606
+  ],
+  "support_area": 0.06949996948242188,
+  "support_box_xyxy": [
+    62,
+    0,
+    195,
+    131
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_195_parrots2_1_crown_support.png",
+  "support_plan": {
+    "band_ratio": 0.42,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.08,
+    "expand_y": 0.02,
+    "max_area": 0.95,
+    "overlap_ratio": 0.08,
+    "relation": "top_center"
+  },
+  "support_relation": "top_center",
+  "text_threshold": 0.15
+}

@@ -1,0 +1,35 @@
+{
+  "status": "complete",
+  "task": "mug_heart",
+  "source_method": "support_v3_controller_rmsgap_mugbox145_c180",
+  "output_method": "support_v3_controller_rmsgap_mugbox145_c180_ref075_v1",
+  "final_ref_composite_scale": 0.75,
+  "seeds": [
+    "10",
+    "11",
+    "12"
+  ],
+  "rows": [
+    {
+      "seed": "10",
+      "result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_10/result.png",
+      "source_result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_10/result.png",
+      "ref_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_10/masks/decal_reference.png",
+      "ref_mask": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_10/masks/decal_mask.png"
+    },
+    {
+      "seed": "11",
+      "result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_11/result.png",
+      "source_result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/result.png",
+      "ref_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/masks/decal_reference.png",
+      "ref_mask": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_11/masks/decal_mask.png"
+    },
+    {
+      "seed": "12",
+      "result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_12/result.png",
+      "source_result": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/result.png",
+      "ref_image": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/masks/decal_reference.png",
+      "ref_mask": "outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180/seed_12/masks/decal_mask.png"
+    }
+  ]
+}

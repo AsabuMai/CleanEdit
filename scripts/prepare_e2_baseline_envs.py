@@ -125,6 +125,37 @@ def make_specs(src: Path) -> tuple[EnvSpec, ...]:
         "Requirements file install with torchao pinned for torch 2.4 compatibility.",
     ),
     EnvSpec(
+        "Sam-Flow",
+        "sam-flow-py310",
+        "/usr/bin/python3.10",
+        (
+            (
+                "--index-url",
+                "https://download.pytorch.org/whl/cu121",
+                "torch==2.5.1",
+                "torchvision==0.20.1",
+                "torchaudio==2.5.1",
+            ),
+            (
+                "diffusers==0.35.2",
+                "transformers==4.46.3",
+                "accelerate==1.0.1",
+                "huggingface-hub==0.35.3",
+                "tokenizers==0.20.3",
+                "safetensors==0.5.3",
+                "sentencepiece==0.2.0",
+                "protobuf==5.29.3",
+                "pillow==10.4.0",
+                "pyyaml==6.0.2",
+                "numpy==1.26.4",
+                "tqdm==4.67.1",
+                "opencv-python-headless",
+                "scikit-image",
+            ),
+        ),
+        "Official Sam-Flow repo at f5f70c9; cu121 Torch pin avoids CUDA 13 wheels on gpu01.",
+    ),
+    EnvSpec(
         "stable-flow",
         "stable-flow-py311",
         "/usr/bin/python3.11",
@@ -427,7 +458,7 @@ def main() -> int:
 
         create_status = "skipped_existing"
         if args.recreate and env_dir.exists():
-            code, create_status = run_cmd(["rm", "-rf", str(env_dir)], log_path, timeout=120)
+            code, create_status = run_cmd(["rm", "-rf", str(env_dir)], log_path, timeout=max(900, args.timeout_s))
             if code != 0:
                 rows.append(
                     {

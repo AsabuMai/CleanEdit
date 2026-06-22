@@ -137,6 +137,33 @@ def heart_points(cx: float, cy: float, rx: float, ry: float, samples: int = 96) 
     return coords
 
 
+def collar_band_points(
+    x0: int,
+    y0: int,
+    x1: int,
+    y1: int,
+    slant_x: float = 0.0,
+    perspective_y: float = 0.0,
+    samples: int = 40,
+) -> list[tuple[float, float]]:
+    width = max(1.0, float(x1 - x0))
+    height = max(1.0, float(y1 - y0))
+    top: list[tuple[float, float]] = []
+    bottom: list[tuple[float, float]] = []
+    curve = 0.18 * height
+    taper = perspective_y * width
+    for idx in range(samples + 1):
+        t = idx / float(samples)
+        side = 2.0 * t - 1.0
+        x = x0 + t * width
+        shift = slant_x * width * (0.5 - t)
+        local_taper = taper * (1.0 - abs(side))
+        arch = curve * math.sin(math.pi * t)
+        top.append((x + shift + local_taper * 0.20, y0 + arch * 0.45))
+        bottom.append((x - shift - local_taper * 0.35, y1 + arch * 0.72))
+    return top + list(reversed(bottom))
+
+
 def draw_shape(
     draw: ImageDraw.ImageDraw,
     shape: str,
@@ -152,7 +179,15 @@ def draw_shape(
     ry = max(1.0, (y1 - y0) / 2.0)
     if shape == "rectangle":
         draw.rounded_rectangle(box, radius=max(1, int(min(rx, ry) * 0.08)), fill=fill)
-    elif shape in {"slanted_rectangle", "corduroy_panel", "linen_panel", "terry_panel", "quilted_panel", "waffle_panel"}:
+    elif shape in {
+        "slanted_rectangle",
+        "corduroy_panel",
+        "linen_panel",
+        "terry_panel",
+        "quilted_panel",
+        "waffle_panel",
+        "real_waffle_panel",
+    }:
         shift = int(round((x1 - x0) * slant_x))
         taper = int(round((x1 - x0) * perspective_y))
         points = [
@@ -162,6 +197,73 @@ def draw_shape(
             (x0 - shift - taper, y1),
         ]
         draw.polygon(points, fill=fill)
+    elif shape == "collar_band":
+        draw.polygon(collar_band_points(x0, y0, x1, y1, slant_x=slant_x, perspective_y=perspective_y), fill=fill)
+    elif shape == "collar_bell":
+        width = max(1, x1 - x0)
+        height = max(1, y1 - y0)
+        collar_y1 = y0 + int(round(height * 0.54))
+        collar_fill = fill
+        bell_fill = fill if isinstance(fill, int) else (226, 170, 24)
+        shadow_fill = fill if isinstance(fill, int) else (150, 98, 10)
+        draw.polygon(
+            collar_band_points(
+                x0,
+                y0,
+                x1,
+                collar_y1,
+                slant_x=slant_x,
+                perspective_y=perspective_y,
+            ),
+            fill=collar_fill,
+        )
+        loop_w = max(2, int(round(width * 0.050)))
+        loop_h = max(2, int(round(height * 0.090)))
+        loop_cx = x0 + int(round(width * 0.47))
+        loop_y0 = collar_y1 - int(round(height * 0.04))
+        draw.rounded_rectangle(
+            (
+                loop_cx - loop_w,
+                loop_y0,
+                loop_cx + loop_w,
+                loop_y0 + loop_h,
+            ),
+            radius=max(1, loop_w // 2),
+            fill=bell_fill,
+        )
+        bell_rx = max(3, int(round(width * 0.075)))
+        bell_ry = max(3, int(round(height * 0.155)))
+        bell_cx = loop_cx
+        bell_cy = y0 + int(round(height * 0.73))
+        bell_box = (
+            bell_cx - bell_rx,
+            bell_cy - bell_ry,
+            bell_cx + bell_rx,
+            bell_cy + bell_ry,
+        )
+        draw.ellipse(bell_box, fill=bell_fill)
+        if not isinstance(fill, int):
+            draw.arc(bell_box, 25, 155, fill=(255, 219, 78), width=max(1, bell_rx // 5))
+            draw.line(
+                (
+                    bell_cx - int(round(bell_rx * 0.55)),
+                    bell_cy + int(round(bell_ry * 0.25)),
+                    bell_cx + int(round(bell_rx * 0.55)),
+                    bell_cy + int(round(bell_ry * 0.25)),
+                ),
+                fill=shadow_fill,
+                width=max(1, bell_ry // 5),
+            )
+            dot_r = max(1, bell_rx // 6)
+            draw.ellipse(
+                (
+                    bell_cx - dot_r,
+                    bell_cy + int(round(bell_ry * 0.48)) - dot_r,
+                    bell_cx + dot_r,
+                    bell_cy + int(round(bell_ry * 0.48)) + dot_r,
+                ),
+                fill=shadow_fill,
+            )
     elif shape in {"ellipse", "orange_fruit"}:
         draw.ellipse(box, fill=fill)
     elif shape == "heart":
@@ -178,6 +280,31 @@ def draw_shape(
         draw.polygon(leaf, fill=fill)
         stem = (int(cx - 0.04 * rx), int(cy), int(cx + 0.04 * rx), int(y1 + 0.38 * ry))
         draw.rounded_rectangle(stem, radius=max(1, int(0.04 * rx)), fill=fill)
+    elif shape == "flower":
+        petal_r = max(1, int(round(min(rx, ry) * 0.38)))
+        for idx in range(6):
+            angle = idx * math.pi / 3.0
+            px = cx + math.cos(angle) * rx * 0.36
+            py = cy + math.sin(angle) * ry * 0.36
+            draw.ellipse(
+                (
+                    int(round(px - petal_r)),
+                    int(round(py - petal_r)),
+                    int(round(px + petal_r)),
+                    int(round(py + petal_r)),
+                ),
+                fill=fill,
+            )
+        center_r = max(1, int(round(min(rx, ry) * 0.24)))
+        draw.ellipse(
+            (
+                int(round(cx - center_r)),
+                int(round(cy - center_r)),
+                int(round(cx + center_r)),
+                int(round(cy + center_r)),
+            ),
+            fill=fill,
+        )
     elif shape == "stripes":
         width = max(1, x1 - x0)
         height = max(1, y1 - y0)
@@ -387,6 +514,45 @@ def make_material_panel_reference(
         sheen = np.clip(-0.6 * wx - wy, -1.0, 1.0)
         micro = 0.5 + 0.5 * np.sin(2.0 * np.pi * (xx / 29.0 + yy / 41.0))
         shade = 1.0 - 0.150 * seam + 0.045 * dome + 0.020 * dome * sheen + 0.006 * micro
+    elif material == "real_waffle":
+        cell = max(9.0, min(panel_w / 8.5, panel_h / 8.8) * max(0.25, scale))
+        warp = (
+            2.8 * np.sin((yy - float(y0)) / max(10.0, cell * 1.7))
+            + 1.8 * np.sin((yy + xx * 0.23) / max(9.0, cell * 1.2))
+        )
+        weft = (
+            2.5 * np.sin((xx - float(x0)) / max(10.0, cell * 1.9))
+            + 1.5 * np.sin((xx * 0.18 - yy) / max(9.0, cell * 1.3))
+        )
+        wx = np.mod(xx + warp - float(x0), cell) / cell - 0.5
+        wy = np.mod(yy + weft - float(y0), cell) / cell - 0.5
+        sx = np.exp(-((np.abs(wx) - 0.47) / 0.120) ** 2)
+        sy = np.exp(-((np.abs(wy) - 0.47) / 0.120) ** 2)
+        ridge = np.maximum(sx, sy)
+        crossing = sx * sy
+        inner = 1.0 - np.clip(ridge, 0.0, 1.0)
+        basin = np.exp(-((wx ** 2 + wy ** 2) / (2.0 * 0.24 ** 2)))
+        yarn_x = 0.5 + 0.5 * np.sin(2.0 * np.pi * (xx + 0.35 * yy) / max(5.0, cell * 0.42))
+        yarn_y = 0.5 + 0.5 * np.sin(2.0 * np.pi * (yy - 0.22 * xx) / max(5.0, cell * 0.46))
+        slub = 0.5 + 0.5 * np.sin(2.0 * np.pi * (xx / 7.0 + yy / 11.0))
+        lint = 0.5 + 0.5 * np.sin(2.0 * np.pi * (xx / 3.7 - yy / 5.3))
+        fiber = 0.34 * yarn_x + 0.32 * yarn_y + 0.20 * slub + 0.14 * lint
+        low_noise = (
+            0.50
+            + 0.20 * np.sin(xx / 17.0 + yy / 23.0)
+            + 0.18 * np.sin(xx / 31.0 - yy / 19.0)
+            + 0.12 * np.sin((xx + yy) / 43.0)
+        )
+        directional = np.clip(-0.55 * wx - 0.75 * wy, -1.0, 1.0)
+        shade = (
+            1.0
+            + 0.075 * ridge
+            + 0.030 * crossing
+            - 0.120 * inner * basin
+            + 0.040 * ridge * directional
+            + 0.045 * (fiber - 0.5)
+            + 0.018 * (low_noise - 0.5)
+        )
     else:
         raise ValueError(f"Unsupported material panel: {material}")
 
@@ -401,10 +567,11 @@ def make_material_panel_reference(
         "terry": (0.90, 1.10),
         "quilted": (0.86, 1.16),
         "waffle": (0.82, 1.10),
+        "real_waffle": (0.78, 1.16),
     }
     clip_min, clip_max = clip_bounds[material]
     active_luma01 = None
-    if material in {"quilted", "waffle"} and np.any(active):
+    if material in {"quilted", "waffle", "real_waffle"} and np.any(active):
         luma = 0.299 * rgb[..., 0] + 0.587 * rgb[..., 1] + 0.114 * rgb[..., 2]
         active_luma01 = float(np.average(luma[active], weights=np.maximum(alpha[..., 0][active], 1e-4))) / 255.0
     if material == "quilted" and active_luma01 is not None:
@@ -425,7 +592,7 @@ def make_material_panel_reference(
         # grooves carry the texture instead of blown-out specular peaks.
         luma_px = 0.299 * rgb[..., 0] + 0.587 * rgb[..., 1] + 0.114 * rgb[..., 2]
         shade = np.minimum(shade, 250.0 / np.maximum(luma_px, 1.0))
-        if material == "waffle":
+        if material in {"waffle", "real_waffle"}:
             # Attenuate texture amplitude in the host's own shadow regions so
             # grooves do not read as stains in already-dark fabric.
             atten = np.clip((luma_px / 255.0 - 0.30) / 0.35, 0.30, 1.0)
@@ -491,17 +658,21 @@ def main() -> None:
         choices=(
             "rectangle",
             "slanted_rectangle",
+            "collar_band",
+            "collar_bell",
             "corduroy_panel",
             "linen_panel",
             "terry_panel",
             "quilted_panel",
             "waffle_panel",
+            "real_waffle_panel",
             "ellipse",
             "orange_fruit",
             "heart",
             "star",
             "printed_star",
             "leaf",
+            "flower",
             "stripes",
             "dots",
             "cross",
@@ -541,7 +712,14 @@ def main() -> None:
         top_feather_min_alpha=args.top_feather_min_alpha,
     )
 
-    if args.shape in {"corduroy_panel", "linen_panel", "terry_panel", "quilted_panel", "waffle_panel"}:
+    if args.shape in {
+        "corduroy_panel",
+        "linen_panel",
+        "terry_panel",
+        "quilted_panel",
+        "waffle_panel",
+        "real_waffle_panel",
+    }:
         mask, bright_clipped = clip_material_mask_to_local_host(image, mask)
         if args.host_mask is not None and args.host_mask.is_file():
             # Tight (eroded) intersection for all hosts: dilation lets the
@@ -570,6 +748,15 @@ def main() -> None:
         )
     elif args.shape == "printed_star":
         reference = make_printed_star_reference(image, mask, color, args.opacity)
+    elif args.shape == "collar_bell":
+        colored = Image.new("RGB", image.size, (0, 0, 0))
+        colored_draw = ImageDraw.Draw(colored)
+        draw_shape(colored_draw, args.shape, pixel_box, fill=color, slant_x=args.slant_x, perspective_y=args.perspective_y)
+        alpha = np.asarray(mask.convert("L"), dtype=np.float32)[..., None] / 255.0
+        alpha *= max(0.0, min(1.0, args.opacity))
+        rgb = np.asarray(image.convert("RGB"), dtype=np.float32)
+        decal_rgb = np.asarray(colored, dtype=np.float32)
+        reference = Image.fromarray((rgb * (1.0 - alpha) + decal_rgb * alpha).clip(0, 255).round().astype(np.uint8), mode="RGB")
     else:
         decal = Image.new("RGB", image.size, color)
         alpha = mask.point(lambda value: int(round(value * max(0.0, min(1.0, args.opacity)))))

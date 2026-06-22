@@ -1,0 +1,55 @@
+{
+  "anchor_area": 0.10277938842773438,
+  "anchor_box_xyxy": [
+    204,
+    180,
+    343,
+    435
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      202.36129760742188,
+      179.26461791992188,
+      343.2450256347656,
+      436.0771789550781
+    ]
+  ],
+  "chosen_phrase": "glass",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_180_milk_4_whipped_cream",
+  "labels": [
+    "glass"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "glass",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9096030592918396
+  ],
+  "support_area": 0.11260223388671875,
+  "support_box_xyxy": [
+    204,
+    180,
+    343,
+    435
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

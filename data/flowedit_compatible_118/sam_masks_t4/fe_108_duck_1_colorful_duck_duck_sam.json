@@ -1,0 +1,69 @@
+{
+  "anchor_box_xyxy": [
+    114,
+    136,
+    400,
+    348
+  ],
+  "anchor_mask_area_ratio": 0.15063858032226562,
+  "anchor_output": null,
+  "blur": 5,
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      110.99201965332031,
+      133.40280151367188,
+      403.352294921875,
+      353.07135009765625
+    ]
+  ],
+  "dilate": 6,
+  "eyes_anchor_area_ratio": 0.15063858032226562,
+  "eyes_anchor_area_threshold": 0.16,
+  "eyes_anchor_box_area_ratio": 0.231292724609375,
+  "eyes_anchor_box_area_threshold": 0.34,
+  "eyes_anchor_fallback_used": false,
+  "eyes_anchor_max_area_ratio": 0.16,
+  "eyes_anchor_max_box_area_ratio": 0.34,
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/duck.png",
+  "labels": [
+    "duck"
+  ],
+  "mask_area_ratio": 0.16384506225585938,
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.7,
+  "num_boxes": 1,
+  "output": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_masks_t4/fe_108_duck_1_colorful_duck_duck_sam.png",
+  "phrase": "duck",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.9101318717002869
+  ],
+  "semantic_edit_words": [
+    "colorful"
+  ],
+  "semantic_phrase_after_quality_gate": "duck",
+  "semantic_phrase_explicit": "duck",
+  "semantic_phrase_inferred": "duck",
+  "source_prompt": "A brown duck swimming in a lake. The duck is floating on the surface of the water, surrounded by a few ripples. The duck is preening its feathers. The scene is set against a black background, which emphasizes the duck''s presence in the water.",
+  "support_band_ratio": 0.55,
+  "support_box_xyxy": [
+    114,
+    136,
+    400,
+    348
+  ],
+  "support_expand_x": 0.0,
+  "support_expand_y": 0.0,
+  "support_overlap_ratio": 0.2,
+  "support_plan_params": {},
+  "support_plan_rule": null,
+  "support_relation": "inside",
+  "support_relation_after_quality_gate": "inside",
+  "support_relation_inferred": "inside",
+  "support_relation_requested": "auto",
+  "support_threshold": 0.2,
+  "target_prompt": "A colorful duck swimming in a lake. The duck is floating on the surface of the water, surrounded by a few ripples. The scene is set against a black background, which emphasizes the duck''s presence in the water.",
+  "text_threshold": 0.15
+}

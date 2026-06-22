@@ -1,0 +1,81 @@
+{
+  "anchor_area": 0.06540298461914062,
+  "anchor_box_xyxy": [
+    0,
+    0,
+    94,
+    211
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      0.0244140625,
+      0.00231170654296875,
+      93.00628662109375,
+      212.26214599609375
+    ]
+  ],
+  "chosen_phrase": "blueberries",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_036_cake_red_blueberries_2_raspberries",
+  "labels": [
+    "blueberries"
+  ],
+  "manual_fix": {
+    "reason": "T2 berry replacement should edit the top berry cluster, not the background/edge detection.",
+    "spec": {
+      "blur_radius": 2.0,
+      "shapes": [
+        [
+          "ellipse",
+          [
+            118,
+            74,
+            416,
+            218
+          ]
+        ]
+      ]
+    },
+    "updated_at_jst": "2026-06-20 15:54:56"
+  },
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 1,
+  "phrase": "blueberries",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.4121166467666626
+  ],
+  "support_area": 0.12978744506835938,
+  "support_area_before_manual_fix": 0.0702972412109375,
+  "support_box_xyxy": [
+    118,
+    74,
+    417,
+    219
+  ],
+  "support_box_xyxy_before_manual_fix": [
+    0,
+    0,
+    94,
+    211
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_support.png",
+  "support_mask_before_manual_fix": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_support_auto_backup.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

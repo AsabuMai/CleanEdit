@@ -1,0 +1,163 @@
+{
+  "created_utc": "2026-06-11T10:04:45.288151+00:00",
+  "root": "/cluster/users/grad/2025/25t8103/project",
+  "artifact_archive": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11",
+  "script_archive": "scripts/obsolete_pre_phase2_lock_2026-06-11",
+  "entries": [
+    {
+      "path": "experiments/support_v3_2026-06-02/blind_internal_audit_2026-06-11",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/blind_internal_audit_2026-06-11"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table1_core5_preview.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table1_core5_preview.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2a_sd3_preview.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2a_sd3_preview.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/paper_table_previews_2026-06-11.md",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/paper_table_previews_2026-06-11.md"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/e1_core5_strict_metrics.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/e1_core5_strict_metrics.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/e1_core5_strict_metrics.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/e1_core5_strict_metrics.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2a_sd3_t1_t4_common_subset_prelim.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2a_sd3_t1_t4_common_subset_prelim.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2a_sd3_t1_t4_common_subset_prelim_2026-06-11.md",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2a_sd3_t1_t4_common_subset_prelim_2026-06-11.md"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2a_sd3_t1_t4_common_subset_prelim_audit.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2a_sd3_t1_t4_common_subset_prelim_audit.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table1_core5_final.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table1_core5_final.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2a_sd3_common_subset_final.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2a_sd3_common_subset_final.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table2b_native_context_final.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table2b_native_context_final.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table3_phase2_breadth_internal_final.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table3_phase2_breadth_internal_final.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/table3_phase2_breadth_by_family_final.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/table3_phase2_breadth_by_family_final.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/final_tables_audit_2026-06-11.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/final_tables_audit_2026-06-11.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/final_paper_tables_2026-06-11.md",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/final_paper_tables_2026-06-11.md"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_masks",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_masks"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_eroded_metrics.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_eroded_metrics.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_eroded_metrics.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_eroded_metrics.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_base_metrics.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_base_metrics.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_base_metrics.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_base_metrics.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_dilated_metrics.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_dilated_metrics.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_dilated_metrics.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_dilated_metrics.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_summary.csv",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_summary.csv"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_audit.json",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_audit.json"
+    },
+    {
+      "path": "experiments/support_v3_2026-06-02/mask_sensitivity_core5_summary.md",
+      "status": "moved",
+      "archive_path": "experiments/support_v3_2026-06-02/obsolete_pre_phase2_lock_2026-06-11/mask_sensitivity_core5_summary.md"
+    },
+    {
+      "path": "scripts/build_blind_internal_audit_core5.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/build_blind_internal_audit_core5.py"
+    },
+    {
+      "path": "scripts/build_final_paper_tables.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/build_final_paper_tables.py"
+    },
+    {
+      "path": "scripts/build_paper_table_previews.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/build_paper_table_previews.py"
+    },
+    {
+      "path": "scripts/build_table2a_common_subset.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/build_table2a_common_subset.py"
+    },
+    {
+      "path": "scripts/run_mask_sensitivity_core5.py",
+      "status": "moved",
+      "archive_path": "scripts/obsolete_pre_phase2_lock_2026-06-11/run_mask_sensitivity_core5.py"
+    }
+  ]
+}

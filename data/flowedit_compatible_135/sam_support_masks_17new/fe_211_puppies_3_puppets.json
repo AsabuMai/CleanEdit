@@ -1,0 +1,90 @@
+{
+  "anchor_area": 0.14173126220703125,
+  "anchor_box_xyxy": [
+    107,
+    128,
+    284,
+    410
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      105.93974304199219,
+      125.13592529296875,
+      284.70465087890625,
+      417.89239501953125
+    ]
+  ],
+  "chosen_phrase": "puppies",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_211_puppies_3_puppets",
+  "labels": [
+    "puppies"
+  ],
+  "manual_fix": {
+    "reason": "Target prompt edits two puppies; the automatic mask selected only one puppy.",
+    "spec": {
+      "blur_radius": 2.0,
+      "shapes": [
+        [
+          "ellipse",
+          [
+            92,
+            150,
+            305,
+            440
+          ]
+        ],
+        [
+          "ellipse",
+          [
+            250,
+            126,
+            462,
+            430
+          ]
+        ]
+      ]
+    },
+    "updated_at_jst": "2026-06-20 15:54:56"
+  },
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 1,
+  "phrase": "puppies",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.5183514952659607
+  ],
+  "support_area": 0.35184478759765625,
+  "support_area_before_manual_fix": 0.14994430541992188,
+  "support_box_xyxy": [
+    92,
+    126,
+    463,
+    441
+  ],
+  "support_box_xyxy_before_manual_fix": [
+    107,
+    128,
+    284,
+    410
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets_support.png",
+  "support_mask_before_manual_fix": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets_support_auto_backup.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

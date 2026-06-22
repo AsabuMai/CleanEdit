@@ -1,0 +1,54 @@
+[
+ {
+  "key": "fe_211_puppies_3_puppets",
+  "flowedit_idx": 211,
+  "flowedit_status": "expanded-stress",
+  "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/unique_inputs/fe_211_puppies_3_puppets.png",
+  "source_prompt": "Two adorable golden retriever puppies sitting in a grassy field. They are positioned close to each other, with one dog on the left and the other on the right. Both dogs have their mouths open, possibly panting.",
+  "target_prompt": "Two adorable puppets of golden retriever puppies sitting in a grassy field. They are positioned close to each other, with one puppet on the left and the other on the right. Both puppets have their mouths open, possibly panting or enjoying the outdoor environment.",
+  "global_mask": false,
+  "host_tokens": "puppies",
+  "new_tokens": "puppets",
+  "pp_aspect_mapping": {
+   "puppies": [
+    "puppets"
+   ]
+  },
+  "subset": "expanded",
+  "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_211_puppies_3_puppets.json",
+  "sam_phrase": "puppies",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_036_cake_red_blueberries_2_raspberries",
+  "flowedit_idx": 36,
+  "flowedit_status": "expanded-stress",
+  "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+  "config": "2_container_insertion_80",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "image": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/unique_inputs/fe_036_cake_red_blueberries_2_raspberries.png",
+  "source_prompt": "A slice of red velvet cake with white frosting, topped with blueberries.",
+  "target_prompt": "A slice of red velvet cake with white frosting, topped with raspberries.",
+  "global_mask": false,
+  "host_tokens": "blueberries",
+  "new_tokens": "raspberries",
+  "pp_aspect_mapping": {
+   "blueberries": [
+    "raspberries"
+   ]
+  },
+  "subset": "expanded",
+  "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries.json",
+  "sam_phrase": "blueberries",
+  "sam_support_relation": "inside"
+ }
+]

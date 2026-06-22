@@ -1,0 +1,24 @@
+{
+  "status": "complete",
+  "created_utc": "2026-06-11T15:14:41.369204+00:00",
+  "scope": "Codex proxy precheck ratings for Phase2 blind internal audit sheets; not a human user study.",
+  "raters": [
+    "rater_01",
+    "rater_02",
+    "rater_03"
+  ],
+  "filled_counts": {
+    "rater_01": 180,
+    "rater_02": 180,
+    "rater_03": 180
+  },
+  "missing_metric_count": 0,
+  "source_files": [
+    "experiments/support_v3_2026-06-02/e4_t1_t4_reconstruction_floor_metrics.csv",
+    "experiments/support_v3_2026-06-02/e1_t1_t4_directgeneric_metrics.csv",
+    "experiments/support_v3_2026-06-02/table2a_e4_common_subset_clipdino_metrics.csv",
+    "experiments/support_v3_2026-06-02/table2_t5_internal_metrics.csv"
+  ],
+  "method_key_used": "blind_internal_audit_method_key_private.csv",
+  "caveat": "Scores are metric-guided proxy ratings to make the audit package analyzable before human scoring."
+}

@@ -1,41 +1,34 @@
-# Limitations
+# Current Limitations
 
-- The method depends on reliable spatial support for local edits.
-- Current implementation is SD3-specific.
-- The revised strict Phase 1 evidence covers all six current Core-6 rows:
-  attached accessory, container-constrained insertion, surface decal, local
-  recolor, surface material strip editing, and exposed-object removal. The
-  suite is still a controlled diagnostic set, not a large-scale benchmark.
-- Container-constrained insertion is covered by `bowl_apple_inside`, but the
-  current `inside_container` relation is still a simple geometry prior derived
-  from the grounded bowl mask. Do not overstate it as general 3D container
-  reasoning or robust free-space placement.
-- Surface material strip editing is covered by
-  `pillow_vertical_fabric_strip`, which passed the strict visual gate. It
-  should be described as a local surface-pattern/material-strip edit, not as
-  broad material transfer.
-- Removal is only partially covered. `backpack_remove_toy_charm` removes the
-  intended dangling charm, but the zipper/fabric region occluded by the charm is
-  locally smoothed. More difficult occluded-object removal requiring host or
-  background completion, such as `dog_remove_tennis_ball`, remains outside the
-  main claim.
-- Accurate support does not guarantee object erasure or surface completion.
-  Sticker, magnet, and letter-removal probes show residual marks, transformed
-  objects, or nearby-object damage even when localization is plausible.
-- High-confidence completion prior helps only under restricted conditions. The
-  `laptop_remove_sticker` probe supports planar-surface completion, while
-  cluttered or semantic hosts should be gated off.
-- Replacement target formation is not broadly solved. The whiteboard red-star
-  probe shows that a strong non-glyph color/shape target can work, but precise
-  glyph replacement, small tags, and dog-ball replacement remain unreliable.
-- Recolor/appearance editing is represented by `red_chair_blue`, which passed
-  the strict Phase 1 visual audit. Describe it as a localized recolor probe,
-  not evidence of general appearance editing.
-- `support_v3_fixed` covers the earlier component-ablation set, but its gap to
-  DeCE-RF is modest. Feedback control should be presented as component
-  evidence and strengthened with stress/Pareto curves before making a headline
-  robustness claim.
-- External baselines must be compared only under matched prompts, seeds,
-  resolution, backbone assumptions, and mask inputs. Older core-4 baseline
-  artifacts should be labeled as contextual evidence unless rerun under the
-  current evidence protocol.
+- The central claim is preservation-first. The results support superior
+  non-edit-region preservation with non-trivial edit signal; they do not prove
+  strongest edit amplitude or universal image-editing superiority.
+- Ours is conservative on several text-like T3 surface-decal tasks. In cases
+  such as gas-station signs and stop-arrow text replacement, SAM-Flow-SD3 and
+  FlowEdit-SD3 often produce clearer target text while changing more of the
+  image. This should be discussed as an edit-strength limitation, not hidden.
+- The fixed masks are fixed evaluation regions, not exact segmentation masks.
+  They are generated from GroundingDINO detections plus task-family box rules,
+  with 4 manual text-panel boxes. They are appropriate for fair metric
+  evaluation, but the paper should not claim pixel-perfect mask quality.
+- Some evaluation regions are large. The audit shows 14 regions with area
+  greater than 0.8, mainly groceries, signs, meditation, castle, and pizza
+  cases. For these tasks, the background complement is small, so preservation
+  metrics should be interpreted together with the mask-area statistics.
+- FlowEdit-135 contains heterogeneous task types. T1-T5 are useful for a broad
+  localized editing benchmark, but text replacement, material conversion, and
+  object insertion place different demands on a method. Family-level results
+  should be reported in the supplement.
+- The comparison mixes backbone contexts. SD3-based methods, FLUX-based
+  methods, and traditional diffusion editing methods are included because they
+  are relevant baselines, but the manuscript should avoid overstating a single
+  same-backbone SOTA ranking across all rows.
+- Local CLIP-T and CLIP direction are useful automatic edit-strength signals,
+  but they do not fully capture text correctness, relation correctness, or
+  human preference. Qualitative figures and hard-case analysis are necessary.
+- The present benchmark uses one seed per baseline run. This is sufficient for
+  the current completed comparison, but multi-seed variance would strengthen a
+  future camera-ready or extended version.
+- The older Phase2 proxy blind-audit sheets are internal prechecks, not human
+  ratings. Do not use them as human-study evidence unless replaced by actual
+  human annotations.
