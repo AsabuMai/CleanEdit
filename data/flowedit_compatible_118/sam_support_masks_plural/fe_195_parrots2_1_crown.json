@@ -1,0 +1,87 @@
+{
+  "anchor_area": 0.08395004272460938,
+  "anchor_box_xyxy": [
+    35,
+    100,
+    395,
+    484
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural/fe_195_parrots2_1_crown_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      33.647254943847656,
+      99.36566162109375,
+      223.66751098632812,
+      484.9705810546875
+    ],
+    [
+      274.0198669433594,
+      129.52610778808594,
+      395.4117126464844,
+      258.4920654296875
+    ],
+    [
+      172.93215942382812,
+      153.3106689453125,
+      210.80914306640625,
+      232.01058959960938
+    ],
+    [
+      343.6406555175781,
+      195.52685546875,
+      384.7589416503906,
+      259.2591552734375
+    ],
+    [
+      149.5414276123047,
+      153.88626098632812,
+      210.7686004638672,
+      237.83023071289062
+    ]
+  ],
+  "chosen_phrase": "parrots",
+  "family": "F1",
+  "family_label": "T1_attached_accessory",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_195_parrots2_1_crown",
+  "labels": [
+    "parrots",
+    "parrots",
+    "parrots",
+    "parrots",
+    "parrots"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 5,
+  "phrase": "parrots",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.603272557258606,
+    0.5034065842628479,
+    0.21605832874774933,
+    0.26327186822891235,
+    0.21032416820526123
+  ],
+  "support_area": 0.13190460205078125,
+  "support_box_xyxy": [
+    87,
+    0,
+    343,
+    131
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural/fe_195_parrots2_1_crown_support.png",
+  "support_plan": {
+    "band_ratio": 0.42,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.08,
+    "expand_y": 0.02,
+    "max_area": 0.95,
+    "overlap_ratio": 0.08,
+    "relation": "top_center"
+  },
+  "support_relation": "top_center",
+  "text_threshold": 0.15
+}

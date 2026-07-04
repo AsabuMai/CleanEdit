@@ -32,6 +32,7 @@ TEXT_THRESHOLD = float(os.environ.get("TEXT_THRESHOLD", "0.15"))
 MAX_IMAGE_SIZE = int(os.environ.get("MAX_IMAGE_SIZE", "512"))
 MASK_MODE = os.environ.get("MASK_MODE", "sam_box_intersect")
 DEVICE = os.environ.get("DEVICE", "cuda:0")
+KEEP_ALL_BOXES = os.environ.get("KEEP_ALL_BOXES", "0") == "1"
 
 
 IMAGE_STEM_PHRASE_FIX = {
@@ -215,7 +216,7 @@ class GroundedSAM:
                 scores = scores[keep] if scores is not None else scores
                 if labels is not None:
                     labels = [label for label, flag in zip(labels, keep.detach().cpu().tolist()) if flag]
-        if scores is not None and len(boxes) > 1:
+        if scores is not None and len(boxes) > 1 and not KEEP_ALL_BOXES:
             idx = int(torch.argmax(scores).detach().cpu().item())
             boxes = boxes[idx : idx + 1]
             scores = scores[idx : idx + 1]
