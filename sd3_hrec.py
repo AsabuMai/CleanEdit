@@ -933,7 +933,7 @@ def HRecSD3Edit(
         alpha_max = rec_guidance_scale
     if beta_max is None:
         beta_max = 1.0
-    color_source = infer_source_color_rgb(src_prompt, edit_color_source)
+    color_source = infer_source_color_rgb(src_prompt, edit_color_source, host_words=support_host_tokens)
     color_target = infer_target_color_rgb(src_prompt, tar_prompt, edit_color_target)
     n_transformer_blocks = len(pipe.transformer.transformer_blocks)
     if source_inject_layer_from < 0:
@@ -1326,7 +1326,7 @@ def HRecSD3Edit(
                     M_core = M_edit
                     M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
                     auto_anchor_mask = M_core
-                    print("[mask] component filters removed the attention object; restored generic attention object mask")
+                    print("[mask] component filters removed the attention object; using generic attention object mask")
             if edit_mask_shift_y != 0.0 or edit_mask_shift_x != 0.0:
                 M_edit = translate_spatial_mask(M_edit, shift_y=edit_mask_shift_y, shift_x=edit_mask_shift_x)
                 M_core = translate_spatial_mask(M_core, shift_y=edit_mask_shift_y, shift_x=edit_mask_shift_x)
@@ -1767,6 +1767,58 @@ def HRecSD3Edit(
         grad_vae.eval()
         for param in grad_vae.parameters():
             param.requires_grad_(False)
+    if (
+        needs_color_reference
+        and color_source is None
+        and os.environ.get("COLOR_SOURCE_FROM_MASK", "0") == "1"
+    ):
+        # No prompt-derived source color (host-aware inference found none).
+        # Estimate it as the median color inside the external object mask so
+        # the color-similarity gate targets the object instead of whichever
+        # background color word appeared first in the prompt.
+        try:
+            color_probe_mask = external_mask
+        except NameError:
+            color_probe_mask = None
+        if color_probe_mask is not None:
+            with torch.no_grad():
+                probe_image = decode_latent_to_unit_image(pipe, x_src, vae_override=grad_vae)
+                probe_active = (
+                    torch.nn.functional.interpolate(
+                        color_probe_mask.to(dtype=probe_image.dtype, device=probe_image.device),
+                        size=probe_image.shape[-2:],
+                        mode="bilinear",
+                        align_corners=False,
+                    )
+                    > 0.5
+                )
+                if bool(probe_active.any().item()):
+                    # Background-aware median: thin structures (bike wheels) let
+                    # background pixels through the silhouette, so a plain
+                    # median inside the mask can return the wall color. Estimate
+                    # the background from a ring outside the mask and take the
+                    # median over the interior half FARTHEST from it.
+                    ring = (
+                        torch.nn.functional.max_pool2d(
+                            probe_active.float(), kernel_size=31, stride=1, padding=15
+                        )
+                        > 0.5
+                    ) & ~probe_active
+                    interior = probe_image[0][:, probe_active[0, 0]]
+                    if bool(ring.any().item()):
+                        bg_rgb = torch.stack(
+                            [probe_image[0, c][ring[0, 0]].median() for c in range(3)]
+                        )
+                        distance = (interior - bg_rgb.view(3, 1)).square().sum(dim=0).sqrt()
+                        far = distance >= distance.median()
+                        if bool(far.any().item()):
+                            interior = interior[:, far]
+                    median_rgb = interior.median(dim=1).values.cpu()
+                    color_source = ("mask_median", median_rgb)
+                    print(
+                        "[color-source] mask median rgb="
+                        + str([round(float(v), 3) for v in median_rgb])
+                    )
     if needs_color_reference and color_source is not None and M_edit is not None:
         with torch.no_grad():
             source_color_image = decode_latent_to_unit_image(pipe, x_src, vae_override=grad_vae)
