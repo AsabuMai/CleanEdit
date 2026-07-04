@@ -1,0 +1,101 @@
+[
+ {
+  "key": "fe_027_butterflies_1_yellow",
+  "flowedit_idx": 27,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterflies.png",
+  "source_prompt": "A vibrant orange flower with two black and white butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+  "target_prompt": "A vibrant orange flower with two yellow butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+  "global_mask": false,
+  "host_tokens": "butterflies",
+  "new_tokens": "butterflies,yellow",
+  "pp_edit_action": {
+   "yellow": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "object": [
+    "yellow"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow.json",
+  "sam_phrase": "butterflies",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_028_butterfly_1_orange_butterfly",
+  "flowedit_idx": 28,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+  "source_prompt": "A beautiful purple flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the left side of the flower.",
+  "target_prompt": "A beautiful purple flower with an orange butterfly perched on top of it. The butterfly is positioned towards the right side of the flower.",
+  "global_mask": false,
+  "host_tokens": "butterfly",
+  "new_tokens": "orange",
+  "pp_edit_action": {
+   "orange": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "butterfly": [
+    "orange"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly.json",
+  "sam_phrase": "butterfly",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_128_gray_bird_2_red_bird",
+  "flowedit_idx": 128,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+  "source_prompt": "A small blue and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+  "target_prompt": "A small red and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+  "global_mask": false,
+  "host_tokens": "bird",
+  "new_tokens": "red",
+  "pp_edit_action": {
+   "red": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "bird": [
+    "red"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird.json",
+  "sam_phrase": "bird",
+  "sam_support_relation": "inside"
+ }
+]

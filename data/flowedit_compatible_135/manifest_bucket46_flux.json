@@ -1,0 +1,314 @@
+[
+ {
+  "key": "fe_010_beer_glass_1_cocktail",
+  "flowedit_idx": 10,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "near_container_content_or_surface_topping",
+  "config": "2_container_insertion_80",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/beer_glass.png",
+  "source_prompt": "A wine glass filled with beer.",
+  "target_prompt": "A wine glass filled with a vibrant red cocktail, garnished with an orange wedge.",
+  "global_mask": false,
+  "host_tokens": "glass",
+  "new_tokens": "cocktail",
+  "pp_aspect_mapping": {
+   "glass": [
+    "cocktail"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail.json",
+  "sam_phrase": "glass",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_017_boat_silhouette_1_sailboat_white_sails_red_hull",
+  "flowedit_idx": 17,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "color_plus_content_or_silhouette_change",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/boat_silhouette.png",
+  "source_prompt": "A serene scene of a lake with a silhouette of a sailboat floating on the water. The silhouette of the boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+  "target_prompt": "A serene scene of a lake with a sailboat floating on the water. The sailboat has white sails and red hull. The boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+  "global_mask": false,
+  "host_tokens": "sailboat,boat",
+  "new_tokens": "sailboat,sails,hull,white,red",
+  "pp_edit_action": {
+   "white": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "hull": [
+    "white",
+    "red"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull.json",
+  "sam_phrase": "sailboat",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_019_brown_owl_1_white_owl",
+  "flowedit_idx": 19,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+  "source_prompt": "A small, brown owl standing on a patch of grass.",
+  "target_prompt": "A small, white owl standing on a patch of grass.",
+  "global_mask": false,
+  "host_tokens": "owl",
+  "new_tokens": "white",
+  "pp_edit_action": {
+   "white": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "owl": [
+    "white"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl.json",
+  "sam_phrase": "owl",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_140_horse_4_brown_horse",
+  "flowedit_idx": 140,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "6_local_recolor_40",
+  "family": "F4",
+  "family_label": "T4_local_recolor",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/horse.png",
+  "source_prompt": "A white horse running through a grassy field. The horse appears to be galloping, creating a sense of motion and energy in the image. The field is surrounded by a forest, with trees visible in the background. The overall atmosphere of the scene is lively and dynamic, capturing the horse''s freedom and grace as it moves through the natural environment.",
+  "target_prompt": "A brown horse running through a grassy field. The horse appears to be galloping, creating a sense of motion and energy in the image. The field is surrounded by a forest, with trees visible in the background. The overall atmosphere of the scene is lively and dynamic, capturing the horse''s freedom and grace as it moves through the natural environment.",
+  "global_mask": false,
+  "host_tokens": "horse",
+  "new_tokens": "brown",
+  "pp_edit_action": {
+   "brown": {
+    "position": 0,
+    "edit_type": 6,
+    "action": ""
+   }
+  },
+  "pp_aspect_mapping": {
+   "horse": [
+    "brown"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse.json",
+  "sam_phrase": "horse",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_146_japanese_castle_1_lego_castle",
+  "flowedit_idx": 146,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/japanese_castle.png",
+  "source_prompt": "A large, white, Japanese castle with a distinctive pagoda-style roof. The castle is surrounded by green trees. The castle is situated on a hill, giving it a majestic appearance.",
+  "target_prompt": "A large, white, Japanese castle made out of lego bricks with a distinctive pagoda-style roof. The lego castle is surrounded by green trees, creating a serene and picturesque scene. The lego castle is situated on a hill, giving it a majestic appearance.",
+  "global_mask": false,
+  "host_tokens": "castle",
+  "new_tokens": "lego",
+  "pp_aspect_mapping": {
+   "castle": [
+    "lego"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle.json",
+  "sam_phrase": "castle",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_172_meditation1_1_sand_sculpture",
+  "flowedit_idx": 172,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/meditation2.png",
+  "source_prompt": "A man sitting on the ground and appears to be in a relaxed position, meditating.",
+  "target_prompt": "A sand sculpture of man sitting on the ground and appears to be in a relaxed position, meditating.",
+  "global_mask": false,
+  "host_tokens": "man",
+  "new_tokens": "sand,sculpture",
+  "pp_aspect_mapping": {
+   "man": [
+    "sand",
+    "sculpture"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_172_meditation1_1_sand_sculpture_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_172_meditation1_1_sand_sculpture_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_172_meditation1_1_sand_sculpture.json",
+  "sam_phrase": "man",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_175_meditation1_4_golden_statue",
+  "flowedit_idx": 175,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/meditation2.png",
+  "source_prompt": "A man sitting on the ground and appears to be in a relaxed position, meditating.",
+  "target_prompt": "A golden sculpture of man sitting on the ground and appears to be in a relaxed position, meditating.",
+  "global_mask": false,
+  "host_tokens": "man",
+  "new_tokens": "golden,statue,sculpture",
+  "pp_aspect_mapping": {
+   "man": [
+    "golden",
+    "statue",
+    "sculpture"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_175_meditation1_4_golden_statue_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_175_meditation1_4_golden_statue_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_175_meditation1_4_golden_statue.json",
+  "sam_phrase": "man",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_180_milk_4_whipped_cream",
+  "flowedit_idx": 180,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "near_container_content_or_surface_topping",
+  "config": "2_container_insertion_80",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/milk.png",
+  "source_prompt": "A glass of milk placed on a wooden table. The glass is filled with milk, and a straw is inserted into it.",
+  "target_prompt": "A glass of milk placed on a wooden table. The glass is filled with milk, and a straw is inserted into it. There is whipped cream on top of the milk.",
+  "global_mask": false,
+  "host_tokens": "glass",
+  "new_tokens": "whipped,cream",
+  "pp_aspect_mapping": {
+   "glass": [
+    "whipped",
+    "cream"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream.json",
+  "sam_phrase": "glass",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_266_yellow_bulldog_10_origami_lion",
+  "flowedit_idx": 266,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/yellow_bulldog.png",
+  "source_prompt": "A small, yellow, shiny dog figurine positioned in the center of the scene, and it appears to be a decorative piece.",
+  "target_prompt": "A small, yellow, origami lion positioned in the center of the scene, and it appears to be a decorative piece.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "origami",
+  "pp_aspect_mapping": {
+   "dog": [
+    "origami"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion.json",
+  "sam_phrase": "dog figurine",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_268_yellow_bulldog_12_origami_bear",
+  "flowedit_idx": 268,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/yellow_bulldog.png",
+  "source_prompt": "A small, yellow, shiny dog figurine positioned in the center of the scene, and it appears to be a decorative piece.",
+  "target_prompt": "A small, yellow, origami bear positioned in the center of the scene, and it appears to be a decorative piece.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "origami",
+  "pp_aspect_mapping": {
+   "dog": [
+    "origami"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_268_yellow_bulldog_12_origami_bear_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_268_yellow_bulldog_12_origami_bear_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_268_yellow_bulldog_12_origami_bear.json",
+  "sam_phrase": "dog figurine",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_207_pizza_tomato_olive_1_pepperoni",
+  "flowedit_idx": 207,
+  "flowedit_status": "expanded-stress",
+  "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+  "config": "2_container_insertion_80",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/pizza_tomato_olive.png",
+  "source_prompt": "A large pizza, topped with cheese, black olive, sliced tomatoes.",
+  "target_prompt": "A large pizza, topped with cheese, black olive, sliced tomatoes and a lot of pepperoni.",
+  "global_mask": false,
+  "host_tokens": "pizza",
+  "new_tokens": "pepperoni",
+  "pp_aspect_mapping": {
+   "pizza": [
+    "pepperoni"
+   ]
+  },
+  "subset": "expanded",
+  "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni.json",
+  "sam_phrase": "pizza",
+  "sam_support_relation": "inside"
+ }
+]
