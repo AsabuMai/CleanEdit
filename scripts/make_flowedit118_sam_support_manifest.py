@@ -42,6 +42,35 @@ BOX_SCORE_REL = float(os.environ.get("BOX_SCORE_REL", "0.5"))
 # instead of once on the union bbox, so every instance gets its own band.
 PER_INSTANCE_RELATION = os.environ.get("PER_INSTANCE_RELATION", "0") == "1"
 MIN_INSTANCE_AREA = float(os.environ.get("MIN_INSTANCE_AREA", "0.003"))
+# Replace-type accessory edits (crown -> top hat) must COVER the accessory
+# being replaced, or its pixels survive under the new object as residue.
+# Ground the source-prompt words that disappear from the target prompt and
+# union their (accessory-sized) masks into the support band.
+ACCESSORY_COVER_REMOVED = os.environ.get("ACCESSORY_COVER_REMOVED", "0") == "1"
+REMOVED_MAX_AREA = float(os.environ.get("REMOVED_MAX_AREA", "0.18"))
+
+_PROMPT_STOPWORDS = {
+    "a", "an", "the", "is", "are", "was", "were", "on", "in", "at", "of", "and",
+    "with", "to", "it", "its", "his", "her", "their", "this", "that", "placed",
+    "wearing", "has", "have", "very", "there",
+}
+
+
+def removed_prompt_tokens(item: dict) -> list[str]:
+    import re as _re
+
+    def words(text: str) -> list[str]:
+        return [w for w in _re.findall(r"[a-z]+", (text or "").lower()) if w not in _PROMPT_STOPWORDS]
+
+    source = words(item.get("source_prompt", ""))
+    target = set(words(item.get("target_prompt", "")))
+    seen: set[str] = set()
+    removed: list[str] = []
+    for w in source:
+        if w not in target and w not in seen:
+            seen.add(w)
+            removed.append(w)
+    return removed
 
 
 IMAGE_STEM_PHRASE_FIX = {
@@ -392,6 +421,24 @@ def main() -> None:
                 support_meta["relation_instances"] = len(instance_parts)
             else:
                 support, support_meta = relation_support(np.asarray(anchor, dtype=np.float32))
+
+            if ACCESSORY_COVER_REMOVED and str(plan["relation"]) != "inside":
+                covered_words: list[str] = []
+                for removed_word in removed_prompt_tokens(item)[:3]:
+                    try:
+                        removed_anchor, _ = sam.mask(image, removed_word, REMOVED_MAX_AREA)
+                    except Exception:
+                        continue
+                    removed_area = float((removed_anchor > 0.5).mean())
+                    if removed_area <= 0.0 or removed_area > REMOVED_MAX_AREA:
+                        continue
+                    support = np.maximum(
+                        np.asarray(support, dtype=np.float32),
+                        (np.asarray(removed_anchor, dtype=np.float32) > 0.5).astype(np.float32),
+                    )
+                    covered_words.append(removed_word)
+                if covered_words:
+                    support_meta["covered_removed_words"] = covered_words
             if int(plan["dilate"]) > 1:
                 kernel = int(plan["dilate"])
                 kernel = kernel + 1 if kernel % 2 == 0 else kernel

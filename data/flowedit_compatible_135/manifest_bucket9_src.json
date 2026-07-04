@@ -1,0 +1,28 @@
+[
+ {
+  "key": "fe_046_cat_crown_1_black_top_hat",
+  "flowedit_idx": 46,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "accessory_replacement_or_mixed_color",
+  "config": "2_attached_accessory_80",
+  "family": "F1",
+  "family_label": "T1_attached_accessory",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_crown.png",
+  "source_prompt": "A gray cat sitting on a black cloth, wearing a crown. The crown is placed on the cat''s head.",
+  "target_prompt": "A gray cat sitting on a black cloth, wearing a top hat. The top hat is placed on the cat''s head.",
+  "global_mask": false,
+  "host_tokens": "cat",
+  "new_tokens": "hat",
+  "pp_aspect_mapping": {
+   "cat": [
+    "hat"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat.json",
+  "sam_phrase": "cat",
+  "sam_support_relation": "top_center"
+ }
+]
