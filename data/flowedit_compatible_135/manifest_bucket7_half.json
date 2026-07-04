@@ -1,0 +1,55 @@
+[
+ {
+  "key": "fe_080_corgi_1_lego_bricks",
+  "flowedit_idx": 80,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/corgi.png",
+  "source_prompt": "A brown and white dog sitting on a dirt ground near a body of water. The dog appears to be enjoying the outdoors, possibly in a park. The dog is wearing a red collar. In the background, there are a few trees, providing a natural setting for the dog''s outdoor adventure.",
+  "target_prompt": "A brown and white dog made out of lego bricks sitting on a dirt ground near a body of water. The dog appears to be enjoying the outdoors, possibly in a park. The dog is wearing a red collar. In the background, there are a few trees, providing a natural setting for the dog''s outdoor adventure.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "lego",
+  "pp_aspect_mapping": {
+   "dog": [
+    "lego"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks.json",
+  "sam_phrase": "dog",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_081_corgi_2_wooden_sculpture",
+  "flowedit_idx": 81,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/corgi.png",
+  "source_prompt": "A brown and white dog sitting on a dirt ground near a body of water. The dog appears to be enjoying the outdoors, possibly in a park. The dog is wearing a red collar. In the background, there are a few trees, providing a natural setting for the dog''s outdoor adventure.",
+  "target_prompt": "A wooden sculpture of a brown and white dog made sitting on a dirt ground near a body of water. The wooden sculpture of a dog appears to be enjoying the outdoors, possibly in a park. In the background, there are a few trees, providing a natural setting for the wooden sculpture''s outdoor adventure.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "wooden,sculpture",
+  "pp_aspect_mapping": {
+   "dog": [
+    "wooden",
+    "sculpture"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_081_corgi_2_wooden_sculpture_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_081_corgi_2_wooden_sculpture_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_081_corgi_2_wooden_sculpture.json",
+  "sam_phrase": "dog",
+  "sam_support_relation": "inside"
+ }
+]

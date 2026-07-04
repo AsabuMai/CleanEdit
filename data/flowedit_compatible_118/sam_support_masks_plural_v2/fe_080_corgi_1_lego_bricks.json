@@ -1,0 +1,63 @@
+{
+  "anchor_area": 0.27736663818359375,
+  "anchor_box_xyxy": [
+    148,
+    50,
+    434,
+    481
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_anchor.png",
+  "box_threshold": 0.13,
+  "boxes_xyxy": [
+    [
+      146.73756408691406,
+      48.356773376464844,
+      307.48236083984375,
+      236.2091064453125
+    ],
+    [
+      145.17236328125,
+      48.57115173339844,
+      435.8421630859375,
+      481.73126220703125
+    ]
+  ],
+  "chosen_phrase": "dog",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_080_corgi_1_lego_bricks",
+  "labels": [
+    "dog",
+    "dog"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.95,
+  "num_boxes": 2,
+  "phrase": "dog",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.6294200420379639,
+    0.2813982367515564
+  ],
+  "support_area": 0.29205322265625,
+  "support_box_xyxy": [
+    148,
+    50,
+    434,
+    481
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 5,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.95,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}
