@@ -1,0 +1,265 @@
+[
+ {
+  "key": "fe_038_cat_and_dog_1_lego",
+  "flowedit_idx": 38,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+  "source_prompt": "A dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+  "target_prompt": "A dog and a cat made out of lego sitting together on a sidewalk. The lego dog is positioned on the left side of the scene, while the lego cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "lego",
+  "pp_aspect_mapping": {
+   "dog": [
+    "lego"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_038_cat_and_dog_1_lego_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_038_cat_and_dog_1_lego_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_038_cat_and_dog_1_lego.json",
+  "sam_phrase": "dog and cat",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_039_cat_and_dog_2_bronze",
+  "flowedit_idx": 39,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+  "source_prompt": "A dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+  "target_prompt": "A bronze sculpture of a dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+  "global_mask": false,
+  "host_tokens": "dog",
+  "new_tokens": "bronze,sculpture",
+  "pp_aspect_mapping": {
+   "dog": [
+    "bronze",
+    "sculpture"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_039_cat_and_dog_2_bronze_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_039_cat_and_dog_2_bronze_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_039_cat_and_dog_2_bronze.json",
+  "sam_phrase": "dog and cat",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_192_parrots_1_top_hat",
+  "flowedit_idx": 192,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "2_attached_accessory_80",
+  "family": "F1",
+  "family_label": "T1_attached_accessory",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+  "source_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+  "target_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow. Both parrots have a top hat on their head.",
+  "global_mask": false,
+  "host_tokens": "parrots",
+  "new_tokens": "hat",
+  "pp_aspect_mapping": {
+   "parrots": [
+    "hat"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_192_parrots_1_top_hat_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_192_parrots_1_top_hat_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_192_parrots_1_top_hat.json",
+  "sam_phrase": "parrots",
+  "sam_support_relation": "top_center"
+ },
+ {
+  "key": "fe_193_parrots_2_origami",
+  "flowedit_idx": 193,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+  "source_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+  "target_prompt": "Two colorful origami parrots sitting on a wooden stump or log. They are positioned close to each other, with one origami parrot on the left side and the other on the right side of the stump. The origami parrot''s wings have blue feathers and their body is yellow.",
+  "global_mask": false,
+  "host_tokens": "parrot",
+  "new_tokens": "origami,wooden",
+  "pp_aspect_mapping": {
+   "parrot": [
+    "origami",
+    "wooden"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_193_parrots_2_origami_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_193_parrots_2_origami_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_193_parrots_2_origami.json",
+  "sam_phrase": "parrots",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_194_parrots_3_sculpture",
+  "flowedit_idx": 194,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+  "source_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+  "target_prompt": "A sculpture of two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+  "global_mask": false,
+  "host_tokens": "parrot",
+  "new_tokens": "sculpture,wooden",
+  "pp_aspect_mapping": {
+   "parrot": [
+    "sculpture",
+    "wooden"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_194_parrots_3_sculpture_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_194_parrots_3_sculpture_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_194_parrots_3_sculpture.json",
+  "sam_phrase": "parrots",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_195_parrots2_1_crown",
+  "flowedit_idx": 195,
+  "flowedit_status": "main-clean",
+  "flowedit_reason": "",
+  "config": "2_attached_accessory_80",
+  "family": "F1",
+  "family_label": "T1_attached_accessory",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots2.png",
+  "source_prompt": "Two colorful parrots perched on a rocky surface. The parrots are positioned close to each other, with one parrot on the left side and the other on the right side of the rock. The parrot colors are predominantly red.",
+  "target_prompt": "Two colorful parrots perched on a rocky surface. Both parrots have a crown on their head. The birds are positioned close to each other, with one parrot on the left side and the other on the right side of the rock. The parrot colors are predominantly red.",
+  "global_mask": false,
+  "host_tokens": "parrots",
+  "new_tokens": "crown",
+  "pp_aspect_mapping": {
+   "parrots": [
+    "crown"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_195_parrots2_1_crown_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_195_parrots2_1_crown_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_195_parrots2_1_crown.json",
+  "sam_phrase": "parrots",
+  "sam_support_relation": "top_center"
+ },
+ {
+  "key": "fe_196_penguins_1_origami",
+  "flowedit_idx": 196,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/penguins.png",
+  "source_prompt": "Two penguins standing in a lake. They are positioned close to each other, with one penguin on the left side and the other on the right side of the picture.",
+  "target_prompt": "Two origami penguins standing in a lake. They are positioned close to each other, with one origami penguin on the left side and the other on the right side of the picture.",
+  "global_mask": false,
+  "host_tokens": "penguin",
+  "new_tokens": "origami",
+  "pp_aspect_mapping": {
+   "penguin": [
+    "origami"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_196_penguins_1_origami_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_196_penguins_1_origami_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_196_penguins_1_origami.json",
+  "sam_phrase": "penguins",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_197_penguins_2_sculpture",
+  "flowedit_idx": 197,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/penguins.png",
+  "source_prompt": "Two penguins standing in a lake. They are positioned close to each other, with one penguin on the left side and the other on the right side of the picture.",
+  "target_prompt": "A sculpture of two penguins standing in a lake. They are positioned close to each other, with one penguin on the left side and the other on the right side of the picture.",
+  "global_mask": false,
+  "host_tokens": "penguin",
+  "new_tokens": "sculpture",
+  "pp_aspect_mapping": {
+   "penguin": [
+    "sculpture"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_197_penguins_2_sculpture_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_197_penguins_2_sculpture_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_197_penguins_2_sculpture.json",
+  "sam_phrase": "penguins",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_221_rocks_6_colorful_wooden_blocks",
+  "flowedit_idx": 221,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+  "config": "7_material_transfer_60",
+  "family": "F5",
+  "family_label": "T5_same_color_material",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/rocks.png",
+  "source_prompt": "A stack of gray rocks, laying on top of each other on a brown and gray beach. The rocks are arranged in a pyramid shape, creating an impressive and natural display. The brown and gray beach setting provides a serene and picturesque backdrop for this unique rock formation.",
+  "target_prompt": "A stack of colorful wooden blocks, laying on top of each other on a brown and gray beach. The colorful wooden blocks are arranged in a pyramid shape, creating an impressive and natural display. The brown and gray beach setting provides a serene and picturesque backdrop for this unique colorful wooden blocks formation.",
+  "global_mask": false,
+  "host_tokens": "rocks",
+  "new_tokens": "blocks,wooden",
+  "pp_aspect_mapping": {
+   "object": [
+    "wooden"
+   ]
+  },
+  "subset": "strict",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_221_rocks_6_colorful_wooden_blocks_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_221_rocks_6_colorful_wooden_blocks_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_221_rocks_6_colorful_wooden_blocks.json",
+  "sam_phrase": "rocks",
+  "sam_support_relation": "inside"
+ },
+ {
+  "key": "fe_036_cake_red_blueberries_2_raspberries",
+  "flowedit_idx": 36,
+  "flowedit_status": "expanded-stress",
+  "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+  "config": "2_container_insertion_80",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cake_red_blueberries.png",
+  "source_prompt": "A slice of red velvet cake with white frosting, topped with blueberries.",
+  "target_prompt": "A slice of red velvet cake with white frosting, topped with raspberries.",
+  "global_mask": false,
+  "host_tokens": "blueberries",
+  "new_tokens": "raspberries",
+  "pp_aspect_mapping": {
+   "blueberries": [
+    "raspberries"
+   ]
+  },
+  "subset": "expanded",
+  "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries_support.png",
+  "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries_anchor.png",
+  "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries.json",
+  "sam_phrase": "blueberries",
+  "sam_support_relation": "inside"
+ }
+]

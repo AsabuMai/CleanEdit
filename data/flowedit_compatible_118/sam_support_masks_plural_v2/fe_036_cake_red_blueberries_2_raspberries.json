@@ -1,0 +1,87 @@
+{
+  "anchor_area": 0.10229873657226562,
+  "anchor_box_xyxy": [
+    0,
+    0,
+    508,
+    410
+  ],
+  "anchor_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries_anchor.png",
+  "box_threshold": 0.18,
+  "boxes_xyxy": [
+    [
+      0.0244140625,
+      0.00231170654296875,
+      93.00628662109375,
+      212.26214599609375
+    ],
+    [
+      52.20314407348633,
+      362.22607421875,
+      99.26820373535156,
+      409.48651123046875
+    ],
+    [
+      255.36874389648438,
+      107.72465515136719,
+      382.1768493652344,
+      180.29603576660156
+    ],
+    [
+      -0.01834726333618164,
+      238.23773193359375,
+      15.93403434753418,
+      287.99639892578125
+    ],
+    [
+      465.92169189453125,
+      265.6507873535156,
+      507.316162109375,
+      296.7809143066406
+    ]
+  ],
+  "chosen_phrase": "blueberries",
+  "family": "F2",
+  "family_label": "T2_container_insertion",
+  "grounding_model": "IDEA-Research/grounding-dino-base",
+  "key": "fe_036_cake_red_blueberries_2_raspberries",
+  "labels": [
+    "blueberries",
+    "blueberries",
+    "blueberries",
+    "blueberries",
+    "blueberries"
+  ],
+  "mask_mode": "sam_box_intersect",
+  "max_box_area_ratio": 0.9,
+  "num_boxes": 5,
+  "phrase": "blueberries",
+  "sam_model": "facebook/sam-vit-base",
+  "scores": [
+    0.4121166467666626,
+    0.33493030071258545,
+    0.33137065172195435,
+    0.2895435690879822,
+    0.28237560391426086
+  ],
+  "support_area": 0.11757278442382812,
+  "support_box_xyxy": [
+    0,
+    0,
+    508,
+    410
+  ],
+  "support_mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries_support.png",
+  "support_plan": {
+    "band_ratio": 0.55,
+    "blur": 5,
+    "dilate": 7,
+    "expand_x": 0.0,
+    "expand_y": 0.0,
+    "max_area": 0.9,
+    "overlap_ratio": 0.2,
+    "relation": "inside"
+  },
+  "support_relation": "inside",
+  "text_threshold": 0.15
+}

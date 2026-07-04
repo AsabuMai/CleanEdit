@@ -33,6 +33,15 @@ MAX_IMAGE_SIZE = int(os.environ.get("MAX_IMAGE_SIZE", "512"))
 MASK_MODE = os.environ.get("MASK_MODE", "sam_box_intersect")
 DEVICE = os.environ.get("DEVICE", "cuda:0")
 KEEP_ALL_BOXES = os.environ.get("KEEP_ALL_BOXES", "0") == "1"
+# Score gate for KEEP_ALL_BOXES: drop grounding boxes below
+# max(BOX_SCORE_FLOOR, BOX_SCORE_REL * top_score) so diffuse low-confidence
+# boxes cannot balloon the union into a near-global mask.
+BOX_SCORE_FLOOR = float(os.environ.get("BOX_SCORE_FLOOR", "0.28"))
+BOX_SCORE_REL = float(os.environ.get("BOX_SCORE_REL", "0.5"))
+# Apply the support relation (top_center band etc.) per anchor component
+# instead of once on the union bbox, so every instance gets its own band.
+PER_INSTANCE_RELATION = os.environ.get("PER_INSTANCE_RELATION", "0") == "1"
+MIN_INSTANCE_AREA = float(os.environ.get("MIN_INSTANCE_AREA", "0.003"))
 
 
 IMAGE_STEM_PHRASE_FIX = {
@@ -222,6 +231,14 @@ class GroundedSAM:
             scores = scores[idx : idx + 1]
             if labels is not None:
                 labels = [labels[idx]]
+        elif scores is not None and len(boxes) > 1 and KEEP_ALL_BOXES:
+            floor = max(BOX_SCORE_FLOOR, BOX_SCORE_REL * float(scores.max().detach().cpu().item()))
+            keep = scores >= floor
+            if bool(keep.any().item()):
+                boxes = boxes[keep]
+                scores = scores[keep]
+                if labels is not None:
+                    labels = [label for label, flag in zip(labels, keep.detach().cpu().tolist()) if flag]
 
         box_mask = np.zeros((height, width), dtype=np.float32)
         for box in boxes.detach().cpu().tolist():
@@ -340,16 +357,41 @@ def main() -> None:
                     errors.append(f"{phrase}:{exc}")
             if anchor is None or meta is None:
                 raise RuntimeError("; ".join(errors[-5:]))
-            support, support_meta = msm.support_from_anchor_mask(
-                anchor,
-                str(plan["relation"]),
-                image_rgb=np.asarray(image.convert("RGB"), dtype=np.uint8),
-                threshold=0.2,
-                expand_x=float(plan["expand_x"]),
-                expand_y=float(plan["expand_y"]),
-                band_ratio=float(plan["band_ratio"]),
-                overlap_ratio=float(plan["overlap_ratio"]),
-            )
+
+            def relation_support(anchor_part: np.ndarray) -> tuple[np.ndarray, dict[str, object]]:
+                return msm.support_from_anchor_mask(
+                    anchor_part,
+                    str(plan["relation"]),
+                    image_rgb=np.asarray(image.convert("RGB"), dtype=np.uint8),
+                    threshold=0.2,
+                    expand_x=float(plan["expand_x"]),
+                    expand_y=float(plan["expand_y"]),
+                    band_ratio=float(plan["band_ratio"]),
+                    overlap_ratio=float(plan["overlap_ratio"]),
+                )
+
+            instance_parts: list[np.ndarray] = []
+            if PER_INSTANCE_RELATION and str(plan["relation"]) != "inside":
+                num_cc, cc_labels, cc_stats, _ = cv2.connectedComponentsWithStats(
+                    (np.asarray(anchor, dtype=np.float32) > 0.2).astype(np.uint8), connectivity=8
+                )
+                total = float(anchor.shape[0] * anchor.shape[1])
+                for cc in range(1, num_cc):
+                    if float(cc_stats[cc, cv2.CC_STAT_AREA]) / total >= MIN_INSTANCE_AREA:
+                        instance_parts.append(
+                            np.asarray(anchor, dtype=np.float32) * (cc_labels == cc).astype(np.float32)
+                        )
+            if len(instance_parts) >= 2:
+                support = None
+                support_meta = {}
+                for part in instance_parts:
+                    part_support, part_meta = relation_support(part)
+                    support = part_support if support is None else np.maximum(support, part_support)
+                    if not support_meta:
+                        support_meta = dict(part_meta)
+                support_meta["relation_instances"] = len(instance_parts)
+            else:
+                support, support_meta = relation_support(np.asarray(anchor, dtype=np.float32))
             if int(plan["dilate"]) > 1:
                 kernel = int(plan["dilate"])
                 kernel = kernel + 1 if kernel % 2 == 0 else kernel
