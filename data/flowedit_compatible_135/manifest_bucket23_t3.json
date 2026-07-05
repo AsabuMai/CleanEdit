@@ -1,0 +1,65 @@
+[
+ {
+  "key": "fe_119_gas_station_2_iccv",
+  "flowedit_idx": 119,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+  "config": "3_surface_decal_80",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gas_station.png",
+  "source_prompt": "A gas station with a white and red sign that reads \"CAFE\" There are several cars parked in front of the gas station, including a white car and a van.",
+  "target_prompt": "A gas station with a white and red sign that reads \"ICCV\" There are several cars parked in front of the gas station, including a white car and a van.",
+  "global_mask": true,
+  "host_tokens": "sign",
+  "new_tokens": "iccv",
+  "pp_aspect_mapping": {
+   "sign": [
+    "iccv"
+   ]
+  },
+  "subset": "strict"
+ },
+ {
+  "key": "fe_134_groceries_4_eccv",
+  "flowedit_idx": 134,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+  "config": "3_surface_decal_80",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/groceries.png",
+  "source_prompt": "A grocery list writing on a piece of brown paper with a black marker, which includes BREAD, EGGS, and MILK. The grocery list is attached to a wall or refrigerator with a magnet. The magnet is red and white, possibly in the shape of a phone booth in London.",
+  "target_prompt": "A grocery list writing on a piece of brown paper with a black marker, which includes ECCV, EGGS, and MILK. The grocery list is attached to a wall or refrigerator with a magnet. The magnet is red and white, possibly in the shape of a phone booth in London.",
+  "global_mask": true,
+  "host_tokens": "paper",
+  "new_tokens": "eccv",
+  "pp_aspect_mapping": {
+   "paper": [
+    "eccv"
+   ]
+  },
+  "subset": "strict"
+ },
+ {
+  "key": "fe_238_stop_arrow_1_cvpr",
+  "flowedit_idx": 238,
+  "flowedit_status": "compatible-stress",
+  "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+  "config": "3_surface_decal_80",
+  "family": "F3",
+  "family_label": "T3_surface_decal",
+  "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/stop_arrow.png",
+  "source_prompt": "A stop sign above a blue sign with arrow pointing up.",
+  "target_prompt": "A sign that says CVPR above a blue sign with arrow pointing up.",
+  "global_mask": true,
+  "host_tokens": "sign",
+  "new_tokens": "cvpr",
+  "pp_aspect_mapping": {
+   "sign": [
+    "cvpr"
+   ]
+  },
+  "subset": "strict"
+ }
+]

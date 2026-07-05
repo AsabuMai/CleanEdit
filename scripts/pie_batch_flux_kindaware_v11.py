@@ -27,6 +27,8 @@ T5_POSE_PROMPT=os.environ.get("T5_POSE_PROMPT","1").lower() in {"1","true","yes"
 T5_PROMPT_PREFIX=os.environ.get("T5_PROMPT_PREFIX","").strip()
 T5_AUTO_PROMPT_PREFIX=os.environ.get("T5_AUTO_PROMPT_PREFIX","1").lower() in {"1","true","yes","on"}
 T5_NEGATIVE_PROMPT=os.environ.get("T5_NEGATIVE_PROMPT","").strip()
+T3_NEGATIVE_PROMPT=os.environ.get("T3_NEGATIVE_PROMPT","").strip()
+T3_NEG_FROM_REMOVED=os.environ.get("T3_NEG_FROM_REMOVED","0").lower() in {"1","true","yes","on"}
 T5_EXPAND_EDIT_MASK=os.environ.get("T5_EXPAND_EDIT_MASK","1").lower() in {"1","true","yes","on"}
 T5_EXPAND_EDIT_RADIUS=int(os.environ.get("T5_EXPAND_EDIT_RADIUS","21"))
 T5_EXPAND_EDIT_MASK_BLUR=float(os.environ.get("T5_EXPAND_EDIT_MASK_BLUR","6.0"))
@@ -274,6 +276,19 @@ def argv_for(e, od, P):
         a+=["--prompt-encode-device",FLUX_PROMPT_ENCODE_DEVICE]
     if kind == "t5_material" and T5_NEGATIVE_PROMPT:
         a+=["--negative-prompt",T5_NEGATIVE_PROMPT]
+    if kind in ("t3_text","t3_decal") and (T3_NEGATIVE_PROMPT or T3_NEG_FROM_REMOVED):
+        neg=T3_NEGATIVE_PROMPT
+        if T3_NEG_FROM_REMOVED:
+            src_w=re.findall(r"[A-Za-z]+", e["source_prompt"].lower())
+            tgt_w=set(re.findall(r"[A-Za-z]+", e["target_prompt"].lower()))
+            stop={"a","an","the","of","with","and","that","reads","says","word","words","text","sign","above","below","on","in","there","are","is"}
+            olds=[w.upper() for w in dict.fromkeys(src_w) if w not in tgt_w and w not in stop and len(w)>=3][:3]
+            if olds:
+                ghost=", ".join('the word "%s"'%w for w in olds)
+                neg=(neg+", " if neg else "")+ghost+", old text showing through, ghost letters, double exposure"
+                print("[t3-neg]",e["key"],"->",neg,flush=True)
+        if neg:
+            a+=["--negative-prompt",neg]
     if P["core"] is not None: a+=["--fixed-core-from-attention","--fixed-core-attention-percentile",str(P["core"])]
     if new_tokens: a+=["--new-tokens",new_tokens]
     if host_tokens: a+=["--host-tokens",host_tokens]
