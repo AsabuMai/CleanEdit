@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 EXP = "pareto_sweep_20260701"
 ROOT = PROJ / "outputs" / EXP
 MANIFEST = PROJ / "data/flowedit_compatible_135/manifest_pareto_non_t4_33.json"

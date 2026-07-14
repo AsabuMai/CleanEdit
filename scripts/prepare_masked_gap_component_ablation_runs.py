@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 MANIFEST = PROJ / "data/flowedit_compatible_135/manifest_ablation_non_t4_116.json"
 OUT = PROJ / "outputs/final_component_ablation_runs_maskedgap_20260701"
 SEED = "10"

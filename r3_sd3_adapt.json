@@ -1,1 +1,0 @@
-{"add": {"--adaptive-preserve-drift-budget": "0.30", "--adaptive-preserve-gain": "2.0", "--adaptive-edit-gain": "3.5", "--adaptive-edit-target-rms": "0.58"}, "recolor": {"--adaptive-preserve-drift-budget": "0.30", "--adaptive-preserve-gain": "2.5", "--adaptive-edit-gain": "3.0", "--adaptive-edit-target-rms": "0.55"}}

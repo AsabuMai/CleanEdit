@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-proj = Path("/cluster/users/grad/2025/25t8103/project")
+proj = Path(__file__).resolve().parents[1]
 manifest = json.loads((proj / "data/flowedit_compatible_135/manifest_t4_recolor_19.json").read_text())
 sd3_root = proj / "outputs/fe135_t4_texture_sd3"
 flux_root = proj / "outputs/fe135_t4_texture_flux_h100"

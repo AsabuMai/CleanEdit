@@ -1,5 +1,0 @@
-method,label,n,task_success_true,task_success_denominator,outside_l1,inside_l1,source_ssim_luma,dino_source,edit_score,clip_delta,runtime_s,peak_mem_gb
-base_only,RF reconstruction,45,,,0.0487,0.0514,0.8528,,,,31.3264,12.2392
-direct_target,Direct target,45,,,0.0729,0.1195,0.6318,0.6077,0.0096,0.0096,32.0778,12.2392
-adaptive_full_generic_support,Generic support,45,,,0.0351,0.1111,0.7470,0.8998,0.0026,0.0026,50.1845,13.2528
-support_v3_controller_rmsgap,CleanEdit-SD3,45,,,0.0279,0.1468,0.9254,0.8842,0.0333,0.0333,56.8905,13.3533

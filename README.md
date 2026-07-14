@@ -1,117 +1,101 @@
 # CleanEdit
 
-The paper has been submitted. Its evidence is frozen; start with
-`docs/SUBMISSION_FREEZE.md`. Work performed after submission is indexed in
-`post_submission/README.md` and must not be mixed into the submitted results.
+CleanEdit is a training-free image editor for rectified-flow diffusion models. It combines operation-conditioned spatial support with clean-space adaptive control, using a shared controller design for SD3 and FLUX while keeping backend-specific model plumbing separate.
 
-Submitted paper method:
+This repository is the compact reproduction release. Generated images, model weights, external baseline clones, caches, and exploratory runs are intentionally excluded. The complete pre-cleanup laboratory snapshot is preserved in the Git tag `archive/full-lab-2026-07-14`.
 
-```text
-CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
-```
-
-Current paper scope:
+## What is included
 
 ```text
-FlowEdit-compatible 135-task benchmark, seed 10, preservation-first evaluation.
+CleanEdit/
+├── run_edit_sd3.py              # single-image SD3 entry point
+├── run_edit_flux.py             # single-image FLUX entry point
+├── dece_core.py                 # shared controller and clean-control logic
+├── operation_support_v3.py      # operation-conditioned support
+├── sd3_*.py                     # SD3 backend
+├── flux/                        # FLUX backend
+├── scripts/                     # batch, metric, and baseline adapters
+├── slurm/                       # cluster launchers
+├── data/flowedit_compatible_135 # benchmark manifests and fixed masks
+├── results/                     # published summaries and audits
+├── tests/                       # controller and metric regression tests
+└── docs/                        # method and reproduction notes
 ```
 
-The older Phase2 T1-T5 diagnostic set remains useful for method-development
-history, ablations, and appendix context, but it is no longer the main paper
-evidence. Start with the paper-facing files before using any Phase2 document.
+## Installation
 
-## Active Entry Points
-
-- `docs/SUBMISSION_FREEZE.md`: frozen submission evidence and boundary.
-- `post_submission/README.md`: nine-bucket and later research status.
-- `paper/README.md`: current paper scope, evidence, and claim boundary.
-- `paper/results.md`: current quantitative result narrative.
-- `paper/tables.md`: main table source and table policy.
-- `paper/figures.md`: current figure set and figure cautions.
-- `paper/limitations.md`: current limitation language.
-- `PROJECT_MAP.md`: active file map.
-- `docs/README.md`: docs index and current execution queue.
-- `docs/todo_2026-06-11.md`: current queue, superseding the old Phase2 queue.
-
-## Active Evidence
-
-Current FlowEdit-135 artifacts:
-
-```text
-data/flowedit_compatible_135/manifest.json
-data/flowedit_compatible_135/local_target_prompts.json
-data/flowedit_compatible_135/eval_masks/
-outputs/flowedit135_metric_runs/
-outputs/norestore_metric_runs/
-experiments/norestore_metrics/metrics.csv
-experiments/norestore_tradeoff/summary_by_method.csv
-experiments/norestore_tradeoff/summary_main_no_samflow.csv
-experiments/flowedit135_fixedmask_metrics_20260621/metrics.csv
-experiments/flowedit135_fixedmask_metrics_20260621/summary_by_family_method.csv
-experiments/flowedit135_fixedmask_metrics_20260621/metric_audit.json
-```
-
-Current figure artifacts:
-
-```text
-experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
-experiments/norestore_tradeoff/tradeoff_by_family_edit_preservation.png
-experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
-data/flowedit_compatible_135/eval_masks/_contact_sheet.jpg
-```
-
-## Active Scripts
-
-- `prepare_flowedit135_metric_runs.py`
-- `scripts/evaluate_paper_metrics.py`
-- `scripts/pie_sd3_batch_kindaware.py`
-- `scripts/pie_batch_flux_kindaware_v11.py`
-- `scripts/run_samflow_baseline.py`
-- `scripts/allpass_v1/build_allpass_v1.py`
-- `scripts/allpass_v1/run_allpass_batch.py`
-
-## Historical Phase2 Files
-
-These are historical/internal diagnostic entry points, not the main paper
-scope:
-
-- `PHASE2_LOCK_2026-06-11.md`
-- `CURRENT_PHASE2_STATUS_2026-06-11.md`
-- `experiments/support_v3_2026-06-02/`
-- `paper/phase2_experiment_report_2026-06-11.md`
-
-Do not mix Phase2 table numbers with the FlowEdit-135 main result unless the
-manuscript explicitly frames Phase2 as an internal ablation or development
-diagnostic.
-
-## Compute Boundary
-
-Do not run heavy operations on the master node. Heavy install/model/GPU/Torch/
-diffusers work must run through Slurm. Use `a100-01` for SD3 work:
+Python 3.10+ and a CUDA-capable PyTorch installation are expected. Create the environment in the repository so batch jobs and interactive runs use the same packages:
 
 ```bash
-srun -p a100 -w a100-01 --gres shard:1 --pty /bin/bash -l
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 -r requirements.txt
 ```
 
-Use `h100-01` for FLUX work; FLUX jobs must request the `h100` partition and
-verify the hostname before loading the model.
+Model weights are downloaded from Hugging Face on first use. Accept the corresponding model licenses and authenticate beforehand when required. SD3 uses `stabilityai/stable-diffusion-3-medium-diffusers`; the FLUX backend uses the model configured by `flux/flux_hrec.py`.
 
-The shared environment is:
+## Single-image editing
 
-```text
-/cluster/users/grad/2025/25t8103/project/.venv
+The complete argument surface is available with `--help`. Minimal commands are:
+
+```bash
+source .venv/bin/activate
+python run_edit_sd3.py \
+  --image input.png \
+  --source-prompt "a red mug on a table" \
+  --prompt "a blue mug on a table" \
+  --output outputs/sd3.png
+
+python run_edit_flux.py \
+  --image input.png \
+  --source-prompt "a red mug on a table" \
+  --prompt "a blue mug on a table" \
+  --output outputs/flux.png
 ```
 
-## Current Claim
+The benchmark batch launchers contain the operation-specific settings used for the reported runs.
 
-The supported claim is preservation-first:
+## Reproduce FlowEdit-135
 
-```text
-On FlowEdit-135, CleanEdit achieves the strongest non-edit-region preservation
-among the main peer-reviewed baseline set while remaining on the
-edit-preservation Pareto frontier.
+1. Obtain the source images from the official FlowEdit repository according to its license.
+2. Rebase the checked-in manifest to that local image directory:
+
+```bash
+python scripts/rebase_manifest.py \
+  --manifest data/flowedit_compatible_135/manifest.json \
+  --flowedit-root /path/to/FlowEdit \
+  --output data/flowedit_compatible_135/manifest.local.json
 ```
 
-Do not claim strongest edit amplitude, broad image-editing SOTA, or robust text
-replacement. The main Ours rows are no-final-restore runs and do not use final
-pixel-level source compositing.
+3. Launch SD3 or FLUX. On Slurm:
+
+```bash
+MANIFEST=$PWD/data/flowedit_compatible_135/manifest.local.json \
+  sbatch slurm/run_sd3_flowedit135.sbatch
+
+MANIFEST=$PWD/data/flowedit_compatible_135/manifest.local.json \
+  sbatch slurm/run_flux_flowedit135.sbatch
+```
+
+4. Assemble runs and evaluate them with the scripts documented in [docs/reproduction.md](docs/reproduction.md).
+
+## Fair comparison protocol
+
+The main comparison uses the same benchmark inputs, masks, seeds, resolution, and metric implementation for all methods. CleanEdit's main SD3/FLUX launchers set `ABLATE=no_final_postprocess`: the reported image is the diffusion result, with no final source-pixel restoration, cut-and-paste, or method-specific compositing. Diagnostic post-processing modes remain in the implementation for ablation and debugging only and must not be mixed into the main comparison.
+
+## Results and limitations
+
+Compact CSV/JSON summaries and metric audits are in [`results/`](results/). The known limitations include unreliable small rendered text in SD3 and incomplete whole-subject material conversion for large subjects; see [paper/limitations.md](paper/limitations.md).
+
+## Tests
+
+Run tests on a CUDA compute node when the environment imports GPU-enabled PyTorch:
+
+```bash
+python -m pytest -q tests
+```
+
+## Citation
+
+The paper has been submitted. Citation metadata will be added when a public paper record is available.

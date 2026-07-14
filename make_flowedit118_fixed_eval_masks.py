@@ -10,7 +10,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parent
 MANIFEST = PROJ / "data/flowedit_compatible_118/manifest.json"
 OUT_DIR = PROJ / "data/flowedit_compatible_118/eval_masks"
 OVERLAY_DIR = OUT_DIR / "overlays"

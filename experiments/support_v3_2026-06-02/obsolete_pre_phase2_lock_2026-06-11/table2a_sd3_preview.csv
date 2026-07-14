@@ -1,8 +1,0 @@
-method,label,n,task_success_true,outside_l1,inside_l1,source_ssim,source_ssim_luma,dino_source,edit_score,clip_delta,runtime_s,peak_mem_gb
-direct_target,Direct target,36,,0.0686,0.1063,0.6486,0.6486,0.6354,0.0069,0.0069,33.0145,12.2429
-adaptive_full_generic_support,Generic support,36,,0.0376,0.1330,0.7397,0.7397,0.8888,0.0038,0.0038,49.2967,13.2419
-flowalign,FlowAlign-SD3,18,,0.0769,0.1263,0.6406,0.6406,0.6900,0.0401,0.0401,,
-flowedit,FlowEdit-SD3,18,,0.1760,0.2581,0.4133,0.4133,0.4092,0.0482,0.0482,,
-splitflow,SplitFlow-SD3,18,,0.0965,0.1402,0.5094,0.5094,0.6159,0.0427,0.0427,,
-support_v3_fixed,Fixed CleanEdit-SD3,36,,0.0350,0.1729,0.9147,0.9147,,,,69.8202,13.4897
-support_v3_controller_rmsgap,CleanEdit-SD3,18,,0.0406,0.1038,0.6735,0.6735,0.8497,0.0395,0.0395,,

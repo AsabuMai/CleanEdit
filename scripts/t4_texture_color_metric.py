@@ -11,7 +11,7 @@ from PIL import Image
 from skimage.color import rgb2lab
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 COLOR_RGB = {
     "black": (20, 20, 20),
     "white": (235, 235, 235),

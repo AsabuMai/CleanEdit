@@ -1,3 +1,0 @@
-/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/direct_target_clean_probe/seed_10/command.txt
-/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/direct_target_clean_probe/seed_11/command.txt
-/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/cat_crown/direct_target_clean_probe/seed_12/command.txt

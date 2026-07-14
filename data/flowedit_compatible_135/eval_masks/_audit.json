@@ -10,8 +10,8 @@
     "status": "detected",
     "area": 0.5594387054443359,
     "box": "0,200,1024,757",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_000_bear_1_black_bear_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_000_bear_1_black_bear_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_000_bear_1_black_bear_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_000_bear_1_black_bear_overlay.jpg"
   },
   {
     "idx": 1,
@@ -24,8 +24,8 @@
     "status": "detected",
     "area": 0.5594387054443359,
     "box": "0,200,1024,757",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_003_bear_4_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_003_bear_4_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_003_bear_4_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_003_bear_4_sculpture_overlay.jpg"
   },
   {
     "idx": 2,
@@ -38,8 +38,8 @@
     "status": "detected",
     "area": 0.2317953109741211,
     "box": "286,359,828,779",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_004_bear_grass_1_black_bear_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_004_bear_grass_1_black_bear_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_004_bear_grass_1_black_bear_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_004_bear_grass_1_black_bear_overlay.jpg"
   },
   {
     "idx": 3,
@@ -52,8 +52,8 @@
     "status": "detected",
     "area": 0.2317953109741211,
     "box": "286,359,828,779",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_007_bear_grass_4_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_007_bear_grass_4_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_007_bear_grass_4_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_007_bear_grass_4_sculpture_overlay.jpg"
   },
   {
     "idx": 4,
@@ -66,8 +66,8 @@
     "status": "detected",
     "area": 0.5334339141845703,
     "box": "186,88,827,924",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_010_beer_glass_1_cocktail_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_010_beer_glass_1_cocktail_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_010_beer_glass_1_cocktail_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_010_beer_glass_1_cocktail_overlay.jpg"
   },
   {
     "idx": 5,
@@ -80,8 +80,8 @@
     "status": "detected",
     "area": 0.11623096466064453,
     "box": "455,694,885,952",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_015_bikes_5_green_bicycle_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_015_bikes_5_green_bicycle_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_015_bikes_5_green_bicycle_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_015_bikes_5_green_bicycle_overlay.jpg"
   },
   {
     "idx": 6,
@@ -94,8 +94,8 @@
     "status": "detected",
     "area": 0.11623096466064453,
     "box": "455,694,885,952",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_016_bikes_6_yellow_bicycle_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_016_bikes_6_yellow_bicycle_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_016_bikes_6_yellow_bicycle_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_016_bikes_6_yellow_bicycle_overlay.jpg"
   },
   {
     "idx": 7,
@@ -108,8 +108,8 @@
     "status": "detected",
     "area": 0.11795520782470703,
     "box": "224,382,564,714",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_overlay.jpg"
   },
   {
     "idx": 8,
@@ -122,8 +122,8 @@
     "status": "detected",
     "area": 0.45163536071777344,
     "box": "286,97,815,951",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_019_brown_owl_1_white_owl_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_019_brown_owl_1_white_owl_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_019_brown_owl_1_white_owl_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_019_brown_owl_1_white_owl_overlay.jpg"
   },
   {
     "idx": 9,
@@ -136,8 +136,8 @@
     "status": "detected",
     "area": 0.45163536071777344,
     "box": "286,97,815,951",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_020_brown_owl_2_glass_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_020_brown_owl_2_glass_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_020_brown_owl_2_glass_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_020_brown_owl_2_glass_sculpture_overlay.jpg"
   },
   {
     "idx": 10,
@@ -150,8 +150,8 @@
     "status": "detected",
     "area": 0.45163536071777344,
     "box": "286,97,815,951",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_021_brown_owl_3_origami_owl_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_021_brown_owl_3_origami_owl_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_021_brown_owl_3_origami_owl_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_021_brown_owl_3_origami_owl_overlay.jpg"
   },
   {
     "idx": 11,
@@ -164,8 +164,8 @@
     "status": "detected",
     "area": 0.21970748901367188,
     "box": "294,402,740,885",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_024_bus_2_volkswagen_logo_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_024_bus_2_volkswagen_logo_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_024_bus_2_volkswagen_logo_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_024_bus_2_volkswagen_logo_overlay.jpg"
   },
   {
     "idx": 12,
@@ -178,8 +178,8 @@
     "status": "detected",
     "area": 0.20575332641601562,
     "box": "302,410,733,877",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_025_bus_3_pink_van_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_025_bus_3_pink_van_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_025_bus_3_pink_van_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_025_bus_3_pink_van_overlay.jpg"
   },
   {
     "idx": 13,
@@ -192,8 +192,8 @@
     "status": "detected",
     "area": 0.30103302001953125,
     "box": "464,242,887,946",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_027_butterflies_1_yellow_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_027_butterflies_1_yellow_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_027_butterflies_1_yellow_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_027_butterflies_1_yellow_overlay.jpg"
   },
   {
     "idx": 14,
@@ -206,8 +206,8 @@
     "status": "detected",
     "area": 0.2635507583618164,
     "box": "118,106,642,602",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_028_butterfly_1_orange_butterfly_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_028_butterfly_1_orange_butterfly_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_028_butterfly_1_orange_butterfly_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_028_butterfly_1_orange_butterfly_overlay.jpg"
   },
   {
     "idx": 15,
@@ -220,8 +220,8 @@
     "status": "detected",
     "area": 0.19124603271484375,
     "box": "162,498,805,787",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_029_butterfly_2_red_flower_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_029_butterfly_2_red_flower_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_029_butterfly_2_red_flower_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_029_butterfly_2_red_flower_overlay.jpg"
   },
   {
     "idx": 16,
@@ -234,8 +234,8 @@
     "status": "detected",
     "area": 0.4488868713378906,
     "box": "95,242,894,804",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_031_cake_1_berries_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_031_cake_1_berries_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_031_cake_1_berries_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_031_cake_1_berries_overlay.jpg"
   },
   {
     "idx": 17,
@@ -248,8 +248,8 @@
     "status": "detected",
     "area": 0.4488868713378906,
     "box": "95,242,894,804",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_033_cake_3_wedding_cake_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_033_cake_3_wedding_cake_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_033_cake_3_wedding_cake_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_033_cake_3_wedding_cake_overlay.jpg"
   },
   {
     "idx": 18,
@@ -262,8 +262,8 @@
     "status": "detected",
     "area": 0.4488868713378906,
     "box": "95,242,894,804",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_034_cake_4_strawberries_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_034_cake_4_strawberries_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_034_cake_4_strawberries_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_034_cake_4_strawberries_overlay.jpg"
   },
   {
     "idx": 19,
@@ -276,8 +276,8 @@
     "status": "detected",
     "area": 0.8486404418945312,
     "box": "63,57,990,985",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_037_castle_1_lego_castle_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_037_castle_1_lego_castle_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_037_castle_1_lego_castle_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_037_castle_1_lego_castle_overlay.jpg"
   },
   {
     "idx": 20,
@@ -290,8 +290,8 @@
     "status": "detected",
     "area": 0.4968891143798828,
     "box": "80,102,741,856",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_038_cat_and_dog_1_lego_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_038_cat_and_dog_1_lego_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_038_cat_and_dog_1_lego_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_038_cat_and_dog_1_lego_overlay.jpg"
   },
   {
     "idx": 21,
@@ -304,8 +304,8 @@
     "status": "detected",
     "area": 0.4968891143798828,
     "box": "80,102,741,856",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_039_cat_and_dog_2_bronze_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_039_cat_and_dog_2_bronze_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_039_cat_and_dog_2_bronze_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_039_cat_and_dog_2_bronze_overlay.jpg"
   },
   {
     "idx": 22,
@@ -318,8 +318,8 @@
     "status": "detected",
     "area": 0.15297603607177734,
     "box": "144,339,810,559",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_046_cat_crown_1_black_top_hat_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_046_cat_crown_1_black_top_hat_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_046_cat_crown_1_black_top_hat_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_046_cat_crown_1_black_top_hat_overlay.jpg"
   },
   {
     "idx": 23,
@@ -332,8 +332,8 @@
     "status": "detected",
     "area": 0.5576095581054688,
     "box": "11,132,671,978",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_055_cat_7_wooden_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_055_cat_7_wooden_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_055_cat_7_wooden_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_055_cat_7_wooden_sculpture_overlay.jpg"
   },
   {
     "idx": 24,
@@ -346,8 +346,8 @@
     "status": "detected",
     "area": 0.20874404907226562,
     "box": "398,320,797,832",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_067_cat_stone_1_black_kitten_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_067_cat_stone_1_black_kitten_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_067_cat_stone_1_black_kitten_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_067_cat_stone_1_black_kitten_overlay.jpg"
   },
   {
     "idx": 25,
@@ -360,8 +360,8 @@
     "status": "detected",
     "area": 0.20874404907226562,
     "box": "398,320,797,832",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_069_cat_stone_3_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_069_cat_stone_3_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_069_cat_stone_3_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_069_cat_stone_3_sculpture_overlay.jpg"
   },
   {
     "idx": 26,
@@ -374,8 +374,8 @@
     "status": "detected",
     "area": 0.15770816802978516,
     "box": "273,74,635,496",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_080_corgi_1_lego_bricks_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_080_corgi_1_lego_bricks_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_080_corgi_1_lego_bricks_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_080_corgi_1_lego_bricks_overlay.jpg"
   },
   {
     "idx": 27,
@@ -388,8 +388,8 @@
     "status": "detected",
     "area": 0.15770816802978516,
     "box": "273,74,635,496",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_081_corgi_2_wooden_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_081_corgi_2_wooden_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_081_corgi_2_wooden_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_081_corgi_2_wooden_sculpture_overlay.jpg"
   },
   {
     "idx": 28,
@@ -402,8 +402,8 @@
     "status": "detected",
     "area": 0.2506704330444336,
     "box": "292,259,716,841",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_084_cupcake_2_red_velvet_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_084_cupcake_2_red_velvet_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_084_cupcake_2_red_velvet_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_084_cupcake_2_red_velvet_overlay.jpg"
   },
   {
     "idx": 29,
@@ -416,8 +416,8 @@
     "status": "detected",
     "area": 0.3721637725830078,
     "box": "153,259,822,813",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_092_dog_4_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_092_dog_4_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_092_dog_4_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_092_dog_4_sculpture_overlay.jpg"
   },
   {
     "idx": 30,
@@ -430,8 +430,8 @@
     "status": "detected",
     "area": 0.3721637725830078,
     "box": "153,259,822,813",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_093_dog_5_lego_bricks_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_093_dog_5_lego_bricks_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_093_dog_5_lego_bricks_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_093_dog_5_lego_bricks_overlay.jpg"
   },
   {
     "idx": 31,
@@ -444,8 +444,8 @@
     "status": "detected",
     "area": 0.04356098175048828,
     "box": "149,279,499,389",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_094_dog_6_red_top_hat_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_094_dog_6_red_top_hat_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_094_dog_6_red_top_hat_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_094_dog_6_red_top_hat_overlay.jpg"
   },
   {
     "idx": 32,
@@ -458,8 +458,8 @@
     "status": "detected",
     "area": 0.04356098175048828,
     "box": "149,279,499,389",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_095_dog_7_jeweled_crown_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_095_dog_7_jeweled_crown_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_095_dog_7_jeweled_crown_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_095_dog_7_jeweled_crown_overlay.jpg"
   },
   {
     "idx": 33,
@@ -472,8 +472,8 @@
     "status": "detected",
     "area": 0.4154806137084961,
     "box": "212,350,940,920",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_097_dog_snow_1_wooden_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_097_dog_snow_1_wooden_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_097_dog_snow_1_wooden_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_097_dog_snow_1_wooden_sculpture_overlay.jpg"
   },
   {
     "idx": 34,
@@ -486,8 +486,8 @@
     "status": "detected",
     "area": 0.4154806137084961,
     "box": "212,350,940,920",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_101_dog_snow_5_golden_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_101_dog_snow_5_golden_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_101_dog_snow_5_golden_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_101_dog_snow_5_golden_overlay.jpg"
   },
   {
     "idx": 35,
@@ -500,8 +500,8 @@
     "status": "detected",
     "area": 0.32416534423828125,
     "box": "187,241,842,732",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_108_duck_1_colorful_duck_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_108_duck_1_colorful_duck_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_108_duck_1_colorful_duck_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_108_duck_1_colorful_duck_overlay.jpg"
   },
   {
     "idx": 36,
@@ -514,8 +514,8 @@
     "status": "detected",
     "area": 0.44741344451904297,
     "box": "211,56,1024,612",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_114_flowers_1_orange_yellow_white_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_114_flowers_1_orange_yellow_white_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_114_flowers_1_orange_yellow_white_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_114_flowers_1_orange_yellow_white_overlay.jpg"
   },
   {
     "idx": 37,
@@ -528,8 +528,8 @@
     "status": "detected",
     "area": 0.44741344451904297,
     "box": "211,56,1024,612",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_115_flowers_2_blue_purple_white_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_115_flowers_2_blue_purple_white_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_115_flowers_2_blue_purple_white_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_115_flowers_2_blue_purple_white_overlay.jpg"
   },
   {
     "idx": 38,
@@ -542,8 +542,8 @@
     "status": "detected",
     "area": 0.672724723815918,
     "box": "67,0,913,810",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_116_free_wifi_1_free_beer_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_116_free_wifi_1_free_beer_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_116_free_wifi_1_free_beer_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_116_free_wifi_1_free_beer_overlay.jpg"
   },
   {
     "idx": 39,
@@ -556,8 +556,8 @@
     "status": "detected",
     "area": 0.672724723815918,
     "box": "67,0,913,810",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_117_free_wifi_2_free_hugs_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_117_free_wifi_2_free_hugs_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_117_free_wifi_2_free_hugs_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_117_free_wifi_2_free_hugs_overlay.jpg"
   },
   {
     "idx": 40,
@@ -570,8 +570,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_118_gas_station_1_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_118_gas_station_1_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_118_gas_station_1_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_118_gas_station_1_cvpr_overlay.jpg"
   },
   {
     "idx": 41,
@@ -584,8 +584,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_119_gas_station_2_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_119_gas_station_2_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_119_gas_station_2_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_119_gas_station_2_iccv_overlay.jpg"
   },
   {
     "idx": 42,
@@ -598,8 +598,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_120_gas_station_3_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_120_gas_station_3_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_120_gas_station_3_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_120_gas_station_3_eccv_overlay.jpg"
   },
   {
     "idx": 43,
@@ -612,8 +612,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_121_gas_station_4_food_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_121_gas_station_4_food_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_121_gas_station_4_food_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_121_gas_station_4_food_overlay.jpg"
   },
   {
     "idx": 44,
@@ -626,8 +626,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_122_gas_station_5_love_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_122_gas_station_5_love_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_122_gas_station_5_love_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_122_gas_station_5_love_overlay.jpg"
   },
   {
     "idx": 45,
@@ -640,8 +640,8 @@
     "status": "detected",
     "area": 0.10369300842285156,
     "box": "218,199,768,376",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_123_gas_station_6_free_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_123_gas_station_6_free_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_123_gas_station_6_free_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_123_gas_station_6_free_overlay.jpg"
   },
   {
     "idx": 46,
@@ -654,8 +654,8 @@
     "status": "detected",
     "area": 0.6321868896484375,
     "box": "123,161,974,910",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_127_gray_bird_1_origami_bird_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_127_gray_bird_1_origami_bird_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_127_gray_bird_1_origami_bird_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_127_gray_bird_1_origami_bird_overlay.jpg"
   },
   {
     "idx": 47,
@@ -668,8 +668,8 @@
     "status": "detected",
     "area": 0.6321868896484375,
     "box": "123,161,974,910",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_128_gray_bird_2_red_bird_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_128_gray_bird_2_red_bird_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_128_gray_bird_2_red_bird_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_128_gray_bird_2_red_bird_overlay.jpg"
   },
   {
     "idx": 48,
@@ -682,8 +682,8 @@
     "status": "detected",
     "area": 0.6321868896484375,
     "box": "123,161,974,910",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_129_gray_bird_3_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_129_gray_bird_3_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_129_gray_bird_3_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_129_gray_bird_3_sculpture_overlay.jpg"
   },
   {
     "idx": 49,
@@ -696,8 +696,8 @@
     "status": "detected",
     "area": 0.6321868896484375,
     "box": "123,161,974,910",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_130_gray_bird_4_golden_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_130_gray_bird_4_golden_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_130_gray_bird_4_golden_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_130_gray_bird_4_golden_sculpture_overlay.jpg"
   },
   {
     "idx": 50,
@@ -710,8 +710,8 @@
     "status": "detected",
     "area": 0.9417552947998047,
     "box": "67,0,1024,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_131_groceries_1_bacon_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_131_groceries_1_bacon_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_131_groceries_1_bacon_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_131_groceries_1_bacon_overlay.jpg"
   },
   {
     "idx": 51,
@@ -724,8 +724,8 @@
     "status": "detected",
     "area": 0.9417552947998047,
     "box": "67,0,1024,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_132_groceries_2_coffee_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_132_groceries_2_coffee_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_132_groceries_2_coffee_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_132_groceries_2_coffee_overlay.jpg"
   },
   {
     "idx": 52,
@@ -738,8 +738,8 @@
     "status": "detected",
     "area": 0.9417552947998047,
     "box": "67,0,1024,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_133_groceries_3_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_133_groceries_3_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_133_groceries_3_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_133_groceries_3_cvpr_overlay.jpg"
   },
   {
     "idx": 53,
@@ -752,8 +752,8 @@
     "status": "detected",
     "area": 0.9417552947998047,
     "box": "67,0,1024,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_134_groceries_4_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_134_groceries_4_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_134_groceries_4_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_134_groceries_4_eccv_overlay.jpg"
   },
   {
     "idx": 54,
@@ -766,8 +766,8 @@
     "status": "detected",
     "area": 0.9417552947998047,
     "box": "67,0,1024,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_135_groceries_5_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_135_groceries_5_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_135_groceries_5_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_135_groceries_5_iccv_overlay.jpg"
   },
   {
     "idx": 55,
@@ -780,8 +780,8 @@
     "status": "detected",
     "area": 0.6893749237060547,
     "box": "0,202,985,914",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_139_horse_3_bronze_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_139_horse_3_bronze_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_139_horse_3_bronze_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_139_horse_3_bronze_sculpture_overlay.jpg"
   },
   {
     "idx": 56,
@@ -794,8 +794,8 @@
     "status": "detected",
     "area": 0.6893749237060547,
     "box": "0,202,985,914",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_140_horse_4_brown_horse_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_140_horse_4_brown_horse_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_140_horse_4_brown_horse_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_140_horse_4_brown_horse_overlay.jpg"
   },
   {
     "idx": 57,
@@ -808,8 +808,8 @@
     "status": "detected",
     "area": 0.3228797912597656,
     "box": "172,355,831,841",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_141_iguana_1_green_lizard_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_141_iguana_1_green_lizard_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_141_iguana_1_green_lizard_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_141_iguana_1_green_lizard_overlay.jpg"
   },
   {
     "idx": 58,
@@ -822,8 +822,8 @@
     "status": "detected",
     "area": 0.15016460418701172,
     "box": "136,381,866,577",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_142_iguana_2_blue_lizard_top_hat_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_142_iguana_2_blue_lizard_top_hat_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_142_iguana_2_blue_lizard_top_hat_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_142_iguana_2_blue_lizard_top_hat_overlay.jpg"
   },
   {
     "idx": 59,
@@ -836,8 +836,8 @@
     "status": "detected",
     "area": 0.5855617523193359,
     "box": "8,54,985,657",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_146_japanese_castle_1_lego_castle_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_146_japanese_castle_1_lego_castle_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_146_japanese_castle_1_lego_castle_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_146_japanese_castle_1_lego_castle_overlay.jpg"
   },
   {
     "idx": 60,
@@ -850,8 +850,8 @@
     "status": "detected",
     "area": 0.5477256774902344,
     "box": "199,121,895,912",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_148_jump_kick_2_bronze_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_148_jump_kick_2_bronze_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_148_jump_kick_2_bronze_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_148_jump_kick_2_bronze_statue_overlay.jpg"
   },
   {
     "idx": 61,
@@ -864,8 +864,8 @@
     "status": "detected",
     "area": 0.5477256774902344,
     "box": "199,121,895,912",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_149_jump_kick_3_golden_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_149_jump_kick_3_golden_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_149_jump_kick_3_golden_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_149_jump_kick_3_golden_statue_overlay.jpg"
   },
   {
     "idx": 62,
@@ -878,8 +878,8 @@
     "status": "detected",
     "area": 0.5477256774902344,
     "box": "199,121,895,912",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_150_jump_kick_4_marble_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_150_jump_kick_4_marble_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_150_jump_kick_4_marble_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_150_jump_kick_4_marble_statue_overlay.jpg"
   },
   {
     "idx": 63,
@@ -892,8 +892,8 @@
     "status": "detected",
     "area": 0.5154876708984375,
     "box": "262,0,774,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_152_jump_yay_2_bronze_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_152_jump_yay_2_bronze_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_152_jump_yay_2_bronze_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_152_jump_yay_2_bronze_statue_overlay.jpg"
   },
   {
     "idx": 64,
@@ -906,8 +906,8 @@
     "status": "detected",
     "area": 0.5154876708984375,
     "box": "262,0,774,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_153_jump_yay_3_golden_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_153_jump_yay_3_golden_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_153_jump_yay_3_golden_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_153_jump_yay_3_golden_statue_overlay.jpg"
   },
   {
     "idx": 65,
@@ -920,8 +920,8 @@
     "status": "detected",
     "area": 0.2217731475830078,
     "box": "358,152,635,932",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_157_kid_running_3_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_157_kid_running_3_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_157_kid_running_3_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_157_kid_running_3_sculpture_overlay.jpg"
   },
   {
     "idx": 66,
@@ -934,8 +934,8 @@
     "status": "detected",
     "area": 0.2217731475830078,
     "box": "358,152,635,932",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_158_kid_running_4_wooden_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_158_kid_running_4_wooden_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_158_kid_running_4_wooden_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_158_kid_running_4_wooden_sculpture_overlay.jpg"
   },
   {
     "idx": 67,
@@ -948,8 +948,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_164_luna_1_sol_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_164_luna_1_sol_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_164_luna_1_sol_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_164_luna_1_sol_overlay.jpg"
   },
   {
     "idx": 68,
@@ -962,8 +962,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_165_luna_2_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_165_luna_2_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_165_luna_2_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_165_luna_2_cvpr_overlay.jpg"
   },
   {
     "idx": 69,
@@ -976,8 +976,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_166_luna_3_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_166_luna_3_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_166_luna_3_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_166_luna_3_iccv_overlay.jpg"
   },
   {
     "idx": 70,
@@ -990,8 +990,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_167_luna_4_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_167_luna_4_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_167_luna_4_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_167_luna_4_eccv_overlay.jpg"
   },
   {
     "idx": 71,
@@ -1004,8 +1004,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_168_luna_5_welcome_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_168_luna_5_welcome_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_168_luna_5_welcome_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_168_luna_5_welcome_overlay.jpg"
   },
   {
     "idx": 72,
@@ -1018,8 +1018,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_169_luna_6_hi_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_169_luna_6_hi_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_169_luna_6_hi_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_169_luna_6_hi_overlay.jpg"
   },
   {
     "idx": 73,
@@ -1032,8 +1032,8 @@
     "status": "detected",
     "area": 0.20409011840820312,
     "box": "337,108,888,470",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_170_luna_7_heart_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_170_luna_7_heart_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_170_luna_7_heart_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_170_luna_7_heart_overlay.jpg"
   },
   {
     "idx": 74,
@@ -1046,8 +1046,8 @@
     "status": "detected",
     "area": 0.8983001708984375,
     "box": "40,0,944,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_171_meditation_1_wooden_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_171_meditation_1_wooden_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_171_meditation_1_wooden_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_171_meditation_1_wooden_statue_overlay.jpg"
   },
   {
     "idx": 75,
@@ -1060,8 +1060,8 @@
     "status": "detected",
     "area": 0.7112903594970703,
     "box": "145,3,902,957",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_172_meditation1_1_sand_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_172_meditation1_1_sand_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_172_meditation1_1_sand_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_172_meditation1_1_sand_sculpture_overlay.jpg"
   },
   {
     "idx": 76,
@@ -1074,8 +1074,8 @@
     "status": "detected",
     "area": 0.7112903594970703,
     "box": "145,3,902,957",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_173_meditation1_2_golden_buddha_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_173_meditation1_2_golden_buddha_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_173_meditation1_2_golden_buddha_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_173_meditation1_2_golden_buddha_statue_overlay.jpg"
   },
   {
     "idx": 77,
@@ -1088,8 +1088,8 @@
     "status": "detected",
     "area": 0.7112903594970703,
     "box": "145,3,902,957",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_174_meditation1_3_wooden_buddha_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_174_meditation1_3_wooden_buddha_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_174_meditation1_3_wooden_buddha_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_174_meditation1_3_wooden_buddha_statue_overlay.jpg"
   },
   {
     "idx": 78,
@@ -1102,8 +1102,8 @@
     "status": "detected",
     "area": 0.7112903594970703,
     "box": "145,3,902,957",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_175_meditation1_4_golden_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_175_meditation1_4_golden_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_175_meditation1_4_golden_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_175_meditation1_4_golden_statue_overlay.jpg"
   },
   {
     "idx": 79,
@@ -1116,8 +1116,8 @@
     "status": "detected",
     "area": 0.7112903594970703,
     "box": "145,3,902,957",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_176_meditation1_5_wooden_statue_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_176_meditation1_5_wooden_statue_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_176_meditation1_5_wooden_statue_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_176_meditation1_5_wooden_statue_overlay.jpg"
   },
   {
     "idx": 80,
@@ -1130,8 +1130,8 @@
     "status": "detected",
     "area": 0.15185928344726562,
     "box": "387,384,704,847",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_180_milk_4_whipped_cream_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_180_milk_4_whipped_cream_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_180_milk_4_whipped_cream_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_180_milk_4_whipped_cream_overlay.jpg"
   },
   {
     "idx": 81,
@@ -1144,8 +1144,8 @@
     "status": "detected",
     "area": 0.09557151794433594,
     "box": "0,592,1024,674",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_186_muffins_1_strawberries_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_186_muffins_1_strawberries_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_186_muffins_1_strawberries_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_186_muffins_1_strawberries_overlay.jpg"
   },
   {
     "idx": 82,
@@ -1158,8 +1158,8 @@
     "status": "detected",
     "area": 0.2747640609741211,
     "box": "407,188,751,974",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_187_parrot_1_glass_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_187_parrot_1_glass_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_187_parrot_1_glass_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_187_parrot_1_glass_sculpture_overlay.jpg"
   },
   {
     "idx": 83,
@@ -1172,8 +1172,8 @@
     "status": "detected",
     "area": 0.2747640609741211,
     "box": "407,188,751,974",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_188_parrot_2_origami_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_188_parrot_2_origami_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_188_parrot_2_origami_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_188_parrot_2_origami_overlay.jpg"
   },
   {
     "idx": 84,
@@ -1186,8 +1186,8 @@
     "status": "detected",
     "area": 0.2747640609741211,
     "box": "407,188,751,974",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_190_parrot_4_lego_parrot_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_190_parrot_4_lego_parrot_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_190_parrot_4_lego_parrot_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_190_parrot_4_lego_parrot_overlay.jpg"
   },
   {
     "idx": 85,
@@ -1200,8 +1200,8 @@
     "status": "detected",
     "area": 0.4321479797363281,
     "box": "274,57,901,746",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_191_parrot2_1_glass_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_191_parrot2_1_glass_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_191_parrot2_1_glass_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_191_parrot2_1_glass_sculpture_overlay.jpg"
   },
   {
     "idx": 86,
@@ -1214,8 +1214,8 @@
     "status": "detected",
     "area": 0.07065200805664062,
     "box": "529,394,856,595",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_192_parrots_1_top_hat_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_192_parrots_1_top_hat_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_192_parrots_1_top_hat_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_192_parrots_1_top_hat_overlay.jpg"
   },
   {
     "idx": 87,
@@ -1228,8 +1228,8 @@
     "status": "detected",
     "area": 0.15295791625976562,
     "box": "545,367,841,866",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_193_parrots_2_origami_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_193_parrots_2_origami_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_193_parrots_2_origami_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_193_parrots_2_origami_overlay.jpg"
   },
   {
     "idx": 88,
@@ -1242,8 +1242,8 @@
     "status": "detected",
     "area": 0.15295791625976562,
     "box": "545,367,841,866",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_194_parrots_3_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_194_parrots_3_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_194_parrots_3_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_194_parrots_3_sculpture_overlay.jpg"
   },
   {
     "idx": 89,
@@ -1256,8 +1256,8 @@
     "status": "detected",
     "area": 0.16883468627929688,
     "box": "22,198,493,546",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_195_parrots2_1_crown_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_195_parrots2_1_crown_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_195_parrots2_1_crown_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_195_parrots2_1_crown_overlay.jpg"
   },
   {
     "idx": 90,
@@ -1270,8 +1270,8 @@
     "status": "detected",
     "area": 0.46668529510498047,
     "box": "400,57,926,945",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_196_penguins_1_origami_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_196_penguins_1_origami_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_196_penguins_1_origami_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_196_penguins_1_origami_overlay.jpg"
   },
   {
     "idx": 91,
@@ -1284,8 +1284,8 @@
     "status": "detected",
     "area": 0.46668529510498047,
     "box": "400,57,926,945",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_197_penguins_2_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_197_penguins_2_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_197_penguins_2_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_197_penguins_2_sculpture_overlay.jpg"
   },
   {
     "idx": 92,
@@ -1298,8 +1298,8 @@
     "status": "detected",
     "area": 0.8438014984130859,
     "box": "73,84,991,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_199_piece_of_cake_2_red_velvet_cake_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_199_piece_of_cake_2_red_velvet_cake_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_199_piece_of_cake_2_red_velvet_cake_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_199_piece_of_cake_2_red_velvet_cake_overlay.jpg"
   },
   {
     "idx": 93,
@@ -1312,8 +1312,8 @@
     "status": "detected",
     "area": 0.6744041442871094,
     "box": "34,80,885,880",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_213_rabbit_1_sculpture_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_213_rabbit_1_sculpture_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_213_rabbit_1_sculpture_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_213_rabbit_1_sculpture_overlay.jpg"
   },
   {
     "idx": 94,
@@ -1326,8 +1326,8 @@
     "status": "detected",
     "area": 0.4561653137207031,
     "box": "227,180,773,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_221_rocks_6_colorful_wooden_blocks_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_221_rocks_6_colorful_wooden_blocks_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_221_rocks_6_colorful_wooden_blocks_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_221_rocks_6_colorful_wooden_blocks_overlay.jpg"
   },
   {
     "idx": 95,
@@ -1340,8 +1340,8 @@
     "status": "detected",
     "area": 0.9149017333984375,
     "box": "75,0,996,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_222_sign_1_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_222_sign_1_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_222_sign_1_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_222_sign_1_cvpr_overlay.jpg"
   },
   {
     "idx": 96,
@@ -1354,8 +1354,8 @@
     "status": "detected",
     "area": 0.9149017333984375,
     "box": "75,0,996,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_223_sign_2_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_223_sign_2_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_223_sign_2_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_223_sign_2_eccv_overlay.jpg"
   },
   {
     "idx": 97,
@@ -1368,8 +1368,8 @@
     "status": "detected",
     "area": 0.9149017333984375,
     "box": "75,0,996,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_224_sign_3_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_224_sign_3_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_224_sign_3_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_224_sign_3_iccv_overlay.jpg"
   },
   {
     "idx": 98,
@@ -1382,8 +1382,8 @@
     "status": "detected",
     "area": 0.9149017333984375,
     "box": "75,0,996,1024",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_225_sign_4_flow_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_225_sign_4_flow_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_225_sign_4_flow_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_225_sign_4_flow_overlay.jpg"
   },
   {
     "idx": 99,
@@ -1396,8 +1396,8 @@
     "status": "detected",
     "area": 0.28528881072998047,
     "box": "555,95,1024,707",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_235_stop_1_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_235_stop_1_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_235_stop_1_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_235_stop_1_cvpr_overlay.jpg"
   },
   {
     "idx": 100,
@@ -1410,8 +1410,8 @@
     "status": "detected",
     "area": 0.28528881072998047,
     "box": "555,95,1024,707",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_236_stop_2_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_236_stop_2_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_236_stop_2_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_236_stop_2_iccv_overlay.jpg"
   },
   {
     "idx": 101,
@@ -1424,8 +1424,8 @@
     "status": "detected",
     "area": 0.28528881072998047,
     "box": "555,95,1024,707",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_237_stop_3_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_237_stop_3_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_237_stop_3_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_237_stop_3_eccv_overlay.jpg"
   },
   {
     "idx": 102,
@@ -1438,8 +1438,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_238_stop_arrow_1_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_238_stop_arrow_1_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_238_stop_arrow_1_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_238_stop_arrow_1_cvpr_overlay.jpg"
   },
   {
     "idx": 103,
@@ -1452,8 +1452,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_239_stop_arrow_2_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_239_stop_arrow_2_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_239_stop_arrow_2_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_239_stop_arrow_2_iccv_overlay.jpg"
   },
   {
     "idx": 104,
@@ -1466,8 +1466,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_240_stop_arrow_3_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_240_stop_arrow_3_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_240_stop_arrow_3_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_240_stop_arrow_3_eccv_overlay.jpg"
   },
   {
     "idx": 105,
@@ -1480,8 +1480,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_241_stop_arrow_4_love_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_241_stop_arrow_4_love_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_241_stop_arrow_4_love_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_241_stop_arrow_4_love_overlay.jpg"
   },
   {
     "idx": 106,
@@ -1494,8 +1494,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_242_stop_arrow_5_home_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_242_stop_arrow_5_home_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_242_stop_arrow_5_home_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_242_stop_arrow_5_home_overlay.jpg"
   },
   {
     "idx": 107,
@@ -1508,8 +1508,8 @@
     "status": "detected",
     "area": 0.19772720336914062,
     "box": "300,68,736,511",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_243_stop_arrow_6_beer_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_243_stop_arrow_6_beer_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_243_stop_arrow_6_beer_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_243_stop_arrow_6_beer_overlay.jpg"
   },
   {
     "idx": 108,
@@ -1522,8 +1522,8 @@
     "status": "detected",
     "area": 0.5535430908203125,
     "box": "110,175,937,848",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_244_stop_sticker_1_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_244_stop_sticker_1_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_244_stop_sticker_1_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_244_stop_sticker_1_cvpr_overlay.jpg"
   },
   {
     "idx": 109,
@@ -1536,8 +1536,8 @@
     "status": "detected",
     "area": 0.5535430908203125,
     "box": "110,175,937,848",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_245_stop_sticker_2_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_245_stop_sticker_2_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_245_stop_sticker_2_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_245_stop_sticker_2_eccv_overlay.jpg"
   },
   {
     "idx": 110,
@@ -1550,8 +1550,8 @@
     "status": "detected",
     "area": 0.5535430908203125,
     "box": "110,175,937,848",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_246_stop_sticker_3_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_246_stop_sticker_3_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_246_stop_sticker_3_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_246_stop_sticker_3_iccv_overlay.jpg"
   },
   {
     "idx": 111,
@@ -1564,8 +1564,8 @@
     "status": "manual_box",
     "area": 0.5127315521240234,
     "box": "61,184,942,768",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_247_this_must_be_the_place_1_home_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_247_this_must_be_the_place_1_home_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_247_this_must_be_the_place_1_home_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_247_this_must_be_the_place_1_home_overlay.jpg"
   },
   {
     "idx": 112,
@@ -1578,8 +1578,8 @@
     "status": "manual_box",
     "area": 0.5127315521240234,
     "box": "61,184,942,768",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_248_this_must_be_the_place_2_cvpr_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_248_this_must_be_the_place_2_cvpr_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_248_this_must_be_the_place_2_cvpr_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_248_this_must_be_the_place_2_cvpr_overlay.jpg"
   },
   {
     "idx": 113,
@@ -1592,8 +1592,8 @@
     "status": "manual_box",
     "area": 0.5127315521240234,
     "box": "61,184,942,768",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_249_this_must_be_the_place_3_eccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_249_this_must_be_the_place_3_eccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_249_this_must_be_the_place_3_eccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_249_this_must_be_the_place_3_eccv_overlay.jpg"
   },
   {
     "idx": 114,
@@ -1606,8 +1606,8 @@
     "status": "manual_box",
     "area": 0.5127315521240234,
     "box": "61,184,942,768",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_250_this_must_be_the_place_4_iccv_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_250_this_must_be_the_place_4_iccv_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_250_this_must_be_the_place_4_iccv_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_250_this_must_be_the_place_4_iccv_overlay.jpg"
   },
   {
     "idx": 115,
@@ -1620,8 +1620,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_266_yellow_bulldog_10_origami_lion_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_266_yellow_bulldog_10_origami_lion_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_266_yellow_bulldog_10_origami_lion_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_266_yellow_bulldog_10_origami_lion_overlay.jpg"
   },
   {
     "idx": 116,
@@ -1634,8 +1634,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_267_yellow_bulldog_11_origami_cat_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_267_yellow_bulldog_11_origami_cat_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_267_yellow_bulldog_11_origami_cat_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_267_yellow_bulldog_11_origami_cat_overlay.jpg"
   },
   {
     "idx": 117,
@@ -1648,8 +1648,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_268_yellow_bulldog_12_origami_bear_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_268_yellow_bulldog_12_origami_bear_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_268_yellow_bulldog_12_origami_bear_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_268_yellow_bulldog_12_origami_bear_overlay.jpg"
   },
   {
     "idx": 118,
@@ -1662,8 +1662,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_269_yellow_bulldog_13_origami_deer_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_269_yellow_bulldog_13_origami_deer_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_269_yellow_bulldog_13_origami_deer_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_269_yellow_bulldog_13_origami_deer_overlay.jpg"
   },
   {
     "idx": 119,
@@ -1676,8 +1676,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_270_yellow_bulldog_14_origami_rabbit_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_270_yellow_bulldog_14_origami_rabbit_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_270_yellow_bulldog_14_origami_rabbit_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_270_yellow_bulldog_14_origami_rabbit_overlay.jpg"
   },
   {
     "idx": 120,
@@ -1690,8 +1690,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_271_yellow_bulldog_15_origami_wolf_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_271_yellow_bulldog_15_origami_wolf_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_271_yellow_bulldog_15_origami_wolf_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_271_yellow_bulldog_15_origami_wolf_overlay.jpg"
   },
   {
     "idx": 121,
@@ -1704,8 +1704,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_272_yellow_bulldog_16_origami_cow_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_272_yellow_bulldog_16_origami_cow_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_272_yellow_bulldog_16_origami_cow_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_272_yellow_bulldog_16_origami_cow_overlay.jpg"
   },
   {
     "idx": 122,
@@ -1718,8 +1718,8 @@
     "status": "detected",
     "area": 0.5267477035522461,
     "box": "62,210,980,786",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_273_yellow_bulldog_17_origami_horse_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_273_yellow_bulldog_17_origami_horse_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_273_yellow_bulldog_17_origami_horse_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_273_yellow_bulldog_17_origami_horse_overlay.jpg"
   },
   {
     "idx": 123,
@@ -1732,8 +1732,8 @@
     "status": "detected",
     "area": 0.3721637725830078,
     "box": "153,259,822,813",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_090_dog_2_puppet_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_090_dog_2_puppet_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_090_dog_2_puppet_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_090_dog_2_puppet_overlay.jpg"
   },
   {
     "idx": 124,
@@ -1746,8 +1746,8 @@
     "status": "detected",
     "area": 0.3721637725830078,
     "box": "153,259,822,813",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_091_dog_3_crochet_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_091_dog_3_crochet_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_091_dog_3_crochet_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_091_dog_3_crochet_overlay.jpg"
   },
   {
     "idx": 125,
@@ -1760,8 +1760,8 @@
     "status": "detected",
     "area": 0.6893749237060547,
     "box": "0,202,985,914",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_138_horse_2_pink_toy_horse_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_138_horse_2_pink_toy_horse_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_138_horse_2_pink_toy_horse_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_138_horse_2_pink_toy_horse_overlay.jpg"
   },
   {
     "idx": 126,
@@ -1774,8 +1774,8 @@
     "status": "detected",
     "area": 0.2692127227783203,
     "box": "188,215,592,872",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_211_puppies_3_puppets_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_211_puppies_3_puppets_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_211_puppies_3_puppets_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_211_puppies_3_puppets_overlay.jpg"
   },
   {
     "idx": 127,
@@ -1788,8 +1788,8 @@
     "status": "detected",
     "area": 0.5565814971923828,
     "box": "4,167,787,885",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_252_tiger_2_crochet_tiger_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_252_tiger_2_crochet_tiger_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_252_tiger_2_crochet_tiger_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_252_tiger_2_crochet_tiger_overlay.jpg"
   },
   {
     "idx": 128,
@@ -1802,8 +1802,8 @@
     "status": "detected",
     "area": 0.44940185546875,
     "box": "190,225,926,836",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_036_cake_red_blueberries_2_raspberries_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_036_cake_red_blueberries_2_raspberries_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_036_cake_red_blueberries_2_raspberries_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_036_cake_red_blueberries_2_raspberries_overlay.jpg"
   },
   {
     "idx": 129,
@@ -1816,8 +1816,8 @@
     "status": "detected",
     "area": 0.6997346878051758,
     "box": "73,178,991,948",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_198_piece_of_cake_1_cherry_on_top_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_198_piece_of_cake_1_cherry_on_top_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_198_piece_of_cake_1_cherry_on_top_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_198_piece_of_cake_1_cherry_on_top_overlay.jpg"
   },
   {
     "idx": 130,
@@ -1830,8 +1830,8 @@
     "status": "detected",
     "area": 0.6463527679443359,
     "box": "0,177,1024,823",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_201_pizza_1_pineapple_ham_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_201_pizza_1_pineapple_ham_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_201_pizza_1_pineapple_ham_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_201_pizza_1_pineapple_ham_overlay.jpg"
   },
   {
     "idx": 131,
@@ -1844,8 +1844,8 @@
     "status": "detected",
     "area": 0.37799072265625,
     "box": "66,459,1024,854",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_205_pizza_slice_1_pepperoni_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_205_pizza_slice_1_pepperoni_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_205_pizza_slice_1_pepperoni_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_205_pizza_slice_1_pepperoni_overlay.jpg"
   },
   {
     "idx": 132,
@@ -1858,8 +1858,8 @@
     "status": "detected",
     "area": 0.37799072265625,
     "box": "66,459,1024,854",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_206_pizza_slice_2_mushrooms_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_206_pizza_slice_2_mushrooms_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_206_pizza_slice_2_mushrooms_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_206_pizza_slice_2_mushrooms_overlay.jpg"
   },
   {
     "idx": 133,
@@ -1872,8 +1872,8 @@
     "status": "detected",
     "area": 0.8328762054443359,
     "box": "0,96,1024,933",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_207_pizza_tomato_olive_1_pepperoni_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_207_pizza_tomato_olive_1_pepperoni_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_207_pizza_tomato_olive_1_pepperoni_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_207_pizza_tomato_olive_1_pepperoni_overlay.jpg"
   },
   {
     "idx": 134,
@@ -1886,7 +1886,7 @@
     "status": "detected",
     "area": 0.8328762054443359,
     "box": "0,96,1024,933",
-    "mask": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/fe_208_pizza_tomato_olive_2_mushrooms_eval_mask.png",
-    "overlay": "/cluster/users/grad/2025/25t8103/project/data/flowedit_compatible_135/eval_masks/overlays/fe_208_pizza_tomato_olive_2_mushrooms_overlay.jpg"
+    "mask": "./data/flowedit_compatible_135/eval_masks/fe_208_pizza_tomato_olive_2_mushrooms_eval_mask.png",
+    "overlay": "./data/flowedit_compatible_135/eval_masks/overlays/fe_208_pizza_tomato_olive_2_mushrooms_overlay.jpg"
   }
 ]

@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 MANIFEST = PROJ / "data/flowedit_compatible_135/manifest.json"
 T4_MANIFEST = PROJ / "data/flowedit_compatible_135/manifest_t4_recolor_19.json"
 OUT = PROJ / "outputs/final_multiseed_metric_runs_20260630"

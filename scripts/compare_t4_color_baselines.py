@@ -10,7 +10,7 @@ from PIL import Image
 from skimage.color import rgb2lab
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 MANIFEST = PROJ / "data/flowedit_compatible_135/manifest_t4_recolor_19.json"
 BASE_METRICS = PROJ / "experiments/flowedit135_fixedmask_metrics_20260623/metrics.csv"
 NEW_METRICS = PROJ / "experiments/t4_texture_metrics/metrics.csv"

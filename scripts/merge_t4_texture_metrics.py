@@ -5,7 +5,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 OLD = PROJ / "experiments/norestore_metrics/metrics.csv"
 NEW_T4 = PROJ / "experiments/t4_texture_metrics/metrics.csv"
 OUT_DIR = PROJ / "experiments/t4_texture_metrics"

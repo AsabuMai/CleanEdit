@@ -1,16 +1,16 @@
 import os, sys, json, re, time, hashlib
 from pathlib import Path
 import torch
-_PROJ_PATH=Path("/cluster/users/grad/2025/25t8103/project")
+_PROJ_PATH=Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_PROJ_PATH))
 sys.path.insert(0, str(_PROJ_PATH/"flux"))
 import flux_hrec
 from flux_hrec import build_parser, load_flux_pipeline, HRecFluxEdit
 PROJ=_PROJ_PATH
-man=json.load(open(os.environ.get("MANIFEST", str(PROJ/"data/pie_pilot_20260618/manifest_pp_enriched.json"))))
+man=json.load(open(os.environ.get("MANIFEST", str(PROJ/"data/flowedit_compatible_135/manifest.json"))))
 START=int(os.environ.get("START","0"))
 LIMIT=int(os.environ.get("LIMIT", len(man)))
-OUT=PROJ/os.environ.get("FLUX_OUT","outputs/pie_kindaware_flux_20260618"); SEED=os.environ.get("SEED","10")
+OUT=PROJ/os.environ.get("FLUX_OUT","outputs/flowedit135_flux"); SEED=os.environ.get("SEED","10")
 CACHE_DIR=os.environ.get("FLUX_CACHE_DIR", str(PROJ/".cache/huggingface/hub"))
 FLUX_STEPS=os.environ.get("FLUX_STEPS","12")
 FLUX_N_MAX=os.environ.get("FLUX_N_MAX","10")

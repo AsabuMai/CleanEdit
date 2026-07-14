@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-proj = Path("/cluster/users/grad/2025/25t8103/project")
+proj = Path(__file__).resolve().parents[1]
 src = proj / "data/flowedit_compatible_135/manifest_sam_135.json"
 dst = proj / "data/flowedit_compatible_135/manifest_t4_recolor_19.json"
 

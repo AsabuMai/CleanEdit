@@ -1,6 +1,6 @@
 import os, sys, json, re, types, time
 from pathlib import Path
-PROJ=Path("/cluster/users/grad/2025/25t8103/project"); sys.path.insert(0, str(PROJ))
+PROJ=Path(__file__).resolve().parents[1]; sys.path.insert(0, str(PROJ))
 import torch, run_edit_sd3
 _orig=run_edit_sd3.StableDiffusion3Pipeline.from_pretrained; _cache={}
 def _fp(*a,**k):
@@ -13,9 +13,9 @@ def _fp(*a,**k):
         p.to("cuda"); _cache[key]=p; print("[ka-sd3] pipe loaded once",flush=True)
     return _cache[key]
 run_edit_sd3.StableDiffusion3Pipeline.from_pretrained=staticmethod(_fp)
-man=json.load(open(os.environ.get("MANIFEST",str(PROJ/"data/pie_pilot_20260618/manifest_pp_enriched.json"))))
+man=json.load(open(os.environ.get("MANIFEST",str(PROJ/"data/flowedit_compatible_135/manifest.json"))))
 START=int(os.environ.get("START","0"))
-LIMIT=int(os.environ.get("LIMIT",len(man))); OUT=PROJ/os.environ.get("OUT","outputs/pie_kindaware_sd3_20260618"); SEED=os.environ.get("SEED","10")
+LIMIT=int(os.environ.get("LIMIT",len(man))); OUT=PROJ/os.environ.get("OUT","outputs/flowedit135_sd3"); SEED=os.environ.get("SEED","10")
 SD3_SHARED_CORE_SHADOW=os.environ.get("SD3_SHARED_CORE_SHADOW","0").lower() in ("1","true","yes","on")
 T4_TEXTURE_DETAIL_TRANSFER=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER","0").lower() in ("1","true","yes","on")
 T4_TEXTURE_DETAIL_TRANSFER_STRENGTH=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER_STRENGTH","0.8")

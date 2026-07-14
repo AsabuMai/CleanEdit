@@ -1,8 +1,0 @@
-method,label,n,task_success_true,task_success_denominator,outside_l1,bg_psnr,bg_lpips_x100,bg_ssim_luma,source_ssim_luma,dino_source,bg_dino_source,clip_t,local_clip_t,edit_score,clip_delta,inside_l1,runtime_s,peak_mem_gb
-direct_target,Direct target,45,,,0.0729,18.8534,35.4833,0.6499,0.6318,0.6077,0.6468,0.2790,0.2313,0.0096,0.0096,0.1195,32.0778,12.2392
-adaptive_full_generic_support,Generic support,45,,,0.0351,24.2828,8.9691,0.7489,0.7470,0.8998,0.9214,0.2673,0.2382,0.0026,0.0026,0.1111,50.1845,13.2528
-flowedit,FlowEdit-SD3,45,,,0.1614,13.8071,46.1008,0.5333,0.5171,0.4871,0.5595,0.2962,0.2511,0.0434,0.0434,0.2026,,
-splitflow,SplitFlow-SD3,45,,,0.0774,19.3834,26.5071,0.6473,0.6295,0.6281,0.7094,0.2958,0.2765,0.0387,0.0387,0.1422,,
-sam_flow_sd3,Sam-Flow-SD3,45,,,0.0516,21.5160,14.9820,0.7115,0.6894,0.7054,0.7839,0.2938,0.2865,0.0397,0.0397,0.1338,,
-support_v3_fixed,Fixed CleanEdit-SD3,45,,,0.0285,28.7194,5.8399,0.7991,0.7874,0.8624,0.9261,0.2828,0.2828,0.0382,0.0382,0.1440,68.3457,13.4455
-support_v3_controller_rmsgap,CleanEdit-SD3,45,,,0.0281,28.8510,5.4470,0.7996,0.7874,0.8619,0.9370,0.2788,0.2795,0.0379,0.0379,0.1531,51.8428,13.3917

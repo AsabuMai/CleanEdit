@@ -1,89 +1,39 @@
 __pycache__/
 *.py[cod]
-
 .DS_Store
 
+# Environments and package/model caches
 .venv/
 venv/
 env/
-.uv-cache/
-.uv-python/
+.cache/
+.huggingface/
 .hf-cache/
+.pip-cache/
+.uv-cache/
 
-results/
-outputs/
-archive/
-workshop_materials/
-h_edit_compare/results_*/
-
-*.log
-*.exit
-
+# External repositories and checkpoints
+_baselines/
 *.pt
 *.pth
 *.ckpt
 *.safetensors
 
-# Local runtime/cache directories
-.pip-cache/
-.cache/
-.huggingface/
-
-# External baseline clones and environments
-_baselines/
-
-# Generated experiment products and scratch backups
+# Generated runs, logs, and scratch data
+outputs/
+experiments/
 logs/
-_cleanup_backup_*/
-_pillow_goal/
-_pillow_strip_goal/
-runpod_recolor_review/
+slurm_logs/
+tmp/
+tmp_*/
+*.log
+*.exit
+*.bak*
 
-# Large/generated media sheets
-phase2_*_sheet*.jpg
-phase2_*_preview.jpg
-
-# Generated images/media; add explicitly later or use Git LFS if needed
+# Generated media (published numeric summaries under results/ stay tracked)
 *.png
 *.jpg
 *.jpeg
 *.webp
 *.gif
 *.pdf
-
-# Binary office/report artifacts
-*.docx
-*.pptx
-*.xlsx
-
-# Debug archives and scratch sync dirs
-*.tgz
-*.bak
-*.bak_*
-.pip_cache/
-flux_tmp_sync/
-slurm_logs/
-phase2_review/
-# Keep FLUX source code versioned while ignoring local scratch files/backups.
-flux/*
-!flux/__init__.py
-!flux/dece_flux_adapter.py
-!flux/flux_hrec.py
-!flux/flux_model_ops.py
-!flux/run_edit_flux.py
-sd3/
-tmp_reference_*/
-
-# uv bootstrap env
-.uv-bootstrap-py39/
-
-# scratch / tmp working dirs
-tmp/
-tmp_*/
-.tmp/
-__codex_upload_tmp__/
-remote_backups/
-scripts/backups_*/
-
-# numbered editor backups (e.g. .bak2_20260617)
-*.bak[0-9]*

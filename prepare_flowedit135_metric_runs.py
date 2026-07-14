@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parent
 DEFAULT_MANIFEST = PROJ / "data/flowedit_compatible_135/manifest.json"
 DEFAULT_OUT = PROJ / "outputs/flowedit135_metric_runs"
 
