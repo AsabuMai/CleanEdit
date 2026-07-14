@@ -13,7 +13,7 @@ PROJ=/cluster/users/grad/2025/25t8103/CleanEdit-evidence
 ASSET_ROOT=/cluster/users/grad/2025/25t8103/project
 PY=$ASSET_ROOT/.venv-h100/bin/python
 LOCK=$PROJ/data/flowedit_compatible_135/evidence_20260714/nine_bucket_flux_evidence.lock.json
-OUTPUT_ROOT=outputs/evidence_20260714_clean
+OUTPUT_ROOT=outputs/evidence_20260714_clean_v2
 
 cd "$PROJ"
 test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
@@ -58,8 +58,6 @@ run_bucket() (
     esac
     if test "$bucket" = b6_flux_bgrep; then
         export KEY_OVERRIDE_JSON='{"fe_130":{"--edit-hedit-guidance-scale":"1.55"}}'
-    elif test "$bucket" = b8_melt_scale; then
-        export KEY_OVERRIDE_JSON='{"fe_128":{"--edit-color-mask-image":"data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png"},"fe_028":{"--edit-color-mask-image":"data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png"},"fe_027":{"--edit-color-mask-image":"data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png"}}'
     fi
     "$PY" scripts/pie_batch_flux_kindaware_v11.py
 )
@@ -71,7 +69,7 @@ run_bucket b4_flux_noed kind_budget_final data/flowedit_compatible_135/evidence_
 run_bucket b5_sd3_leak_control flux_canonical_recolor_control data/flowedit_compatible_135/evidence_20260714/manifest_b5_sd3_leak_control.json
 run_bucket b6_flux_bgrep zero_expand_outside_lock_final data/flowedit_compatible_135/evidence_20260714/manifest_b6_flux_bgrep.json
 run_bucket b7_half full_body_mask_zero_expand data/flowedit_compatible_135/evidence_20260714/manifest_b7_half.json
-run_bucket b8_melt_scale tight_recolor_mask_zero_expand data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json
+run_bucket b8_melt_scale flux_support_control_zero_expand data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json
 run_bucket b9_resid removed_token_support data/flowedit_compatible_135/evidence_20260714/manifest_b9_resid.json
 
 "$PY" scripts/verify_nine_bucket_flux_evidence.py \

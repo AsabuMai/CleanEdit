@@ -35,10 +35,11 @@ The lock file is `data/flowedit_compatible_135/evidence_20260714/nine_bucket_flu
 | 5 SD3 leak control | 4 | `flux_canonical_recolor_control` | FLUX remains the unchanged control for the SD3 halo mechanism |
 | 6 FLUX background replacement | 7 | `zero_expand_outside_lock_final` | several backgrounds recover; meditation whole-subject transforms remain limited |
 | 7 half conversion | 2 | `full_body_mask_zero_expand` | full-body support removes the head-only mask failure |
-| 8 melt/scale | 5 | `tight_recolor_mask_zero_expand` | tight recolor masks and zero material expansion control melt/scale |
+| 8 melt/scale | 5 | `flux_support_control_zero_expand` | FLUX remains the recolor stability control; zero material expansion controls scale |
 | 9 replacement residue | 1 | `removed_token_support` | FLUX residue remains linked to its write-without-erase limitation |
 
 Bucket 2 is a FLUX control only. It cannot by itself prove the SD3 limitation; that conclusion remains tied to the separate fixed-input SD3 evidence.
+Bucket 8 likewise does not inject SD3-only `--edit-color-mask-image`; FLUX uses its own locked support-control path.
 
 ## Eligibility metadata
 

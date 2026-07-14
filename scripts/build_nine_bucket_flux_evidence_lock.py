@@ -85,19 +85,14 @@ BUCKETS: dict[str, dict[str, Any]] = {
         "old_conclusion": "The fixed full-body multi-box mask removes the head-only support failure.",
     },
     "b8_melt_scale": {
-        "recipe": "tight_recolor_mask_zero_expand",
+        "recipe": "flux_support_control_zero_expand",
         "sources": ["manifest_bucket8_r2.json", "manifest_bucket6_r3.json"],
         "keys": [
             "fe_027_butterflies_1_yellow", "fe_028_butterfly_1_orange_butterfly",
             "fe_128_gray_bird_2_red_bird", "fe_130_gray_bird_4_golden_sculpture",
             "fe_157_kid_running_3_sculpture",
         ],
-        "old_conclusion": "Tight recolor support prevents structure melt; zero expansion controls scale on material cases.",
-        "assets": [
-            "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
-            "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
-            "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png",
-        ],
+        "old_conclusion": "FLUX remains the recolor stability control; zero expansion controls scale on material cases.",
     },
     "b9_resid": {
         "recipe": "removed_token_support",

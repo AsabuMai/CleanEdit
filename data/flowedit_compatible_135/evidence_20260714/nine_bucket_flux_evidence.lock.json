@@ -505,28 +505,12 @@
       }
     },
     "b8_melt_scale": {
-      "recipe": "tight_recolor_mask_zero_expand",
-      "old_conclusion": "Tight recolor support prevents structure melt; zero expansion controls scale on material cases.",
+      "recipe": "flux_support_control_zero_expand",
+      "old_conclusion": "FLUX remains the recolor stability control; zero expansion controls scale on material cases.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json",
       "manifest_sha256": "450fb543c24a0c705d75b6edf109e2ff15cb36e52e5fb4f0a9b931bcb9929379",
       "expected_count": 5,
-      "recipe_assets": {
-        "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png": {
-          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
-          "size_bytes": 7507,
-          "sha256": "2859d7c3cd19a2b5e43a252d3b8ba9baac04344e5d7a177eaccbd958153696a7"
-        },
-        "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png": {
-          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
-          "size_bytes": 3781,
-          "sha256": "31aac23734f2f2f55f31624982803fdbcbfaa86a3a658bdb00507ba95de72f77"
-        },
-        "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png": {
-          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png",
-          "size_bytes": 7388,
-          "sha256": "7f264eef7de777435dcdb277e4d22a85a75396ac7b5a27947510712e9d487f70"
-        }
-      },
+      "recipe_assets": {},
       "cases": {
         "fe_027_butterflies_1_yellow": {
           "entry_sha256": "b339c31ee1db47bb37f5ea89aa2c942e98850bbce8f186d8ca98064e2c5a58e9",
