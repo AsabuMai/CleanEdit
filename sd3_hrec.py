@@ -234,6 +234,9 @@ def HRecSD3Edit(
     edit_initial_noise_scale: float = 0.0,
     edit_initial_noise_region: str = "core",
     region_target_transport_scale: float = 0.0,
+    source_attachment_release_scale: float = 0.0,
+    source_attachment_release_stop_t: float = 0.35,
+    source_attachment_release_full_t: float = 0.65,
     region_target_outside_lock_scale: float = 0.0,
     attention_mask_mode: str = "changed_union",
     attention_mask_target_words: list[str] | None = None,
@@ -1136,6 +1139,8 @@ def HRecSD3Edit(
     if adaptive_component_control:
         adaptive_clean_control = True
         shared_core_authoritative = True
+    if source_attachment_release_scale > 0.0:
+        shared_core_authoritative = True
     shared_core_shadow_unsupported = []
     if edit_field_mode not in {"surrogate", "rf_diff"}:
         shared_core_shadow_unsupported.append(f"edit_field_mode={edit_field_mode}")
@@ -1318,6 +1323,8 @@ def HRecSD3Edit(
         region_target_transport_core_beta = 0.0
         region_target_transport_ring_beta = 0.0
         region_target_transport_core_gamma = 0.0
+        source_attachment_release_norm = 0.0
+        source_attachment_release_weight = 0.0
         region_target_outside_lock_norm = 0.0
         region_target_outside_lock_weight = 0.0
         region_target_ring_lock_weight = 0.0
@@ -2353,6 +2360,15 @@ def HRecSD3Edit(
                                 edit_local_target_guidance_scale
                             ),
                             region_target_transport_scale=float(region_target_transport_scale),
+                            source_attachment_release_scale=float(
+                                source_attachment_release_scale
+                            ),
+                            source_attachment_release_stop_t=float(
+                                source_attachment_release_stop_t
+                            ),
+                            source_attachment_release_full_t=float(
+                                source_attachment_release_full_t
+                            ),
                             removal_controller_mode=removal_controller_mode,
                             edit_operation=support_edit_operation or "",
                             removal_fill_scale=float(removal_fill_scale),
@@ -2416,6 +2432,12 @@ def HRecSD3Edit(
                     for key, value in shadow_out.diagnostics.items()
                     if key.startswith("adaptive_component_")
                 }
+                source_attachment_release_norm = shadow_out.diagnostics[
+                    "source_attachment_release_norm"
+                ]
+                source_attachment_release_weight = shadow_out.diagnostics[
+                    "source_attachment_release_weight"
+                ]
                 if shared_core_authoritative:
                     v_rec = shadow_out.v_rec
                     v_edit_total = shadow_out.v_edit
@@ -2572,6 +2594,11 @@ def HRecSD3Edit(
             "removal_suppression_scale": float(removal_suppression_scale),
             "removal_ring_rec_scale": float(removal_ring_rec_scale),
             "region_target_transport_scale": float(region_target_transport_scale),
+            "source_attachment_release_scale": float(source_attachment_release_scale),
+            "source_attachment_release_stop_t": float(source_attachment_release_stop_t),
+            "source_attachment_release_full_t": float(source_attachment_release_full_t),
+            "source_attachment_release_norm": float(source_attachment_release_norm),
+            "source_attachment_release_weight": float(source_attachment_release_weight),
             "region_target_outside_lock_scale": float(region_target_outside_lock_scale),
             "region_target_transport_norm": float(region_target_transport_norm),
             "local_target_formation_norm": float(local_target_formation_norm),

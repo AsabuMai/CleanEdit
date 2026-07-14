@@ -126,6 +126,8 @@ def main() -> None:
     if args.adaptive_component_control:
         args.adaptive_clean_control = True
         args.shared_core_authoritative = True
+    if args.source_attachment_release_scale > 0.0:
+        args.shared_core_authoritative = True
     if torch.cuda.is_available():
         torch.cuda.reset_peak_memory_stats()
     edit_mask_box = parse_normalized_box(args.edit_mask_box, "--edit-mask-box")
@@ -402,6 +404,9 @@ def main() -> None:
         edit_initial_noise_scale=args.edit_initial_noise_scale,
         edit_initial_noise_region=args.edit_initial_noise_region,
         region_target_transport_scale=args.region_target_transport_scale,
+        source_attachment_release_scale=args.source_attachment_release_scale,
+        source_attachment_release_stop_t=args.source_attachment_release_stop_t,
+        source_attachment_release_full_t=args.source_attachment_release_full_t,
         region_target_outside_lock_scale=args.region_target_outside_lock_scale,
         attention_mask_mode=args.attention_mask_mode,
         attention_mask_target_words=attention_mask_target_words,
@@ -745,6 +750,9 @@ def main() -> None:
         "edit_initial_noise_scale": args.edit_initial_noise_scale,
         "edit_initial_noise_region": args.edit_initial_noise_region,
         "region_target_transport_scale": args.region_target_transport_scale,
+        "source_attachment_release_scale": args.source_attachment_release_scale,
+        "source_attachment_release_stop_t": args.source_attachment_release_stop_t,
+        "source_attachment_release_full_t": args.source_attachment_release_full_t,
         "region_target_outside_lock_scale": args.region_target_outside_lock_scale,
         "attention_mask_mode": args.attention_mask_mode,
         "attention_mask_target_words": attention_mask_target_words,

@@ -479,6 +479,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--trajectory-preserve-scale", type=float, default=0.12)
     parser.add_argument("--trajectory-subject-preserve-scale", type=float, default=0.0)
     parser.add_argument("--region-target-transport-scale", type=float, default=0.0)
+    parser.add_argument("--source-attachment-release-scale", type=float, default=0.0)
+    parser.add_argument("--source-attachment-release-stop-t", type=float, default=0.35)
+    parser.add_argument("--source-attachment-release-full-t", type=float, default=0.65)
     parser.add_argument("--region-target-outside-lock-scale", type=float, default=0.0)
     parser.add_argument("--minimal-core-scale", type=float, default=1.0)
     parser.add_argument("--minimal-ring-scale", type=float, default=0.35)
@@ -1276,6 +1279,9 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
                 "region_target_transport_core_beta": float(region_target_transport_core_beta),
                 "region_target_transport_ring_beta": float(region_target_transport_ring_beta),
                 "region_target_transport_core_gamma": float(region_target_transport_core_gamma),
+                "source_attachment_release_scale": float(args.source_attachment_release_scale),
+                "source_attachment_release_stop_t": float(args.source_attachment_release_stop_t),
+                "source_attachment_release_full_t": float(args.source_attachment_release_full_t),
                 "region_target_outside_lock_scale": float(args.region_target_outside_lock_scale),
                 "region_target_outside_lock_norm": float(region_target_outside_lock_norm),
                 "region_target_outside_lock_weight": float(region_target_outside_lock_weight),
@@ -1808,6 +1814,9 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
         "trajectory_preserve_scale": args.trajectory_preserve_scale,
         "trajectory_subject_preserve_scale": args.trajectory_subject_preserve_scale,
         "region_target_transport_scale": args.region_target_transport_scale,
+        "source_attachment_release_scale": args.source_attachment_release_scale,
+        "source_attachment_release_stop_t": args.source_attachment_release_stop_t,
+        "source_attachment_release_full_t": args.source_attachment_release_full_t,
         "region_target_outside_lock_scale": args.region_target_outside_lock_scale,
         "minimal_core_scale": args.minimal_core_scale,
         "minimal_ring_scale": args.minimal_ring_scale,

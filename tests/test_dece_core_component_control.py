@@ -79,6 +79,7 @@ class SharedBackendComponentParityTest(unittest.TestCase):
         t_scalar = torch.tensor(0.5)
         config = DeceCoreConfig(
             edit_hedit_guidance_scale=1.0,
+            source_attachment_release_scale=0.25,
             adaptive_clean_control=False,
             adaptive_component_control=True,
             adaptive_rmsgap_mode="normgate",
@@ -142,6 +143,47 @@ class SharedBackendComponentParityTest(unittest.TestCase):
                 rtol=1e-6,
             )
         )
+
+    def test_source_attachment_release_is_early_and_masked(self) -> None:
+        edit_map = torch.zeros(1, 1, 4, 4)
+        edit_map[:, :, 1:3, 1:3] = 1.0
+        preserve_map = 1.0 - edit_map
+        zeros = torch.zeros(1, 2, 4, 4)
+        target_velocity = torch.ones_like(zeros)
+        config = DeceCoreConfig(source_attachment_release_scale=0.4)
+
+        def run(t_value: float):
+            return compute_dece_core_step(
+                config,
+                DeceCoreStepInput(
+                    z_t=zeros,
+                    x_src=zeros,
+                    x0_src=zeros,
+                    x0_tar=zeros,
+                    v_src=zeros,
+                    v_tar=target_velocity,
+                    v_src_edit=zeros,
+                    t_scalar=torch.tensor(t_value),
+                    alpha_t=0.0,
+                    beta_t=1.0,
+                    x_src_map=zeros,
+                    x0_src_map=zeros,
+                    x0_tar_map=zeros,
+                    base_edit_velocity_map=zeros,
+                    edit_map=edit_map,
+                    preserve_map=preserve_map,
+                    edit_gate=edit_map,
+                    preserve_gate=preserve_map,
+                ),
+            )
+
+        early = run(0.8)
+        late = run(0.2)
+        self.assertEqual(early.diagnostics["source_attachment_release_weight"], 1.0)
+        self.assertGreater(early.diagnostics["source_attachment_release_norm"], 0.0)
+        self.assertTrue(torch.equal(early.v_total * preserve_map, zeros))
+        self.assertEqual(late.diagnostics["source_attachment_release_weight"], 0.0)
+        self.assertTrue(torch.equal(late.v_total, zeros))
 
 
 if __name__ == "__main__":
