@@ -26,7 +26,15 @@ python scripts/rebase_manifest.py \
   --check
 ```
 
-Fixed evaluation masks and their audit files are under `data/flowedit_compatible_135/eval_masks/`.
+The release keeps the fixed-region audit metadata but does not duplicate the
+generated mask PNGs. After rebasing the manifest, regenerate them with:
+
+```bash
+python make_flowedit135_fixed_eval_masks.py
+```
+
+This writes masks, overlays, and a fresh audit under
+`data/flowedit_compatible_135/eval_masks/`.
 
 ## 3. CleanEdit generation
 
@@ -76,7 +84,8 @@ python scripts/evaluate_paper_metrics.py --help
 python scripts/summarize_metrics_csv.py --help
 ```
 
-The exact reported summaries and audits are retained under:
+The release retains the main comparison and one compact aggregate for each
+ablation under:
 
 - `results/submission/`
 - `results/ablations/multiseed/`
@@ -85,7 +94,9 @@ The exact reported summaries and audits are retained under:
 - `results/ablations/pareto/`
 - `results/ablations/t4_operator/`
 
-Audit JSON files record metric coverage and missing cases. Reproduced aggregates should be compared against the corresponding checked-in summary CSVs.
+The evaluation command regenerates per-family, per-seed, and audit files.
+Reproduced aggregates should be compared against the corresponding checked-in
+summary CSVs.
 
 ## 6. Regression checks
 
