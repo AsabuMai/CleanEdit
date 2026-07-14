@@ -15,7 +15,11 @@ PY=$A/.venv-h100/bin/python
 BASE=outputs/diagnostics_20260714/source_attachment_release_s035
 
 cd "$R"
-test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
+if [[ "${VERIFY_ONLY:-0}" == "1" ]]; then
+    [[ "$(hostname)" == "a100-01.gpu01.cis.k.hosei.ac.jp" || "$(hostname)" == "h100-01.gpu01.cis.k.hosei.ac.jp" ]]
+else
+    test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
+fi
 test -z "$(git status --porcelain --untracked-files=normal)"
 
 export HF_HOME=$A/.cache/huggingface
