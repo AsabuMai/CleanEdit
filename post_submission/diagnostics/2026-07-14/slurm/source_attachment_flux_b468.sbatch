@@ -132,7 +132,7 @@ for key in sorted(control):
     right = json.loads(release_path.read_text())
     for field in (
         "seed", "num_inference_steps", "n_max", "source_image_sha256",
-        "source_prompt", "prompt", "final_postprocess_mode", "postprocess_applied",
+        "source_prompt", "target_prompt", "final_postprocess_mode", "postprocess_applied",
         "support_control_mode", "support_mode", "support_stats",
     ):
         assert left[field] == right[field], (key, field)
