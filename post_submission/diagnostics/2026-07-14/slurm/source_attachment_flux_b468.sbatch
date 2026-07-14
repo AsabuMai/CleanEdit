@@ -12,7 +12,8 @@ set -euo pipefail
 R=/cluster/users/grad/2025/25t8103/CleanEdit-source-attachment
 A=/cluster/users/grad/2025/25t8103/project
 PY=$A/.venv-h100/bin/python
-BASE=outputs/diagnostics_20260714/source_attachment_release_s035
+ATTACH_SCALE=${ATTACH_SCALE:-0.35}
+BASE=${ATTACH_OUT:-outputs/diagnostics_20260714/source_attachment_release_s035}
 
 cd "$R"
 if [[ "${VERIFY_ONLY:-0}" == "1" ]]; then
@@ -36,7 +37,7 @@ export T3_NEG_FROM_REMOVED=0 T3_COMPACT_PROMPT=0 T3_SPELL_TEXT=0 T3_SURFACE_PROM
 export T5_POSE_PROMPT=1 T5_AUTO_PROMPT_PREFIX=1 T5_PROMPT_PREFIX=''
 export T5_EXPAND_EDIT_RADIUS=21 T5_EXPAND_EDIT_MASK_BLUR=6
 export MASK_OVERRIDE_JSON=''
-export ADAPT_OVERRIDE_JSON='{"recolor":{"--source-attachment-release-scale":"0.35"},"material":{"--source-attachment-release-scale":"0.35"}}'
+export ADAPT_OVERRIDE_JSON="{\"recolor\":{\"--source-attachment-release-scale\":\"$ATTACH_SCALE\"},\"material\":{\"--source-attachment-release-scale\":\"$ATTACH_SCALE\"}}"
 
 run_bucket() (
     bucket=$1
@@ -70,11 +71,12 @@ if [[ "${VERIFY_ONLY:-0}" != "1" ]]; then
     run_bucket b8_melt_scale data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json
 fi
 
-"$PY" - "$R/$BASE" <<'PY'
+"$PY" - "$R/$BASE" "$ATTACH_SCALE" <<'PY'
 import json, sys
 from pathlib import Path
 
 root = Path(sys.argv[1])
+release_scale = float(sys.argv[2])
 metadata = sorted(root.glob("**/metadata.json"))
 assert len(metadata) == 18, len(metadata)
 expected_active = 0
@@ -88,7 +90,7 @@ for path in metadata:
     assert data["evaluation_eligible"] is False
     assert data["paper_use"] is False
     operation = data["support_stats"]["support_edit_operation"]
-    expected = 0.35 if operation in {"recolor", "replace"} else 0.0
+    expected = release_scale if operation in {"recolor", "replace"} else 0.0
     assert data["source_attachment_release_scale"] == expected, path
     expected_active += int(expected > 0.0)
 stats = sorted(root.glob("**/stats.json"))
@@ -99,5 +101,58 @@ for path in stats:
     if any(row.get("source_attachment_release_norm", 0.0) > 0.0 for row in rows):
         active += 1
 assert active == expected_active, (active, expected_active)
-print(f"verified 18 fixed-budget runs; source release active on {active} recolor/material runs")
+print(
+    f"verified 18 fixed-budget runs at scale={release_scale}; "
+    f"source release active on {active} recolor/material runs"
+)
 PY
+
+if [[ -n "${PAIR_WITH:-}" ]]; then
+"$PY" - "$R/$BASE" "$R/$PAIR_WITH" <<'PY'
+import json, sys
+from pathlib import Path
+
+control_root, release_root = map(Path, sys.argv[1:])
+
+def index(root):
+    rows = {}
+    for path in root.glob("**/metadata.json"):
+        relative = path.relative_to(root)
+        rows[tuple(relative.parts[:2])] = path
+    return rows
+
+control = index(control_root)
+release = index(release_root)
+assert len(control) == 18 and control.keys() == release.keys()
+active_changed = 0
+inactive_identical = 0
+for key in sorted(control):
+    control_path, release_path = control[key], release[key]
+    left = json.loads(control_path.read_text())
+    right = json.loads(release_path.read_text())
+    for field in (
+        "seed", "num_inference_steps", "n_max", "source_image_sha256",
+        "source_prompt", "prompt", "final_postprocess_mode", "postprocess_applied",
+        "support_control_mode", "support_mode", "support_stats",
+    ):
+        assert left[field] == right[field], (key, field)
+    assert left["source_attachment_release_scale"] == 0.0, key
+    release_scale = right["source_attachment_release_scale"]
+    for mask_name in ("M_edit.png", "M_core.png", "M_preserve.png"):
+        left_mask = control_path.parent / "masks" / mask_name
+        right_mask = release_path.parent / "masks" / mask_name
+        assert left_mask.read_bytes() == right_mask.read_bytes(), (key, mask_name)
+    same_result = (
+        (control_path.parent / "result.png").read_bytes()
+        == (release_path.parent / "result.png").read_bytes()
+    )
+    if release_scale > 0.0:
+        assert not same_result, key
+        active_changed += 1
+    else:
+        assert same_result, key
+        inactive_identical += 1
+assert (active_changed, inactive_identical) == (15, 3)
+print("paired control verified: 15 active changed, 3 inactive bitwise identical")
+PY
+fi
