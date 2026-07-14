@@ -16,11 +16,16 @@ BASE=$R/outputs/diagnostics_20260714/mask_policy_flux
 MANIFEST=$BASE/manifest.json
 
 cd "$R"
-test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
+if [[ "${VERIFY_ONLY:-0}" == "1" ]]; then
+    [[ "$(hostname)" == "a100-01.gpu01.cis.k.hosei.ac.jp" || "$(hostname)" == "h100-01.gpu01.cis.k.hosei.ac.jp" ]]
+else
+    test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
+fi
 test -z "$(git status --porcelain --untracked-files=normal)"
+
+if [[ "${VERIFY_ONLY:-0}" != "1" ]]; then
 test ! -e "$BASE"
 mkdir -p "$BASE"
-
 "$PY" - "$R" "$MANIFEST" <<'PY'
 import json, sys
 from pathlib import Path
@@ -45,6 +50,7 @@ for bucket, keys in selected.items():
 assert len(rows) == 11, len(rows)
 output.write_text(json.dumps(rows, indent=2) + "\n")
 PY
+fi
 
 export HF_HOME=$A/.cache/huggingface
 export HF_HUB_CACHE=$A/.cache/huggingface/hub
@@ -59,11 +65,13 @@ export FLUX_LOCAL_FILES_ONLY=1 FLUX_OFFLOAD=model FLUX_STEPS=12 FLUX_N_MAX=10
 export T5_EXPAND_EDIT_MASK=1 T5_EXPAND_EDIT_RADIUS=21 T5_EXPAND_EDIT_MASK_BLUR=6
 export T5_NEGATIVE_PROMPT='fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark'
 
-for policy in legacy operation; do
-    export MASK_POLICY=$policy
-    export FLUX_OUT=$BASE/$policy
-    "$PY" scripts/pie_batch_flux_kindaware_v11.py
-done
+if [[ "${VERIFY_ONLY:-0}" != "1" ]]; then
+    for policy in legacy operation; do
+        export MASK_POLICY=$policy
+        export FLUX_OUT=$BASE/$policy
+        "$PY" scripts/pie_batch_flux_kindaware_v11.py
+    done
+fi
 
 "$PY" - "$BASE" <<'PY'
 import json, sys
@@ -85,7 +93,7 @@ for path in metadata:
     policy = path.relative_to(root).parts[0]
     assert support["support_mask_policy_mode"] == policy
     if policy == "operation":
-        operation = data["edit_operation"]
+        operation = data["support_stats"]["support_edit_operation"]
         expected_kernel = 5 if operation in {"add_object", "add_decal", "shape_change"} else 1
         assert support["support_mask_expansion_kernel"] == expected_kernel, path
         if operation == "replace":
