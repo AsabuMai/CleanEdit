@@ -29,7 +29,7 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 DIFFUSERS_OFFLINE=1
 "$PY" tests/test_dece_core_component_control.py
 
 common=(
-  --image "$R/data/paper_images/cat_sitting_in_grass.jpg"
+  --image "$ASSET_ROOT/data/paper_images/cat_sitting_in_grass.jpg"
   --source-prompt "A photo of a cat sitting in grass."
   --prompt "A photo of the same cat wearing a small golden crown."
   --max-image-size 192 --seed 10 --num-inference-steps 3 --n-max 3
@@ -40,7 +40,7 @@ common=(
   --support-min-area-ratio .01 --support-max-area-ratio .35
   --support-keep-components 2 --support-dilate-radius 1 --support-blur-kernel 1
   --edit-operation add_object --relation above_host --mask-layering-mode object_contact
-  --final-edit-mask "$R/outputs/pretty_matrix/cat_crown/adaptive_full_generic_support/seed_10/masks/subject_final.png"
+  --final-edit-mask "$ASSET_ROOT/outputs/pretty_matrix/cat_crown/adaptive_full_generic_support/seed_10/masks/subject_final.png"
   --final-edit-mask-mode replace --edit-mask-dilate-kernel 3 --edit-mask-erode-kernel 3
   --edit-mask-hole-fraction .05 --edit-mask-boundary-noise-scale .1 --edit-mask-smooth-kernel 3
   --new-tokens crown --attention-mask-target-words crown --host-tokens cat
