@@ -12,7 +12,7 @@ set -euo pipefail
 R=/cluster/users/grad/2025/25t8103/CleanEdit-mask-rules
 A=/cluster/users/grad/2025/25t8103/project
 PY=$A/.venv/bin/python
-B=$R/outputs/diagnostics_20260714/mask_policy_sd3
+B=$R/outputs/diagnostics_20260714/mask_policy_sd3_v2
 
 cd "$R"
 test "$(hostname)" = "a100-01.gpu01.cis.k.hosei.ac.jp"
@@ -40,7 +40,7 @@ CUBLAS_WORKSPACE_CONFIG=:4096:8 "$PY" run_edit_sd3.py \
   --prompt 'A gray cat wearing a black top hat.' \
   --output "$B/replace.png" --metadata-output "$B/replace.json" \
   --stats-output "$B/replace_stats.json" --mask-output-dir "$B/replace_masks" \
-  --semantic-base-mask "$R/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_046_cat_crown_1_black_top_hat_support.png" \
+  --semantic-base-mask "$A/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_046_cat_crown_1_black_top_hat_support.png" \
   --edit-operation replace --relation on_head --mask-layering-mode object_contact \
   --new-tokens hat --host-tokens cat --removed-tokens crown "${common[@]}"
 
@@ -50,7 +50,7 @@ CUBLAS_WORKSPACE_CONFIG=:4096:8 "$PY" run_edit_sd3.py \
   --prompt 'A brown and white corgi made out of lego bricks sitting outdoors.' \
   --output "$B/material.png" --metadata-output "$B/material.json" \
   --stats-output "$B/material_stats.json" --mask-output-dir "$B/material_masks" \
-  --semantic-base-mask "$R/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_support.png" \
+  --semantic-base-mask "$A/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_support.png" \
   --edit-operation material --relation inside --mask-layering-mode none \
   --new-tokens lego --host-tokens corgi "${common[@]}"
 
