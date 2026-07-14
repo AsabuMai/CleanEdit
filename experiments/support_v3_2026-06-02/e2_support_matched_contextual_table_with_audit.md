@@ -11,4 +11,4 @@ Post-hoc blend rows use the same fixed binary edit mask and are diagnostic only.
 | flowedit_mask_blend | 6 | 0.0002 | 0.9106 | 1.33 | 3.67 | 2.67 | 2.00 | 1.67 | target_miss_blend_boundary |
 | support_v3_controller_rmsgap | 6 | 0.0374 | 0.8908 | 4.67 | 3.67 | 4.00 | 3.67 | 4.33 | none |
 
-Conclusion: fixed binary output blending almost eliminates outside-mask metric error by construction, but visual audit shows it does not solve target correctness or boundary coherence. DeCE-RF is the only row that consistently performs the intended operation in this support-matched diagnostic. The fixed-weight DeCE displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.
+Conclusion: fixed binary output blending almost eliminates outside-mask metric error by construction, but visual audit shows it does not solve target correctness or boundary coherence. CleanEdit is the only row that consistently performs the intended operation in this support-matched diagnostic. The fixed-weight CleanEdit displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.

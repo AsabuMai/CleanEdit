@@ -75,8 +75,8 @@ METHODS = [
     ("rf_solver_edit", "RF-Solver-Edit"),
     ("reflex", "ReFlex"),
     ("sam_flow_flux", "Sam-Flow-FLUX"),
-    ("support_v3_fixed", "Fixed DeCE"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_fixed", "Fixed CleanEdit"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
 ]
 
 METRIC_FILES = [
@@ -146,12 +146,12 @@ def selected_run(task: str, method: str) -> tuple[str, str]:
         if task == "white_bowl_orange_tabletop_phase2":
             return (
                 "support_v3_controller_rmsgap_failed3_fix6_20260609",
-                "selected repaired DeCE-RF run with visible orange; plain seed 12 is a weak earlier run",
+                "selected repaired CleanEdit run with visible orange; plain seed 12 is a weak earlier run",
             )
         if task == "tshirt_star":
             return (
                 "support_v3_controller_rmsgap",
-                "selected natural-looking DeCE-RF run: visible red star follows shirt lighting/folds; t1t4 rerun lost the star and fix3 looks overlaid",
+                "selected natural-looking CleanEdit run: visible red star follows shirt lighting/folds; t1t4 rerun lost the star and fix3 looks overlaid",
             )
         if task == "mug_heart":
             return (
@@ -161,9 +161,9 @@ def selected_run(task: str, method: str) -> tuple[str, str]:
         if task in T1_T4_TASKS:
             return (
                 "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-                "formal T1-T4 three-seed DeCE-RF rerun",
+                "formal T1-T4 three-seed CleanEdit rerun",
             )
-        return ("support_v3_controller_rmsgap", "formal T5 DeCE-RF run")
+        return ("support_v3_controller_rmsgap", "formal T5 CleanEdit run")
     return (method, "canonical method directory")
 
 

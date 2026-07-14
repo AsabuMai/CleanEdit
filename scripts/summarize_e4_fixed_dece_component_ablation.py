@@ -13,8 +13,8 @@ METHOD_ORDER = [
 
 DISPLAY_NAME = {
     "direct_target_raw": "Direct target guidance",
-    "support_v3_fixed": "Fixed DeCE displacement",
-    "support_v3_controller_rmsgap": "DeCE-RF",
+    "support_v3_fixed": "Fixed CleanEdit displacement",
+    "support_v3_controller_rmsgap": "CleanEdit",
 }
 
 METRIC_FIELDS = [
@@ -110,7 +110,7 @@ def main() -> int:
         "# E4 Compact Component Ablation",
         "",
         "Scope: cat_crown, tshirt_star, and backpack_remove_toy_charm; seeds 10/11.",
-        "`Fixed DeCE displacement` keeps operation-conditioned support and fixed clean-estimate edit-preserve displacement, but removes feedback-updated weights and projection/correction. It is a component ablation, not an external baseline or an E2.4 support-only row.",
+        "`Fixed CleanEdit displacement` keeps operation-conditioned support and fixed clean-estimate edit-preserve displacement, but removes feedback-updated weights and projection/correction. It is a component ablation, not an external baseline or an E2.4 support-only row.",
         "",
         "| Variant | n | Outside L1 down | SSIM up | Edit | Preserve | Locality | Artifact | Overall |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -125,7 +125,7 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "Interpretation: this compact ablation separates direct target guidance, fixed DeCE displacement, and the full DeCE-RF feedback controller. The fixed row should be used to discuss component structure and feedback, while E2.4 remains focused on whether binary localization alone explains the gain.",
+            "Interpretation: this compact ablation separates direct target guidance, fixed CleanEdit displacement, and the full CleanEdit feedback controller. The fixed row should be used to discuss component structure and feedback, while E2.4 remains focused on whether binary localization alone explains the gain.",
         ]
     )
     out_md.write_text("\n".join(lines) + "\n", encoding="utf-8")

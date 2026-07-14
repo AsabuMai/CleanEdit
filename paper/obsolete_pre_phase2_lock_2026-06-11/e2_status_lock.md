@@ -38,8 +38,8 @@ experiments/support_v3_2026-06-02/e2_evidence_lock_2026-06-04.md
 | `FlowEdit-SD3` | SD3 | LOCKED | same-backbone RF-native baseline | algorithmic evidence within SD3 only |
 | `FlowAlign-SD3` | SD3 | LOCKED | same-backbone RF-native baseline | algorithmic evidence within SD3 only |
 | `SplitFlow-SD3` | SD3 | LOCKED | same-backbone RF-native baseline | algorithmic evidence within SD3 only |
-| `Fixed DeCE-SD3` / `support_v3_fixed` | SD3 | LOCKED as component cache; join into Table 2a as preservation-control row | same-backbone preservation-control row and E4 ablation | not an external baseline, not E1 headline |
-| `DeCE-RF-SD3` / `support_v3_controller_rmsgap` | SD3 | LOCKED | full method | main algorithm row |
+| `Fixed CleanEdit-SD3` / `support_v3_fixed` | SD3 | LOCKED as component cache; join into Table 2a as preservation-control row | same-backbone preservation-control row and E4 ablation | not an external baseline, not E1 headline |
+| `CleanEdit-SD3` / `support_v3_controller_rmsgap` | SD3 | LOCKED | full method | main algorithm row |
 | OT-RF/OTIP-SD3, RF-Edit-SD3, DVRF-SD3 | SD3 | PLANNED unless a real SD3 strict adapter/matrix is verified | optional same-backbone row only | OT-RF and DVRF repos/envs/single-case generation smoke are verified, but no strict Table 2a matrix is complete |
 
 ## E2.3 Native Preservation-Aware RF Context
@@ -47,7 +47,7 @@ experiments/support_v3_2026-06-02/e2_evidence_lock_2026-06-04.md
 | Row | Native backbone/interface | Status | Paper use | Notes |
 | --- | --- | --- | --- | --- |
 | RF-Solver-Edit / RF-Edit | native/public route | LOCKED when present in `e2_native_flux_*` artifacts; otherwise disclose blocker | contextual native baseline | do not claim pure algorithmic superiority |
-| ReFlex | native/public route | LOCKED when present in `e2_native_flux_*` artifacts; otherwise disclose blocker | contextual native baseline | do not claim SD3-DeCE beats ReFlex/FLUX as an algorithm |
+| ReFlex | native/public route | LOCKED when present in `e2_native_flux_*` artifacts; otherwise disclose blocker | contextual native baseline | do not claim SD3-CleanEdit beats ReFlex/FLUX as an algorithm |
 | FireFlow | native/public route | LOCKED when present in `e2_native_flux_*` artifacts; otherwise disclose blocker | contextual native baseline | native RF-flow context |
 | stable-flow | native/public route | PLANNED/BLOCKED unless strict adapter is complete | status/context only | include exact adapter blocker if not runnable |
 | OT-RF / OTIP | SD3 route in current smoke config; repo `OT-RF` at `abca084` | SMOKE-VERIFIED | status/context only until strict adapter/matrix complete | `_baselines/logs/generation_smoke/new_baselines_699815.out` reports `otrf_status=0` on `a100-01`; no invented comparison |
@@ -70,7 +70,7 @@ baselines because their public routes use different backbones or interfaces.
 | `support_v3_controller_rmsgap` | operation support + controller | LOCKED | full-method diagnostic comparator | same task subset |
 | `direct_target_medit_gate` | inference-time same fixed `M_edit` support | LOCKED | stronger support-matched diagnostic | 36/36 complete; metrics in `e2_support_matched_medit_gate_metrics.csv`; summary outside L1 0.0574, inside L1 0.1923, SSIM 0.6557 |
 | `FlowEdit + same M_edit gating` | inference-time same support | BLOCKED | disclose blocker, not a main row | no verified mask-aware FlowEdit inference wrapper in this project; keep `flowedit_mask_blend` diagnostic-only |
-| `Fixed DeCE` | operation support, no feedback | LOCKED/PLANNED depending joined subset | support + fixed displacement comparator | do not label as support-only |
+| `Fixed CleanEdit` | operation support, no feedback | LOCKED/PLANNED depending joined subset | support + fixed displacement comparator | do not label as support-only |
 
 Paper-safe wording:
 
@@ -79,7 +79,7 @@ Binary localization/output blending improves preservation metrics by
 construction but does not recover target correctness or boundary coherence.
 The direct-target same-M_edit row is an inference-time diagnostic; FlowEdit
 remains post-hoc-only until a stable mask-aware wrapper exists.
-Therefore, localization alone is insufficient to explain the DeCE-RF result.
+Therefore, localization alone is insufficient to explain the CleanEdit result.
 ```
 
 ## Forbidden E2 Claims
@@ -87,15 +87,15 @@ Therefore, localization alone is insufficient to explain the DeCE-RF result.
 Do not write:
 
 ```text
-DeCE-RF beats all RF editors.
-DeCE-RF beats FLUX.
-SD3-DeCE is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
+CleanEdit beats all RF editors.
+CleanEdit beats FLUX.
+SD3-CleanEdit is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
 ```
 
 Use:
 
 ```text
-Under the same SD3 backbone and fixed evaluation masks, DeCE-RF improves the
+Under the same SD3 backbone and fixed evaluation masks, CleanEdit improves the
 localized edit-preserve tradeoff over completed SD3 RF-native baselines and
 fixed decoupled preservation controls.
 ```

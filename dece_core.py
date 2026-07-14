@@ -18,7 +18,7 @@ TensorMapFn = Callable[[torch.Tensor], torch.Tensor]
 
 @dataclass
 class DeceCoreConfig:
-    """Backend-neutral DeCE-RF velocity-control weights for one RF step."""
+    """Backend-neutral CleanEdit velocity-control weights for one RF step."""
 
     struct_guidance_scale: float = 0.0
     edit_hedit_guidance_scale: float = 1.0
@@ -61,7 +61,7 @@ class DeceCoreConfig:
 
 @dataclass
 class DeceCoreStepInput:
-    """All tensors needed by the shared DeCE-RF step.
+    """All tensors needed by the shared CleanEdit step.
 
     Native tensors live in the backend's update layout, e.g. SD3 latent maps or
     FLUX packed latent tokens. Map tensors live in BCHW layout for shared
@@ -315,7 +315,7 @@ def compute_component_adaptive_edit_weight_map(
 
 
 def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> DeceCoreStepOutput:
-    """Compute the shared DeCE-RF edit/preserve velocity components.
+    """Compute the shared CleanEdit edit/preserve velocity components.
 
     This function intentionally knows nothing about SD3 or FLUX forward APIs.
     Backends provide native tensors plus BCHW map views and a map_to_native

@@ -1,4 +1,4 @@
-# RF h-Edit: Support-v3 Mathematical Implementation Plan
+# CleanEdit: Support-v3 Mathematical Implementation Plan
 
 ## 0. Goal
 

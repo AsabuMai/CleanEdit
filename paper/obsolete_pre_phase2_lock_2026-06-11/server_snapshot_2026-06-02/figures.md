@@ -11,7 +11,7 @@ Use only complete runs with `result.png`, `stats.json`, `metadata.json`, and
 Primary qualitative grid:
 
 ```text
-Source | Direct target | Generic support | DeCE-RF | Support overlay
+Source | Direct target | Generic support | CleanEdit | Support overlay
 ```
 
 Rows:
@@ -56,16 +56,16 @@ whiteboard_probe_red_star_sticker
 Columns:
 
 ```text
-Source | Base DeCE-RF | Extension route | Support / gate annotation
+Source | Base CleanEdit | Extension route | Support / gate annotation
 ```
 
 Paper-use guidance:
 
 - `laptop_remove_sticker`: show high-confidence completion clean-delta as a
-  planar removal extension. Label it as `DeCE-RF + completion prior`, not as
-  the base DeCE-RF method.
+  planar removal extension. Label it as `CleanEdit + completion prior`, not as
+  the base CleanEdit method.
 - `whiteboard_probe_red_star_sticker`: show non-glyph replacement in a
-  semantic letter field. Label it as `DeCE-RF + replacement route`.
+  semantic letter field. Label it as `CleanEdit + replacement route`.
 
 ## Support Figure
 
@@ -87,7 +87,7 @@ operation-conditioned support | M_edit/M_core | M_preserve
 Use `cat_crown`, `dog_sunglasses`, or `mug_heart`, comparing:
 
 ```text
-support_v3_fixed | DeCE-RF
+support_v3_fixed | CleanEdit
 ```
 
 Curves:

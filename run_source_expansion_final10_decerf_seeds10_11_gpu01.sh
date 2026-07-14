@@ -34,7 +34,7 @@ export SKIP_EXISTING=1
 export REUSE_SEMANTIC_MASKS=1
 export REGENERATE_MASKS=0
 
-echo "== final 10 source expansion DeCE-RF seeds 10,11 =="
+echo "== final 10 source expansion CleanEdit seeds 10,11 =="
 TASKS="$TASKS" \
 METHODS="support_v3_controller_rmsgap" \
 SEEDS="10 11" \

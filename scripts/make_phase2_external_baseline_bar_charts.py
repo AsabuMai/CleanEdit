@@ -37,7 +37,7 @@ COLORS = {
     "RF-Solver-Edit-FLUX/context": (92, 128, 180),
     "ReFlex-FLUX/context": (150, 102, 174),
     "Sam-Flow-FLUX/context": (78, 151, 137),
-    "DeCE-RF-SD3": (37, 104, 126),
+    "CleanEdit-SD3": (37, 104, 126),
 }
 
 TEXT = (36, 58, 74)
@@ -173,19 +173,19 @@ def make_chart(rows: list[dict[str, str]], labels: list[str], title: str, note: 
 def main() -> int:
     table2a = read_rows(TABLE2A)
     table2b = read_rows(TABLE2B)
-    dece = [row for row in table2a if row.get("label") == "DeCE-RF-SD3"]
+    dece = [row for row in table2a if row.get("label") == "CleanEdit-SD3"]
     make_chart(
         table2a,
-        ["FlowEdit-SD3", "SplitFlow-SD3", "Sam-Flow-SD3", "DeCE-RF-SD3"],
+        ["FlowEdit-SD3", "SplitFlow-SD3", "Sam-Flow-SD3", "CleanEdit-SD3"],
         "Same-backbone SD3 external baseline comparison",
         "Bars show 15 Phase2 tasks x 3 seeds. FlowAlign is excluded from the paper-facing comparison.",
         OUT_SD3,
     )
     make_chart(
         [*table2b, *dece],
-        ["FireFlow-FLUX/context", "RF-Solver-Edit-FLUX/context", "ReFlex-FLUX/context", "Sam-Flow-FLUX/context", "DeCE-RF-SD3"],
+        ["FireFlow-FLUX/context", "RF-Solver-Edit-FLUX/context", "ReFlex-FLUX/context", "Sam-Flow-FLUX/context", "CleanEdit-SD3"],
         "Native/context external baseline comparison",
-        "DeCE-RF-SD3 is shown as a preservation reference; native/context rows are not a strict same-backbone ranking.",
+        "CleanEdit-SD3 is shown as a preservation reference; native/context rows are not a strict same-backbone ranking.",
         OUT_FLUX,
     )
     return 0

@@ -1,6 +1,6 @@
-# RF h-Edit Project: Next-Step Action Plan
+# CleanEdit Project: Next-Step Action Plan
 
-This document summarizes what should be done next for the current RF h-Edit / SD3 Rectified Flow editing prototype.
+This document summarizes what should be done next for the current CleanEdit / SD3 Rectified Flow editing prototype.
 
 The current project is already following the intended direction:
 
@@ -679,7 +679,7 @@ Please implement or verify the following:
 - [x] Add an experimental SD3 source-reference attention processor.
 - [x] Start with FireFlow-style `V` replacement/addition for selected
       transformer layers and early edit steps.
-- [x] Evaluate `v_tar` inside the existing RF h-edit ODE under this injected
+- [x] Evaluate `v_tar` inside the existing CleanEdit ODE under this injected
       processor, rather than changing the ODE formula.
 - [x] Keep the two-mask split: broad generation support for `u_edit`, precise
       local mask only for injection/blending diagnostics.
@@ -688,7 +688,7 @@ Please implement or verify the following:
 
 ## 18. One-Sentence Next Step
 
-The next step is to keep the RF h-edit dynamics fixed and add SD3
+The next step is to keep the CleanEdit dynamics fixed and add SD3
 source-reference attention/feature injection, because mask and latent-trajectory
 controls alone have now hit the quality/placement trade-off on sunglasses.
 

@@ -227,7 +227,7 @@ def main() -> int:
                     target_prompt=target_prompt,
                     source_run=dece_dir,
                     support_condition="operation support plus clean-estimate feedback/projection",
-                    notes="Full DeCE-RF row.",
+                    notes="Full CleanEdit row.",
                 )
             )
 

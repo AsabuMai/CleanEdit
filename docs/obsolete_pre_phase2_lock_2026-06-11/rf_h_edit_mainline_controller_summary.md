@@ -1,4 +1,4 @@
-# RF h-Edit: Mainline Research Summary and Next-Step Plan
+# CleanEdit: Mainline Research Summary and Next-Step Plan
 
 ## 0. Key Decision
 

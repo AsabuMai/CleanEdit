@@ -32,8 +32,8 @@
 - Recolor/appearance editing is represented by `red_chair_blue`, which passed
   the strict Phase 1 visual audit. Describe it as a localized recolor probe,
   not evidence of general appearance editing.
-- `support_v3_fixed` is the Fixed DeCE component-control row. Its gap to
-  DeCE-RF is modest in the base comparison, so feedback control should be
+- `support_v3_fixed` is the Fixed CleanEdit component-control row. Its gap to
+  CleanEdit is modest in the base comparison, so feedback control should be
   presented as tradeoff/stabilization evidence through stress/Pareto curves,
   not as a standalone headline robustness claim.
 - Mask sensitivity has been checked under eroded/base/dilated fixed evaluation

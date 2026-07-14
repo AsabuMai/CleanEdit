@@ -1,15 +1,15 @@
-# DeCE-RF Experiment Plan
+# CleanEdit Experiment Plan
 
 Working title:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 Method name:
 
 ```text
-DeCE-RF
+CleanEdit
 ```
 
 ## Goal
@@ -91,7 +91,7 @@ core-5 and report recolor as a failed generalization probe.
 
 These probes should be reported separately from the main Core-6 benchmark,
 because they use additional operation-conditioned routes beyond the main
-DeCE-RF controller.
+CleanEdit controller.
 
 | Probe | Route | Role |
 | --- | --- | --- |
@@ -101,7 +101,7 @@ DeCE-RF controller.
 Paper role:
 
 ```text
-Use these as evidence that DeCE-RF-style control can be extended when the
+Use these as evidence that CleanEdit-style control can be extended when the
 operation provides a trustworthy prior or a strong target shape/color cue. Do
 not silently mix these routes into the main Core-6 method table.
 ```
@@ -178,7 +178,7 @@ Keep method names aligned with the existing runner where possible.
 | RF reconstruction / base reconstruction | `base_only` | reconstruction-only RF pass; may drift from the source |
 | Direct target | `direct_target` | coupled target-velocity baseline |
 | Generic support | `adaptive_full_generic_support` or closest active path | weak automatic support baseline |
-| DeCE-RF | `support_v3_controller_rmsgap` | full method: operation-conditioned geometry with feedback-updated displacement weights |
+| CleanEdit | `support_v3_controller_rmsgap` | full method: operation-conditioned geometry with feedback-updated displacement weights |
 | Manual/external support | `manual_support` where available | upper-bound diagnostic for support quality |
 
 Use `support_v3_fixed` as an ablation-only internal control, not as a headline
@@ -194,7 +194,7 @@ Use:
 ```text
 operation-conditioned support
 fixed displacement weights
-DeCE-RF feedback-updated control
+CleanEdit feedback-updated control
 ```
 
 ## Seeds
@@ -233,7 +233,7 @@ Target expansion after the recolor gate passes:
 total internal execution bundle = 90 runs
 ```
 
-The fixed-DeCE runs are reused for the component ablation and feedback stress
+The fixed-CleanEdit runs are reused for the component ablation and feedback stress
 analysis. Do not present them as the main external comparison.
 
 Add `manual_support` only where a reliable manual/external support path exists,
@@ -308,7 +308,7 @@ edit success under the same controller
 
 Purpose: isolate RMSGAP / clean-estimate feedback as online displacement-weight
 updates. This is the correct comparison point for `support_v3_fixed` versus
-DeCE-RF; do not make this small gap the headline result.
+CleanEdit; do not make this small gap the headline result.
 
 Compare:
 
@@ -364,7 +364,7 @@ Mask source priority:
 ```text
 manual mask
 source-target diff mask
-corrected DeCE/support mask frozen as an evaluation mask
+corrected CleanEdit/support mask frozen as an evaluation mask
 ```
 
 Do not use each method's own predicted support mask for main preservation
@@ -413,7 +413,7 @@ Manual scores must be labeled as an internal visual audit, not a user study.
 Main qualitative figure:
 
 ```text
-source | target text | direct target | generic support | DeCE-RF | support overlay
+source | target text | direct target | generic support | CleanEdit | support overlay
 ```
 
 Support-interface figure:
@@ -425,7 +425,7 @@ attention evidence | clean disagreement | velocity disagreement | relation/surfa
 Controller figure:
 
 ```text
-fixed vs DeCE-RF result
+fixed vs CleanEdit result
 edit-progress curve
 preserve-drift curve
 adaptive weights
@@ -508,7 +508,7 @@ Fairness rules:
 same Core-6 source images and prompts
 seeds 10/11/12 when supported
 fixed Core-6 masks used for metrics only
-no DeCE-RF support/eval mask passed to headline external baselines
+no CleanEdit support/eval mask passed to headline external baselines
 same-support rows must be labeled diagnostic-only
 no per-image hyperparameter tuning after visual inspection
 all failures remain in the manifest with concrete reasons
@@ -599,7 +599,7 @@ Minimum workshop/arXiv evidence:
 
 ```text
 4 tasks x 4 paper-facing methods x 3 seeds complete
-fixed-DeCE ablation cache for at least 3 tasks
+fixed-CleanEdit ablation cache for at least 3 tasks
 main qualitative grid
 one support-interface figure
 one feedback-controller curve figure

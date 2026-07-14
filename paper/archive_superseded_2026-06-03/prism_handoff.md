@@ -1,15 +1,15 @@
-# Prism Handoff: DeCE-RF Paper Context
+# Prism Handoff: CleanEdit Paper Context
 
 ## Working Title
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 ## Method Name
 
 ```text
-DeCE-RF
+CleanEdit
 ```
 
 Expanded form:
@@ -39,7 +39,7 @@ This often moves both the intended edit region and source content that should
 remain fixed.
 ```
 
-DeCE-RF addresses this through one decoupled clean-estimate displacement:
+CleanEdit addresses this through one decoupled clean-estimate displacement:
 
 ```text
 1. What to optimize:
@@ -59,7 +59,7 @@ DeCE-RF addresses this through one decoupled clean-estimate displacement:
 The RF editing dynamics are written as:
 
 ```text
-v_DeCE = v_src - t^-1 Delta_0
+v_CleanEdit = v_src - t^-1 Delta_0
 Delta_0 = Delta_edit + Delta_pres
 ```
 
@@ -146,7 +146,7 @@ support_v3_controller_rmsgap
 Paper-facing name:
 
 ```text
-DeCE-RF feedback control
+CleanEdit feedback control
 ```
 
 ## Claims
@@ -154,7 +154,7 @@ DeCE-RF feedback control
 Use conservative claims:
 
 ```text
-DeCE-RF improves the edit-preserve tradeoff under reasonable support.
+CleanEdit improves the edit-preserve tradeoff under reasonable support.
 ```
 
 ```text

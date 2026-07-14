@@ -30,7 +30,7 @@ those experiments probe support localization, where removal remains valid.
 
 ## One-Sentence Experimental Thesis
 
-DeCE-RF should be evaluated as a localized Rectified Flow control method: it is
+CleanEdit should be evaluated as a localized Rectified Flow control method: it is
 not trying to win every image-editing setting, but to improve the edit-preserve
 tradeoff when an operation label and relation cue specify where a local edit is
 intended.
@@ -38,7 +38,7 @@ intended.
 Suggested opening sentence for the Experiments section:
 
 ```text
-We evaluate DeCE-RF by testing whether clean-estimate edit-preserve control
+We evaluate CleanEdit by testing whether clean-estimate edit-preserve control
 improves localized edit success and preserve-region fidelity under matched
 support, whether the advantage remains against RF-native editing baselines, and
 which components--operation-conditioned geometry and feedback control--are
@@ -72,9 +72,9 @@ cherry-picked.
 
 | Reviewer question | Experiment that answers it | Main-paper artifact |
 | --- | --- | --- |
-| Does DeCE-RF actually improve localized edit-preserve behavior? | E1 controlled Core-5 edit-preserve benchmark | Table 1 + qualitative Figure 3 |
+| Does CleanEdit actually improve localized edit-preserve behavior? | E1 controlled Core-5 edit-preserve benchmark | Table 1 + qualitative Figure 3 |
 | Why not use existing RF editing or preservation-aware RF methods? | E2 RF-native and preservation-aware baseline comparison | Table 2a / Table 2b |
-| Is the result only caused by giving DeCE-RF a support mask? | E2.4 support-matched diagnostic | Supplement Table S1, or Table 2c if space allows |
+| Is the result only caused by giving CleanEdit a support mask? | E2.4 support-matched diagnostic | Supplement Table S1, or Table 2c if space allows |
 | Does the Core-5 trend persist beyond five canonical sources? | Phase 2 15-task common subset | Table 3 |
 | Is the support geometry a real component rather than a hand-picked mask? | E3 support geometry ablation | Figure 4 + Supplement Table S2 |
 | Does feedback control matter beyond fixed decoupled displacement? | E4 controller/stress ablation | Figure 5 |
@@ -103,7 +103,7 @@ evidence. Do not call Phase 2 "Table 2 breadth".
 
 ### Purpose
 
-This is the headline experiment. It tests whether DeCE-RF improves the
+This is the headline experiment. It tests whether CleanEdit improves the
 edit-preserve tradeoff over coupled target guidance and weak generic support
 under matched source images, prompts, seeds, and fixed evaluation masks.
 
@@ -131,7 +131,7 @@ difficulty:
 The Core-5 claim should be:
 
 ```text
-DeCE-RF improves localized edit-preserve control under reasonable support across
+CleanEdit improves localized edit-preserve control under reasonable support across
 insertion, surface editing, and appearance/material editing scenarios where the
 edit target is definable in clean-estimate space.
 ```
@@ -169,7 +169,7 @@ should call it a "localized recolor probe", not evidence of general recoloring.
 The unified Core-5 implementation claim is:
 
 ```text
-All Core-5 tasks use the same DeCE-RF controller. The task category only
+All Core-5 tasks use the same CleanEdit controller. The task category only
 selects an operation-conditioned support constructor that maps source/target
 tokens and a supported relation into M_core, M_edit, M_contact, and M_preserve.
 We freeze operation-level area budgets and post-processing parameters before
@@ -225,7 +225,7 @@ Use four paper-facing methods:
 | RF reconstruction | `base_only` | reconstruction floor |
 | Direct target guidance | `direct_target` | coupled edit baseline |
 | Generic support control | `adaptive_full_generic_support` | weak automatic support baseline |
-| DeCE-RF | `support_v3_controller_rmsgap` | full method |
+| CleanEdit | `support_v3_controller_rmsgap` | full method |
 
 These four rows are the A-layer internal motivation baselines (see Baseline
 Layering A-E in the E2 section): `direct_target` is the most important
@@ -340,7 +340,7 @@ Required fixed-mask sentence for the main experimental setup:
 ```text
 All preservation and locality metrics are computed using fixed per-task
 evaluation masks shared by all methods. These masks are not produced by
-DeCE-RF and are not adjusted after observing outputs.
+CleanEdit and are not adjusted after observing outputs.
 ```
 
 Suggested experimental-setup sentence:
@@ -389,12 +389,12 @@ leaderboard. It should answer four reviewer questions:
 
 ```text
 1. What part of the result is due to the RF backbone itself?
-2. Under the same SD3 backbone, does DeCE-RF improve localized edit-preserve
+2. Under the same SD3 backbone, does CleanEdit improve localized edit-preserve
    behavior over RF-native and fidelity-oriented editing baselines?
 3. Do official/native preservation-aware RF editors already solve the same
    localized edit-preserve tasks in practice, even when they use FLUX or anothe
    backbone?
-4. Is DeCE-RF's advantage merely caused by having an edit mask/support input,
+4. Is CleanEdit's advantage merely caused by having an edit mask/support input,
    or by the clean-estimate edit/preserve controller built on top of that
    support?
 ```
@@ -406,7 +406,7 @@ Same-backbone comparison = algorithmic evidence.
 Different-backbone comparison = native implementation / ecosystem context.
 ```
 
-Do not place `DeCE-RF-SD3` and `ReFlex-FLUX`, `RF-Edit-FLUX`, o
+Do not place `CleanEdit-SD3` and `ReFlex-FLUX`, `RF-Edit-FLUX`, o
 `FlowEdit-FLUX` in a single undifferentiated leaderboard and then claim a pure
 algorithmic win. Backbone differences can change prompt following, reconstruction
 fidelity, inversion error, image priors, resolution, memory use, and preserve
@@ -416,7 +416,7 @@ implementation context.
 The paper-facing E2 claim should be:
 
 ```text
-Backbone-controlled SD3 results provide the algorithmic evidence for DeCE-RF;
+Backbone-controlled SD3 results provide the algorithmic evidence for CleanEdit;
 native preservation-aware RF / FLUX rows test whether strong off-the-shelf RF
 editors solve the same localized edit-preserve setting, while backbone and input
 condition differences are reported explicitly.
@@ -436,10 +436,10 @@ E2.4 Support-matched diagnostic
 Optional extension:
 
 ```text
-E2.5 Cross-backbone DeCE-RF transfer probe
+E2.5 Cross-backbone CleanEdit transfer probe
 ```
 
-E2.5 is useful only if a FLUX version of DeCE-RF is implemented and smoke-tested.
+E2.5 is useful only if a FLUX version of CleanEdit is implemented and smoke-tested.
 It should not be allowed to destabilize the main SD3 paper claim.
 
 ### Baseline Layering A-E (2026-06-10)
@@ -449,15 +449,15 @@ reviewer question and must not leak into another layer's claim:
 
 | Layer | Question answered | Rows | Home |
 | --- | --- | --- | --- |
-| A. Internal motivation | does the problem exist? | base_only, direct_target (key coupling demo), generic support ("is a rough mask enough?"), DeCE-RF | E1 / Table 1 |
-| B. Same-backbone RF | does the algorithm win under matched backbone? | direct_target-SD3, generic support-SD3, FlowEdit-SD3 (core baseline: inversion-free, optimization-free, official SD3 setting), FlowAlign-SD3, SplitFlow-SD3, Fixed DeCE-SD3, DeCE-RF-SD3 | E2.2 / Table 2a |
+| A. Internal motivation | does the problem exist? | base_only, direct_target (key coupling demo), generic support ("is a rough mask enough?"), CleanEdit | E1 / Table 1 |
+| B. Same-backbone RF | does the algorithm win under matched backbone? | direct_target-SD3, generic support-SD3, FlowEdit-SD3 (core baseline: inversion-free, optimization-free, official SD3 setting), FlowAlign-SD3, SplitFlow-SD3, Fixed CleanEdit-SD3, CleanEdit-SD3 | E2.2 / Table 2a |
 | C. Preservation-aware RF | does it answer fidelity-oriented RF editing? | runnable native/context rows: RF-Solver-Edit / RF-Edit, ReFlex, FireFlow; planned/blocked rows move to supplement status | E2.3 / Table 2b (native context if backbone differs; never same-backbone algorithmic win) |
-| D. Support-matched diagnostic | is the gain just the mask? | direct_target raw / + binary M_edit gating, FlowEdit raw / + gating, preserve-aware + gating if possible, Fixed DeCE, DeCE-RF; baselines receive binary M_edit only, never M_core/M_contact/M_preserve/feedback/projection | E2.4 / Supplement Table S1 |
+| D. Support-matched diagnostic | is the gain just the mask? | direct_target raw / + binary M_edit gating, FlowEdit raw / + gating, preserve-aware + gating if possible, Fixed CleanEdit, CleanEdit; baselines receive binary M_edit only, never M_core/M_contact/M_preserve/feedback/projection | E2.4 / Supplement Table S1 |
 | E. Non-RF context | broad editing positioning | InstructPix2Pix, P2P/PnP/InfEdit/H-Edit style | supplement/qualitative only; never main-claim evidence |
 
-Fixed DeCE belongs to E4 (component ablation) and E2.2/E2.4 (preservation-
+Fixed CleanEdit belongs to E4 (component ablation) and E2.2/E2.4 (preservation-
 control row); it is not an E1 headline method. The B-layer claim is exactly:
-"Under the same SD3 backbone and fixed evaluation masks, DeCE-RF improves the
+"Under the same SD3 backbone and fixed evaluation masks, CleanEdit improves the
 localized edit-preserve tradeoff over RF-native baselines" — never "beats all
 RF editors".
 
@@ -526,7 +526,7 @@ interpretation.
 This is the primary algorithmic comparison:
 
 ```text
-Under the same SD3 backbone and fixed evaluation masks, does DeCE-RF improve the
+Under the same SD3 backbone and fixed evaluation masks, does CleanEdit improve the
 localized edit-preserve tradeoff over RF-native and preservation/fidelity-aware
 controls?
 ```
@@ -558,14 +558,14 @@ Use two groups: existing validated SD3 RF rows, and preservation-aware controls.
 | FlowEdit-SD3 | `flowedit` | SD3 | source image + source/target prompts | no support | RF-native source-to-target editing | complete strict Core-6 seeds 10/11/12 |
 | FlowAlign-SD3 | `flowalign` | SD3 | source image + source/target prompts | no support | RF alignment/editing baseline | complete strict Core-6 seeds 10/11/12 |
 | SplitFlow-SD3 | `splitflow` | SD3 | source image + source/target prompts | no support | flow decomposition/aggregation baseline | complete strict Core-6 seeds 10/11/12 |
-| Fixed DeCE-SD3 | `support_v3_fixed` | SD3 | prompts + operation/relation tokens | operation support, no feedback | isolates fixed decoupled displacement and support geometry | use as E2.2 preservation-control row if strict fixed cache is complete |
+| Fixed CleanEdit-SD3 | `support_v3_fixed` | SD3 | prompts + operation/relation tokens | operation support, no feedback | isolates fixed decoupled displacement and support geometry | use as E2.2 preservation-control row if strict fixed cache is complete |
 | OT-RF / OTIP-SD3 | `ot_rf_otip_sd3` if verified | SD3 | source image + prompts | no/native support | desired fidelity/transport-aware RF baseline | optional; only if repo/backbone/adapter are verified |
 | RF-Edit-SD3 / RF-Solver-SD3 | `rf_solver_edit_sd3` if portable | SD3 | source image + prompts | no/native support | desired preservation-aware RF baseline | optional; use only if port is real, not FLUX masquerading as SD3 |
-| DeCE-RF-SD3 | `support_v3_controller_rmsgap` | SD3 | prompts + operation/relation tokens | operation support + feedback/projection | full method | complete from E1 strict cache |
+| CleanEdit-SD3 | `support_v3_controller_rmsgap` | SD3 | prompts + operation/relation tokens | operation support + feedback/projection | full method | complete from E1 strict cache |
 
 Current minimum E2.2 is already strong because `FlowEdit`, `FlowAlign`, and
 `SplitFlow` are complete under the strict SD3 protocol. The preservation-aware
-upgrade should add `Fixed DeCE` as an internal preservation-control row and then
+upgrade should add `Fixed CleanEdit` as an internal preservation-control row and then
 attempt one true same-backbone external preservation-aware row only if it can be
 verified under SD3. Do not relabel a FLUX-only method as an SD3 baseline.
 
@@ -575,13 +575,13 @@ Current strict canonical E2.2 readout:
 
 ```text
 6 tasks x 5 core SD3 rows x 3 seeds = 90 analyzed rows
-rows: direct_target, FlowEdit, FlowAlign, SplitFlow, DeCE-RF
+rows: direct_target, FlowEdit, FlowAlign, SplitFlow, CleanEdit
 ```
 
 Preservation-control upgrade:
 
 ```text
-+ 6 tasks x Fixed DeCE x 3 seeds = 18 rows
++ 6 tasks x Fixed CleanEdit x 3 seeds = 18 rows
 ```
 
 Generic-support join (B-layer row; reuse the E1 cache, no new generation):
@@ -600,7 +600,7 @@ Phase 2 expansion target:
 
 ```text
 5 categories x 2 examples x 6 SD3 rows x 3 seeds = 180 rows
-rows: direct_target, FlowEdit, FlowAlign, SplitFlow, Fixed DeCE, DeCE-RF
+rows: direct_target, FlowEdit, FlowAlign, SplitFlow, Fixed CleanEdit, CleanEdit
 optional verified SD3 preserve-aware external baseline: +30 rows
 ```
 
@@ -617,7 +617,7 @@ Safe E2.2 conclusion:
 
 ```text
 Under the same SD3 backbone, same source/target prompts, and fixed evaluation
-masks, DeCE-RF improves localized edit-preserve behavior over RF-native SD3
+masks, CleanEdit improves localized edit-preserve behavior over RF-native SD3
 editing baselines and fixed decoupled preservation controls.
 ```
 
@@ -664,7 +664,7 @@ table so the main paper does not look like an unfinished baseline matrix.
 | `stable_flow` | stable-flow | FLUX.1-dev | flow-layer/feature editing route | source image + prompts | adapter pending |
 | `ot_rf_otip` | OT-RF / OTIP-style | SD3 route in current smoke config | optimal transport / inversion fidelity | source image + prompts | repo/env/help smoke and single-case generation smoke passed; strict adapter/matrix pending |
 | `dvrf` | DVRF / Delta Velocity RF | current public route in `DeltaRectifiedFlowSampling` | delta-velocity/path-aware RF control | source image + prompts | repo/env/help smoke and single-case generation smoke passed; strict adapter/matrix pending |
-| DeCE-RF-SD3 | `support_v3_controller_rmsgap` | SD3 | operation support + clean edit/preserve controller | source image + prompts + operation/relation tokens | complete; contextual anchor only |
+| CleanEdit-SD3 | `support_v3_controller_rmsgap` | SD3 | operation support + clean edit/preserve controller | source image + prompts + operation/relation tokens | complete; contextual anchor only |
 
 Main-paper wording:
 
@@ -716,7 +716,7 @@ same-backbone SD3 comparison.
 This diagnostic answers:
 
 ```text
-Is DeCE-RF better only because it receives localization/support information?
+Is CleanEdit better only because it receives localization/support information?
 ```
 
 Run this as a compact diagnostic, not as a headline external-baseline table.
@@ -724,7 +724,7 @@ Run this as a compact diagnostic, not as a headline external-baseline table.
 #### Design
 
 Give selected baselines the same binary edit support `M_edit` when possible, but
-not the full DeCE-RF geometry or controller internals.
+not the full CleanEdit geometry or controller internals.
 
 Allowed for support-matched diagnostic rows:
 
@@ -750,8 +750,8 @@ Rows:
 | Direct target + same edit mask | same binary `M_edit`; image/output blending if needed | tests whether target guidance plus localization is enough |
 | FlowEdit + same edit mask | same binary `M_edit`; only if wrapper is stable | tests RF-native baseline under matched locality |
 | Preserve-aware RF + same edit mask | same binary `M_edit`; only if method supports it | optional native/locality diagnostic |
-| Fixed DeCE | full operation support, no feedback | component reference |
-| DeCE-RF | operation support + feedback/projection | full method |
+| Fixed CleanEdit | full operation support, no feedback | component reference |
+| CleanEdit | operation support + feedback/projection | full method |
 
 If a baseline does not support masks, output blending may be used only as a
 clearly labeled diagnostic:
@@ -825,9 +825,9 @@ E2.4 conclusion:
 ```text
 Fixed binary output blending nearly eliminates outside-mask metric error by
 construction, but visual audit shows that it does not solve target correctness
-or boundary coherence. DeCE-RF is stronger on edit success and overall quality,
+or boundary coherence. CleanEdit is stronger on edit success and overall quality,
 but E2.4 should be framed as localization evidence rather than as the primary
-controller-ablation claim. Fixed DeCE displacement is reported separately in E4.
+controller-ablation claim. Fixed CleanEdit displacement is reported separately in E4.
 ```
 
 ### E2.5 Optional Cross-Backbone Transfer Probe
@@ -841,14 +841,14 @@ Clean factorial probe:
 
 ```text
 3 tasks x 1 case x 2 methods x 2 backbones x 2 seeds = 24 outputs
-methods: direct target, DeCE-RF
+methods: direct target, CleanEdit
 backbones: SD3, FLUX
 ```
 
-If DeCE-RF-FLUX is not implemented, do not run this probe. Instead state:
+If CleanEdit-FLUX is not implemented, do not run this probe. Instead state:
 
 ```text
-The current DeCE-RF implementation is SD3-specific. Cross-backbone transfer to
+The current CleanEdit implementation is SD3-specific. Cross-backbone transfer to
 FLUX requires a separate implementation and validation.
 ```
 
@@ -857,7 +857,7 @@ Current decision:
 ```text
 E2.5 is skipped in the 2026-06-04 evidence lock. All algorithm-level conclusions
 are drawn from same-backbone SD3 comparisons. Native FLUX rows remain contextual
-only. Full cross-backbone DeCE-RF transfer is left to future work.
+only. Full cross-backbone CleanEdit transfer is left to future work.
 ```
 
 Locked evidence package:
@@ -880,7 +880,7 @@ M_eval_edit
 M_eval_preserve
 ```
 
-Every method is evaluated with the same masks. DeCE-RF may use its own support
+Every method is evaluated with the same masks. CleanEdit may use its own support
 for control, and baselines may use no support, but scoring uses fixed external
 evaluation masks.
 
@@ -947,10 +947,10 @@ Columns:
 
 | Column | Purpose |
 | --- | --- |
-| Method | native baseline or DeCE-RF contextual anchor |
+| Method | native baseline or CleanEdit contextual anchor |
 | Native backbone | SD3, FLUX.1-dev, FLUX Kontext, TBD |
 | Input condition | source/target prompts, image+instruction, operation labels, etc. |
-| Preservation mechanism | solver/inversion, feature injection, OT/fidelity, DeCE support/controller |
+| Preservation mechanism | solver/inversion, feature injection, OT/fidelity, CleanEdit support/controller |
 | Runnable status | complete, blocked, pending adapter |
 | Edit / preserve / leakage metrics | only if strict generation completed |
 | Caveat | gated checkpoint, adapter gap, seed mismatch, interface mismatch |
@@ -962,13 +962,13 @@ Supplement Table S1, or Table 2c if space allows: support-matched diagnostic
 ```
 
 This is an oracle binary-localization diagnostic, not an ordinary baseline
-comparison. It separates localization input from DeCE-RF's controller. Its main
+comparison. It separates localization input from CleanEdit's controller. Its main
 readout should be:
 
 ```text
 Binary localization improves outside preservation but does not reliably recover
 relation correctness, boundary consistency, or target integration, indicating
-that DeCE-RF's gain is not explained by mask access alone.
+that CleanEdit's gain is not explained by mask access alone.
 ```
 
 ### E2 Figure Layout
@@ -982,13 +982,13 @@ or a supplement figure and label backbones in every method name.
 Possible columns:
 
 ```text
-Source | FlowEdit-SD3 | preservation-aware native RF row if runnable | Fixed DeCE | DeCE-RF
+Source | FlowEdit-SD3 | preservation-aware native RF row if runnable | Fixed CleanEdit | CleanEdit
 ```
 
 If native rows are blocked, use:
 
 ```text
-Source | FlowEdit-SD3 | FlowAlign-SD3 or SplitFlow-SD3 | Fixed DeCE | DeCE-RF
+Source | FlowEdit-SD3 | FlowAlign-SD3 or SplitFlow-SD3 | Fixed CleanEdit | CleanEdit
 ```
 
 Caption requirement:
@@ -1036,7 +1036,7 @@ the same-backbone SD3 algorithmic comparison.
 Allowed:
 
 ```text
-Under the same SD3 backbone and fixed evaluation masks, DeCE-RF improves the
+Under the same SD3 backbone and fixed evaluation masks, CleanEdit improves the
 localized edit-preserve tradeoff over RF-native SD3 baselines.
 ```
 
@@ -1053,9 +1053,9 @@ reconstruction floor.
 Avoid:
 
 ```text
-DeCE-RF beats FLUX.
-DeCE-RF beats all RF editors.
-SD3-DeCE is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
+CleanEdit beats FLUX.
+CleanEdit beats all RF editors.
+SD3-CleanEdit is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
 Support-matched blending is a fair main baseline.
 ```
 
@@ -1091,7 +1091,7 @@ These cover compact insertion, surface decal, and exposed removal.
 | velocity-disagreement support | velocity-only diagnostic if runnable | RF response without relation prior |
 | grounding/SAM-only support | external segmentation where available | segmentation is not edit geometry |
 | generic support | `adaptive_full_generic_support` | weak automatic support |
-| operation-conditioned support | DeCE-RF support path | full geometry estimator |
+| operation-conditioned support | CleanEdit support path | full geometry estimator |
 | manual/same external support | optional upper bound | support quality ceiling, not a fair automatic baseline |
 
 If attention-only or clean-only variants are not stable as runnable methods,
@@ -1190,7 +1190,7 @@ These are not required before moving to E4 or paper evidence packaging.
 ### Purpose
 
 This evaluates the full adaptive controller relative to a fixed-displacement
-DeCE variant. Because the fixed-vs-full gap can be small in
+CleanEdit variant. Because the fixed-vs-full gap can be small in
 ordinary cases, the strongest evidence should be under perturbation or stronge
 edit pressure. Do not present a single fixed-vs-full mean as the E4
 result: the deliverable is the edit-preserve Pareto/stress curve (plus
@@ -1200,10 +1200,10 @@ Do not claim that feedback alone causes the improvement unless a separate
 no-feedback row exists. If compute allows, put the finer ablation in supplement:
 
 ```text
-Fixed DeCE
-DeCE without feedback
-DeCE without projection / clipping
-Full DeCE-RF
+Fixed CleanEdit
+CleanEdit without feedback
+CleanEdit without projection / clipping
+Full CleanEdit
 ```
 
 ### 2026-06-11 Status
@@ -1223,8 +1223,8 @@ Completed evidence:
 | `e4_edit_strength_metrics.csv` | 36/36 rows complete |
 | `e4_t1_t4_controller_base_metrics.csv` | 72/72 rows complete |
 | `e4_t1_t4_edit_strength_metrics.csv` | 144/144 rows complete |
-| `table2a_e4_common_subset_clipdino_metrics.csv` | 72/72 Fixed DeCE/DeCE-RF CLIP+DINO rows complete |
-| `e4_controller_base_summary.csv` | fixed vs DeCE-RF summary |
+| `table2a_e4_common_subset_clipdino_metrics.csv` | 72/72 Fixed CleanEdit/CleanEdit CLIP+DINO rows complete |
+| `e4_controller_base_summary.csv` | fixed vs CleanEdit summary |
 | `e4_edit_strength_summary.csv` | edit-strength Pareto table |
 | `e4_controller_trajectory_summary.csv` | controller signal table |
 | `e4_figure5_edit_strength_pareto.png` | Figure 5 Pareto candidate |
@@ -1236,17 +1236,17 @@ Primary quantitative readout:
 
 | Variant | n | Outside-mask L1 down | Local edit L1 proxy | Source SSIM up |
 | --- | ---: | ---: | ---: | ---: |
-| Fixed DeCE displacement | 9 | 0.0331 | 0.0731 | 0.9192 |
-| DeCE-RF | 9 | 0.0328 | 0.0637 | 0.9215 |
+| Fixed CleanEdit displacement | 9 | 0.0331 | 0.0731 | 0.9192 |
+| CleanEdit | 9 | 0.0328 | 0.0637 | 0.9215 |
 
 Interpretation: E4 supports a conservative robustness/stabilization claim.
-DeCE-RF shows slightly lower outside-mask drift and higher source SSIM in the
+CleanEdit shows slightly lower outside-mask drift and higher source SSIM in the
 base fixed-vs-feedback comparison, while the edit-strength stress curve shows a
 similar edit-preserve frontier rather than a dramatic semantic-success jump.
 The y-axis uses fixed-mask local edit L1 as an edit-pressure proxy, not a
 standalone CLIP or human semantic success score.
 
-Claim boundary: E4 is controller evidence for the SD3 DeCE-RF implementation.
+Claim boundary: E4 is controller evidence for the SD3 CleanEdit implementation.
 It supports the mechanism story through Figure 5 and Supplement Table S3; it
 should not be used as the main external-baseline or cross-backbone claim.
 
@@ -1254,11 +1254,11 @@ should not be used as the main external-baseline or cross-backbone claim.
 
 | Variant | Runner name | Role |
 | --- | --- | --- |
-| Fixed DeCE displacement | `support_v3_fixed` | decoupling + operation support, no feedback |
+| Fixed CleanEdit displacement | `support_v3_fixed` | decoupling + operation support, no feedback |
 | Adaptive edit only | implement if available | edit-deficit feedback only |
 | Adaptive preserve only | implement if available | preserve-drift feedback only |
 | Projection only | implement if available | conflict projection without full feedback |
-| DeCE-RF | `support_v3_controller_rmsgap` | feedback-updated weights/projection |
+| CleanEdit | `support_v3_controller_rmsgap` | feedback-updated weights/projection |
 
 ### Tasks
 
@@ -1292,7 +1292,7 @@ Figure 5 should be a Pareto/curve figure rather than another qualitative grid:
 ```text
 x-axis: outside-mask drift
 y-axis: edit success or CLIP/local edit score
-markers: fixed DeCE vs DeCE-RF across stress levels
+markers: fixed CleanEdit vs CleanEdit across stress levels
 ```
 
 The text should say: feedback is a stabilizer and robustness component, not the
@@ -1301,7 +1301,7 @@ sole source of the headline gain.
 The strongest E4 claim is Pareto-based:
 
 ```text
-At comparable edit success, DeCE-RF should show lower preserve drift; at
+At comparable edit success, CleanEdit should show lower preserve drift; at
 comparable preservation budget, it should keep higher edit success.
 ```
 
@@ -1318,8 +1318,8 @@ experiments/support_v3_2026-06-02/e4_fixed_dece_component_ablation_compact.md
 Use paper-facing names in this section:
 
 ```text
-Fixed DeCE displacement = support_v3_fixed
-DeCE-RF = support_v3_controller_rmsgap
+Fixed CleanEdit displacement = support_v3_fixed
+CleanEdit = support_v3_controller_rmsgap
 ```
 
 The fixed variant should not be described as an external baseline or as an E2.4
@@ -1354,7 +1354,7 @@ scope.
   `removal_edit_score`, `fill_texture_ratio`); validation table
   `experiments/support_v3_2026-06-02/t6_removal_aware_metrics.csv` shows the
   expected rank structure (no-edit floor ~0, removal-failure baseline lowest,
-  DeCE-RF positive with near-generic preservation, direct target most
+  CleanEdit positive with near-generic preservation, direct target most
   aggressive removal at the worst preservation).
 
 Paper-safe wording: removal demonstrates the boundary of decoupled
@@ -1392,7 +1392,7 @@ dog_replace_tennis_ball_star as replacement ambiguity
 
 Claim boundary: E5 is boundary/extension evidence. It should be used for Figure
 6 and limitations/scope wording, not as a main quantitative table or as evidence
-that extension routes are part of the base DeCE-RF mean.
+that extension routes are part of the base CleanEdit mean.
 
 ### Positive Extension Probes
 
@@ -1400,15 +1400,15 @@ Report separately from the Core-5 main table:
 
 | Probe | Route | Why separate |
 | --- | --- | --- |
-| `laptop_remove_sticker` | DeCE-RF + high-confidence completion prior | uses an additional completion-clean-delta route |
-| `whiteboard_probe_red_star_sticker` | DeCE-RF + replacement target route | uses replacement target formation |
+| `laptop_remove_sticker` | CleanEdit + high-confidence completion prior | uses an additional completion-clean-delta route |
+| `whiteboard_probe_red_star_sticker` | CleanEdit + replacement target route | uses replacement target formation |
 
 These are useful because papers such as localized editing and operation-centric
 editing papers often include targeted case studies, but the method column must
 name the extra route.
 
-Do not aggregate these extension routes into the base DeCE-RF mean. They can be
-shown as "DeCE-RF + completion prior" or "DeCE-RF + replacement route", but not
+Do not aggregate these extension routes into the base CleanEdit mean. They can be
+shown as "CleanEdit + completion prior" or "CleanEdit + replacement route", but not
 as evidence for the base controller alone.
 
 ### Failure/Limit Set
@@ -1441,7 +1441,7 @@ preserve-region drift
 
 Non-RF baselines are supplement-only. They should position the paper against
 recognizable image-editing families, but they must not become the main technical
-contest or support the claim that DeCE-RF beats RF baselines.
+contest or support the claim that CleanEdit beats RF baselines.
 
 ### Selected Supplement Baselines
 
@@ -1450,8 +1450,8 @@ for more:
 
 | Baseline slug | Paper-facing label | Model family / role | Input condition | Use |
 | --- | --- | --- | --- | --- |
-| `instruct_pix2pix` | InstructPix2Pix | instruction-guided diffusion editing | source image + instruction/text prompt, no DeCE support mask | representative text-instruction editor |
-| `h_edit_r_p2p` | H-Edit / P2P-style | diffusion bridge / Prompt-to-Prompt-style editing | source image + source/target prompts, no DeCE support mask | representative attention/path editing comparator |
+| `instruct_pix2pix` | InstructPix2Pix | instruction-guided diffusion editing | source image + instruction/text prompt, no CleanEdit support mask | representative text-instruction editor |
+| `h_edit_r_p2p` | H-Edit / P2P-style | diffusion bridge / Prompt-to-Prompt-style editing | source image + source/target prompts, no CleanEdit support mask | representative attention/path editing comparator |
 
 Do not add MasaCtrl, ZONE, Pix2Pix-Zero, Prompt-to-Prompt, LEDITS++, o
 same-support inpainting to the main E2 plan. Add them only after the layered RF
@@ -1474,7 +1474,7 @@ seeds: 10, 11, 12
 ```
 
 Use the same source images, prompts, max image size, fixed evaluation masks, and
-visual-audit rubric as E1/E2. Do not give these baselines DeCE operation support
+visual-audit rubric as E1/E2. Do not give these baselines CleanEdit operation support
 or hand-tuned masks. If a method cannot express a source/target prompt pai
 cleanly, record the exact instruction/prompt translation in its command file and
 metadata.
@@ -1505,13 +1505,13 @@ the larger runs, then add fairness controls, then expand breadth.
 
 ### Phase 1: Minimum Sanity Check
 
-Purpose: decide whether DeCE-RF has a real edit-preserve signal before spending
+Purpose: decide whether CleanEdit has a real edit-preserve signal before spending
 days on full evidence generation.
 
 | Experiment | Matrix | Outputs |
 | --- | --- | ---: |
 | E1 main internal benchmark | 5 categories x 1 example x 4 methods x 3 seeds | 60 |
-| E2.2 same-backbone SD3 RF cache | completed strict FlowEdit/FlowAlign/SplitFlow + DeCE-RF rows; reuse, do not rerun | 72 analyzed rows |
+| E2.2 same-backbone SD3 RF cache | completed strict FlowEdit/FlowAlign/SplitFlow + CleanEdit rows; reuse, do not rerun | 72 analyzed rows |
 | E4 controller variants | 5 categories x 1 example x 5 variants x 2 seeds | 50 |
 
 Total:
@@ -1521,7 +1521,7 @@ about 182 analyzed/generated rows, with E2.2 mostly reused from completed cache
 ```
 
 If Phase 1 is being rerun on a new server, do not rerun all E2.2 baselines by
-default. First verify the current environment with DeCE-RF migration checks and
+default. First verify the current environment with CleanEdit migration checks and
 reuse the completed E2.2 SD3 artifacts unless prompts, image normalization, o
 metric code changed.
 
@@ -1529,7 +1529,7 @@ Phase 1 decision gate:
 
 | Question | Go signal |
 | --- | --- |
-| E1 main effect | DeCE-RF remains visually usable on all strict Core-5 tasks |
+| E1 main effect | CleanEdit remains visually usable on all strict Core-5 tasks |
 | E2.2 SD3 comparison | completed SD3 RF rows remain valid under current fixed masks/metrics |
 | E4 controller | fixed-vs-feedback evidence is at least plausible enough to justify Pareto/stress runs |
 | Engineering | batch runner and environment produce deterministic artifacts with command/stats/metadata files |
@@ -1591,7 +1591,7 @@ Phase 2 Go criteria:
 | E2.3 native preservation-aware | runnable native/context rows are summarized in Table 2b; blockers are documented in supplement implementation status |
 | E2.4 support diagnostic | support-matched rows show whether localization alone explains the gain |
 | E3 support | frozen support variants explain edit/preserve outcomes without per-case tuning |
-| E4 Pareto | DeCE-RF improves or stabilizes the edit-preserve frontier |
+| E4 Pareto | CleanEdit improves or stabilizes the edit-preserve frontier |
 | E5 boundary | failures can be categorized as scope limits rather than unexplained collapse |
 
 This is the target execution budget for the first serious WACV draft.
@@ -1635,7 +1635,7 @@ an algorithms paper.
 
 | Figure | Content | Job |
 | --- | --- | --- |
-| Figure 1 | teaser: 2 examples, Source/Target/Direct/Generic/DeCE-RF | state the problem and result |
+| Figure 1 | teaser: 2 examples, Source/Target/Direct/Generic/CleanEdit | state the problem and result |
 | Figure 2 | method overview with clean-estimate decomposition, support, feedback | explain method |
 | Figure 3 | E1 Core-5 qualitative grid | show task diversity |
 | Figure 4 | E3 support geometry ablation | show that support geometry is a real component |
@@ -1687,9 +1687,9 @@ Supplement tables:
 | --- | --- | --- |
 | Table S-E2-cal | full E2.1 backbone calibration | reconstruction/direct-target floors, NFE, runtime, memory |
 | Table S-E2-native | full E2.3 native preservation-aware RF comparison | native method status, metrics if complete, blockers if not |
-| Table S1 | E2.4 support-matched diagnostic | separates localization input from DeCE-RF controller |
+| Table S1 | E2.4 support-matched diagnostic | separates localization input from CleanEdit controller |
 | Table S2 | E3 support geometry ablation metrics | support quality plus downstream edit/preserve behavior |
-| Table S3 | E4 controller/stress ablation metrics | Fixed DeCE vs full adaptive controller and stress sweeps |
+| Table S3 | E4 controller/stress ablation metrics | Fixed CleanEdit vs full adaptive controller and stress sweeps |
 | Table S4 | E5 boundary/failure taxonomy | scope limits and separate extension routes |
 
 Required E2 columns:
@@ -1747,7 +1747,7 @@ Completed rows:
 FlowEdit-SD3
 FlowAlign-SD3
 SplitFlow-SD3
-DeCE-RF-SD3
+CleanEdit-SD3
 ```
 
 Join these with E1 `direct_target` and, when needed, `support_v3_fixed` for the
@@ -1848,8 +1848,8 @@ direct_target
 FlowEdit-SD3
 FlowAlign-SD3
 SplitFlow-SD3
-Fixed DeCE-SD3
-DeCE-RF-SD3
+Fixed CleanEdit-SD3
+CleanEdit-SD3
 ```
 
 Optional addition only if real same-backbone support exists:
@@ -1905,8 +1905,8 @@ Rows:
 ```text
 direct_target + same M_edit diagnostic
 FlowEdit + same M_edit diagnostic if wrapper is stable
-Fixed DeCE
-DeCE-RF
+Fixed CleanEdit
+CleanEdit
 optional native preserve-aware + same M_edit if method supports it
 ```
 
@@ -1969,7 +1969,7 @@ removal completion failure
 replacement ambiguity
 ```
 
-Do not aggregate extension routes into the base DeCE-RF mean.
+Do not aggregate extension routes into the base CleanEdit mean.
 
 ### Phase 3 Run Order: Robust WACV Completion
 
@@ -2038,10 +2038,10 @@ After about 170 outputs, decide whether to continue:
 
 | Gate | Continue if |
 | --- | --- |
-| E1 main effect | DeCE-RF visibly succeeds on at least 4/5 canonical examples |
-| preservation | DeCE-RF improves over direct target in outside-mask drift or visual preservation on most examples |
+| E1 main effect | CleanEdit visibly succeeds on at least 4/5 canonical examples |
+| preservation | CleanEdit improves over direct target in outside-mask drift or visual preservation on most examples |
 | RF context | compact RF baselines are runnable or explicitly audited; any locality/preservation gap claim is limited to completed matched outputs |
-| controller signal | full DeCE-RF is competitive with variants and shows interpretable feedback diagnostics |
+| controller signal | full CleanEdit is competitive with variants and shows interpretable feedback diagnostics |
 | reproducibility | results are stable enough across seeds 10 and 11/12 to justify expansion |
 
 If this gate fails, revise the method, target prompts, support policy, or task

@@ -1,4 +1,4 @@
-# RF h-Edit Project
+# CleanEdit
 
 The paper has been submitted. Its evidence is frozen; start with
 `docs/SUBMISSION_FREEZE.md`. Work performed after submission is indexed in
@@ -7,7 +7,7 @@ The paper has been submitted. Its evidence is frozen; start with
 Submitted paper method:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 Current paper scope:
@@ -107,7 +107,7 @@ The shared environment is:
 The supported claim is preservation-first:
 
 ```text
-On FlowEdit-135, DeCE-RF achieves the strongest non-edit-region preservation
+On FlowEdit-135, CleanEdit achieves the strongest non-edit-region preservation
 among the main peer-reviewed baseline set while remaining on the
 edit-preservation Pareto frontier.
 ```

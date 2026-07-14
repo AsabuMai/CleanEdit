@@ -19,7 +19,7 @@ fi
 
 cat > "${OUT_DIR}/metadata.json" <<JSON
 {
-  "description": "Runs the core RF h-Edit ablation scripts. External-mask diagnostics are opt-in with RUN_EXTERNAL_MASK=1.",
+  "description": "Runs the core CleanEdit ablation scripts. External-mask diagnostics are opt-in with RUN_EXTERNAL_MASK=1.",
   "run_external_mask": "${RUN_EXTERNAL_MASK:-0}"
 }
 JSON

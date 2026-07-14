@@ -43,7 +43,7 @@ def aggregate_eval_mask(task: str) -> tuple[Image.Image, list[str]]:
         if path.is_file():
             paths.append(path)
     if len(paths) != len(SEEDS):
-        raise FileNotFoundError(f"{task}: expected {len(SEEDS)} DeCE-RF support masks, found {len(paths)}")
+        raise FileNotFoundError(f"{task}: expected {len(SEEDS)} CleanEdit support masks, found {len(paths)}")
     masks = [np.asarray(load_mask(path), dtype=np.float32) / 255.0 for path in paths]
     mean_mask = np.mean(np.stack(masks, axis=0), axis=0)
     binary = (mean_mask >= 0.35).astype(np.uint8) * 255
@@ -83,7 +83,7 @@ def main() -> int:
         "tasks": list(TASKS),
         "seeds": list(SEEDS),
         "canvas": CANVAS,
-        "eval_mask_policy": "seed-aggregated DeCE-RF operation support proxy over the full-pillow T5-1-style tasks; use for Table 2 only after visual acceptance",
+        "eval_mask_policy": "seed-aggregated CleanEdit operation support proxy over the full-pillow T5-1-style tasks; use for Table 2 only after visual acceptance",
         "manifest": str(manifest.relative_to(ROOT)),
     }
     (EXP / "normalized_512" / "t5_eval_assets_metadata.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")

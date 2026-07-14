@@ -1,15 +1,15 @@
-# DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+# CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 
 Working title:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 Method name:
 
 ```text
-DeCE-RF
+CleanEdit
 ```
 
 Expanded form:
@@ -64,7 +64,7 @@ native-backbone FLUX contextual comparisons and non-RF supplement baselines.
 The method writes controlled RF editing dynamics as:
 
 ```text
-v_DeCE = v_src - t^-1 Delta_0
+v_CleanEdit = v_src - t^-1 Delta_0
 Delta_0 = Delta_edit + Delta_pres
 ```
 
@@ -133,7 +133,7 @@ adapt how strongly each correction is applied.
 
 ## Experiments
 
-The current completed headline matrix is the strict Core-5 DeCE-RF matrix
+The current completed headline matrix is the strict Core-5 CleanEdit matrix
 documented in `paper/results.md` and `experiments/support_v3_2026-06-02/`. The
 active headline tasks are:
 
@@ -151,7 +151,7 @@ Each strict E1 task is evaluated with:
 - RF reconstruction / base reconstruction.
 - Direct target guidance.
 - Generic support control.
-- DeCE-RF.
+- CleanEdit.
 
 The required seeds are 10, 11, and 12. Each run must have `result.png`,
 `stats.json`, `metadata.json`, `command.txt`, and any generated masks.
@@ -165,7 +165,7 @@ E2 is split by backbone fairness. E2-A is the completed SD3-matched comparison
 against FlowEdit, FlowAlign, and SplitFlow under the same strict SD3 task/seed
 protocol. E2-B is a native-backbone RF / FLUX contextual comparison for methods
 such as RF-Solver-Edit, ReFlex, FireFlow, stable-flow, OT-RF/OTIP, and DVRF; it
-must not be used as the main algorithmic win/loss evidence against SD3-DeCE.
+must not be used as the main algorithmic win/loss evidence against SD3-CleanEdit.
 InstructPix2Pix and H-Edit / P2P-style are supplement-only non-RF baselines.
 
 The current strict Core-5 E1 matrix has complete fixed-mask metrics and visual

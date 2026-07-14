@@ -152,7 +152,7 @@ def draw_pipeline(draw: ImageDraw.ImageDraw, x: int, y: int, w: int) -> int:
     boxes = [
         ("Source\nimage x0", "#e0f2fe"),
         ("Source\ninversion", "#dcfce7"),
-        ("RF h-edit\nODE", "#fef3c7"),
+        ("CleanEdit\nODE", "#fef3c7"),
         ("Edited\nimage", "#fae8ff"),
     ]
     bw = (w - 90) // 4
@@ -238,7 +238,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
         draw_wrapped(
             draw,
             (x + 34, y + 66),
-            "The four panels show the reference, the selected RF h-Edit result, and two typical failure modes.",
+            "The four panels show the reference, the selected CleanEdit result, and two typical failure modes.",
             w - 68,
             font(18),
             slate,
@@ -265,7 +265,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
             alternate = result
             over_edit = result
         draw_image_cell(source, (x + 34, y0, x + 34 + cell_w, y0 + cell_h), "Source image", "preserve identity and background", blue)
-        draw_image_cell(ours, (x + 34 + cell_w + cell_gap, y0, x + 34 + 2 * cell_w + cell_gap, y0 + cell_h), "Best RF h-Edit", "selected local edit result", teal)
+        draw_image_cell(ours, (x + 34 + cell_w + cell_gap, y0, x + 34 + 2 * cell_w + cell_gap, y0 + cell_h), "Best CleanEdit", "selected local edit result", teal)
         y1 = y0 + cell_h + 28
         draw_image_cell(alternate, (x + 34, y1, x + 34 + cell_w, y1 + cell_h), "Placement drift", "glasses move under mask choice", orange)
         draw_image_cell(over_edit, (x + 34 + cell_w + cell_gap, y1, x + 34 + 2 * cell_w + cell_gap, y1 + cell_h), "Identity drift", "strong edit changes the face", red)
@@ -424,7 +424,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
 
     # Header.
     draw.rectangle((0, 0, W, 390), fill=navy)
-    draw.text((100, 52), "RF h-Edit", font=font(88, bold=True), fill="#ffffff")
+    draw.text((100, 52), "CleanEdit", font=font(88, bold=True), fill="#ffffff")
     draw.text((102, 158), "Reconstruction-aware Rectified Flow image editing", font=font(43, bold=True), fill="#c7d2fe")
     draw.text((104, 248), "Wu et al.  |  SD3 Rectified Flow prototype  |  Workshop poster", font=font(26), fill="#e2e8f0")
     draw.text((104, 304), "Core idea: use source-aware dynamics for faithfulness, then add a separate target-edit field.", font=font(27), fill="#bfdbfe")
@@ -449,7 +449,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
         [
             "Target guidance can add the concept, but often drifts identity and geometry.",
             "Local masks protect background, yet overly narrow masks can suppress the edit.",
-            "RF h-Edit makes these two roles explicit in the ODE.",
+            "CleanEdit makes these two roles explicit in the ODE.",
         ],
         blue,
         21,
@@ -533,7 +533,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
     draw_wrapped(
         draw,
         (x + 42, body_y + 8),
-        "RF h-Edit is a useful scaffold because it separates source reconstruction from target editing. The remaining bottleneck is not the ODE split itself; it is source feature reuse while evaluating the target velocity.",
+        "CleanEdit is a useful scaffold because it separates source reconstruction from target editing. The remaining bottleneck is not the ODE split itself; it is source feature reuse while evaluating the target velocity.",
         right_w - 84,
         font(24),
         slate,
@@ -559,7 +559,7 @@ def make_poster(result_image: Path, out_dir: Path) -> Path:
         yy += 72
 
     draw.line((margin, footer_y, W - margin, footer_y), fill="#cbd5e1", width=3)
-    draw.text((margin, footer_y + 30), "Generated from current RF h-Edit project outputs. Main RF h-Edit panel uses the original best panda-sunglasses run.", font=font(23), fill=muted)
+    draw.text((margin, footer_y + 30), "Generated from current CleanEdit project outputs. Main CleanEdit panel uses the original best panda-sunglasses run.", font=font(23), fill=muted)
 
     png_path = out_dir / "rf_h_edit_workshop_poster_vertical.png"
     pdf_path = out_dir / "rf_h_edit_workshop_poster_vertical.pdf"
@@ -586,7 +586,7 @@ def make_slides(result_image: Path, out_dir: Path) -> list[Path]:
     slide_paths: list[Path] = []
 
     c, d = make_slide_canvas()
-    slide_header(d, "RF h-Edit", "Reconstruction-aware Rectified Flow image editing")
+    slide_header(d, "CleanEdit", "Reconstruction-aware Rectified Flow image editing")
     d.text((90, 225), "One-sentence idea", font=font(42, bold=True), fill="#0f172a")
     draw_wrapped(
         d,
@@ -627,7 +627,7 @@ def make_slides(result_image: Path, out_dir: Path) -> list[Path]:
         d,
         (90, y + 20),
         820,
-        "RF h-edit ODE",
+        "CleanEdit ODE",
         [r"\dot{x}_t=v_{\rm src}+u_{\rm rec}+u_{\rm edit}", r"u=-\Delta x_0/\max(t,\epsilon)"],
         eq_fontsize=24,
         min_h=285,
@@ -677,7 +677,7 @@ def make_slides(result_image: Path, out_dir: Path) -> list[Path]:
     d.text((125, 875), "Local sunglasses insertion", font=font(28), fill="#475569")
     d.text((940, 225), "Takeaways", font=font(42, bold=True), fill="#0f172a")
     takeaways = [
-        "The RF h-edit decomposition is working as a controllable framework.",
+        "The CleanEdit decomposition is working as a controllable framework.",
         "Masks and trajectory preservation give strong background protection.",
         "Mask tuning alone hits a quality/placement trade-off on local edits.",
         "Next: SD3 source-reference V/attention injection, inspired by RF-Solver, FireFlow, and ReFlex.",
@@ -770,10 +770,10 @@ def make_pptx(slides: list[Path], pptx_path: Path) -> None:
 
 
 def make_speaker_notes(out_dir: Path) -> Path:
-    notes = """# RF h-Edit 2-minute intro speaker notes
+    notes = """# CleanEdit 2-minute intro speaker notes
 
 ## Slide 1
-We are building RF h-Edit, a reconstruction-aware Rectified Flow image editing prototype. The goal is to make prompt edits while keeping the source image faithful. The current demo is a panda wearing sunglasses.
+We are building CleanEdit, a reconstruction-aware Rectified Flow image editing prototype. The goal is to make prompt edits while keeping the source image faithful. The current demo is a panda wearing sunglasses.
 
 ## Slide 2
 The central idea is to keep the source RF velocity as the base field, then add two separate corrections. The reconstruction term protects source faithfulness, and the edit term pushes toward the target prompt. So the implementation uses x_dot_t = v_src + u_rec + u_edit.

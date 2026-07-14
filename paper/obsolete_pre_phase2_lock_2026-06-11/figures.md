@@ -22,7 +22,7 @@ Use only complete runs with `result.png`, `stats.json`, `metadata.json`, and
 
 | Figure | Content | Approx. result cells | Role |
 | --- | --- | ---: | --- |
-| Figure 1 | teaser: two examples, Source/Target/Direct/Generic/DeCE-RF | 10 | motivation |
+| Figure 1 | teaser: two examples, Source/Target/Direct/Generic/CleanEdit | 10 | motivation |
 | Figure 2 | method overview | 0 | explain the algorithm |
 | Figure 3 | E1 Core-5 qualitative grid | 24-30 | main effect |
 | Figure 4 | E3 support geometry ablation | 12-18 | support component evidence |
@@ -48,7 +48,7 @@ Pareto sweeps, and failure taxonomy.
 Primary qualitative grid:
 
 ```text
-Source | Target/Instruction | Direct target | Generic support | DeCE-RF
+Source | Target/Instruction | Direct target | Generic support | CleanEdit
 ```
 
 Updated strict Core-5 target rows:
@@ -76,7 +76,7 @@ experiments/support_v3_2026-06-02/mask_sensitivity_core5_summary.md
 Paper-use guidance:
 
 - `cat_crown`: use as the attached-accessory success case.
-- `dog_sunglasses`: diagnostic only; DeCE-RF eyewear placement is too high for a strong figure.
+- `dog_sunglasses`: diagnostic only; CleanEdit eyewear placement is too high for a strong figure.
 - `tshirt_star`: use as the strict surface-decal success case.
 - `mug_heart`: diagnostic only; visually clean but too small/weak for the main grid.
 - `bowl_apple_inside`: use as the strict T2 insertion row.
@@ -89,7 +89,7 @@ Paper-use guidance:
   fails final visual audit.
 
 Do not include `support_v3_fixed` in this main qualitative grid unless the
-layout still fits. Fixed DeCE belongs mainly in the controller ablation figure
+layout still fits. Fixed CleanEdit belongs mainly in the controller ablation figure
 and table.
 
 ## Optional E2 Baseline Panel
@@ -131,13 +131,13 @@ experiments/support_v3_2026-06-02/visual_audit/e2_flowedit_seed12_grid.png
 Preferred columns for a same-backbone SD3 supplement panel:
 
 ```text
-Source | FlowEdit-SD3 | FlowAlign-SD3 or SplitFlow-SD3 | Fixed DeCE-SD3 | DeCE-RF-SD3
+Source | FlowEdit-SD3 | FlowAlign-SD3 or SplitFlow-SD3 | Fixed CleanEdit-SD3 | CleanEdit-SD3
 ```
 
 Preferred columns for a native-context supplement panel:
 
 ```text
-Source | FlowEdit-SD3 | Fixed DeCE-SD3 | Native RF row with backbone label | DeCE-RF-SD3
+Source | FlowEdit-SD3 | Fixed CleanEdit-SD3 | Native RF row with backbone label | CleanEdit-SD3
 ```
 
 Use two or three representative strict examples. Do not crowd the optional E2
@@ -164,16 +164,16 @@ whiteboard_probe_red_star_sticker
 Columns:
 
 ```text
-Source | Base DeCE-RF | Extension route | Support / gate annotation
+Source | Base CleanEdit | Extension route | Support / gate annotation
 ```
 
 Paper-use guidance:
 
 - `laptop_remove_sticker`: show high-confidence completion clean-delta as a
-  planar removal extension. Label it as `DeCE-RF + completion prior`, not as
-  the base DeCE-RF method.
+  planar removal extension. Label it as `CleanEdit + completion prior`, not as
+  the base CleanEdit method.
 - `whiteboard_probe_red_star_sticker`: show non-glyph replacement in a
-  semantic letter field. Label it as `DeCE-RF + replacement route`.
+  semantic letter field. Label it as `CleanEdit + replacement route`.
 
 ## Figure 4 Support Geometry Figure
 
@@ -195,7 +195,7 @@ operation-conditioned support | M_edit/M_core | M_preserve
 Use `cat_crown`, `tshirt_star`, or `pillow_same_color_cable_knit`, comparing:
 
 ```text
-support_v3_fixed | DeCE-RF across stress levels
+support_v3_fixed | CleanEdit across stress levels
 ```
 
 Curves:

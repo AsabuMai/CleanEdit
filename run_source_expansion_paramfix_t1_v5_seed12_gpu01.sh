@@ -34,7 +34,7 @@ export SKIP_EXISTING=0
 export REUSE_SEMANTIC_MASKS=0
 export REGENERATE_MASKS=1
 
-echo "== source expansion T1 semantic-support parameter-fix v5, DeCE-RF seed12 =="
+echo "== source expansion T1 semantic-support parameter-fix v5, CleanEdit seed12 =="
 TASKS="$TASKS" \
 METHODS="support_v3_controller_rmsgap" \
 SEEDS="12" \

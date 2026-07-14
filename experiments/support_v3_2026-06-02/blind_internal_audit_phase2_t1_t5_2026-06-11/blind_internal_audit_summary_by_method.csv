@@ -2,4 +2,4 @@ method,method_display,n,edit_correct_1_5_mean,relation_correct_1_5_mean,source_p
 adaptive_full_generic_support,Generic support control,135,2.044,2.044,4.356,4.533,2.067,3.526,identity_drift:3;under_edit:132
 base_only,RF reconstruction / base reconstruction,135,1.000,1.000,4.133,4.267,2.067,2.844,under_edit:135
 direct_target,Direct target guidance,135,1.756,1.756,1.244,1.711,4.593,1.489,identity_drift:9;under_edit:126
-support_v3_controller_rmsgap,DeCE-RF,135,4.022,4.022,4.756,4.667,1.667,4.667,none:117;under_edit:18
+support_v3_controller_rmsgap,CleanEdit,135,4.022,4.022,4.756,4.667,1.667,4.667,none:117;under_edit:18

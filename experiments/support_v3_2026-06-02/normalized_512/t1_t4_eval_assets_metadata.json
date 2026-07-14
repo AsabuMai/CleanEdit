@@ -20,6 +20,6 @@
     "12"
   ],
   "canvas": 512,
-  "eval_mask_policy": "seed-aggregated DeCE-RF operation support proxy; use for rerun diagnostics only",
+  "eval_mask_policy": "seed-aggregated CleanEdit operation support proxy; use for rerun diagnostics only",
   "manifest": "experiments/support_v3_2026-06-02/normalized_512/t1_t4_eval_assets_manifest.csv"
 }

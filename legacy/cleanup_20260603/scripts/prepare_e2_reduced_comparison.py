@@ -119,7 +119,7 @@ def main() -> int:
                 target_prompt=target_prompt,
                 extra_metadata={
                     "method": "support_v3_controller_rmsgap",
-                    "matched_conditions": "internal DeCE-RF strict Phase 1 run",
+                    "matched_conditions": "internal CleanEdit strict Phase 1 run",
                 },
             )
             if ok:

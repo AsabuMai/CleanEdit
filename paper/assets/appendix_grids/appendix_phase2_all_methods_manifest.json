@@ -12,8 +12,8 @@
     "RF-Solver",
     "ReFlex",
     "Sam-Flow FLUX",
-    "Fixed DeCE",
-    "DeCE-RF"
+    "Fixed CleanEdit",
+    "CleanEdit"
   ],
   "seed": "12",
   "registry": "/cluster/users/grad/2025/25t8103/project/experiments/support_v3_2026-06-02/phase2_final_selected_runs_2026-06-11.csv",
@@ -149,7 +149,7 @@
           "image": "outputs/pretty_matrix/cat_crown/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         },
         {
@@ -275,7 +275,7 @@
           "image": "outputs/pretty_matrix/dog_bow_tie_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         },
         {
@@ -401,7 +401,7 @@
           "image": "outputs/pretty_matrix/dog_front_sunglasses_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         }
       ]
@@ -535,7 +535,7 @@
           "image": "outputs/pretty_matrix/bowl_apple_inside/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         },
         {
@@ -661,7 +661,7 @@
           "image": "outputs/pretty_matrix/white_bowl_orange_tabletop_phase2/support_v3_controller_rmsgap_failed3_fix6_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_failed3_fix6_20260609",
-          "selection_reason": "selected repaired DeCE-RF run with visible orange; plain seed 12 is a weak earlier run",
+          "selection_reason": "selected repaired CleanEdit run with visible orange; plain seed 12 is a weak earlier run",
           "metric_status": "aligned"
         },
         {
@@ -787,7 +787,7 @@
           "image": "outputs/pretty_matrix/brown_bowl_lemon_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         }
       ]
@@ -921,7 +921,7 @@
           "image": "outputs/pretty_matrix/tshirt_star/support_v3_controller_rmsgap/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap",
-          "selection_reason": "selected natural-looking DeCE-RF run: visible red star follows shirt lighting/folds; t1t4 rerun lost the star and fix3 looks overlaid",
+          "selection_reason": "selected natural-looking CleanEdit run: visible red star follows shirt lighting/folds; t1t4 rerun lost the star and fix3 looks overlaid",
           "metric_status": "aligned"
         },
         {
@@ -1173,7 +1173,7 @@
           "image": "outputs/pretty_matrix/tote_leaf/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         }
       ]
@@ -1307,7 +1307,7 @@
           "image": "outputs/pretty_matrix/red_office_chair_to_blue_office_chair/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         },
         {
@@ -1433,7 +1433,7 @@
           "image": "outputs/pretty_matrix/green_mug_orange_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         },
         {
@@ -1559,7 +1559,7 @@
           "image": "outputs/pretty_matrix/yellow_vase_blue_phase2/support_v3_controller_rmsgap_t1t4_3seed_20260609/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap_t1t4_3seed_20260609",
-          "selection_reason": "formal T1-T4 three-seed DeCE-RF rerun",
+          "selection_reason": "formal T1-T4 three-seed CleanEdit rerun",
           "metric_status": "aligned"
         }
       ]
@@ -1693,7 +1693,7 @@
           "image": "outputs/pretty_matrix/pillow_same_color_cable_knit/support_v3_controller_rmsgap/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap",
-          "selection_reason": "formal T5 DeCE-RF run",
+          "selection_reason": "formal T5 CleanEdit run",
           "metric_status": "aligned"
         },
         {
@@ -1819,7 +1819,7 @@
           "image": "outputs/pretty_matrix/pillow_same_color_cable_knit_grey/support_v3_controller_rmsgap/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap",
-          "selection_reason": "formal T5 DeCE-RF run",
+          "selection_reason": "formal T5 CleanEdit run",
           "metric_status": "aligned"
         },
         {
@@ -1945,7 +1945,7 @@
           "image": "outputs/pretty_matrix/pillow_same_color_cable_knit_armchair/support_v3_controller_rmsgap/seed_12/result.png",
           "source": "phase2_final_selected_runs_2026-06-11.csv",
           "selected_run": "support_v3_controller_rmsgap",
-          "selection_reason": "formal T5 DeCE-RF run",
+          "selection_reason": "formal T5 CleanEdit run",
           "metric_status": "aligned"
         }
       ]

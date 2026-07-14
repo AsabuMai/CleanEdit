@@ -20,9 +20,9 @@ stay separate unless explicitly scoped.
 
 ## Current Coverage
 
-- T1-T4 are complete for internal `pretty_matrix` methods: base, direct, generic, DeCE-RF, and Fixed DeCE, all 12 tasks x 3 seeds.
+- T1-T4 are complete for internal `pretty_matrix` methods: base, direct, generic, CleanEdit, and Fixed CleanEdit, all 12 tasks x 3 seeds.
 - T1-T4 are complete for baseline outputs/metrics: FlowEdit, FlowAlign, SplitFlow, FireFlow, RF-Solver-Edit, and ReFlex, all 12 tasks x 3 seeds.
-- T1-T4 Fixed DeCE and DeCE-RF CLIP+DINO metrics were completed in `table2a_e4_common_subset_clipdino_metrics.csv`.
+- T1-T4 Fixed CleanEdit and CleanEdit CLIP+DINO metrics were completed in `table2a_e4_common_subset_clipdino_metrics.csv`.
 - T5 formal full-pillow cable-knit set is complete for the corrected task set:
   - Internal metrics: 45 rows = 3 tasks x 5 methods x 3 seeds in
     `experiments/support_v3_2026-06-02/table2_t5_internal_metrics.csv`.

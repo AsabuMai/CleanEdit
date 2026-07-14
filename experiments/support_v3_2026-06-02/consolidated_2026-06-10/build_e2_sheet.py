@@ -45,10 +45,10 @@ def cell_image(path: Path | None) -> Image.Image:
 
 tasks = [t for _, names in GROUPS for t in names]
 group_of = {t: g for g, names in GROUPS for t in names}
-cols = 1 + len(BASELINES) + 1  # source + baselines + DeCE-RF
+cols = 1 + len(BASELINES) + 1  # source + baselines + CleanEdit
 sheet = Image.new("RGB", (LABEL_W + cols * CELL, HEADER_H + len(tasks) * CELL), (255, 255, 255))
 draw = ImageDraw.Draw(sheet)
-for i, name in enumerate(["source"] + BASELINES + ["DeCE-RF"]):
+for i, name in enumerate(["source"] + BASELINES + ["CleanEdit"]):
     draw.text((LABEL_W + i * CELL + 8, 10), name, fill=(0, 0, 0), font=font)
 
 for row, task in enumerate(tasks):

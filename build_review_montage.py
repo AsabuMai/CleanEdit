@@ -15,8 +15,8 @@ COLS = [
     ("flowedit_sd3", BASE),
     ("sam_flow_sd3", BASE),
     ("sam_flow_flux", BASE),
-    ("DeCE-SD3", DECE + "::dece_rf_sd3"),
-    ("DeCE-FLUX", DECE + "::dece_rf_flux"),
+    ("CleanEdit-SD3", DECE + "::dece_rf_sd3"),
+    ("CleanEdit-FLUX", DECE + "::dece_rf_flux"),
 ]
 S = 220
 def L(p):

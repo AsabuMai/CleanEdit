@@ -1,15 +1,15 @@
-# DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+# CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 
 Working title:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 Method name:
 
 ```text
-DeCE-RF
+CleanEdit
 ```
 
 Expanded form:
@@ -60,7 +60,7 @@ seed, and mask conditions.
 The method writes controlled RF editing dynamics as:
 
 ```text
-v_DeCE = v_src - t^-1 Delta_0
+v_CleanEdit = v_src - t^-1 Delta_0
 Delta_0 = Delta_edit + Delta_pres
 ```
 
@@ -129,7 +129,7 @@ adapt how strongly each correction is applied.
 
 ## Experiments
 
-The current completed matrix is the core-5 DeCE-RF matrix documented in
+The current completed matrix is the core-5 CleanEdit matrix documented in
 `paper/results.md`. The main tasks are:
 
 - `cat_crown`: compact above-host accessory insertion.
@@ -143,7 +143,7 @@ Each task is evaluated with:
 - RF reconstruction / base reconstruction.
 - Direct target guidance.
 - Generic support control.
-- DeCE-RF.
+- CleanEdit.
 
 The required seeds are 10, 11, and 12. Each run must have `result.png`,
 `stats.json`, `metadata.json`, `command.txt`, and any generated masks.
@@ -154,7 +154,7 @@ change, runtime, peak GPU memory when available, optional CLIP edit alignment,
 optional DINO source similarity, and manual failure flags.
 
 The current 60-row core-5 matrix has complete fixed-mask metrics and internal
-visual audit annotations. DeCE-RF is strongest on localized add/decal tasks
+visual audit annotations. CleanEdit is strongest on localized add/decal tasks
 (`cat_crown`, `mug_heart`, `tshirt_star`), remains competitive on
 `dog_sunglasses`, and succeeds visually on the exposed-object removal task
 `backpack_remove_toy_charm` despite weak global CLIP removal scores. The

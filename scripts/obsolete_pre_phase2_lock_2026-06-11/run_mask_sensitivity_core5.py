@@ -43,7 +43,7 @@ LABELS = {
     "base_only": "RF reconstruction",
     "direct_target": "Direct target",
     "adaptive_full_generic_support": "Generic support",
-    "support_v3_controller_rmsgap": "DeCE-RF-SD3",
+    "support_v3_controller_rmsgap": "CleanEdit-SD3",
 }
 
 

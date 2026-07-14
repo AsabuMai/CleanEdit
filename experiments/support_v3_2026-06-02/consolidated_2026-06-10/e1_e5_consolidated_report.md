@@ -3,7 +3,7 @@
 Date: 2026-06-10
 Scope: integrates all completed E1-E5 artifacts under
 `experiments/support_v3_2026-06-02/` into one readout, with image comparison
-sheets, and assesses how well the current evidence supports the DeCE-RF paper
+sheets, and assesses how well the current evidence supports the CleanEdit paper
 claims in `paper/argument_blueprint.md` and `paper/wacv_experiment_design.md`.
 
 Status note: this is a consolidation of existing locked/diagnostic artifacts.
@@ -30,7 +30,7 @@ Task grouping used throughout: T1 attached accessory (`cat_crown`,
 ## E1: Main Edit-Preserve Effect
 
 Image sheet (seed 10, all 12 tasks; columns: source, base_only, direct_target,
-generic support, DeCE-RF):
+generic support, CleanEdit):
 
 ```text
 consolidated_2026-06-10/e1_t1_t4_seed10_comparison_sheet.png
@@ -41,14 +41,14 @@ consolidated_2026-06-10/e1_t1_t4_seed10_comparison_sheet.png
 | Group | Method | n | Outside L1 (down) | Inside L1 | Source SSIM (up) |
 | --- | --- | ---: | ---: | ---: | ---: |
 | ALL | base_only (reconstruction floor) | 36 | 0.0504 | 0.0546 | 0.8858 |
-| ALL | support_v3_fixed (Fixed DeCE) | 36 | 0.0350 | 0.1729 | 0.9147 |
-| ALL | support_v3_controller_rmsgap (DeCE-RF) | 36 | 0.0343 | 0.1772 | 0.9144 |
-| T1 | DeCE-RF | 9 | 0.0568 | 0.1353 | 0.8715 |
-| T2 | DeCE-RF | 9 | 0.0341 | 0.0907 | 0.9141 |
-| T3 | DeCE-RF | 9 | 0.0168 | 0.0960 | 0.8984 |
-| T4 | DeCE-RF | 9 | 0.0297 | 0.3868 | 0.9736 |
+| ALL | support_v3_fixed (Fixed CleanEdit) | 36 | 0.0350 | 0.1729 | 0.9147 |
+| ALL | support_v3_controller_rmsgap (CleanEdit) | 36 | 0.0343 | 0.1772 | 0.9144 |
+| T1 | CleanEdit | 9 | 0.0568 | 0.1353 | 0.8715 |
+| T2 | CleanEdit | 9 | 0.0341 | 0.0907 | 0.9141 |
+| T3 | CleanEdit | 9 | 0.0168 | 0.0960 | 0.8984 |
+| T4 | CleanEdit | 9 | 0.0297 | 0.3868 | 0.9736 |
 
-Reading: DeCE-RF (and Fixed DeCE) hold outside-mask change *below* the
+Reading: CleanEdit (and Fixed CleanEdit) hold outside-mask change *below* the
 base_only reconstruction floor while producing large inside-mask change,
 i.e. the controller edits inside the support and actively suppresses
 reconstruction drift outside it. T4 inside L1 is high by design (recolor).
@@ -63,7 +63,7 @@ visual (comparison sheet) plus the support-matched diagnostic.
 
 Representative rows (Outside L1 / Source SSIM / edit score):
 
-| Task | direct_target | generic support | DeCE-RF |
+| Task | direct_target | generic support | CleanEdit |
 | --- | --- | --- | --- |
 | cat_crown | 0.1246 / 0.4358 / 0.0007 | 0.0582 / 0.6575 / 0.0022 | 0.0572 / 0.6503 / 0.0988 |
 | bowl_apple_inside | 0.0925 / 0.3450 / 0.0054 | 0.0620 / 0.5113 / 0.0125 | 0.0533 / 0.5367 / 0.0202 |
@@ -72,7 +72,7 @@ Representative rows (Outside L1 / Source SSIM / edit score):
 | pillow_vertical_fabric_strip | 0.0747 / 0.4945 / 0.1082 | 0.0255 / 0.6889 / 0.0449 | 0.0207 / 0.7173 / 0.0494 |
 | backpack_remove_toy_charm | 0.0697 / 0.5619 / -0.0078 | 0.0280 / 0.7956 / -0.0078 | 0.0295 / 0.7366 / -0.0169 |
 
-Human quick audit (`strict_visual_human_quick_audit.md`): all six DeCE-RF
+Human quick audit (`strict_visual_human_quick_audit.md`): all six CleanEdit
 strict rows pass; direct_target is rejected for figures on 5/6 tasks
 (semantic miss / over-edit / crop drift); generic support misses the target
 edit on cat, tshirt, and backpack.
@@ -80,7 +80,7 @@ edit on cat, tshirt, and backpack.
 ## E2: RF Baseline Comparison
 
 Image sheet (seed 10; columns: source, FlowEdit, FlowAlign, SplitFlow,
-RF-Solver-Edit, FireFlow, ReFlex, DeCE-RF):
+RF-Solver-Edit, FireFlow, ReFlex, CleanEdit):
 
 ```text
 consolidated_2026-06-10/e2_t1_t4_seed10_rf_baseline_sheet.png
@@ -93,9 +93,9 @@ consolidated_2026-06-10/e2_t1_t4_seed10_rf_baseline_sheet.png
 | FlowEdit (external RF) | 0.1760 | 0.2581 | 0.4133 | 0.4092 | 0.0482 |
 | FlowAlign (external RF) | 0.0769 | 0.1263 | 0.6406 | 0.6900 | 0.0401 |
 | SplitFlow (external RF) | 0.0965 | 0.1402 | 0.5094 | 0.6159 | 0.0427 |
-| DeCE-RF | 0.0406 | 0.1038 | 0.6735 | 0.8497 | 0.0395 |
+| CleanEdit | 0.0406 | 0.1038 | 0.6735 | 0.8497 | 0.0395 |
 
-DeCE-RF achieves the lowest outside-mask change and highest source
+CleanEdit achieves the lowest outside-mask change and highest source
 preservation (SSIM, DINO) at comparable CLIP edit score. Claim boundary per
 `paper/e2_status_lock.md`: reduced target-mode comparison, not "beats all RF
 editors".
@@ -110,9 +110,9 @@ editors".
 | fireflow | 0.0670 | 0.1024 | 0.8404 |
 | rf_solver_edit | 0.0551 | 0.0848 | 0.8778 |
 | reflex | 0.0676 | 0.1351 | 0.8315 |
-| DeCE-RF (from E4 cache, same tasks/seeds) | 0.0343 | 0.1772 | 0.9144 |
+| CleanEdit (from E4 cache, same tasks/seeds) | 0.0343 | 0.1772 | 0.9144 |
 
-Caveat: the DeCE-RF row comes from `e4_t1_t4_controller_base_metrics.csv`;
+Caveat: the CleanEdit row comes from `e4_t1_t4_controller_base_metrics.csv`;
 confirm both metric runs used identical normalization before promoting this
 join into a paper table. The low inside-L1 of `rf_solver_edit`/`fireflow`
 together with visual inspection suggests under-editing rather than better
@@ -122,11 +122,11 @@ empty in `e2_t1_t4_baseline_summary.csv`).
 ### Support-matched diagnostic (T1-T4) — protocol warning
 
 `e2_support_matched_t1_t4_summary.csv` reports outside L1 0.2359
-(direct_target_raw) vs 0.2174 (DeCE-RF) with SSIM 0.14 vs 0.19. These
+(direct_target_raw) vs 0.2174 (CleanEdit) with SSIM 0.14 vs 0.19. These
 absolute values are not comparable to the E1/E4 tables: the diagnostic
 evaluates 512x336 results against 512x512 normalized sources
 (`normalized_512/sources/`), so geometric misalignment inflates all
-difference metrics. Use only within-table relative reading (DeCE-RF still
+difference metrics. Use only within-table relative reading (CleanEdit still
 better than raw direct target on outside L1/SSIM in every group), and re-run
 with aligned geometry before any paper table. `*_mask_blend` rows reach
 outside L1 = 0 by construction and remain diagnostic-only.
@@ -156,7 +156,7 @@ what concentrates the geometry.
 Source: `e4_controller_ablation_t1_t4/e4_controller_ablation_summary.md`
 (12 tasks, seeds 10/11/12; stress at seed 10, multipliers 0.50-2.00).
 
-- Base table: Fixed DeCE 0.0350 outside L1 / 0.9147 SSIM vs DeCE-RF 0.0343 /
+- Base table: Fixed CleanEdit 0.0350 outside L1 / 0.9147 SSIM vs CleanEdit 0.0343 /
   0.9144 — statistically indistinguishable on these aggregate metrics.
 - Trajectory stats: the feedback path is mechanically active (preserve drift
   0.21, preserve weight 1.23, edit weight 1.16, preserve correction 2.88)
@@ -165,7 +165,7 @@ Source: `e4_controller_ablation_t1_t4/e4_controller_ablation_summary.md`
   rises (outside L1 0.034->0.035, SSIM 0.91->0.89 at x2.00).
 
 Reading: feedback currently shows *mechanism activity without measurable
-aggregate benefit* over Fixed DeCE on T1-T4. The summary's own framing
+aggregate benefit* over Fixed CleanEdit on T1-T4. The summary's own framing
 (stabilizer/robustness component, not the headline gain) is the only
 defensible wording; see claim assessment below.
 
@@ -181,10 +181,10 @@ removal/completion extension package is out of scope here.
 
 | # | Claim | Verdict | Evidence | Gap / risk |
 | --- | --- | --- | --- | --- |
-| 1 | Direct target velocity couples local edit with global drift | **Supported, strong** | Strict E1: direct_target outside L1 2-7x worse than DeCE-RF on every task; human audit rejects 5/6 direct_target rows; E2-A FlowEdit shows the same coupling pattern | Phase 2 T1-T4 direct_target metric rows not yet computed (images exist) |
-| 2 | Clean-estimate displacement decoupling improves the edit-preserve tradeoff | **Supported on T1-T3 insertion/decal; partial on T4/T6** | E1: DeCE-RF best or tied outside L1 + best DINO with positive edit score where baselines are negative (cat_crown 0.099 vs 0.002; tshirt_star 0.080 vs -0.009); E2-A: best preserve metrics at comparable CLIP edit | red_chair_blue nearly tied with generic support (edit score 0.0055); backpack_remove (T6) edit score negative and SSIM below generic support — removal remains the weak operation |
+| 1 | Direct target velocity couples local edit with global drift | **Supported, strong** | Strict E1: direct_target outside L1 2-7x worse than CleanEdit on every task; human audit rejects 5/6 direct_target rows; E2-A FlowEdit shows the same coupling pattern | Phase 2 T1-T4 direct_target metric rows not yet computed (images exist) |
+| 2 | Clean-estimate displacement decoupling improves the edit-preserve tradeoff | **Supported on T1-T3 insertion/decal; partial on T4/T6** | E1: CleanEdit best or tied outside L1 + best DINO with positive edit score where baselines are negative (cat_crown 0.099 vs 0.002; tshirt_star 0.080 vs -0.009); E2-A: best preserve metrics at comparable CLIP edit | red_chair_blue nearly tied with generic support (edit score 0.0055); backpack_remove (T6) edit score negative and SSIM below generic support — removal remains the weak operation |
 | 3 | Operation-conditioned geometry is a real component, not a hand mask | **Supported** | E3: IoU 0.52 vs 0.20 (generic) vs 0.06 (attention); downstream edit score 0.066 vs 0.002; Spearman support-quality vs edit score about 0.6 | n=18 for correlations; only 3 tasks; manual-support upper bound row (planned in blueprint) not present |
-| 4 | Clean-estimate feedback makes the controller closed-loop and this matters | **Mechanism shown, benefit not yet demonstrated** | E4 trajectory stats prove the loop is active; stress curves show no harm | Fixed DeCE matches DeCE-RF on every aggregate metric; current data supports only "stabilizer, no cost" wording; need at least one regime (harder support noise, stronger edit pressure, or per-task failure counts) where fixed fails and feedback recovers, otherwise reviewers can call feedback unnecessary |
+| 4 | Clean-estimate feedback makes the controller closed-loop and this matters | **Mechanism shown, benefit not yet demonstrated** | E4 trajectory stats prove the loop is active; stress curves show no harm | Fixed CleanEdit matches CleanEdit on every aggregate metric; current data supports only "stabilizer, no cost" wording; need at least one regime (harder support noise, stronger edit pressure, or per-task failure counts) where fixed fails and feedback recovers, otherwise reviewers can call feedback unnecessary |
 | 5 | Scoped boundary claim (works under reasonable support; support is the bottleneck) | **Supported and well-instrumented** | E5 taxonomy + E3 correlation directly implement the "support is the bottleneck" narrative | none major; keep T6/removal in limitations |
 
 ## Overall Verdict
@@ -194,8 +194,8 @@ localized RF editing over direct target guidance, generic support, and
 runnable RF-native baselines under matched support and fixed masks — is
 supported by the completed E1/E2/E3 evidence, with honest scoping already in
 place via E5 and the e2 status lock. The two open weaknesses before paper
-lock are: (a) the feedback component (the "RF" in DeCE-RF's controller story)
-currently shows no measurable aggregate gain over Fixed DeCE, so either find
+lock are: (a) the feedback component (the "RF" in CleanEdit's controller story)
+currently shows no measurable aggregate gain over Fixed CleanEdit, so either find
 the regime where it wins or demote the claim to stabilization; (b) several
 quantitative joins are incomplete or protocol-inconsistent (Phase 2
 direct_target/generic-support metrics missing; support-matched T1-T4 geometry

@@ -330,7 +330,7 @@ def build_doc() -> None:
     subtitle = doc.add_paragraph()
     subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
     subtitle.paragraph_format.space_after = Pt(16)
-    r = subtitle.add_run("DeCE-RF: Non-Edit-Region Preservation First")
+    r = subtitle.add_run("CleanEdit: Non-Edit-Region Preservation First")
     set_run_font(r, size=14, bold=False, color=BLUE)
 
     meta = doc.add_paragraph()
@@ -342,7 +342,7 @@ def build_doc() -> None:
         doc,
         "Key Takeaway",
         [
-            "The current Phase2 evidence supports a preservation-first claim: DeCE-RF best protects the non-edit region while retaining measurable local edit signal.",
+            "The current Phase2 evidence supports a preservation-first claim: CleanEdit best protects the non-edit region while retaining measurable local edit signal.",
             "The result should not be framed as broad general-purpose image-editing superiority or maximum edit-amplitude performance.",
         ],
     )
@@ -351,7 +351,7 @@ def build_doc() -> None:
     add_para(doc, "本阶段实验验证的核心不是最大编辑幅度，而是局部编辑时的非编辑区保护。")
     add_para(
         doc,
-        "Working claim: DeCE-RF prioritizes non-edit-region preservation in localized RF editing while retaining measurable target-local edit signal.",
+        "Working claim: CleanEdit prioritizes non-edit-region preservation in localized RF editing while retaining measurable target-local edit signal.",
     )
 
     add_table(
@@ -375,7 +375,7 @@ def build_doc() -> None:
             ["RF reconstruction", "Preservation floor / no-target-edit reference"],
             ["Direct target", "Aggressive target guidance baseline"],
             ["Generic support", "Conservative support-control baseline"],
-            ["DeCE-RF-SD3", "Proposed preservation-first localized RF control"],
+            ["CleanEdit-SD3", "Proposed preservation-first localized RF control"],
         ],
         [2600, 6400],
     )
@@ -409,7 +409,7 @@ def build_doc() -> None:
 
     add_heading(doc, "4. Main Qualitative Result Figure", 1)
     add_para(doc, "The main grid uses one representative seed-12 case from each Phase2 family and resolves images through the final selected run registry.")
-    add_figure(doc, FIG, "Figure 1. Phase2 qualitative grid: source, direct target, generic support, and DeCE-RF.")
+    add_figure(doc, FIG, "Figure 1. Phase2 qualitative grid: source, direct target, generic support, and CleanEdit.")
 
     add_heading(doc, "5. Table 1: Phase2 T1-T5 Main Effect", 1)
     add_para(doc, "Scope: 15 task cases x seeds 10/11/12 = 45 rows per method.")
@@ -422,7 +422,7 @@ def build_doc() -> None:
         font_size=6,
     )
     add_figure(doc, FIG2, "Figure 2. Phase2 main-effect metrics from Table 1.")
-    add_bullet(doc, "DeCE-RF-SD3 has the lowest Non-edit MAE and strongest BG-PSNR/BG-LPIPS/BG-SSIM preservation profile.")
+    add_bullet(doc, "CleanEdit-SD3 has the lowest Non-edit MAE and strongest BG-PSNR/BG-LPIPS/BG-SSIM preservation profile.")
     add_bullet(doc, "The positive edit_score indicates it is not merely a no-op preservation method.")
     add_bullet(doc, "Generic support preserves but under-edits; direct target edits aggressively but drifts.")
 
@@ -437,7 +437,7 @@ def build_doc() -> None:
     add_figure(doc, FIG_EXTERNAL_SD3, "Figure 3. Same-backbone SD3 external baseline bar comparison. FlowAlign is excluded from the paper-facing comparison.")
     add_para(
         doc,
-        "Interpretation: Some baselines show higher edit scores, but at the cost of weaker non-edit-region preservation. DeCE-RF should be presented as preservation-first balance, not maximum edit strength.",
+        "Interpretation: Some baselines show higher edit scores, but at the cost of weaker non-edit-region preservation. CleanEdit should be presented as preservation-first balance, not maximum edit strength.",
     )
 
     add_heading(doc, "7. Table 2b: Native RF / FLUX Context", 1)
@@ -449,7 +449,7 @@ def build_doc() -> None:
         font_size=6,
     )
     add_para(doc, "These rows provide native RF / FLUX context and should not be phrased as a strict same-backbone ranking.")
-    add_figure(doc, FIG_EXTERNAL_FLUX, "Figure 4. Native/context external baseline bar comparison with DeCE-RF-SD3 as a preservation reference.")
+    add_figure(doc, FIG_EXTERNAL_FLUX, "Figure 4. Native/context external baseline bar comparison with CleanEdit-SD3 as a preservation reference.")
 
     add_heading(doc, "8. Family-Level Preservation", 1)
     add_para(doc, "Family-level Non-edit MAE shows whether the preservation-first trend holds across T1-T5 instead of being driven by a single task type.")
@@ -464,7 +464,7 @@ def build_doc() -> None:
             ["Generic support", "135", "2.044", "2.044", "4.356", "4.533", "2.067", "3.526"],
             ["RF reconstruction", "135", "1.000", "1.000", "4.133", "4.267", "2.067", "2.844"],
             ["Direct target", "135", "1.756", "1.756", "1.244", "1.711", "4.593", "1.489"],
-            ["DeCE-RF", "135", "4.022", "4.022", "4.756", "4.667", "1.667", "4.667"],
+            ["CleanEdit", "135", "4.022", "4.022", "4.756", "4.667", "1.667", "4.667"],
         ],
         [2000, 600, 850, 900, 1250, 950, 850, 900],
         font_size=8,
@@ -477,7 +477,7 @@ def build_doc() -> None:
         doc,
         "Supported claim",
         [
-            "On a controlled Phase2 T1-T5 diagnostic set, DeCE-RF improves non-edit-region preservation and source consistency while retaining measurable target-local edit signal.",
+            "On a controlled Phase2 T1-T5 diagnostic set, CleanEdit improves non-edit-region preservation and source consistency while retaining measurable target-local edit signal.",
         ],
     )
     add_para(doc, "Not supported by the current evidence:")
@@ -525,14 +525,14 @@ def build_doc() -> None:
     add_heading(doc, "Appendix A. Per-Task All-Method Visual Comparisons", 1)
     add_para(
         doc,
-        "Each appendix grid shows the source image plus the formal main and retained external baseline methods: RF reconstruction, Direct, Generic, FlowEdit, SplitFlow, Sam-Flow-SD3, FireFlow, RF-Solver-Edit, ReFlex, Sam-Flow-FLUX, Fixed DeCE, and DeCE-RF. Seed 12 is used for every Phase2 task case, and image selection follows the final selected run registry.",
+        "Each appendix grid shows the source image plus the formal main and retained external baseline methods: RF reconstruction, Direct, Generic, FlowEdit, SplitFlow, Sam-Flow-SD3, FireFlow, RF-Solver-Edit, ReFlex, Sam-Flow-FLUX, Fixed CleanEdit, and CleanEdit. Seed 12 is used for every Phase2 task case, and image selection follows the final selected run registry.",
     )
     for path, caption in APPENDIX_FIGS:
         add_figure(doc, path, caption, width=10.0)
 
     footer = doc.sections[0].footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = footer.add_run("Phase2 Experiment Report | DeCE-RF | 2026-06-11")
+    r = footer.add_run("Phase2 Experiment Report | CleanEdit | 2026-06-11")
     set_run_font(r, size=8)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

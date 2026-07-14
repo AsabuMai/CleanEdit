@@ -414,7 +414,7 @@ def make_figure_panel(task: str = "tshirt_star", seed: str = "10") -> Path:
         ("generic support", fit_mask(generic / "masks" / "core_final.png", "binary_midpoint")),
         ("operation M_edit", fit_mask(run / "masks" / "operation_v3_edit_mask.png", "binary_midpoint")),
         ("M_preserve", fit_mask(run / "masks" / "operation_v3_preserve_mask.png", "binary_midpoint")),
-        ("DeCE-RF result", fit_rgb(run / "result.png")),
+        ("CleanEdit result", fit_rgb(run / "result.png")),
     ]
     cols = 5
     rows = 2

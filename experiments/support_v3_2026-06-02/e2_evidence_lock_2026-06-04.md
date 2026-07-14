@@ -17,7 +17,7 @@ This lock covers the evidence package used for the current WACV experiment narra
 | E3 support geometry ablation | Locked | support geometry evidence and Figure 4 package | support-map diagnostic plus runnable generic-vs-operation rows |
 | E4 controller/robustness ablation | Locked | fixed-vs-feedback controller evidence and Figure 5 package | SD3 controller evidence; not an external-baseline or cross-backbone claim |
 | E5 boundary/extension cases | Locked | Figure 6 extension/failure package and limitation taxonomy | boundary/extension evidence only; not main quantitative claim |
-| E2.5 cross-backbone transfer probe | Deferred | optional future work | no current cross-backbone DeCE-RF claim |
+| E2.5 cross-backbone transfer probe | Deferred | optional future work | no current cross-backbone CleanEdit claim |
 
 ## Locked Artifacts
 
@@ -54,7 +54,7 @@ Paper-safe claim:
 
 ```text
 Under the same SD3 backbone, same prompts/source images, and fixed evaluation
-masks, DeCE-RF improves localized edit-preserve behavior over runnable RF-native
+masks, CleanEdit improves localized edit-preserve behavior over runnable RF-native
 SD3 editing baselines in the reduced strict comparison.
 ```
 
@@ -111,7 +111,7 @@ Paper-safe claim:
 ```text
 Binary localization/output blending improves preservation metrics by
 construction but does not recover target correctness or boundary coherence.
-Therefore, localization alone is insufficient to explain the DeCE-RF result.
+Therefore, localization alone is insufficient to explain the CleanEdit result.
 ```
 
 ### E3 Support Geometry Ablation
@@ -173,14 +173,14 @@ experiments/support_v3_2026-06-02/e4_fixed_dece_component_ablation_compact.md
 Paper-facing identity:
 
 ```text
-Fixed DeCE displacement = support_v3_fixed
-DeCE-RF = support_v3_controller_rmsgap
+Fixed CleanEdit displacement = support_v3_fixed
+CleanEdit = support_v3_controller_rmsgap
 ```
 
 Boundary:
 
 ```text
-Fixed DeCE displacement is a component ablation. It is not an external baseline
+Fixed CleanEdit displacement is a component ablation. It is not an external baseline
 and not an E2.4 support-only row.
 ```
 
@@ -217,8 +217,8 @@ Paper-safe E4 claim:
 
 ```text
 Under the same SD3 implementation, fixed evaluation masks, and declared E4
-tasks, DeCE-RF's feedback/projection controller provides conservative
-stabilization evidence over fixed DeCE displacement. The stress curve should be
+tasks, CleanEdit's feedback/projection controller provides conservative
+stabilization evidence over fixed CleanEdit displacement. The stress curve should be
 reported as an edit-preserve tradeoff using local edit L1 as an edit-pressure
 proxy, not as a standalone semantic success score.
 ```
@@ -253,7 +253,7 @@ Paper-safe E5 claim:
 ```text
 E5 documents extension routes and scope boundaries. It supports Figure 6 and
 the limitations paragraph, but the extension routes are named separately and
-are not aggregated into the base DeCE-RF mean.
+are not aggregated into the base CleanEdit mean.
 ```
 
 ## Deferred E2.5
@@ -263,7 +263,7 @@ E2.5 is intentionally skipped for this evidence lock.
 Reason:
 
 ```text
-The current DeCE-RF implementation is SD3-specific. A FLUX implementation would
+The current CleanEdit implementation is SD3-specific. A FLUX implementation would
 require separate support extraction, scheduler/controller calibration, and
 validation. Running it now would introduce cross-backbone confounds rather than
 strengthen the locked same-backbone claim.
@@ -274,7 +274,7 @@ Paper-safe wording:
 ```text
 All algorithm-level conclusions are drawn from same-backbone SD3 comparisons.
 Native FLUX rows are used only as contextual evidence for off-the-shelf RF
-editors. Full cross-backbone DeCE-RF transfer is left to future work.
+editors. Full cross-backbone CleanEdit transfer is left to future work.
 ```
 
 ## Next Step

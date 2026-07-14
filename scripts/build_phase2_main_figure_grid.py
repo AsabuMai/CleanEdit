@@ -30,7 +30,7 @@ TASKS = [
 METHODS = [
     ("direct_target", "Direct target"),
     ("adaptive_full_generic_support", "Generic support"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
 ]
 SEED = "12"
 RESAMPLE = getattr(getattr(Image, "Resampling", Image), "LANCZOS", Image.LANCZOS)

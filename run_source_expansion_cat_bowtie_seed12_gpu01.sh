@@ -34,7 +34,7 @@ export SKIP_EXISTING=0
 export REUSE_SEMANTIC_MASKS=0
 export REGENERATE_MASKS=1
 
-echo "== source expansion cat red bow tie, DeCE-RF seed12 =="
+echo "== source expansion cat red bow tie, CleanEdit seed12 =="
 TASKS="$TASKS" \
 METHODS="support_v3_controller_rmsgap" \
 SEEDS="12" \

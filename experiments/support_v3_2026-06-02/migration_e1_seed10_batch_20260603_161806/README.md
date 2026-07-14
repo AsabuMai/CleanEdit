@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 
-Purpose: validate that the strict Core-6 DeCE-RF row can run on the new server
+Purpose: validate that the strict Core-6 CleanEdit row can run on the new server
 without rerunning the full E1 matrix.
 
 Run package:

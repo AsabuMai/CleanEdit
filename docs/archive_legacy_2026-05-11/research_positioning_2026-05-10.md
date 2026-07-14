@@ -1,4 +1,4 @@
-# Research Positioning: RF h-Edit Project
+# Research Positioning: CleanEdit Project
 
 Date: 2026-05-10
 
@@ -110,7 +110,7 @@ piece in the repository.
 
 ## What Is Not Enough Anymore
 
-- "RF h-Edit" alone is not enough. h-Edit already introduced the
+- "CleanEdit" alone is not enough. h-Edit already introduced the
   reconstruction/edit decomposition, and RF papers now cover many trajectory and
   velocity-control variants.
 - Attention/SAM masks alone are not novel.

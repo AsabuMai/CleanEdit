@@ -26,7 +26,7 @@ METHODS = [
     ("base_only", "base_only (recon)"),
     ("direct_target", "direct_target"),
     ("adaptive_full_generic_support", "generic support"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
 ]
 CELL = 256
 LABEL_W = 230
@@ -107,6 +107,6 @@ def emit(table, label):
 
 
 emit(agg(PACK / "e4_t1_t4_reconstruction_floor_metrics.csv"), "base_only reconstruction floor (T1-T4, 3 seeds)")
-emit(agg(PACK / "e4_t1_t4_controller_base_metrics.csv"), "support_v3 fixed vs DeCE-RF (T1-T4, 3 seeds)")
+emit(agg(PACK / "e4_t1_t4_controller_base_metrics.csv"), "support_v3 fixed vs CleanEdit (T1-T4, 3 seeds)")
 emit(agg(PACK / "e2_support_matched_t1_t4_fixed_mask_metrics.csv",
-         {"direct_target_raw", "support_v3_controller_rmsgap"}), "direct_target_raw vs DeCE-RF (T1-T4, 3 seeds)")
+         {"direct_target_raw", "support_v3_controller_rmsgap"}), "direct_target_raw vs CleanEdit (T1-T4, 3 seeds)")

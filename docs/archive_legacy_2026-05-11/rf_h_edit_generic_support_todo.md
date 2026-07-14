@@ -1,4 +1,4 @@
-# RF h-Edit: Generic Support + Adaptive Controller To-Do Plan
+# CleanEdit: Generic Support + Adaptive Controller To-Do Plan
 
 ## 0. Current Problem
 

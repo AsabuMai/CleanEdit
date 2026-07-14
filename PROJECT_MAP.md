@@ -1,4 +1,4 @@
-# RF h-Edit Project Map
+# CleanEdit Project Map
 
 The submitted FlowEdit-135 paper evidence is frozen as documented in
 `docs/SUBMISSION_FREEZE.md`. Post-submission work is indexed separately in

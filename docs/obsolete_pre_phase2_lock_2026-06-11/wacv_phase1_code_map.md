@@ -36,7 +36,7 @@ Supported scopes:
 
 ## E2 Baseline Upgrade Note
 
-Current E2 artifacts cover E2-A, the SD3-matched RF-native / target-mode comparison against FlowEdit, FlowAlign, SplitFlow, and DeCE-RF. The redesigned E2-B pool is a native-backbone contextual RF / FLUX comparison covering `rf_solver_edit`, `reflex`, `fireflow`, `stable_flow`, `ot_rf_otip`, and `dvrf`; at least one contextual baseline must become runnable, or its blocker must be disclosed, before making the stronger practical claim that existing RF editors do not replace localized edit-preserve control.
+Current E2 artifacts cover E2-A, the SD3-matched RF-native / target-mode comparison against FlowEdit, FlowAlign, SplitFlow, and CleanEdit. The redesigned E2-B pool is a native-backbone contextual RF / FLUX comparison covering `rf_solver_edit`, `reflex`, `fireflow`, `stable_flow`, `ot_rf_otip`, and `dvrf`; at least one contextual baseline must become runnable, or its blocker must be disclosed, before making the stronger practical claim that existing RF editors do not replace localized edit-preserve control.
 
 ## Minimal Method Set
 

@@ -1,21 +1,21 @@
-# DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+# CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 
 ## Abstract
 
 Rectified Flow models provide a velocity-field view of image generation, but
 localized image editing remains difficult because target-prompt velocities tend
 to entangle the desired local change with unwanted source drift. We introduce
-DeCE-RF, a localized Rectified Flow editing framework that treats editing as
+CleanEdit, a localized Rectified Flow editing framework that treats editing as
 decoupled clean-estimate displacement control. Rather than replacing the
-source-conditioned trajectory with a target-conditioned velocity, DeCE-RF keeps
+source-conditioned trajectory with a target-conditioned velocity, CleanEdit keeps
 the source velocity as the base field and applies a clean displacement
 decomposed into edit and preservation components:
-`v_DeCE = v_src - t^-1 Delta_t^0`, where
+`v_CleanEdit = v_src - t^-1 Delta_t^0`, where
 `Delta_t^0 = Delta_edit + Delta_pres`. An operation-conditioned control
 geometry estimator supplies edit, core, contact, and preserve regions, while
 clean-estimate feedback adapts edit and preservation weights during ODE
 sampling. Experiments on localized insertion, decal, exposed-object removal,
-and recolor tasks show that DeCE-RF improves the edit-preserve tradeoff over
+and recolor tasks show that CleanEdit improves the edit-preserve tradeoff over
 direct target guidance and weak generic support. Failure analysis further shows
 that accurate support is necessary but not sufficient: difficult completion,
 occlusion, and replacement target formation remain open limitations.
@@ -40,12 +40,12 @@ for localized editing, a target-conditioned velocity still mixes two competing
 goals: move the local edit region toward the target prompt, while keeping the
 rest of the source image close to the original.
 
-We propose DeCE-RF, a decoupled clean-estimate edit-preserve control framework
-for localized RF editing. DeCE-RF keeps the source-conditioned velocity as the
+We propose CleanEdit, a decoupled clean-estimate edit-preserve control framework
+for localized RF editing. CleanEdit keeps the source-conditioned velocity as the
 base field and designs a displacement in clean-estimate space at each ODE step.
 Under the linear RF path, a velocity prediction induces a clean estimate
 `x0_hat = x_t - t v_theta(x_t,t)`. This gives a common space in which target
-change and source preservation can be measured. DeCE-RF decomposes the desired
+change and source preservation can be measured. CleanEdit decomposes the desired
 clean displacement into an edit component that moves local regions toward the
 target clean estimate and a preserve component that pulls non-edit regions back
 to the source latent. The displacement is then mapped back to an RF velocity
@@ -61,7 +61,7 @@ as an object-specific mask heuristic. Given an operation such as `add_object`,
 clean-estimate disagreement, velocity disagreement, optional grounding, and
 operation priors into `M_edit`, `M_core`, `M_contact`, and `M_preserve`.
 
-The claim of this paper is deliberately scoped. DeCE-RF is not presented as a
+The claim of this paper is deliberately scoped. CleanEdit is not presented as a
 fully general automatic image editor. Instead, we show that, when reasonable
 support is available, clean-estimate edit-preserve control improves localized
 RF editing. We also analyze cases where localization succeeds but completion or
@@ -96,14 +96,14 @@ Diffusion and flow editing systems often use attention control, feature reuse,
 or source-reference injection to preserve structure. h-Edit uses a
 Doob-transform-inspired editing formulation [@hedit2025], while related
 attention and feature control methods show that source features can constrain
-image-to-image edits. DeCE-RF is complementary: it does not rely only on
+image-to-image edits. CleanEdit is complementary: it does not rely only on
 feature reuse or prompt substitution, but expresses local editing as a
 clean-estimate displacement added to a source-conditioned RF trajectory.
 
 Local editing also depends on spatial support. Generic attention masks can be
 diffuse or over-preserving, and segmentation or grounding tools such as SAM and
 GroundingDINO can provide useful support but do not solve how the RF velocity
-should be controlled [@kirillov2023segment; @liu2023groundingdino]. DeCE-RF
+should be controlled [@kirillov2023segment; @liu2023groundingdino]. CleanEdit
 treats support as control geometry. The support interface estimates where
 different displacement components should act; the controller then determines
 how those components affect the RF trajectory.
@@ -127,11 +127,11 @@ x0_hat_src = x_t - t v_src
 x0_hat_tar = x_t - t v_tar.
 ```
 
-DeCE-RF keeps the source velocity as the base trajectory and applies a desired
+CleanEdit keeps the source velocity as the base trajectory and applies a desired
 clean displacement:
 
 ```text
-v_DeCE = v_src - t^-1 Delta_t^0.
+v_CleanEdit = v_src - t^-1 Delta_t^0.
 ```
 
 The displacement is decomposed into edit and preserve components:
@@ -161,7 +161,7 @@ of the same clean displacement.
 
 ### 3.2 Operation-Conditioned Control Geometry
 
-The clean displacement requires spatial weights. DeCE-RF estimates these
+The clean displacement requires spatial weights. CleanEdit estimates these
 weights from operation-conditioned evidence. Each task is described by an
 operation:
 
@@ -204,7 +204,7 @@ edit; the ODE controller consumes the masks as clean-displacement geometry.
 
 Fixed edit and preserve weights are brittle. A support region can be slightly
 too large, the edit can be under-expressed, or preservation drift can appear
-late in the trajectory. DeCE-RF therefore logs clean-estimate diagnostics at
+late in the trajectory. CleanEdit therefore logs clean-estimate diagnostics at
 each timestep:
 
 ```text
@@ -226,7 +226,7 @@ The final per-step update is:
 x_{t-dt} = x_t + (t_next - t) (v_src - t^-1 Delta_t^0).
 ```
 
-In the implementation, `support_v3_controller_rmsgap` is the main DeCE-RF
+In the implementation, `support_v3_controller_rmsgap` is the main CleanEdit
 controller. `support_v3_fixed` keeps the same operation-conditioned geometry
 but disables feedback weighting, and is used only as an ablation.
 
@@ -256,7 +256,7 @@ Headline methods are:
 RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
 All headline preservation metrics use a fixed per-task evaluation mask shared
@@ -281,16 +281,16 @@ projection magnitude.
 The Core-5 fixed-mask results show a consistent qualitative pattern. Direct
 target guidance produces stronger target pressure but the worst preservation
 and artifact scores. Generic support control preserves the source well but
-often over-preserves and misses the requested edit. DeCE-RF gives the strongest
+often over-preserves and misses the requested edit. CleanEdit gives the strongest
 edit success and overall visual audit scores while maintaining competitive
 locality and source preservation.
 
 For example, on `cat_crown`, generic support obtains low outside drift but
-fails to form the crown, while DeCE-RF produces a localized crown with similar
+fails to form the crown, while CleanEdit produces a localized crown with similar
 outside drift. On `mug_heart` and `tshirt_star`, generic support preserves the
-source but misses the decal, while DeCE-RF forms clear localized decals. On
-`dog_sunglasses`, both generic support and DeCE-RF work, but DeCE-RF reduces
-artifact severity. On `backpack_remove_toy_charm`, visual audit marks DeCE-RF
+source but misses the decal, while CleanEdit forms clear localized decals. On
+`dog_sunglasses`, both generic support and CleanEdit work, but CleanEdit reduces
+artifact severity. On `backpack_remove_toy_charm`, visual audit marks CleanEdit
 as a successful exposed-object removal, while global CLIP is less informative
 for this operation.
 
@@ -301,7 +301,7 @@ The internal visual audit over 15 Core-5 runs gives the following method means:
 | RF reconstruction | 1.00 | 2.40 | 2.80 | 2.60 | 1.00 |
 | Direct target | 2.60 | 1.40 | 1.80 | 3.40 | 2.00 |
 | Generic support control | 1.60 | 4.40 | 4.20 | 1.20 | 2.40 |
-| DeCE-RF | 4.40 | 4.00 | 4.20 | 1.60 | 4.40 |
+| CleanEdit | 4.40 | 4.00 | 4.20 | 1.60 | 4.40 |
 
 These results support a conservative claim: operation-conditioned support plus
 decoupled clean-estimate control improves the edit-preserve balance on selected
@@ -316,7 +316,7 @@ The planned WACV figure set is:
 | Figure | Question answered |
 | --- | --- |
 | Fig. 1 Method overview | What is clean-estimate displacement control? |
-| Fig. 2 Main qualitative comparison | Does DeCE-RF improve localized edit quality over baselines? |
+| Fig. 2 Main qualitative comparison | Does CleanEdit improve localized edit quality over baselines? |
 | Fig. 3 Support geometry | Is support an operation-conditioned control interface rather than a mask trick? |
 | Fig. 4 Edit-preserve tradeoff | Where do methods fall on edit strength vs outside drift? |
 | Fig. 5 Feedback ablation | What does clean-estimate feedback add over fixed weights? |
@@ -325,7 +325,7 @@ The planned WACV figure set is:
 The main qualitative figure should use columns:
 
 ```text
-Source | Direct target | Generic support | DeCE-RF | Support overlay
+Source | Direct target | Generic support | CleanEdit | Support overlay
 ```
 
 The support figure should visualize:
@@ -335,16 +335,16 @@ new-token attention | clean disagreement | velocity disagreement |
 operation-conditioned support | M_core/M_contact | M_preserve
 ```
 
-The feedback figure should compare `support_v3_fixed` and DeCE-RF with curves
+The feedback figure should compare `support_v3_fixed` and CleanEdit with curves
 for edit gap, preserve drift, adaptive weights, and projection magnitude.
 
 ### 4.5 Ablations
 
-We use ablations to isolate the three components of DeCE-RF.
+We use ablations to isolate the three components of CleanEdit.
 
 First, decoupled clean-estimate displacement is tested by comparing direct
 target guidance, edit-only displacement, preserve-disabled displacement, and
-fixed DeCE displacement. This asks whether keeping the source trajectory and
+fixed CleanEdit displacement. This asks whether keeping the source trajectory and
 adding local clean displacement reduces drift.
 
 Second, operation-conditioned geometry is tested by comparing attention-only,
@@ -352,7 +352,7 @@ clean-disagreement-only, generic support, operation-conditioned support, and
 manual/external support where available. This asks whether the geometry
 estimator selects better control regions.
 
-Third, feedback control is tested by comparing `support_v3_fixed` and DeCE-RF.
+Third, feedback control is tested by comparing `support_v3_fixed` and CleanEdit.
 The existing fixed-control ablation covers the original Core-4 tasks. It shows
 small but stable metric improvements, and visual evidence suggests that the
 feedback controller is best interpreted as late-stage edit finishing plus
@@ -372,13 +372,13 @@ unreliable because target formation must decide which source attributes to
 preserve and which to replace.
 
 Two extension probes should be reported separately from the base method:
-`laptop_remove_sticker` as `DeCE-RF + completion prior`, and
-`whiteboard_probe_red_star_sticker` as `DeCE-RF + replacement route`. These
-should not be aggregated into the base DeCE-RF main table.
+`laptop_remove_sticker` as `CleanEdit + completion prior`, and
+`whiteboard_probe_red_star_sticker` as `CleanEdit + replacement route`. These
+should not be aggregated into the base CleanEdit main table.
 
 ## 5. Discussion
 
-DeCE-RF suggests that localized RF editing is better understood as controlled
+CleanEdit suggests that localized RF editing is better understood as controlled
 ODE sampling than as target-prompt velocity replacement. The source velocity
 provides a stable reconstruction trajectory, clean displacement defines what
 should change or be preserved, operation-conditioned support defines where
@@ -411,13 +411,13 @@ protocol.
 
 ## 7. Conclusion
 
-We introduced DeCE-RF, a decoupled clean-estimate edit-preserve control
-framework for localized Rectified Flow editing. DeCE-RF keeps the source
+We introduced CleanEdit, a decoupled clean-estimate edit-preserve control
+framework for localized Rectified Flow editing. CleanEdit keeps the source
 velocity as the base trajectory, decomposes the desired clean displacement into
 edit and preservation components, estimates operation-conditioned control
 geometry, and adapts displacement weights from clean-estimate feedback. The
 current evidence supports a conservative but useful claim: under reasonable
-support, DeCE-RF improves the localized edit-preserve tradeoff for selected RF
+support, CleanEdit improves the localized edit-preserve tradeoff for selected RF
 editing tasks, while difficult support, completion, and replacement cases
 remain open problems.
 

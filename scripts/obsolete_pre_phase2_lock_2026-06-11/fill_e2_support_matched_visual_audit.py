@@ -335,7 +335,7 @@ def write_markdown(path: Path, combined: list[dict[str, str]]) -> None:
     lines.extend(
         [
             "",
-            "Conclusion: fixed binary output blending almost eliminates outside-mask metric error by construction, but visual audit shows it does not solve target correctness or boundary coherence. DeCE-RF is the only row that consistently performs the intended operation in this support-matched diagnostic. The fixed-weight DeCE displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.",
+            "Conclusion: fixed binary output blending almost eliminates outside-mask metric error by construction, but visual audit shows it does not solve target correctness or boundary coherence. CleanEdit is the only row that consistently performs the intended operation in this support-matched diagnostic. The fixed-weight CleanEdit displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -370,7 +370,7 @@ def main() -> int:
                 "# E2.4 Visual Audit Conclusion",
                 "",
                 "Manual review of the seed10/seed11 support-matched grids confirms that post-hoc mask blending improves preservation metrics but frequently misses the requested edit or introduces visible paste boundaries.",
-                "DeCE-RF is stronger on target correctness and overall quality. Fixed DeCE displacement is treated as a separate component ablation, so E2.4 stays focused on whether localization alone explains the gain.",
+                "CleanEdit is stronger on target correctness and overall quality. Fixed CleanEdit displacement is treated as a separate component ablation, so E2.4 stays focused on whether localization alone explains the gain.",
                 "",
                 f"Audit CSV: {audit_path}",
                 f"Summary CSV: {summary_path}",

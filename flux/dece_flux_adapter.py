@@ -17,7 +17,7 @@ except ImportError:  # pragma: no cover - supports direct execution from flux/
 
 @dataclass(frozen=True)
 class FluxDeceAdapter:
-    """Expose FLUX packed latents through the shared DeCE-RF core interface."""
+    """Expose FLUX packed latents through the shared CleanEdit core interface."""
 
     packed_h: int
     packed_w: int
@@ -104,7 +104,7 @@ class FluxDeceAdapter:
 
 
 def build_flux_dece_config(args) -> DeceCoreConfig:
-    """Translate FLUX CLI/runtime args into backend-neutral DeCE core config."""
+    """Translate FLUX CLI/runtime args into backend-neutral CleanEdit core config."""
 
     return DeceCoreConfig(
         struct_guidance_scale=float(args.struct_guidance_scale),

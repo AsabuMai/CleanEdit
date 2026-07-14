@@ -3,8 +3,8 @@ from PIL import Image, ImageDraw
 PROJ="/cluster/users/grad/2025/25t8103/project"
 man={e["key"]:e for e in json.load(open(f"{PROJ}/data/pie_pilot_20260618/manifest.json"))}
 B=f"{PROJ}/outputs/pie15_baselines_20260618"
-METH=[("source",None,None),("DeCE-FLUX",f"{PROJ}/outputs/pie_auto_flux_20260618","dece_rf_flux"),
- ("DeCE-SD3",f"{PROJ}/outputs/pie_auto_sd3_20260618","support_v3_controller_rmsgap"),
+METH=[("source",None,None),("CleanEdit-FLUX",f"{PROJ}/outputs/pie_auto_flux_20260618","dece_rf_flux"),
+ ("CleanEdit-SD3",f"{PROJ}/outputs/pie_auto_sd3_20260618","support_v3_controller_rmsgap"),
  ("FireFlow",B,"fireflow"),("RF-Solver",B,"rf_solver_edit"),("ReFlex",B,"reflex"),
  ("SamFlow-F",B,"sam_flow_flux"),("SamFlow-S",B,"sam_flow_sd3"),("FlowEdit",B,"flowedit_sd3"),
  ("SplitFlow",B,"splitflow_sd3"),("OT-RF",B,"ot_rf"),("DRFS",B,"drfs")]

@@ -200,7 +200,7 @@ def write_markdown(manifest: list[dict[str, str]], figure: Path) -> Path:
         "",
         "- Positive extensions are reported separately from the Core-6 main table.",
         "- Failure rows use controlled labels and support limitation wording.",
-        "- These rows are not aggregated into the base DeCE-RF mean.",
+        "- These rows are not aggregated into the base CleanEdit mean.",
         "",
         "## Selected Rows",
         "",

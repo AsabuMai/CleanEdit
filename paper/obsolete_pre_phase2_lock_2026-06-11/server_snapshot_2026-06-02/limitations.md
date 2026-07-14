@@ -23,7 +23,7 @@
   Core-6 task, which passed the seed-10 visual gate and was rerun over seeds
   10/11/12.
 - `support_v3_fixed` now covers the promoted Core-6 task set, but its gap to
-  DeCE-RF is modest. Feedback control should be presented as component evidence,
+  CleanEdit is modest. Feedback control should be presented as component evidence,
   not as a standalone headline gain.
 - External baselines must be compared only under matched prompts, seeds,
   resolution, backbone assumptions, and mask inputs. Older core-4 baseline

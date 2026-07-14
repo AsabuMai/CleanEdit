@@ -32,7 +32,7 @@ These masks are consumed by the ODE controller as displacement geometry:
 ```text
 Delta_0 = Delta_edit(M_edit, M_core, M_contact)
         + Delta_pres(M_preserve)
-v_DeCE = v_src - t^-1 Delta_0
+v_CleanEdit = v_src - t^-1 Delta_0
 ```
 
 The support module therefore supplies the geometry of the clean displacement,
@@ -134,7 +134,7 @@ control stack:
 ```text
 weak/generic support -> fixed displacement weights
 operation-conditioned support -> fixed displacement weights
-operation-conditioned support -> feedback-updated DeCE-RF controller
+operation-conditioned support -> feedback-updated CleanEdit controller
 manual/external support -> upper-bound diagnostic
 ```
 

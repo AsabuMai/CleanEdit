@@ -167,7 +167,7 @@ def main() -> int:
                     json.dumps(
                         {
                             "steps": [],
-                            "note": "Native FLUX contextual baseline; no DeCE controller trajectory stats.",
+                            "note": "Native FLUX contextual baseline; no CleanEdit controller trajectory stats.",
                         },
                         indent=2,
                     )

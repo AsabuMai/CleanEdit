@@ -9,7 +9,7 @@ Figure 6 candidate: `experiments/support_v3_2026-06-02/e5_boundary_extension/e5_
 
 - Positive extensions are reported separately from the Core-6 main table.
 - Failure rows use controlled labels and support limitation wording.
-- These rows are not aggregated into the base DeCE-RF mean.
+- These rows are not aggregated into the base CleanEdit mean.
 
 ## Selected Rows
 

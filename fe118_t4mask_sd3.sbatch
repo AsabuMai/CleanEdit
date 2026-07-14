@@ -15,6 +15,6 @@ hostname; date
 cd "$PROJ"
 echo "[1/2] generating SAM masks for T4"
 "$PROJ/.venv/bin/python" scripts/make_fe118_t4_masks.py
-echo "[2/2] DeCE-RF SD3 with masks"
+echo "[2/2] CleanEdit SD3 with masks"
 MANIFEST=$PROJ/data/flowedit_compatible_118/manifest_smoke_t4_mask.json OUT=outputs/fe118_smoke_t4mask_sd3 "$PROJ/.venv/bin/python" scripts/pie_sd3_batch_kindaware.py
 date; echo fe118_t4mask_sd3_complete

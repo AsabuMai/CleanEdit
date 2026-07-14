@@ -1,8 +1,8 @@
 # EEdit-Inspired Experiment Presentation Notes (2026-06-11)
 
-Source: user analysis of EEdit's table/metric organization applied to DeCE-RF.
+Source: user analysis of EEdit's table/metric organization applied to CleanEdit.
 Decision: borrow presentation discipline, do NOT borrow the experiment center
-(DeCE-RF stays an edit-preserve control paper, not an efficiency paper, not a
+(CleanEdit stays an edit-preserve control paper, not an efficiency paper, not a
 wide-task benchmark).
 
 ## The One-Line Lesson

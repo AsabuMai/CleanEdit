@@ -3,7 +3,7 @@
 This file records which external-baseline artifacts can be used for paper
 tables. The rule is strict: a baseline is table-eligible only if it uses the
 same source image, target prompt, resolution, seed, and mask/support condition
-as the RF h-Edit main matrix.
+as the CleanEdit main matrix.
 
 ## Current Status
 

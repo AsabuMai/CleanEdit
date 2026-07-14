@@ -1,4 +1,4 @@
-"""FLUX implementation package for DeCE-RF transfer experiments."""
+"""FLUX implementation package for CleanEdit transfer experiments."""
 
 from .flux_hrec import FluxEditResult, HRecFluxEdit
 from .flux_model_ops import (

@@ -10,7 +10,7 @@ Source: `experiments/support_v3_2026-06-02/e1_core5_strict_metrics.csv`.
 
 | label | n | task_success_true | outside_l1 | inside_l1 | source_ssim | dino_source | edit_score | clip_delta |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DeCE-RF-SD3 | 15 | 9 | 0.0393 | 0.0972 | 0.7094 | 0.8661 | 0.0476 | 0.0476 |
+| CleanEdit-SD3 | 15 | 9 | 0.0393 | 0.0972 | 0.7094 | 0.8661 | 0.0476 | 0.0476 |
 | Direct target | 15 | 0 | 0.0911 | 0.0912 | 0.5141 | 0.5659 | -0.0042 | -0.0042 |
 | Generic support | 15 | 1 | 0.0470 | 0.0791 | 0.6757 | 0.8798 | 0.0069 | 0.0069 |
 | RF reconstruction | 15 | 0 | 0.0708 | 0.0564 | 0.5786 | 0.6153 | -0.0185 | -0.0185 |
@@ -19,7 +19,7 @@ Success-note: `task_success_true` is a relation-style presence+relation count fo
 
 ## Table 2a Preview: Same-Backbone / SD3 Draft
 
-Sources: E2-A strict RF comparison, Phase-2 direct/generic gap-fill, and Fixed DeCE component cache. Native FLUX rows belong in Table 2b, not this table.
+Sources: E2-A strict RF comparison, Phase-2 direct/generic gap-fill, and Fixed CleanEdit component cache. Native FLUX rows belong in Table 2b, not this table.
 
 | label | n | outside_l1 | inside_l1 | source_ssim | source_ssim_luma | dino_source | edit_score | clip_delta |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -28,8 +28,8 @@ Sources: E2-A strict RF comparison, Phase-2 direct/generic gap-fill, and Fixed D
 | FlowAlign-SD3 | 18 | 0.0769 | 0.1263 | 0.6406 | 0.6406 | 0.6900 | 0.0401 | 0.0401 |
 | FlowEdit-SD3 | 18 | 0.1760 | 0.2581 | 0.4133 | 0.4133 | 0.4092 | 0.0482 | 0.0482 |
 | SplitFlow-SD3 | 18 | 0.0965 | 0.1402 | 0.5094 | 0.5094 | 0.6159 | 0.0427 | 0.0427 |
-| Fixed DeCE-SD3 | 36 | 0.0350 | 0.1729 | 0.9147 | 0.9147 |  |  |  |
-| DeCE-RF-SD3 | 18 | 0.0406 | 0.1038 | 0.6735 | 0.6735 | 0.8497 | 0.0395 | 0.0395 |
+| Fixed CleanEdit-SD3 | 36 | 0.0350 | 0.1729 | 0.9147 | 0.9147 |  |  |  |
+| CleanEdit-SD3 | 18 | 0.0406 | 0.1038 | 0.6735 | 0.6735 | 0.8497 | 0.0395 | 0.0395 |
 
 Caveat: rows are assembled from older aligned caches and mix E2-A strict rows with Phase-2 T1-T4 gap-fill rows. This preview is superseded by the audited T1-T5 common-subset final tables.
 

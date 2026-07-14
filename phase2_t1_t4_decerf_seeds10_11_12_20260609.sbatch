@@ -127,7 +127,7 @@ for task in tasks:
                 complete += 1
 
 summary = {
-    "scope": "Phase2 T1-T4 DeCE-RF only, seeds 10/11/12",
+    "scope": "Phase2 T1-T4 CleanEdit only, seeds 10/11/12",
     "method_suffix": suffix,
     "complete": complete,
     "expected": len(tasks) * len(methods) * len(seeds),

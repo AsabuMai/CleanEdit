@@ -11,6 +11,6 @@
     "12"
   ],
   "canvas": 512,
-  "eval_mask_policy": "seed-aggregated DeCE-RF operation support proxy over the full-pillow T5-1-style tasks; use for Table 2 only after visual acceptance",
+  "eval_mask_policy": "seed-aggregated CleanEdit operation support proxy over the full-pillow T5-1-style tasks; use for Table 2 only after visual acceptance",
   "manifest": "experiments/support_v3_2026-06-02/normalized_512/t5_eval_assets_manifest.csv"
 }

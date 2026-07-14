@@ -23,7 +23,7 @@ E5 boundary probes, not as an active six-category headline benchmark:
 ```
 
 The first row in each category keeps the Phase 1 canonical task. The second and
-third rows expand the same operation family without changing the base DeCE-RF
+third rows expand the same operation family without changing the base CleanEdit
 controller. These rows should be frozen before Phase 2 output inspection.
 
 ## Selection Rules
@@ -39,7 +39,7 @@ controller. These rows should be frozen before Phase 2 output inspection.
 
 ## Relation-Aware Support Policy
 
-For DeCE-RF support construction, each edit is described by an operation, an
+For CleanEdit support construction, each edit is described by an operation, an
 anchor phrase, and a reusable spatial relation:
 
 ```text

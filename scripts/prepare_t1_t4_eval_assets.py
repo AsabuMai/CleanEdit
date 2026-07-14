@@ -97,7 +97,7 @@ def main() -> int:
         "tasks": list(TASKS),
         "seeds": list(SEEDS),
         "canvas": CANVAS,
-        "eval_mask_policy": "seed-aggregated DeCE-RF operation support proxy; use for rerun diagnostics only",
+        "eval_mask_policy": "seed-aggregated CleanEdit operation support proxy; use for rerun diagnostics only",
         "manifest": str(manifest.relative_to(ROOT)),
     }
     (EXP / "normalized_512" / "t1_t4_eval_assets_metadata.json").write_text(

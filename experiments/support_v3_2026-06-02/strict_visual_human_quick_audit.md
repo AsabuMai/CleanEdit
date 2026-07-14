@@ -19,7 +19,7 @@ Reviewer: Codex quick human-facing screen pass from revised strict task audit gr
 
 ## Removed From Strict
 
-- dog_sunglasses: DeCE-RF preservation is good, but eyewear placement is too high for a strong main row.
+- dog_sunglasses: CleanEdit preservation is good, but eyewear placement is too high for a strong main row.
 - mug_heart: visually clean, but the edit is too small/weak for the strict main grid; tshirt_star is stronger.
 - pillow_blue_stripes: superseded by pillow_vertical_fabric_strip after human review; the new silk-strip task has cleaner coverage, perspective, and boundaries.
 

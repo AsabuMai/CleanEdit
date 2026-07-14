@@ -133,7 +133,7 @@ def make_figure() -> Path:
     except Exception:
         font = small = ImageFont.load_default()
     draw.text((12, 18), "Source", fill=(20, 20, 20), font=font)
-    draw.text((thumb[0] + 12, 18), "DeCE-RF seed10", fill=(20, 20, 20), font=font)
+    draw.text((thumb[0] + 12, 18), "CleanEdit seed10", fill=(20, 20, 20), font=font)
     draw.text((thumb[0] * 2 + 12, 18), "T1-T4 boundary label", fill=(20, 20, 20), font=font)
     for idx, (title, task) in enumerate(selected):
         y = header_h + idx * thumb[1]

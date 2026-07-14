@@ -1,15 +1,15 @@
-# DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+# CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 
 ## Abstract
 
 Localized image editing with Rectified Flow models requires a controller that
 can express target change without allowing the target-conditioned trajectory to
-regenerate source content that should remain fixed. We introduce DeCE-RF, a
+regenerate source content that should remain fixed. We introduce CleanEdit, a
 decoupled clean-estimate edit-preserve control framework for localized
-Rectified Flow editing. DeCE-RF keeps the source-conditioned velocity as the
+Rectified Flow editing. CleanEdit keeps the source-conditioned velocity as the
 base field and applies a clean-estimate displacement at each ODE step. The
 controlled velocity is
-`v_DeCE = v_src - t_eff^-1 Delta_t^0`, with
+`v_CleanEdit = v_src - t_eff^-1 Delta_t^0`, with
 `Delta_t^0 = Delta_edit + Delta_pres`. The edit component is a gated
 target-source clean displacement, while the preservation component is a
 clean-estimate drift correction toward the source latent. An
@@ -44,24 +44,24 @@ decomposed into an edit term that moves a local region toward the target clean
 estimate and a preservation term that pulls non-edit regions back toward the
 source latent.
 
-We propose DeCE-RF, a decoupled clean-estimate edit-preserve controller for
-localized RF editing. DeCE-RF keeps the source-conditioned velocity as the
+We propose CleanEdit, a decoupled clean-estimate edit-preserve controller for
+localized RF editing. CleanEdit keeps the source-conditioned velocity as the
 base trajectory and applies a clean displacement:
 
 ```text
-v_DeCE = v_src - t_eff^-1 Delta_t^0,
+v_CleanEdit = v_src - t_eff^-1 Delta_t^0,
 Delta_t^0 = Delta_edit + Delta_pres.
 ```
 
 The edit term is intentionally transparent: in velocity form it is equivalent
 to a gated target-source velocity correction. The novelty is not hiding this
-equivalence. Instead, DeCE-RF defines edit and preservation in the same
+equivalence. Instead, CleanEdit defines edit and preservation in the same
 clean-estimate space, adds a preservation drift correction that is not a simple
 latent blend, estimates layered control geometry rather than a single mask, and
 uses clean-estimate feedback to adapt and project the displacement during
 sampling.
 
-Spatial geometry is the second part of the method. DeCE-RF uses operation and
+Spatial geometry is the second part of the method. CleanEdit uses operation and
 relation labels, such as `add_object / above_host`, `add_decal / on_surface`,
 `remove_object / remove_source_object`, and `recolor / on_surface`, to build
 the control regions. In the current benchmark these labels are provided by the
@@ -72,7 +72,7 @@ token attention, clean-estimate disagreement, velocity disagreement, optional
 grounding, and relation maps into `M_core`, `M_contact`, `M_edit`, and
 `M_preserve`.
 
-The third part is feedback. During the RF ODE, DeCE-RF measures edit target
+The third part is feedback. During the RF ODE, CleanEdit measures edit target
 gap and preservation drift in clean-estimate space. It increases edit pressure
 when the target gap remains active, increases preservation pressure when source
 drift exceeds a budget, and projects away edit displacement components that
@@ -105,7 +105,7 @@ inversion, attention control, feature reuse, and instruction-following models.
 These methods establish a broad toolkit for changing image content from text,
 but many operate through target prompts or editing instructions whose locality
 is indirect. Local preservation therefore often depends on inversion quality,
-attention control, masks, or additional regularization. DeCE-RF is narrower:
+attention control, masks, or additional regularization. CleanEdit is narrower:
 it assumes an RF backbone and asks how local edit and preservation corrections
 should be written inside the RF sampling dynamics.
 
@@ -120,8 +120,8 @@ casting image editing operations as geometric transformations and using SAM
 segmentation plus optimization to preserve object style and plausibility
 [@geodiffuser2025]. These works are close in problem setting, but they mainly
 address where or how an operation should be localized in diffusion editing.
-DeCE-RF instead addresses how localized edit and preservation should be
-expressed as clean-estimate displacement control in RF sampling. When DeCE-RF
+CleanEdit instead addresses how localized edit and preservation should be
+expressed as clean-estimate displacement control in RF sampling. When CleanEdit
 uses operation/relation labels or external grounding, those inputs must be
 reported explicitly and matched for fair baselines.
 
@@ -136,7 +136,7 @@ decomposes editing with reconstruction and editing terms from a
 Doob-transform perspective [@hedit2025]. Optimal-transport-guided RF editing
 frames RF editing as a tradeoff between reconstruction fidelity and editing
 flexibility, improving both inversion-based and direct RF editing paradigms
-[@otrf2026]. DeCE-RF is complementary to these works. It does not primarily
+[@otrf2026]. CleanEdit is complementary to these works. It does not primarily
 optimize the transport or inversion path; it defines a localized
 edit-preserve displacement on top of a source-conditioned RF trajectory.
 
@@ -147,7 +147,7 @@ evaluation metrics. Edge-aware image manipulation introduces a structure
 preservation loss to maintain pixel-level edge structure during diffusion
 editing [@spl2026]. Metrics such as CLIP [@radford2021clip], DINOv2
 [@oquab2023dinov2], SSIM [@wang2004ssim], and LPIPS [@zhang2018lpips] provide
-different views of target alignment and source preservation. DeCE-RF differs
+different views of target alignment and source preservation. CleanEdit differs
 from image-space structure losses and post-processing: preservation is a
 sampling-time clean-estimate correction gated by preserve geometry. The
 evaluation protocol should therefore report edit-region alignment and
@@ -230,7 +230,7 @@ terms at late timesteps through the experiment protocol.
 
 ### 3.3 Edit-Preserve Displacement
 
-DeCE-RF keeps the source velocity as the base field:
+CleanEdit keeps the source velocity as the base field:
 
 ```text
 v_base = v_src.
@@ -239,7 +239,7 @@ v_base = v_src.
 The controlled velocity is:
 
 ```text
-v_DeCE = v_src - t_eff^-1 Delta_t^0,
+v_CleanEdit = v_src - t_eff^-1 Delta_t^0,
 Delta_t^0 = Delta_edit + Delta_pres.
 ```
 
@@ -407,7 +407,7 @@ feedback.
 The reverse update is:
 
 ```text
-x_{t-dt} = x_t + (t_next - t) v_DeCE.
+x_{t-dt} = x_t + (t_next - t) v_CleanEdit.
 ```
 
 Each run records the command, metadata, final image, support masks, and
@@ -415,7 +415,7 @@ per-step statistics. The logged statistics include edit target gap, edit
 progress, preserve drift, adaptive edit weight, adaptive preserve weight,
 projection norm, reconstruction-guidance norm, edit-guidance norm, total
 velocity norm, runtime, and memory where available. These diagnostics are part
-of the method evidence because DeCE-RF is a controller: final images should be
+of the method evidence because CleanEdit is a controller: final images should be
 paired with trajectory behavior.
 
 ### 3.7 Algorithm
@@ -463,7 +463,7 @@ The main paper-facing internal methods remain:
 RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
 `support_v3_fixed`, no-preserve, no-feedback, and no-projection variants belong
@@ -473,7 +473,7 @@ input condition explicitly.
 
 ## 5. Discussion, Limitations, and Ethics
 
-DeCE-RF separates localized RF editing into clean displacement, control
+CleanEdit separates localized RF editing into clean displacement, control
 geometry, and feedback. This separation is useful because different failures
 have different causes. A target response can be diffuse, support can select
 the wrong region, or preserve drift can grow even when the edit forms. The
@@ -487,7 +487,7 @@ can remain weak for small objects, precise glyphs, and ambiguous replacement.
 Third, removal and replacement require completion or attribute selection that a
 base clean-displacement controller may not solve. Completion-prior or
 replacement-route variants should therefore be reported as extensions, not
-folded into the base DeCE-RF result.
+folded into the base CleanEdit result.
 
 The current implementation is SD3-specific and includes hyperparameters for
 support postprocessing, contact blending, edit weights, preserve budgets, and
@@ -495,14 +495,14 @@ projection. These should be reported in the experiment protocol and tested by
 ablation or sensitivity analysis where space allows.
 
 Image editing methods can be misused for deception, impersonation, or
-misleading visual evidence. DeCE-RF is a localized editing method and therefore
+misleading visual evidence. CleanEdit is a localized editing method and therefore
 inherits these risks. Appropriate mitigations include watermarking or provenance
 metadata for released examples, avoiding identity-sensitive demonstrations, and
 releasing code with clear research-use documentation and limitations.
 
 ## 6. Conclusion
 
-We presented DeCE-RF, a decoupled clean-estimate edit-preserve controller for
+We presented CleanEdit, a decoupled clean-estimate edit-preserve controller for
 localized Rectified Flow editing. The method keeps the source velocity as the
 base trajectory, writes local editing as a clean displacement, decomposes that
 displacement into edit and preservation components, estimates layered

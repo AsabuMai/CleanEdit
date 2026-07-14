@@ -65,7 +65,7 @@ def summarize(path: Path) -> dict[str, str | float]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Summarize RF h-Edit stats JSON files as CSV.")
+    parser = argparse.ArgumentParser(description="Summarize CleanEdit stats JSON files as CSV.")
     parser.add_argument("stats", nargs="+", type=Path)
     parser.add_argument("--json-output", type=Path, help="Optional path to save the summaries as JSON.")
     args = parser.parse_args()

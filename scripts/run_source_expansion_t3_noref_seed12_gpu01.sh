@@ -35,7 +35,7 @@ export SKIP_EXISTING=0
 export REUSE_SEMANTIC_MASKS=0
 export REGENERATE_MASKS=1
 
-echo "== source expansion T3 no-ref DeCE-RF seed12 =="
+echo "== source expansion T3 no-ref CleanEdit seed12 =="
 TASKS="$TASKS" \
 METHODS="support_v3_controller_rmsgap" \
 SEEDS="$SEEDS" \

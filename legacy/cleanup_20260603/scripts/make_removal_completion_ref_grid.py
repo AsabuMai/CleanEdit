@@ -21,9 +21,9 @@ TASKS = [
 
 COLUMNS = [
     ("source", "source"),
-    ("support_v3_controller_rmsgap", "DeCE default"),
+    ("support_v3_controller_rmsgap", "CleanEdit default"),
     ("same_support_inpaint_telea", "Telea ref"),
-    ("support_v3_controller_rmsgap_completion_ref", "DeCE + ref"),
+    ("support_v3_controller_rmsgap_completion_ref", "CleanEdit + ref"),
 ]
 
 

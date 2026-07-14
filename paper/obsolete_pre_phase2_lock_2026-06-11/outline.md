@@ -3,13 +3,13 @@
 Working title:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 Method name:
 
 ```text
-DeCE-RF
+CleanEdit
 ```
 
 Expanded form:
@@ -22,11 +22,11 @@ Decoupled Clean-Estimate Edit-Preserve Control for Rectified Flow
 
 Localized RF/ODE image editing should be formulated as decoupled
 clean-estimate displacement control rather than as direct target-velocity
-replacement. DeCE-RF keeps the source-conditioned trajectory and maps a clean
+replacement. CleanEdit keeps the source-conditioned trajectory and maps a clean
 displacement back to RF velocity:
 
 ```text
-v_DeCE = v_src - t^-1 Delta_0
+v_CleanEdit = v_src - t^-1 Delta_0
 Delta_0 = Delta_edit + Delta_pres
 ```
 

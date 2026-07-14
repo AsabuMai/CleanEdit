@@ -373,7 +373,7 @@ def _ensure_parent(path: str | None) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Minimal FLUX DeCE-RF transfer runner")
+    parser = argparse.ArgumentParser(description="Minimal FLUX CleanEdit transfer runner")
     parser.add_argument("--model-id", default="black-forest-labs/FLUX.1-dev")
     parser.add_argument("--cache-dir", default=None)
     parser.add_argument("--local-files-only", action="store_true")
@@ -407,7 +407,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--true-cfg",
         action="store_true",
         help="Use true classifier-free guidance (cond/uncond extrapolation against a "
-        "negative prompt) for the DeCE-RF velocities, holding the distilled FLUX "
+        "negative prompt) for the CleanEdit velocities, holding the distilled FLUX "
         "guidance embedding at --distilled-guidance. Faithful to the SD3 CFG mechanism.",
     )
     parser.add_argument(

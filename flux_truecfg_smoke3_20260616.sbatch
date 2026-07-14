@@ -36,7 +36,7 @@ TGT="Black sunglasses aligned across both eyes of a front-facing dog."
 
 # Lean validation: 384px, sequential offload, single CFG scale, NO local-target
 # prompt (its guidance scale is 0 so it is unused). Overlay removed -> pure
-# DeCE-RF velocity output. Goal: confirm true CFG forms real black sunglasses.
+# CleanEdit velocity output. Goal: confirm true CFG forms real black sunglasses.
 run_one () {
   local name="$1"; shift
   local d="$OUT/$name"

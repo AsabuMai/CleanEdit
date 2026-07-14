@@ -29,8 +29,8 @@ METHOD_DISPLAY = {
     "base_only": "RF reconstruction / base reconstruction",
     "direct_target": "Direct target guidance",
     "adaptive_full_generic_support": "Generic support control",
-    "support_v3_fixed": "Fixed DeCE displacement",
-    "support_v3_controller_rmsgap": "DeCE-RF",
+    "support_v3_fixed": "Fixed CleanEdit displacement",
+    "support_v3_controller_rmsgap": "CleanEdit",
 }
 
 METRICS = [

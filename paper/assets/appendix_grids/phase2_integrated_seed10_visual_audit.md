@@ -2,15 +2,15 @@
 
 Figure: `phase2_integrated_seed10_audit.png`
 
-Scope: 15 Phase2 tasks, seed 10. Columns are Source, Direct target, Generic support, DeCE-RF, Sam-Flow SD3, and Sam-Flow FLUX.
+Scope: 15 Phase2 tasks, seed 10. Columns are Source, Direct target, Generic support, CleanEdit, Sam-Flow SD3, and Sam-Flow FLUX.
 
 ## Overall Finding
 
-The integrated visual check supports the paper's core claim: DeCE-RF is generally better at localizing the requested edit while preserving the non-edit region. Sam-Flow is a strong and relevant baseline, but on these tasks it often edits the target concept by changing the subject, pose, object geometry, background, or adding extra objects. This is especially visible in T4 recolor and T5 same-color material transfer.
+The integrated visual check supports the paper's core claim: CleanEdit is generally better at localizing the requested edit while preserving the non-edit region. Sam-Flow is a strong and relevant baseline, but on these tasks it often edits the target concept by changing the subject, pose, object geometry, background, or adding extra objects. This is especially visible in T4 recolor and T5 same-color material transfer.
 
 ## Task-Level Notes
 
-| Task | DeCE-RF visual check | Sam-Flow SD3 visual check | Sam-Flow FLUX visual check |
+| Task | CleanEdit visual check | Sam-Flow SD3 visual check | Sam-Flow FLUX visual check |
 |---|---|---|---|
 | T1 cat crown | Pass. Crown is localized and cat/background are preserved. | Weak. Crown appears, but cat identity changes strongly. | Mostly pass/weak. Small crown appears with better preservation than SD3, but effect is small and lighting changes. |
 | T1 dog bow tie | Pass. Bow tie is localized and dog pose is preserved. | Weak. Bow tie appears, but dog face/fur/pose drift. | Moderate. Bow tie appears; preservation is better than SD3 but still changes dog texture. |
@@ -30,4 +30,4 @@ The integrated visual check supports the paper's core claim: DeCE-RF is generall
 
 ## Paper-Relevant Takeaway
 
-Sam-Flow should remain in E2.3 as the closest source-anchored masked-flow baseline. The seed10 visual audit suggests it is competitive on some insertion/decal cases, but it does not consistently protect non-edit regions. The strongest contrast against DeCE-RF is T4 local recolor and T5 same-color material, where Sam-Flow often either fails the target edit or changes non-edit structure.
+Sam-Flow should remain in E2.3 as the closest source-anchored masked-flow baseline. The seed10 visual audit suggests it is competitive on some insertion/decal cases, but it does not consistently protect non-edit regions. The strongest contrast against CleanEdit is T4 local recolor and T5 same-color material, where Sam-Flow often either fails the target edit or changes non-edit structure.

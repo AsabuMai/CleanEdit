@@ -37,15 +37,15 @@ outputs/pretty_matrix/dog_remove_tennis_ball/{base_only,direct_target,adaptive_f
 
 ## Gate Readout
 
-| Task | DeCE-RF read | Gate decision | Reason |
+| Task | CleanEdit read | Gate decision | Reason |
 | --- | --- | --- | --- |
 | `tshirt_star` | partial | hold / tune | A small red star appears, but it is too small and faint for a main-matrix success. Direct target forms a stronger star but changes the shirt geometry more. |
-| `dog_remove_tennis_ball` | fail | do not expand | The green ball is not cleanly removed; DeCE-RF leaves a green residual/ball region and introduces a tongue-like artifact. |
+| `dog_remove_tennis_ball` | fail | do not expand | The green ball is not cleanly removed; CleanEdit leaves a green residual/ball region and introduces a tongue-like artifact. |
 
 ## Notes
 
 - `tshirt_star` support generation finds the full T-shirt surface. This is
-  plausible for a decal task, but the current DeCE-RF edit strength is too
+  plausible for a decal task, but the current CleanEdit edit strength is too
   conservative.
 - `dog_remove_tennis_ball` support generation localizes the green tennis ball
   cleanly, so the failure is not mainly a support-localization failure. It is a
@@ -78,7 +78,7 @@ whiteboard_remove_yellow_letter
 All were run as seed-10 visual gates only. Do not expand to seeds 11/12 unless
 a seed-10 result passes visually.
 
-| Task | Support read | DeCE-RF read | Gate decision |
+| Task | Support read | CleanEdit read | Gate decision |
 | --- | --- | --- | --- |
 | `laptop_remove_sticker` | accurate support over the sticker | colorful sticker is mostly suppressed, but the model leaves barcode/label-like marks or surface damage under prompt variants | fail; limitation |
 | `fridge_remove_yellow_magnet` | accurate support over the yellow round magnet | default leaves a small yellow residual; stronger clean-blue variant removes more but distorts the nearby red deer magnet | fail; limitation |

@@ -30,7 +30,7 @@ fi
 PY="$PROJECT/.venv/bin/python"
 OUT="$PROJECT/outputs/flux_truecfg_multitask_a100_20260616"
 
-# True CFG (distilled embed fixed 1.0), overlay removed -> pure DeCE-RF velocity.
+# True CFG (distilled embed fixed 1.0), overlay removed -> pure CleanEdit velocity.
 # Sequential offload + 384px to fit reliably alongside other jobs on shared a100-01.
 run () {
   local outdir="$1"; local scale="$2"; shift 2

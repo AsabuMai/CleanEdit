@@ -12,7 +12,7 @@ from hrec_rf_pipeline import HRecRFInversionPipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run standalone RF h-Edit prototype.")
+    parser = argparse.ArgumentParser(description="Run standalone CleanEdit prototype.")
     parser.add_argument("--image", required=True, help="Path to source image.")
     parser.add_argument("--prompt", required=True, help="Target prompt.")
     parser.add_argument("--output", required=True, help="Output image path.")

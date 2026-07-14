@@ -9,8 +9,8 @@ Runtime and peak GPU memory are averaged only over runs whose producer recorded 
 | RF reconstruction | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 31.33 | 45/45 | 12.24 | 45/45 | not_recorded |
 | Direct target | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 32.08 | 45/45 | 12.24 | 45/45 | not_recorded |
 | Generic support | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 50.18 | 45/45 | 13.25 | 45/45 | not_recorded |
-| Fixed DeCE-SD3 | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 68.35 | 45/45 | 13.45 | 45/45 | not_recorded |
-| DeCE-RF-SD3 | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 56.89 | 45/45 | 13.35 | 45/45 | not_recorded |
+| Fixed CleanEdit-SD3 | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 68.35 | 45/45 | 13.45 | 45/45 | not_recorded |
+| CleanEdit-SD3 | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | 56.89 | 45/45 | 13.35 | 45/45 | not_recorded |
 | FlowEdit-SD3 | SD3 | 45 | T_steps=28,n_max=24 | 336x512,512x336,512x352,512x432 | not_recorded | 0/45 | not_recorded | 0/45 | not_recorded |
 | FlowAlign-SD3 | SD3 | 45 | 33 | 336x512,512x336,512x352,512x432 | not_recorded | 0/45 | not_recorded | 0/45 | not_recorded |
 | SplitFlow-SD3 | SD3 | 45 | T_steps=50,n_max=33 | 336x512,512x336,512x352,512x432 | not_recorded | 0/45 | not_recorded | 0/45 | not_recorded |

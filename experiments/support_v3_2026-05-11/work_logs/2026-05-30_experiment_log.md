@@ -2,7 +2,7 @@
 
 ## Context
 
-Today focused on finalizing the role of removal and replacement experiments for the DeCE-RF paper, after observing that the whiteboard removal case changes the yellow letter into another glyph-like structure rather than cleanly removing it.
+Today focused on finalizing the role of removal and replacement experiments for the CleanEdit paper, after observing that the whiteboard removal case changes the yellow letter into another glyph-like structure rather than cleanly removing it.
 
 ## 1. High-Confidence Completion Gate
 
@@ -190,7 +190,7 @@ Rationale:
 
 ```text
 Main benchmark should remain clean and defensible.
-Completion-prior removal and replacement target formation should be written as operation-conditioned extensions/probes, not mixed silently into the main DeCE-RF controller.
+Completion-prior removal and replacement target formation should be written as operation-conditioned extensions/probes, not mixed silently into the main CleanEdit controller.
 ```
 
 ## 5. Tomorrow Plan
@@ -284,6 +284,6 @@ Writing rule:
 
 ```text
 Do not silently mix operation-conditioned extension routes into the base
-DeCE-RF main table. Label laptop as DeCE-RF + completion prior and whiteboard
-red star as DeCE-RF + replacement route.
+CleanEdit main table. Label laptop as CleanEdit + completion prior and whiteboard
+red star as CleanEdit + replacement route.
 ```

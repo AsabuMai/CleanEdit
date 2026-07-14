@@ -1,4 +1,4 @@
-# WACV Experiment Design for DeCE-RF
+# WACV Experiment Design for CleanEdit
 
 Current streamlined design: `paper/wacv_experiment_design_v2.md`.
 
@@ -9,7 +9,7 @@ order.
 Working title:
 
 ```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
+CleanEdit: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
 ## Target Claim
@@ -17,7 +17,7 @@ DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified 
 For WACV, keep the claim conservative:
 
 ```text
-DeCE-RF improves the edit-preserve tradeoff for localized Rectified Flow
+CleanEdit improves the edit-preserve tradeoff for localized Rectified Flow
 editing by decoupling target-directed edit displacement from source-preserving
 displacement, using operation-conditioned support and feedback-updated
 displacement weights.
@@ -86,8 +86,8 @@ operation-conditioned routes.
 | `whiteboard_probe_red_star_sticker` | `replace` | `replace_source_object` | non-glyph replacement in a semantic letter field |
 
 Do not include these rows in the main Core-6 table unless the method column
-clearly labels the additional route, e.g. `DeCE-RF + high-confidence completion
-prior` or `DeCE-RF + replacement target route`.
+clearly labels the additional route, e.g. `CleanEdit + high-confidence completion
+prior` or `CleanEdit + replacement target route`.
 
 ### Optional Limit/Stress Tasks
 
@@ -109,8 +109,8 @@ Do not use weak replacement or stylization tasks in the main WACV claim.
 
 ### Main Comparison
 
-Use the main table to compare DeCE-RF against general and RF editing baselines.
-Do not make `fixed DeCE displacement` a headline baseline in this table; it is
+Use the main table to compare CleanEdit against general and RF editing baselines.
+Do not make `fixed CleanEdit displacement` a headline baseline in this table; it is
 an internal ablation control for isolating the feedback controller.
 
 | Paper name | Runner / implementation name | Purpose |
@@ -119,20 +119,20 @@ an internal ablation control for isolating the feedback controller.
 | RF reconstruction / base reconstruction | `base_only` | reconstruction-only RF pass; may drift from the source |
 | Direct target guidance | `direct_target` | coupled target guidance baseline |
 | Generic support control | `adaptive_full_generic_support` | weak automatic support baseline |
-| DeCE-RF | `support_v3_controller_rmsgap` | full method |
+| CleanEdit | `support_v3_controller_rmsgap` | full method |
 
 If available, add manual/external support only as an upper-bound diagnostic in
 supplementary material, not as the primary automatic comparison.
 
-Report `Fixed DeCE displacement` only in the component ablation and feedback
+Report `Fixed CleanEdit displacement` only in the component ablation and feedback
 stress analysis:
 
 | Paper name | Runner / implementation name | Purpose |
 | --- | --- | --- |
-| Fixed DeCE displacement | `support_v3_fixed` | decoupled displacement with operation-conditioned support, but without feedback |
+| Fixed CleanEdit displacement | `support_v3_fixed` | decoupled displacement with operation-conditioned support, but without feedback |
 
-This separation avoids overclaiming a small mean gap between fixed DeCE and
-DeCE-RF while still answering the reviewer question about which component
+This separation avoids overclaiming a small mean gap between fixed CleanEdit and
+CleanEdit while still answering the reviewer question about which component
 causes the improvement.
 
 ### External Baselines
@@ -168,7 +168,7 @@ The RF suite should be reported separately from diffusion-only baselines, becaus
 its purpose is to answer the reviewer question: "Why not use an existing RF
 editing method?"
 
-Fairness rule: do not compare a FLUX-only baseline against an SD3-based DeCE-RF
+Fairness rule: do not compare a FLUX-only baseline against an SD3-based CleanEdit
 as if the method difference were isolated. If the backbone differs, report the
 result as cross-backbone qualitative evidence or supplementary context.
 
@@ -178,7 +178,7 @@ Minimum RF comparison for WACV:
 Direct target / vanilla RF edit
 FlowEdit
 RF-Inversion or RF-Edit
-DeCE-RF
+CleanEdit
 ```
 
 Main RF comparison:
@@ -188,7 +188,7 @@ Direct target / vanilla RF edit
 RF inversion + target resampling
 FlowEdit
 RF-Inversion or RF-Edit / RF-Solver-Edit
-DeCE-RF
+CleanEdit
 ```
 
 Supplementary RF audit:
@@ -220,7 +220,7 @@ this list.
 
 Masked inpainting should use the same source image and the same textual edit.
 If it receives manual masks, label it clearly as `Manual-mask inpainting`; if it
-uses the DeCE-RF support mask, label it as `Same-support inpainting`.
+uses the CleanEdit support mask, label it as `Same-support inpainting`.
 
 #### Strong Optional Baselines
 
@@ -264,10 +264,10 @@ These are mandatory.
 RF reconstruction / base only
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
-Run `Fixed DeCE displacement` as the ablation-only internal control, not as a
+Run `Fixed CleanEdit displacement` as the ablation-only internal control, not as a
 paper-facing external baseline.
 
 #### Tier 1: WACV Main Non-RF External Baselines
@@ -340,7 +340,7 @@ Stable Flow
 OTIP
 ```
 
-DeCE-RF appears in this table as the proposed method and is not counted as an
+CleanEdit appears in this table as the proposed method and is not counted as an
 external baseline.
 
 Recommended external baseline matrix:
@@ -385,10 +385,10 @@ Recommended methods:
 RF reconstruction / base only
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
-Optionally add `Fixed DeCE displacement` for the recolor ablation cache:
+Optionally add `Fixed CleanEdit displacement` for the recolor ablation cache:
 
 ```text
 1 recolor task x 1 fixed-control method x 3 seeds = 3 runs
@@ -440,9 +440,9 @@ Report different input assumptions explicitly:
 | text-only / instruction-only | no mask or region input |
 | automatic-mask method | mask is generated by the method |
 | manual-mask method | manual mask is extra user input |
-| same-support method | uses DeCE-RF support but not DeCE-RF displacement control |
+| same-support method | uses CleanEdit support but not CleanEdit displacement control |
 
-Do not compare a manual-mask baseline against automatic DeCE-RF as if both had
+Do not compare a manual-mask baseline against automatic CleanEdit as if both had
 the same user input. Treat manual support as an upper bound or diagnostic.
 
 ## Main Matrix
@@ -465,11 +465,11 @@ Recommended execution bundle:
 
 ```text
 6 tasks x 4 paper-facing methods x 3 seeds = 72 runs
-6 tasks x fixed DeCE ablation-control x 3 seeds = 18 runs
+6 tasks x fixed CleanEdit ablation-control x 3 seeds = 18 runs
 total internal execution bundle = 90 runs
 ```
 
-The 18 fixed-DeCE runs are reused by the component ablation and feedback stress
+The 18 fixed-CleanEdit runs are reused by the component ablation and feedback stress
 analysis. They should not be presented as a main external baseline.
 
 ## Ablation Design
@@ -492,8 +492,8 @@ Use one compact ablation table in the main paper:
 ```text
 direct target guidance
 generic support control
-fixed DeCE displacement
-DeCE-RF
+fixed CleanEdit displacement
+CleanEdit
 ```
 
 Matrix:
@@ -509,8 +509,8 @@ If compute is tight, use the 27-run fallback:
 
 ```text
 generic support control
-fixed DeCE displacement
-DeCE-RF
+fixed CleanEdit displacement
+CleanEdit
 ```
 
 ```text
@@ -528,7 +528,7 @@ direct_target
 support_v3_fixed_no_preserve
 support_v3_fixed_no_edit
 support_v3_fixed
-DeCE-RF
+CleanEdit
 ```
 
 Matrix:
@@ -575,15 +575,15 @@ concern.
 
 Purpose: show that feedback stabilizes the edit-preserve tradeoff relative to
 fixed weights. This is the correct place to compare `support_v3_fixed` against
-DeCE-RF.
+CleanEdit.
 
 Compare:
 
 ```text
 support_v3_fixed
-DeCE-RF
+CleanEdit
 support_v3_fixed under edit-strength/support perturbation
-DeCE-RF under edit-strength/support perturbation
+CleanEdit under edit-strength/support perturbation
 ```
 
 Recommended stress cases:
@@ -601,8 +601,8 @@ Target size:
 ```
 
 Run a small seed-10 version before large expansion if the feedback contribution
-needs stronger evidence. Expand to three seeds only if DeCE-RF separates from
-fixed DeCE under stress.
+needs stronger evidence. Expand to three seeds only if CleanEdit separates from
+fixed CleanEdit under stress.
 
 ## Metrics
 
@@ -619,7 +619,7 @@ Mask source priority:
 ```text
 manual mask
 source-target diff mask
-corrected DeCE/support mask frozen as an evaluation mask
+corrected CleanEdit/support mask frozen as an evaluation mask
 ```
 
 Use the fixed mask for inside/outside L1/RMSE, luma SSIM, DINO/source
@@ -691,7 +691,7 @@ RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
 RF and non-RF external baselines
-DeCE-RF
+CleanEdit
 ```
 
 Columns:
@@ -705,7 +705,7 @@ manual edit success
 manual preservation
 ```
 
-This is the most important table. Fixed DeCE is intentionally excluded from the
+This is the most important table. Fixed CleanEdit is intentionally excluded from the
 headline ranking and moved to Table 2.
 
 ### Table 2: Component Ablation
@@ -718,7 +718,7 @@ support geometry
 feedback-updated control
 ```
 
-Include `Fixed DeCE displacement` here. Keep this compact; WACV main paper
+Include `Fixed CleanEdit displacement` here. Keep this compact; WACV main paper
 space is limited.
 
 ### Table 3: RF Baseline Comparison
@@ -730,7 +730,7 @@ Vanilla RF target guidance
 RF inversion + target resampling
 FlowEdit
 RF-Inversion or RF-Edit / RF-Solver-Edit
-DeCE-RF
+CleanEdit
 ```
 
 Columns:
@@ -795,7 +795,7 @@ Columns:
 Source
 Direct target
 Generic support
-DeCE-RF
+CleanEdit
 Support overlay
 ```
 
@@ -822,8 +822,8 @@ Use `cat_crown` or `dog_sunglasses`.
 Show:
 
 ```text
-Fixed DeCE displacement
-DeCE-RF
+Fixed CleanEdit displacement
+CleanEdit
 edit gap curve
 preserve drift curve
 adaptive edit weight
@@ -840,8 +840,8 @@ laptop_remove_sticker: high-confidence completion prior for planar removal
 whiteboard_probe_red_star_sticker: non-glyph replacement target formation
 ```
 
-Label the method route explicitly, e.g. `DeCE-RF + completion prior` and
-`DeCE-RF + replacement route`.
+Label the method route explicitly, e.g. `CleanEdit + completion prior` and
+`CleanEdit + replacement route`.
 
 ### Figure 6: Limitations
 
@@ -869,7 +869,7 @@ Columns:
 Source
 Direct target
 Generic support
-DeCE-RF
+CleanEdit
 Support overlay
 ```
 
@@ -884,7 +884,7 @@ Run only seed 10.
 
 ```text
 recolor candidate x 4 paper-facing methods x 1 seed = 4 runs
-optional fixed-DeCE ablation cache = 1 run
+optional fixed-CleanEdit ablation cache = 1 run
 ```
 
 Pass criteria:
@@ -893,7 +893,7 @@ Pass criteria:
 all methods produce result.png
 all methods produce stats.json
 support masks are saved
-DeCE-RF changes chair color locally without major geometry/background drift
+CleanEdit changes chair color locally without major geometry/background drift
 ```
 
 ### Phase 1: Main Matrix
@@ -902,7 +902,7 @@ After Phase 0 passes:
 
 ```text
 6 tasks x 4 paper-facing methods x 3 seeds = 72 runs
-fixed-DeCE ablation cache over the same tasks/seeds = 18 runs
+fixed-CleanEdit ablation cache over the same tasks/seeds = 18 runs
 ```
 
 This 90-run internal execution bundle is the core WACV evidence, but the
@@ -967,7 +967,7 @@ The paper is not ready until these exist:
 ```text
 main comparison table over 6 tasks and 3 seeds
 RF baseline table over at least 5 RF methods and 3 seeds
-component ablation table with fixed DeCE over 3 tasks and 3 seeds
+component ablation table with fixed CleanEdit over 3 tasks and 3 seeds
 Core-6 recolor row over 1 task and 3 seeds with recolor-specific metrics
 extension-probe figure/table for laptop highconf removal and whiteboard red-star replacement
 main qualitative grid
@@ -983,7 +983,7 @@ anonymous reproduction instructions
 Recommended WACV budget:
 
 ```text
-Main internal bundle: 90 runs (72 paper-facing + 18 fixed-DeCE ablation cache)
+Main internal bundle: 90 runs (72 paper-facing + 18 fixed-CleanEdit ablation cache)
 RF suite:           72 runs
 Non-RF baselines:   36 runs
 Compact ablation:   reused from internal bundle, plus 0-9 extra if needed
@@ -1014,7 +1014,7 @@ Fallback total:
 204 runs
 ```
 
-Do not go below the 72-run paper-facing internal matrix plus the fixed-DeCE
+Do not go below the 72-run paper-facing internal matrix plus the fixed-CleanEdit
 ablation cache for a WACV main-conference submission unless the paper is
 reframed as a short exploratory method study. If all RF baselines are included,
 reduce non-RF external baselines before reducing the RF suite.

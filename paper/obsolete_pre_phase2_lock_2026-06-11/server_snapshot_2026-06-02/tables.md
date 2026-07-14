@@ -1,6 +1,6 @@
 # Table Plan
 
-Current source of truth: `paper/results.md`, completed Core-6 DeCE-RF matrix with fixed per-task evaluation masks, plus the completed Core-6 fixed-control ablation.
+Current source of truth: `paper/results.md`, completed Core-6 CleanEdit matrix with fixed per-task evaluation masks, plus the completed Core-6 fixed-control ablation.
 
 ## Main Comparison
 
@@ -27,7 +27,7 @@ Paper-facing methods:
 RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
 Current artifacts:
@@ -58,13 +58,13 @@ Headline columns:
 Rows:
 
 ```text
-6 core tasks x support_v3_fixed x seeds 10,11,12 = 18 complete runs; compare against the matching DeCE-RF rows in `core6_fixed_control_metrics.csv`
+6 core tasks x support_v3_fixed x seeds 10,11,12 = 18 complete runs; compare against the matching CleanEdit rows in `core6_fixed_control_metrics.csv`
 ```
 
 Current use:
 
 ```text
-support_v3_fixed vs DeCE-RF
+support_v3_fixed vs CleanEdit
 ```
 
 Interpretation:
@@ -92,7 +92,7 @@ laptop_remove_sticker: high-confidence completion-prior removal extension
 whiteboard_probe_red_star_sticker: non-glyph replacement target-formation probe
 ```
 
-Do not aggregate their metrics into the base DeCE-RF main-table mean unless the method column explicitly names the extra route.
+Do not aggregate their metrics into the base CleanEdit main-table mean unless the method column explicitly names the extra route.
 
 ## Limitation / Diagnostic Table
 
@@ -115,7 +115,7 @@ show accurate support can still fail when completion, occluded host synthesis, p
 
 ## Same-Support Removal Diagnostic
 
-A removal-only diagnostic has been generated for `backpack_remove_toy_charm` using Telea and Navier-Stokes OpenCV inpainting with the DeCE-RF support mask. Report it separately from the Core-6 main comparison because it receives the same support mask and only applies to removal/fill cases.
+A removal-only diagnostic has been generated for `backpack_remove_toy_charm` using Telea and Navier-Stokes OpenCV inpainting with the CleanEdit support mask. Report it separately from the Core-6 main comparison because it receives the same support mask and only applies to removal/fill cases.
 
 Artifacts:
 
@@ -125,7 +125,7 @@ experiments/support_v3_2026-05-11/backpack_same_support_inpaint_metrics.json
 experiments/support_v3_2026-05-11/backpack_same_support_inpaint_summary.md
 ```
 
-Readout: same-support inpainting gives lower outside drift on the backpack case but produces visible fill artifacts around the strap/zipper region, while DeCE-RF removes the target charm but locally smooths the occluded zipper/fabric.
+Readout: same-support inpainting gives lower outside drift on the backpack case but produces visible fill artifacts around the strap/zipper region, while CleanEdit removes the target charm but locally smooths the occluded zipper/fabric.
 
 ## External Baseline Table
 

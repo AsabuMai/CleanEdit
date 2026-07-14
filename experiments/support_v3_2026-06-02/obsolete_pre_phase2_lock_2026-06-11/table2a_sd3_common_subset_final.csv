@@ -4,5 +4,5 @@ adaptive_full_generic_support,Generic support,45,,,0.0351,0.1111,0.7470,0.8998,0
 flowedit,FlowEdit-SD3,45,,,0.1614,0.2026,0.4931,0.4873,0.0434,0.0434,,
 flowalign,FlowAlign-SD3,45,,,0.0787,0.1339,0.7907,0.5769,0.0443,0.0443,,
 splitflow,SplitFlow-SD3,45,,,0.0774,0.1422,0.7287,0.6284,0.0387,0.0387,,
-support_v3_fixed,Fixed DeCE-SD3,45,,,0.0285,0.1440,0.9251,0.8619,0.0382,0.0382,68.3457,13.4455
-support_v3_controller_rmsgap,DeCE-RF-SD3,45,,,0.0279,0.1468,0.9254,0.8842,0.0333,0.0333,56.8905,13.3533
+support_v3_fixed,Fixed CleanEdit-SD3,45,,,0.0285,0.1440,0.9251,0.8619,0.0382,0.0382,68.3457,13.4455
+support_v3_controller_rmsgap,CleanEdit-SD3,45,,,0.0279,0.1468,0.9254,0.8842,0.0333,0.0333,56.8905,13.3533

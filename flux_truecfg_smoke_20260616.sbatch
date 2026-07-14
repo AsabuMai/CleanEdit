@@ -36,7 +36,7 @@ TGT="Black sunglasses aligned across both eyes of a front-facing dog."
 LTP="A close-up front-facing portrait of the same dog wearing black sunglasses aligned across both eyes indoors, while the dog face, ears, fur, nose, floor, and lighting remain unchanged."
 
 # Shared args. NOTE: --final-object-overlay intentionally removed so we judge the
-# pure DeCE-RF velocity output, not the hand-drawn overlay crutch.
+# pure CleanEdit velocity output, not the hand-drawn overlay crutch.
 run_one () {
   local name="$1"; shift
   local d="$OUT/$name"

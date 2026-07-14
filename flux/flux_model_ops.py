@@ -575,7 +575,7 @@ def calc_cfg_v_flux(
     # When true CFG is requested (negatives provided), the distilled FLUX
     # `guidance` embedding is held at a nominal value and `guidance_scale`
     # becomes the classifier-free extrapolation weight, mirroring the SD3
-    # DeCE-RF velocity definition. Without negatives the call falls back to the
+    # CleanEdit velocity definition. Without negatives the call falls back to the
     # legacy single distilled forward where `guidance_scale` is the embedding.
     distilled = guidance_scale if distilled_guidance is None else distilled_guidance
     cond = _call_flux_transformer(

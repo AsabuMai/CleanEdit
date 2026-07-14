@@ -84,7 +84,7 @@ def main() -> int:
     md.extend(
         [
             "",
-            "Interpretation: post-hoc localization sharply reduces outside-mask drift for direct-target and FlowEdit-style outputs, but it cannot recover missed edits, boundary coherence, or controller behavior. Full DeCE-RF is included as the target method; the fixed-weight DeCE displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.",
+            "Interpretation: post-hoc localization sharply reduces outside-mask drift for direct-target and FlowEdit-style outputs, but it cannot recover missed edits, boundary coherence, or controller behavior. Full CleanEdit is included as the target method; the fixed-weight CleanEdit displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.",
             "",
             "Paper-safe wording: E2.4 separates localization from controller design. Binary localization or output blending can improve preservation metrics, but it is a diagnostic transformation rather than an editing algorithm under matched inference conditions.",
         ]

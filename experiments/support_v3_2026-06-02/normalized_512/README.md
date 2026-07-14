@@ -4,5 +4,5 @@ These files are display-only normalized copies for paper figures. Each image is 
 
 - `sources/`: normalized source images.
 - `eval_masks/`: normalized fixed evaluation masks.
-- `e2_rf_comparison/`: normalized E2 result images for FlowEdit, FlowAlign, SplitFlow, and DeCE-RF.
+- `e2_rf_comparison/`: normalized E2 result images for FlowEdit, FlowAlign, SplitFlow, and CleanEdit.
 - `normalized_512_manifest.csv`: source path, original size, fitted size, and padding offset.

@@ -151,7 +151,7 @@ def _add_flag_arg(parser: argparse.ArgumentParser, name: str) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Run one DeCE/HRec edit through the SD3 or FLUX backend using a shared interface."
+        description="Run one CleanEdit/HRec edit through the SD3 or FLUX backend using a shared interface."
     )
     parser.add_argument("--backend", choices=("sd3", "flux"), required=True)
     parser.add_argument("--python", default=sys.executable)

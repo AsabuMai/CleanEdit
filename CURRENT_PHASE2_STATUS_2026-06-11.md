@@ -35,7 +35,7 @@ Core-5 framing. `red_chair_blue` is obsolete for current reporting.
   external baselines; FlowAlign is excluded from paper-facing comparison
   because of poor visual quality.
 - The selected-run metric refresh completed on 2026-06-12. The 33 repaired or
-  formal DeCE-RF visual selections were re-evaluated and merged into
+  formal CleanEdit visual selections were re-evaluated and merged into
   `phase2_internal_bg_metrics.csv`.
 - Phase2 experiment report generated:
   `paper/phase2_experiment_report_2026-06-11.md`.
@@ -78,16 +78,16 @@ metric-aligned with the current CSVs.
 
 Examples:
 
-- `white_bowl_orange_tabletop_phase2` DeCE-RF uses
+- `white_bowl_orange_tabletop_phase2` CleanEdit uses
   `support_v3_controller_rmsgap_failed3_fix6_20260609`, because the plain run
   under-edited the orange in the visual grid.
 - `brown_bowl_lemon_phase2` remains in T2; lemon is present and the task is not
   removed.
-- `tshirt_star` DeCE-RF uses the original
+- `tshirt_star` CleanEdit uses the original
   `support_v3_controller_rmsgap` run because it looks more naturally printed
   on the shirt under manual visual inspection. The broader `t1t4_3seed` rerun lost
   the star, while the `failed3_fix3` repair looked too overlaid.
-- `mug_heart` DeCE-RF uses
+- `mug_heart` CleanEdit uses
   `support_v3_controller_rmsgap_mugbox145_c180_ref075_v1`: a unified
   three-seed c180 selection with deterministic final-reference compositing
   scale 0.75 inside the decal mask. This is not a seed12-only choice.
@@ -138,7 +138,7 @@ Figure status: complete.
 The grid uses one representative seed-12 case per T1-T5 family and compares:
 
 ```text
-source | direct target | generic support | DeCE-RF
+source | direct target | generic support | CleanEdit
 ```
 
 Image selection is resolved through

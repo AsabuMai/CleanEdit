@@ -15,6 +15,6 @@ hostname; date
 cd "$PROJ"
 echo "[1/2] SAM masks for all T4 + build full manifest"
 "$PROJ/.venv/bin/python" scripts/make_fe118_full_run_manifest.py
-echo "[2/2] DeCE-RF SD3 full 118"
+echo "[2/2] CleanEdit SD3 full 118"
 MANIFEST=$PROJ/data/flowedit_compatible_118/manifest_118_run.json OUT=outputs/fe118_full_dece_sd3 "$PROJ/.venv/bin/python" scripts/pie_sd3_batch_kindaware.py
 date; echo fe118_full_sd3_complete

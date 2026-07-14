@@ -1,6 +1,6 @@
 # Main Experiment Matrix
 
-This is the minimum fixed matrix for a submission-oriented RF h-Edit paper. Do
+This is the minimum fixed matrix for a submission-oriented CleanEdit paper. Do
 not add qualitative probes to the paper until this matrix is populated.
 
 ## Tasks

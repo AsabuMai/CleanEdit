@@ -3,7 +3,7 @@
 
 The goal is not to certify paper comparability. It is to make every downloaded
 baseline reach a separately logged environment state so command smoke and later
-Core-6 adapters do not pollute the DeCE-RF runtime.
+Core-6 adapters do not pollute the CleanEdit runtime.
 """
 
 from __future__ import annotations

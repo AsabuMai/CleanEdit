@@ -95,7 +95,7 @@ Do not overclaim edit-score correlation. The current local/CLIP edit score is ta
 E3 treats the support mask as an explicit experimental object. Operation-
 conditioned support improves fixed-mask overlap and downstream edit behavior
 relative to weak generic support, while Grounding/SAM alone tends to over-cover
-the object/host region. This supports the claim that DeCE-RF's support geometry
+the object/host region. This supports the claim that CleanEdit's support geometry
 is not merely generic segmentation or raw attention evidence.
 ```
 

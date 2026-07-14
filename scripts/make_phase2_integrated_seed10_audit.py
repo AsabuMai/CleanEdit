@@ -34,7 +34,7 @@ METHODS = [
     ("source", "Source"),
     ("direct_target", "Direct target"),
     ("adaptive_full_generic_support", "Generic support"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
     ("sam_flow_sd3", "Sam-Flow SD3"),
     ("sam_flow_flux", "Sam-Flow FLUX"),
 ]

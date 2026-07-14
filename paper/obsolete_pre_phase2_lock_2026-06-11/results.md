@@ -61,7 +61,7 @@ Paper-facing E1 methods:
 RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
 Runner names:
@@ -73,14 +73,14 @@ adaptive_full_generic_support
 support_v3_controller_rmsgap
 ```
 
-`support_v3_fixed` is retained as Fixed DeCE displacement. It should not appear
+`support_v3_fixed` is retained as Fixed CleanEdit displacement. It should not appear
 as a headline E1 main-table method, but the 2026-06-05 design uses it as an E4
 component/controller ablation and as the E2.2 same-backbone SD3
 preservation-control row when joined with the strict cache.
 
 All preservation and locality metrics are computed using fixed per-task
 evaluation masks shared by all methods. These masks are not produced by
-DeCE-RF and are not adjusted after observing outputs.
+CleanEdit and are not adjusted after observing outputs.
 
 ## Locked Evidence Package
 
@@ -148,7 +148,7 @@ audit: final_tables_audit_2026-06-11.json status=complete
 
 Table 1 readout:
 
-- DeCE-RF: 9/9 relation-style success checks on T1/T2/T3, outside L1 0.0393,
+- CleanEdit: 9/9 relation-style success checks on T1/T2/T3, outside L1 0.0393,
   luma SSIM 0.7094, edit-score/CLIP delta 0.0476.
 - Generic support: 1/9 relation-style success checks, outside L1 0.0470,
   luma SSIM 0.6757, edit-score/CLIP delta 0.0069.
@@ -195,13 +195,13 @@ Generic support-SD3
 FlowEdit-SD3
 FlowAlign-SD3
 SplitFlow-SD3
-Fixed DeCE-SD3
-DeCE-RF-SD3
+Fixed CleanEdit-SD3
+CleanEdit-SD3
 ```
 
-Table 2a uses the audited T1-T5 common subset: 45 rows per method. DeCE-RF-SD3
+Table 2a uses the audited T1-T5 common subset: 45 rows per method. CleanEdit-SD3
 has the lowest outside L1 among the Table 2a rows (0.0279) and the highest
-luma SSIM (0.9254), while Fixed DeCE-SD3 is very close on preservation
+luma SSIM (0.9254), while Fixed CleanEdit-SD3 is very close on preservation
 (outside L1 0.0285, luma SSIM 0.9251). The feedback claim should therefore be
 framed through the controller/stress evidence, not as a large single-row jump.
 FlowEdit, FlowAlign, and SplitFlow remain the completed same-backbone SD3
@@ -242,10 +242,10 @@ support_v3_controller_rmsgap
 ```
 
 This is an oracle binary-localization diagnostic, not an ordinary baseline
-comparison. It answers whether binary localization alone explains the DeCE-RF
+comparison. It answers whether binary localization alone explains the CleanEdit
 result. The locked readout is that binary localization improves outside
 preservation but does not reliably recover relation correctness, boundary
-consistency, or target integration. Therefore DeCE-RF's gain is not explained by
+consistency, or target integration. Therefore CleanEdit's gain is not explained by
 mask access alone.
 
 The 2026-06-11 update adds an inference-time `direct_target_medit_gate` row
@@ -261,7 +261,7 @@ Use:
 
 ```text
 Under the same SD3 backbone, same prompts/source images, and fixed evaluation
-masks, DeCE-RF improves localized edit-preserve behavior over runnable RF-native
+masks, CleanEdit improves localized edit-preserve behavior over runnable RF-native
 SD3 editing baselines in the reduced strict comparison.
 ```
 
@@ -277,7 +277,7 @@ Do not write:
 ```text
 broad all-RF victory claim.
 direct FLUX superiority claim.
-SD3-DeCE is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
+SD3-CleanEdit is directly superior to ReFlex-FLUX or RF-Edit-FLUX as an algorithm.
 ```
 
 ## Component And Mechanism Evidence
@@ -317,14 +317,14 @@ stress rows: support_v3_fixed, support_v3_controller_rmsgap x edit multipliers
 T1-T4 expansion: 72/72 base rows, 144/144 edit-strength rows, 72/72 CLIP+DINO join rows
 ```
 
-`support_v3_fixed` should be described as Fixed DeCE displacement. It isolates
+`support_v3_fixed` should be described as Fixed CleanEdit displacement. It isolates
 decoupled clean-estimate displacement with operation-conditioned support but
 without the feedback/projection controller.
 
 Paper-safe E4 claim:
 
 ```text
-E4 evaluates the full adaptive controller relative to a fixed-displacement DeCE
+E4 evaluates the full adaptive controller relative to a fixed-displacement CleanEdit
 variant under the same SD3 implementation and fixed evaluation masks. The
 stress curve should be reported as an edit-preserve tradeoff using local edit
 L1 as an edit-pressure proxy, not as a standalone semantic success score. Do
@@ -336,10 +336,10 @@ Mask sensitivity is complete for the Core-5 Table 1 rows. Under eroded, base,
 and dilated fixed evaluation masks, the outside-L1 ranking remains stable:
 
 ```text
-DeCE-RF-SD3 > Generic support > RF reconstruction > Direct target
+CleanEdit-SD3 > Generic support > RF reconstruction > Direct target
 ```
 
-The base outside-L1 values are DeCE-RF 0.0393, Generic support 0.0470, RF
+The base outside-L1 values are CleanEdit 0.0393, Generic support 0.0470, RF
 reconstruction 0.0708, and Direct target 0.0911. Full values are in
 `mask_sensitivity_core5_summary.md`.
 
@@ -358,7 +358,7 @@ Report task-level seed means first, then macro-average over tasks and operation
 families. E5 removal probes remain boundary evidence and are not aggregated into
 the T1-T5 breadth mean.
 
-The audited Table 3 internal common subset has 45 rows per method. DeCE-RF-SD3
+The audited Table 3 internal common subset has 45 rows per method. CleanEdit-SD3
 has outside L1 0.0279, luma SSIM 0.9254, DINO source 0.8842, and edit-score
 0.0333. Generic support has outside L1 0.0351 and higher DINO source 0.8998
 but much lower edit-score 0.0026. The RF reconstruction row has blank
@@ -368,7 +368,7 @@ tasks.
 The efficiency/context table is complete for 11 methods x 45 Phase2 rows.
 Internal SD3 rows record runtime and peak memory; external baselines disclose
 runtime/peak as unavailable when the producing runner did not record them.
-DeCE-RF-SD3 uses the same `T_steps=28,n_max=24` setting as the internal SD3
+CleanEdit-SD3 uses the same `T_steps=28,n_max=24` setting as the internal SD3
 rows, with mean runtime 56.89s and peak 13.35GB, so the main Table 3 trend
 should not be described as purchased by a larger NFE budget.
 
@@ -388,7 +388,7 @@ Paper-safe E5 claim:
 ```text
 E5 documents extension routes and scope boundaries. It supports Figure 6 and
 the limitations paragraph, but the extension routes are named separately and
-are not aggregated into the base DeCE-RF mean.
+are not aggregated into the base CleanEdit mean.
 ```
 
 ## Claim Boundary
@@ -396,7 +396,7 @@ are not aggregated into the base DeCE-RF mean.
 The current evidence supports:
 
 ```text
-DeCE-RF improves localized edit-preserve control under reasonable support
+CleanEdit improves localized edit-preserve control under reasonable support
 across insertion, surface editing, local recolor, and same-color material
 replacement within a controlled Core-5 diagnostic suite. Simple exposed removal
 is reported separately as E5 boundary evidence.
@@ -409,11 +409,11 @@ broad arbitrary removal/replacement
 occluded-object removal requiring substantial host completion
 precise glyph replacement
 state-of-the-art general-purpose image editing
-cross-backbone DeCE-RF transfer to FLUX
+cross-backbone CleanEdit transfer to FLUX
 algorithm-level superiority over native FLUX editors
 ```
 
-E2.5 cross-backbone DeCE-RF transfer is deferred. All algorithm-level
+E2.5 cross-backbone CleanEdit transfer is deferred. All algorithm-level
 conclusions should be drawn from same-backbone SD3 comparisons; native FLUX rows
 are contextual evidence for off-the-shelf RF editors.
 
@@ -422,12 +422,12 @@ are contextual evidence for off-the-shelf RF editors.
 1. Use the locked E1/E2/E3/E4/E5 artifacts as the paper evidence package.
 2. Build main Table 1, Table 2a/2b, Table 3, and supplement S1/S2/S3/S4 tables from the
    locked artifact lists.
-3. In Table 2a, include Fixed DeCE-SD3 as the same-backbone preservation-control
+3. In Table 2a, include Fixed CleanEdit-SD3 as the same-backbone preservation-control
    row when the strict fixed cache is joined.
 4. Update the experiment section around the evidence chain:
    main effect -> baseline fairness -> breadth validation -> mechanism ablation -> boundary cases.
 5. Keep old server-evidence rows only as supplement/diagnostic material.
-6. Keep extension routes out of the base DeCE-RF aggregate unless the method
+6. Keep extension routes out of the base CleanEdit aggregate unless the method
    column explicitly names the extra route.
 7. Treat Phase 2 breadth, blind internal audit, erode/base/dilate mask
    sensitivity, and stronger E2.4 inference-time same-support diagnostics as

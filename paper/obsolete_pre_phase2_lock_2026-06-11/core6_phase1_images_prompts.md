@@ -19,7 +19,7 @@ surface strip/decal probe. The earlier `pillow_same_color_corduroy_panel` and
 
 This file fixes the first-pass image/prompt plan for Phase 1. The goal is not
 to build the final benchmark yet. The goal is to run about 170 outputs and
-decide whether DeCE-RF has enough signal to justify Phase 2.
+decide whether CleanEdit has enough signal to justify Phase 2.
 
 ## License Notes
 
@@ -106,7 +106,7 @@ Use:
 
 ```text
 Treat cat_crown as the strict Phase 1 T1 attached-accessory/contact example.
-Dog_sunglasses remains diagnostic only because the quick audit found the DeCE-RF
+Dog_sunglasses remains diagnostic only because the quick audit found the CleanEdit
 eyewear placement too high for a strong main-paper row.
 ```
 
@@ -434,7 +434,7 @@ completion. Hard removal and occluded removal remain E5 boundary cases.
 2. Download and register one plain-pillow T5 source image.
 3. Runner task definitions for `bowl_apple_inside` and
    `pillow_same_color_cable_knit` are implemented.
-4. Seed-10/11/12 DeCE-RF gates for T2 and canonical T5 passed human visual review.
+4. Seed-10/11/12 CleanEdit gates for T2 and canonical T5 passed human visual review.
 5. Keep the canonical task definitions frozen for Phase 1 E1/E4 unless replacing the T2 source image intentionally.
 6. Freeze `cat_crown` as T1 after replacing the weaker dog sunglasses row.
 7. Freeze `tshirt_star` as T3 after replacing the weaker mug heart row; keep the blue-strip and corduroy-panel pillow variants as diagnostics only.

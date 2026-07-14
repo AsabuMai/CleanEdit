@@ -1,8 +1,8 @@
-# DeCE-RF Argument Blueprint
+# CleanEdit Argument Blueprint
 
 ## Central Thesis
 
-DeCE-RF argues that localized Rectified Flow editing should be treated as
+CleanEdit argues that localized Rectified Flow editing should be treated as
 decoupled clean-estimate displacement control over a source-conditioned
 trajectory, because direct target velocity entangles local semantic change with
 global source drift, while the RF linear path lets us decompose the desired
@@ -22,14 +22,14 @@ velocity.
   paper addresses.
 - **Counter-argument**: Existing masked target guidance may already solve this.
 - **Rebuttal**: Compare against local/support-gated variants and emphasize that
-  DeCE-RF defines both target matching and source reconstruction in
+  CleanEdit defines both target matching and source reconstruction in
   clean-estimate space, not only by masking a target velocity.
 
 ### 2. Clean-estimate space provides the decoupling space
 
-- **Claim**: Under the RF linear path, DeCE-RF can design a clean displacement
+- **Claim**: Under the RF linear path, CleanEdit can design a clean displacement
   \(\Delta_t^0=\Delta_t^{\mathrm{edit}}+\Delta_t^{\mathrm{pres}}\) and map it
-  back to velocity as \(v_{\mathrm{DeCE}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\).
+  back to velocity as \(v_{\mathrm{CleanEdit}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\).
 - **Evidence needed**: Derivation of \(\Delta_t^{\mathrm{edit}}\),
   \(\Delta_t^{\mathrm{pres}}\), their mapping to \(v_{\mathrm{tar}}-v_{\mathrm{src}}\)
   and \((\hat{x}_{0,\mathrm{src}}-x_s)/t\), and controller diagnostics showing
@@ -77,7 +77,7 @@ velocity.
 3. **Formulation**: Define a clean displacement
    \(\Delta_t^0=\Delta_t^{\mathrm{edit}}+\Delta_t^{\mathrm{pres}}\).
 4. **Mapping**: Map clean displacement to RF velocity with
-   \(v_{\mathrm{DeCE}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\).
+   \(v_{\mathrm{CleanEdit}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\).
 5. **Geometry**: Estimate displacement geometry from operation-conditioned evidence.
 6. **Feedback**: Update displacement weights from edit progress and preserve drift.
 7. **Evaluation**: Separate displacement, geometry, and feedback through ablations.
@@ -94,11 +94,11 @@ velocity.
 ## Notes for Drafting
 
 - Do not frame the novelty as a generic velocity split.
-- Lead with \(v_{\mathrm{DeCE}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\) and
+- Lead with \(v_{\mathrm{CleanEdit}}=v_{\mathrm{src}}-t^{-1}\Delta_t^0\) and
   \(\Delta_t^0=\Delta_t^{\mathrm{edit}}+\Delta_t^{\mathrm{pres}}\).
 - Use `operation-conditioned control geometry` in method-facing prose.
 - Use `support_v3` only for implementation or experiment labels.
 - Present auxiliary text, color, reference, and local-target guidance as
   edit-side energy instantiations, not as core contributions.
-- Keep the claim conservative: DeCE-RF improves the edit-preserve tradeoff under
+- Keep the claim conservative: CleanEdit improves the edit-preserve tradeoff under
   reasonable support; support quality remains the primary bottleneck.

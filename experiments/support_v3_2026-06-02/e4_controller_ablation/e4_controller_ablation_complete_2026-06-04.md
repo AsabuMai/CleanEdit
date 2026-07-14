@@ -2,7 +2,7 @@
 
 Date: 2026-06-04
 
-E4 compares fixed DeCE displacement against DeCE-RF feedback-updated controller behavior on the three E4 tasks: cat_crown, tshirt_star, and pillow_vertical_fabric_strip.
+E4 compares fixed CleanEdit displacement against CleanEdit feedback-updated controller behavior on the three E4 tasks: cat_crown, tshirt_star, and pillow_vertical_fabric_strip.
 
 ## Completion Audit
 

@@ -13,7 +13,7 @@ PROJ=/cluster/users/grad/2025/25t8103/project
 export HF_HUB_CACHE=$PROJ/.cache/huggingface/hub HUGGINGFACE_HUB_CACHE=$PROJ/.cache/huggingface/hub
 export HF_HOME=$PROJ/.cache/huggingface PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True HF_HUB_OFFLINE=1 DISABLE_BASELINE_NSFW=1
 B=$PROJ/_baselines; E=$B/envs; hostname; date; echo "MANIFEST=$MANIFEST OUTROOT=$OUTROOT"
-echo "### DeCE-SD3 ###"; MANIFEST=$MANIFEST OUT=$OUTROOT $PROJ/.venv/bin/python $PROJ/scripts/pie_sd3_batch.py || echo decesd3_ERR; date
+echo "### CleanEdit-SD3 ###"; MANIFEST=$MANIFEST OUT=$OUTROOT $PROJ/.venv/bin/python $PROJ/scripts/pie_sd3_batch.py || echo decesd3_ERR; date
 echo "### gen config yamls ###"; MANIFEST=$MANIFEST $PROJ/.venv/bin/python $PROJ/scripts/pie_flowedit_gen.py; MANIFEST=$MANIFEST $PROJ/.venv/bin/python $PROJ/scripts/pie_splitflow_gen.py; MANIFEST=$MANIFEST $PROJ/.venv/bin/python $PROJ/scripts/pie_rf2_gen.py
 echo "### FlowEdit ###"; (cd $B/src/FlowEdit && $E/flowedit-py310/bin/python run_script.py --exp_yaml pie15_exp.yaml) || echo flowedit_ERR; date
 echo "### SplitFlow ###"; (cd $B/src/SplitFlow && $E/splitflow-py310/bin/python run_script.py --exp_yaml pie15_exp.yaml) || echo splitflow_ERR; date

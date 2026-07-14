@@ -1,5 +1,5 @@
 {
-  "scope": "Phase2 T1-T4 DeCE-RF only, seeds 10/11/12",
+  "scope": "Phase2 T1-T4 CleanEdit only, seeds 10/11/12",
   "method_suffix": "_t1t4_3seed_20260609",
   "complete": 36,
   "expected": 36,

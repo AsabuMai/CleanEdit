@@ -215,7 +215,7 @@ def write_protocol(args: argparse.Namespace, output: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run generic completion-guided removal experiments for DeCE-RF.")
+    parser = argparse.ArgumentParser(description="Run generic completion-guided removal experiments for CleanEdit.")
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--tasks", default=" ".join(DEFAULT_TASKS))
     parser.add_argument("--seeds", default="10")

@@ -12,6 +12,6 @@ These rows are diagnostic and must not be presented as main fair baselines.
 | flowedit_mask_blend | 6 | SD3 | 0.0002 | 0.2162 | 0.9106 | -0.0546 |
 | support_v3_controller_rmsgap | 6 | SD3 | 0.0374 | 0.0899 | 0.8908 | -0.0175 |
 
-Interpretation: post-hoc localization sharply reduces outside-mask drift for direct-target and FlowEdit-style outputs, but it cannot recover missed edits, boundary coherence, or controller behavior. Full DeCE-RF is included as the target method; the fixed-weight DeCE displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.
+Interpretation: post-hoc localization sharply reduces outside-mask drift for direct-target and FlowEdit-style outputs, but it cannot recover missed edits, boundary coherence, or controller behavior. Full CleanEdit is included as the target method; the fixed-weight CleanEdit displacement variant is reported separately as a component ablation rather than as an E2.4 support baseline.
 
 Paper-safe wording: E2.4 separates localization from controller design. Binary localization or output blending can improve preservation metrics, but it is a diagnostic transformation rather than an editing algorithm under matched inference conditions.

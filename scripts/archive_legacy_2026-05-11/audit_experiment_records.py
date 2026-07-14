@@ -54,7 +54,7 @@ def audit_outputs(outputs_dir: Path) -> list[dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Audit RF h-Edit experiment folders for paper reproducibility records."
+        description="Audit CleanEdit experiment folders for paper reproducibility records."
     )
     parser.add_argument(
         "--outputs-dir",

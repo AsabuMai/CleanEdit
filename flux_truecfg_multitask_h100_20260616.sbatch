@@ -30,7 +30,7 @@ fi
 PY="$PROJECT/.venv-h100/bin/python"
 OUT="$PROJECT/outputs/flux_truecfg_multitask_h100_20260616"
 
-# True CFG (distilled embed fixed 1.0), overlay removed -> pure DeCE-RF velocity.
+# True CFG (distilled embed fixed 1.0), overlay removed -> pure CleanEdit velocity.
 # Two CFG scales per task to also lock the scale. Full 512px + model-offload
 # (h100-01 GPU is free, no contention).
 run () {

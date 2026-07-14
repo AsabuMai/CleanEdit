@@ -1,4 +1,4 @@
-# RF h-Edit Project: Updated Research Direction
+# CleanEdit Project: Updated Research Direction
 
 ## 1. Current Position
 

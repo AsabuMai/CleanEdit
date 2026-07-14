@@ -88,8 +88,8 @@ METHODS = [
     ("rf_solver_edit", "RF-Solver"),
     ("reflex", "ReFlex"),
     ("sam_flow_flux", "Sam-Flow FLUX"),
-    ("support_v3_fixed", "Fixed DeCE"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_fixed", "Fixed CleanEdit"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
 ]
 
 SEED = "12"

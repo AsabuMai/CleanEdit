@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 
-Claim boundary: downloaded source, command-level smoke, and strict Core-6 output validation are separate states. A method enters the SD3-matched E2-A comparison only after strict Core-6 generation is stable and is evaluated with the same human/metric gates as DeCE-RF. Native-backbone RF / FLUX rows are contextual, not pure algorithmic controls.
+Claim boundary: downloaded source, command-level smoke, and strict Core-6 output validation are separate states. A method enters the SD3-matched E2-A comparison only after strict Core-6 generation is stable and is evaluated with the same human/metric gates as CleanEdit. Native-backbone RF / FLUX rows are contextual, not pure algorithmic controls.
 
 Revised strict tasks: cat_crown, bowl_apple_inside, tshirt_star, red_chair_blue, pillow_vertical_fabric_strip, backpack_remove_toy_charm.
 
@@ -41,23 +41,23 @@ Revised strict tasks: cat_crown, bowl_apple_inside, tshirt_star, red_chair_blue,
 
 | baseline | paper-facing label | native backbone | type | extra support? | current server state | next action |
 | --- | --- | --- | --- | --- | --- | --- |
-| fireflow | FireFlow | FLUX.1-dev | RF-flow editing | no external DeCE mask | downloaded, strict run blocked by FLUX.1-dev authentication | resolve access/adapter or keep as contextual blocked row |
-| rf_solver_edit | RF-Solver-Edit / RF-Edit | FLUX.1-dev | RF solver / inversion-style image edit | no external DeCE mask | downloaded, env built, strict run blocked by FLUX.1-dev authentication | resolve access or keep as contextual blocked row |
-| reflex | ReFlex | FLUX.1-dev | RF/FLUX trajectory-attention edit | no external DeCE mask | downloaded, env built, help smoke passes, strict run blocked by FLUX.1-dev authentication | resolve access or keep as contextual blocked row |
-| stable_flow | stable-flow | FLUX.1-dev | RF-flow editing | no external DeCE mask | downloaded, adapter pending | resolve access/adapter or keep as contextual blocked row |
-| ot_rf_otip | OT-RF / OTIP-style | TBD | optimal-transport / trajectory-preserving RF candidate | no external DeCE mask | registered only, repo/backbone/adapter pending | verify exact public repo and backbone, then smoke |
-| dvrf | DVRF / Delta Velocity RF | TBD | delta-velocity / path-aware RF candidate | no external DeCE mask | registered only, repo/backbone/adapter pending | verify exact public repo and backbone, then smoke |
+| fireflow | FireFlow | FLUX.1-dev | RF-flow editing | no external CleanEdit mask | downloaded, strict run blocked by FLUX.1-dev authentication | resolve access/adapter or keep as contextual blocked row |
+| rf_solver_edit | RF-Solver-Edit / RF-Edit | FLUX.1-dev | RF solver / inversion-style image edit | no external CleanEdit mask | downloaded, env built, strict run blocked by FLUX.1-dev authentication | resolve access or keep as contextual blocked row |
+| reflex | ReFlex | FLUX.1-dev | RF/FLUX trajectory-attention edit | no external CleanEdit mask | downloaded, env built, help smoke passes, strict run blocked by FLUX.1-dev authentication | resolve access or keep as contextual blocked row |
+| stable_flow | stable-flow | FLUX.1-dev | RF-flow editing | no external CleanEdit mask | downloaded, adapter pending | resolve access/adapter or keep as contextual blocked row |
+| ot_rf_otip | OT-RF / OTIP-style | TBD | optimal-transport / trajectory-preserving RF candidate | no external CleanEdit mask | registered only, repo/backbone/adapter pending | verify exact public repo and backbone, then smoke |
+| dvrf | DVRF / Delta Velocity RF | TBD | delta-velocity / path-aware RF candidate | no external CleanEdit mask | registered only, repo/backbone/adapter pending | verify exact public repo and backbone, then smoke |
 
 ## Non-RF Supplement Set
 
 | baseline | paper-facing label | role | extra support? | current server state | next action |
 | --- | --- | --- | --- | --- | --- |
-| instruct_pix2pix | InstructPix2Pix | instruction-guided diffusion editor | no DeCE support mask | downloaded, adapter/smoke not yet validated for strict Core-6 | create supplement adapter and run 6 tasks x 2-3 seeds |
-| h_edit_r_p2p | H-Edit / P2P-style | diffusion bridge / Prompt-to-Prompt-style comparator | no DeCE support mask | downloaded, adapter/smoke not yet validated for strict Core-6 | create supplement adapter and run 6 tasks x 2-3 seeds |
+| instruct_pix2pix | InstructPix2Pix | instruction-guided diffusion editor | no CleanEdit support mask | downloaded, adapter/smoke not yet validated for strict Core-6 | create supplement adapter and run 6 tasks x 2-3 seeds |
+| h_edit_r_p2p | H-Edit / P2P-style | diffusion bridge / Prompt-to-Prompt-style comparator | no CleanEdit support mask | downloaded, adapter/smoke not yet validated for strict Core-6 | create supplement adapter and run 6 tasks x 2-3 seeds |
 
 ## Interpretation
 
 - `reduced_rf_comparison` is the legacy bucket name for methods that have completed the current SD3-matched E2-A strict Core-6 comparison cache and can be reported in Table 2a.
-- `e2b_native_context_candidate` means the method is part of the native-backbone RF / FLUX contextual pool; it must not be used as pure algorithmic evidence against SD3-DeCE.
+- `e2b_native_context_candidate` means the method is part of the native-backbone RF / FLUX contextual pool; it must not be used as pure algorithmic evidence against SD3-CleanEdit.
 - `non_rf_supplement_candidate` means the method is selected for supplement positioning only; it must not be averaged into E2-A/E2-B or used for RF-specific claims.
-- `baseline_audit` means the method remains useful for transparency, but it must not support a claim that DeCE-RF beats that baseline.
+- `baseline_audit` means the method remains useful for transparency, but it must not support a claim that CleanEdit beats that baseline.

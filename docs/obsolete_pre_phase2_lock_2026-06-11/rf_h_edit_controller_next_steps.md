@@ -1,4 +1,4 @@
-# RF h-Edit: Next-Step Controller Validation Plan
+# CleanEdit: Next-Step Controller Validation Plan
 
 ## 0. Current Situation
 

@@ -16,7 +16,7 @@ host="$(hostname)"; echo "host=$host"; date
 OUT="$PROJECT/outputs/flux_nocomposite_20260617"; mkdir -p "$OUT"
 # Match SD3: disable the final hard source-paste composite (--final-mask-blend-scale 0)
 # so FLUX returns the raw diffusion output (with natural shadows/integration),
-# relying on in-diffusion DeCE-RF preservation like SD3 does.
+# relying on in-diffusion CleanEdit preservation like SD3 does.
 run_one () {
   local task="$1"; local od="$OUT/$task"; mkdir -p "$od"
   "$PROJECT/.venv/bin/python" "$PROJECT/scripts/run_phase2_dece_flux_paper.py" \

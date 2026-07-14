@@ -1,6 +1,6 @@
 # SD3 Batch Runner Usage
 
-Use this path for any internal SD3 / DeCE-RF run with more than one image. It
+Use this path for any internal SD3 / CleanEdit run with more than one image. It
 keeps one SD3 pipeline loaded and executes queued `command.txt` files in order.
 This is much faster than launching `run_edit_sd3.py` once per image.
 
@@ -154,7 +154,7 @@ outputs/migration_e1_dece_seed10_batch_20260603_161806/
 experiments/support_v3_2026-06-02/migration_e1_seed10_batch_20260603_161806/
 ```
 
-It completed 6/6 DeCE-RF seed-10 outputs under the earlier strict Core-6 scope.
+It completed 6/6 CleanEdit seed-10 outputs under the earlier strict Core-6 scope.
 Treat this as migration evidence only; current headline runs use strict Core-5
 plus a separate E5 removal probe. Old-vs-new fixed-mask
 metric deltas were small for outside-mask/source-preservation metrics, so the

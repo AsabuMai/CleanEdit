@@ -22,7 +22,7 @@ METHODS = [
     ("base_only", "RF recon."),
     ("direct_target", "Direct target"),
     ("adaptive_full_generic_support", "Generic support"),
-    ("support_v3_controller_rmsgap", "DeCE-RF"),
+    ("support_v3_controller_rmsgap", "CleanEdit"),
 ]
 
 TASKS = [

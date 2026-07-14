@@ -23,7 +23,7 @@ METHOD_NAME = {
     "flowedit": "FlowEdit (external RF)",
     "flowalign": "FlowAlign (external RF)",
     "splitflow": "SplitFlow (external RF)",
-    "support_v3_controller_rmsgap": "DeCE-RF",
+    "support_v3_controller_rmsgap": "CleanEdit",
 }
 METRICS = [
     "outside_mask_l1",
@@ -128,7 +128,7 @@ def write_summary(rows: list[dict[str, str]], out_dir: Path) -> None:
     lines = [
         "# E2 Reduced RF Comparison Summary",
         "",
-        "Scope: revised strict Core-6 target-mode RF comparison, external FlowEdit/FlowAlign/SplitFlow vs DeCE-RF, seeds 10/11/12.",
+        "Scope: revised strict Core-6 target-mode RF comparison, external FlowEdit/FlowAlign/SplitFlow vs CleanEdit, seeds 10/11/12.",
         "",
         "Claim boundary: this is a reduced target-mode comparison against runnable external RF baselines. Remaining RF baselines stay in adapter/generation validation audit and are not used for broad superiority claims.",
         "",
@@ -161,8 +161,8 @@ def write_summary(rows: list[dict[str, str]], out_dir: Path) -> None:
             "",
             "- FlowEdit, FlowAlign, and SplitFlow are runnable on the revised strict set and are included in the reduced target-mode RF comparison.",
             "- External target-mode RF baselines often form the requested target object/attribute, but visual audit shows source identity, crop/layout, and background drift.",
-            "- DeCE-RF has much lower outside-mask change and higher source preservation metrics under the same fixed task masks.",
-            "- This table should be worded as a reduced target-mode RF comparison, not as evidence that DeCE-RF beats every RF baseline.",
+            "- CleanEdit has much lower outside-mask change and higher source preservation metrics under the same fixed task masks.",
+            "- This table should be worded as a reduced target-mode RF comparison, not as evidence that CleanEdit beats every RF baseline.",
             "",
         ]
     )
@@ -278,7 +278,7 @@ def write_grids(rows: list[dict[str, str]], grid_dir: Path) -> None:
     for seed in ["10", "11", "12"]:
         canvas = Image.new("RGB", (thumb_w * 5, (thumb_h + label_h) * len(TASKS) + label_h), "white")
         draw = ImageDraw.Draw(canvas)
-        for col, label in enumerate(["source", "FlowEdit", "FlowAlign", "SplitFlow", "DeCE-RF"]):
+        for col, label in enumerate(["source", "FlowEdit", "FlowAlign", "SplitFlow", "CleanEdit"]):
             draw.text((col * thumb_w + 8, 8), label, fill="black")
         y = label_h
         for task in TASKS:

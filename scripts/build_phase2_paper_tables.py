@@ -72,8 +72,8 @@ METHOD_LABELS = {
     "base_only": "RF reconstruction",
     "direct_target": "Direct target",
     "adaptive_full_generic_support": "Generic support",
-    "support_v3_fixed": "Fixed DeCE-SD3",
-    "support_v3_controller_rmsgap": "DeCE-RF-SD3",
+    "support_v3_fixed": "Fixed CleanEdit-SD3",
+    "support_v3_controller_rmsgap": "CleanEdit-SD3",
     "flowedit": "FlowEdit-SD3",
     "splitflow": "SplitFlow-SD3",
     "sam_flow_sd3": "Sam-Flow-SD3",
@@ -81,7 +81,7 @@ METHOD_LABELS = {
     "rf_solver_edit": "RF-Solver-Edit-FLUX/context",
     "reflex": "ReFlex-FLUX/context",
     "sam_flow_flux": "Sam-Flow-FLUX/context",
-    "dece_rf_flux": "DeCE-RF-FLUX/context",
+    "dece_rf_flux": "CleanEdit-FLUX/context",
 }
 METRICS = [
     "outside_l1",

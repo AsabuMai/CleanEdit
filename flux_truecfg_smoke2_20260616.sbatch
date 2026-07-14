@@ -36,7 +36,7 @@ TGT="Black sunglasses aligned across both eyes of a front-facing dog."
 LTP="A close-up front-facing portrait of the same dog wearing black sunglasses aligned across both eyes indoors, while the dog face, ears, fur, nose, floor, and lighting remain unchanged."
 
 # Sequential CPU offload keeps peak GPU memory low so it fits alongside other
-# jobs on the shared a100-01. Overlay removed -> pure DeCE-RF velocity output.
+# jobs on the shared a100-01. Overlay removed -> pure CleanEdit velocity output.
 run_one () {
   local name="$1"; shift
   local d="$OUT/$name"

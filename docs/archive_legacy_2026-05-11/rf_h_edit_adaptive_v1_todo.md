@@ -1,4 +1,4 @@
-# RF h-Edit: Adaptive Full v1 To-Do Plan
+# CleanEdit: Adaptive Full v1 To-Do Plan
 
 ## 0. Current Decision
 

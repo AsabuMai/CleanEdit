@@ -17,7 +17,7 @@ export HF_HUB_OFFLINE=1
 
 TASKS="cat_crown dog_bow_tie_phase2 dog_front_sunglasses_phase2 bowl_apple_inside white_bowl_orange_tabletop_phase2 brown_bowl_lemon_phase2 tshirt_star mug_heart tote_leaf red_office_chair_to_blue_office_chair green_mug_orange_phase2 yellow_vase_blue_phase2 pillow_same_color_cable_knit pillow_same_color_cable_knit_grey pillow_same_color_cable_knit_armchair"
 
-# Compute DeCE-RF-FLUX paper metrics on the full true-CFG matrix (seeds 10/11/12),
+# Compute CleanEdit-FLUX paper metrics on the full true-CFG matrix (seeds 10/11/12),
 # same scorers as the baseline FLUX rows in table2b (CLIP-L + DINOv2 + LPIPS).
 .venv/bin/python scripts/evaluate_paper_metrics.py \
   --outputs-dir outputs/phase2_flux_paper_truecfg_full_20260617 \

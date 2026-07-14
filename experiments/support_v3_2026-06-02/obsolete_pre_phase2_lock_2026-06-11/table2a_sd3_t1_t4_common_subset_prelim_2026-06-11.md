@@ -13,13 +13,13 @@ Audit status: `complete_t1_t4_diagnostic`.
 | FlowEdit-SD3 | 36 | 0.1543 | 0.2036 | 0.5278 | 0.5332 | 0.0486 | 0.0486 |
 | FlowAlign-SD3 | 36 | 0.0760 | 0.1370 | 0.8292 | 0.6123 | 0.0487 | 0.0487 |
 | SplitFlow-SD3 | 36 | 0.0794 | 0.1511 | 0.7625 | 0.6320 | 0.0449 | 0.0449 |
-| Fixed DeCE-SD3 | 36 | 0.0350 | 0.1729 | 0.9147 | 0.8316 | 0.0490 | 0.0490 |
-| DeCE-RF-SD3 | 36 | 0.0343 | 0.1772 | 0.9144 | 0.8595 | 0.0432 | 0.0432 |
+| Fixed CleanEdit-SD3 | 36 | 0.0350 | 0.1729 | 0.9147 | 0.8316 | 0.0490 | 0.0490 |
+| CleanEdit-SD3 | 36 | 0.0343 | 0.1772 | 0.9144 | 0.8595 | 0.0432 | 0.0432 |
 
 Sources:
 
 - Direct target / Generic support: `e1_t1_t4_directgeneric_metrics.csv`.
 - FlowEdit / FlowAlign / SplitFlow: `e2_t1_t4_baseline_fixed_mask_metrics.csv`.
-- Fixed DeCE / DeCE-RF: `table2a_e4_common_subset_clipdino_metrics.csv`.
+- Fixed CleanEdit / CleanEdit: `table2a_e4_common_subset_clipdino_metrics.csv`.
 
 Use this only as a T1-T4 diagnostic. For paper-facing Table 2a, use `table2a_sd3_common_subset_final.csv` and `final_paper_tables_2026-06-11.md`.

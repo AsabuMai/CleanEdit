@@ -47,8 +47,8 @@ METHOD_LABELS = {
     "flowalign": "FlowAlign-SD3",
     "splitflow": "SplitFlow-SD3",
     "sam_flow_sd3": "Sam-Flow-SD3",
-    "support_v3_fixed": "Fixed DeCE-SD3",
-    "support_v3_controller_rmsgap": "DeCE-RF-SD3",
+    "support_v3_fixed": "Fixed CleanEdit-SD3",
+    "support_v3_controller_rmsgap": "CleanEdit-SD3",
 }
 
 ORDER = [
@@ -218,7 +218,7 @@ def main() -> None:
         "",
         "- Direct target / Generic support: `e1_t1_t4_directgeneric_metrics.csv`.",
         "- FlowEdit / FlowAlign / SplitFlow: `e2_t1_t4_baseline_fixed_mask_metrics.csv`.",
-        "- Fixed DeCE / DeCE-RF: `table2a_e4_common_subset_clipdino_metrics.csv`.",
+        "- Fixed CleanEdit / CleanEdit: `table2a_e4_common_subset_clipdino_metrics.csv`.",
         "",
         "Use this only as a preliminary T1-T4 diagnostic. Final Table 2 must be rebuilt after T5 is complete.",
     ]

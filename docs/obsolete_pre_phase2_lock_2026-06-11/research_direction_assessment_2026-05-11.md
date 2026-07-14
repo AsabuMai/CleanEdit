@@ -4,7 +4,7 @@ Date: 2026-05-11
 
 ## Verdict
 
-The current RF h-Edit direction can support a paper direction, but it should not
+The current CleanEdit direction can support a paper direction, but it should not
 be framed as a broad, general-purpose RF image editing method yet.
 
 The safer research framing is:

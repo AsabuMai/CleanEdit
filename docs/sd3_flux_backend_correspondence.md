@@ -1,6 +1,6 @@
 # SD3 / FLUX Backend Correspondence
 
-This note records the project-level rule for porting the paper SD3 DeCE-RF
+This note records the project-level rule for porting the paper SD3 CleanEdit
 implementation to FLUX. SamFlow is used here only as an interface pattern:
 one task interface, one algorithmic state, and thin backend adapters for each
 model family.
@@ -26,10 +26,10 @@ The important lesson is not to copy SamFlow's algorithm. The useful part is the
 correspondence boundary: the algorithm sees the same conceptual tensors, while
 each backend supplies them in its native layout.
 
-## Our DeCE-RF Contract
+## Our CleanEdit Contract
 
 For the paper claim, the SD3 implementation remains the canonical mathematical
-definition. The FLUX version should be described as the same DeCE-RF objective
+definition. The FLUX version should be described as the same CleanEdit objective
 and update after applying a layout adapter from FLUX packed tokens to BCHW maps.
 
 The shared per-step equation is:
@@ -60,7 +60,7 @@ The project now has the intended SamFlow-style split:
   `run_edit_flux.py` via `--backend sd3|flux`.
 - `sd3_hrec.py` is the canonical paper implementation. It still contains the
   SD3 equations inline and calls the shared energy functions directly.
-- `dece_core.py` is the backend-neutral DeCE-RF step extracted from the SD3
+- `dece_core.py` is the backend-neutral CleanEdit step extracted from the SD3
   equations. It contains no SD3 or FLUX model API calls.
 - `flux/dece_flux_adapter.py` is the FLUX adapter. It converts FLUX packed
   tokens to BCHW maps for the shared energy functions and converts the resulting
@@ -96,20 +96,20 @@ These differences are implementation details, not new mathematical claims:
 
 - Prompt encoding and CFG mechanics.
 - Scheduler timestep representation, as long as the scalar `sigma_t` passed to
-  the DeCE core has the same RF meaning.
+  the CleanEdit core has the same RF meaning.
 - Latent layout:
   SD3 uses BCHW maps; FLUX uses packed image tokens. The adapter must be a pure
   reshape/transposition for tensors that represent the same latent field.
 - Image-id/text-id handling required by FLUX transformer calls.
 - Attention/token grounding extraction, provided it produces the same semantic
-  role masks expected by the DeCE step.
+  role masks expected by the CleanEdit step.
 
 ## Paper-Safe Wording
 
 The defensible claim is:
 
-> We use the SD3 implementation as the canonical DeCE-RF formulation. The FLUX
-> variant preserves the same DeCE-RF velocity decomposition, energy surrogates,
+> We use the SD3 implementation as the canonical CleanEdit formulation. The FLUX
+> variant preserves the same CleanEdit velocity decomposition, energy surrogates,
 > masks, schedules, and RF update, while replacing only backend-specific model
 > calls and latent layout handling through a packed-token adapter.
 

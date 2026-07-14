@@ -18,8 +18,8 @@ LEVELS = ["0.50", "0.75", "1.00", "1.25", "1.50", "2.00"]
 
 
 DISPLAY = {
-    "support_v3_fixed": "Fixed DeCE displacement",
-    "support_v3_controller_rmsgap": "DeCE-RF",
+    "support_v3_fixed": "Fixed CleanEdit displacement",
+    "support_v3_controller_rmsgap": "CleanEdit",
 }
 
 
@@ -246,8 +246,8 @@ def draw_plot(
     draw.text((margin_l + plot_w // 2 - 120, height - 55), xlabel, fill=(20, 20, 20), font=font)
     draw.text((20, margin_t + plot_h // 2), ylabel, fill=(20, 20, 20), font=font)
     colors = {
-        "Fixed DeCE displacement": (59, 130, 246),
-        "DeCE-RF": (220, 38, 38),
+        "Fixed CleanEdit displacement": (59, 130, 246),
+        "CleanEdit": (220, 38, 38),
         "preserve drift": (22, 163, 74),
         "projection norm": (147, 51, 234),
         "preserve correction": (234, 88, 12),
@@ -305,7 +305,7 @@ def make_trajectory_figure() -> Path:
         if points:
             series[label] = points
     path = OUT / "e4_controller_trajectory_tshirt_star_seed10.png"
-    draw_plot(path, "E4 DeCE-RF controller trajectory", series, "logged step", "controller signal")
+    draw_plot(path, "E4 CleanEdit controller trajectory", series, "logged step", "controller signal")
     return path
 
 
@@ -368,7 +368,7 @@ def write_markdown(
     lines.extend(
         [
             "",
-            "Interpretation: E4 treats feedback as a stabilizer/robustness component rather than the sole source of the headline gain. Fixed DeCE displacement keeps operation-conditioned support and fixed clean-estimate edit-preserve displacement; DeCE-RF adds feedback-updated weights, projection, and preserve clean correction. The stress curve uses fixed-mask local edit L1 as an edit-pressure proxy, so it should be discussed as an edit-preserve tradeoff rather than a standalone semantic success score.",
+            "Interpretation: E4 treats feedback as a stabilizer/robustness component rather than the sole source of the headline gain. Fixed CleanEdit displacement keeps operation-conditioned support and fixed clean-estimate edit-preserve displacement; CleanEdit adds feedback-updated weights, projection, and preserve clean correction. The stress curve uses fixed-mask local edit L1 as an edit-pressure proxy, so it should be discussed as an edit-preserve tradeoff rather than a standalone semantic success score.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

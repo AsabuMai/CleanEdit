@@ -68,7 +68,7 @@ Paper-facing methods:
 RF reconstruction / base reconstruction
 Direct target guidance
 Generic support control
-DeCE-RF
+CleanEdit
 ```
 
 Current artifacts:
@@ -104,7 +104,7 @@ artifact score, and outside preservation; CLIP and L1 must be interpreted
 conservatively for T5.
 
 support_v3_fixed should not appear as a headline E1 main-table method. Its
-stable paper identity is Fixed DeCE (same-backbone component control): in E2.2
+stable paper identity is Fixed CleanEdit (same-backbone component control): in E2.2
 it is the preservation-control row, and in E4 it is the fixed-displacement
 component ablation.
 
@@ -122,7 +122,7 @@ Rows use paper-facing names in tables, with runner names kept in metadata:
 Source reconstruction / RF reconstruction = base_only
 Direct target RF guidance = direct_target
 Generic support control = adaptive_full_generic_support
-DeCE-RF = support_v3_controller_rmsgap
+CleanEdit = support_v3_controller_rmsgap
 ```
 
 Required caption point:
@@ -130,7 +130,7 @@ Required caption point:
 ```text
 All preservation and locality metrics are computed using fixed per-task
 evaluation masks shared by all methods. These masks are not produced by
-DeCE-RF and are not adjusted after observing outputs. The table reports a
+CleanEdit and are not adjusted after observing outputs. The table reports a
 controlled diagnostic Core-5 suite, not a large-scale benchmark. The success
 column is relation-style for T1/T2/T3; recolor and material replacement are
 reported with task-specific evidence.
@@ -165,8 +165,8 @@ direct_target-SD3
 FlowEdit-SD3
 FlowAlign-SD3
 SplitFlow-SD3
-Fixed DeCE-SD3 (same-backbone component control)
-DeCE-RF-SD3
+Fixed CleanEdit-SD3 (same-backbone component control)
+CleanEdit-SD3
 ```
 
 Current locked E2.2 readout covers the audited T1-T5 common subset:
@@ -174,7 +174,7 @@ Current locked E2.2 readout covers the audited T1-T5 common subset:
 ```text
 15 tasks x 7 Table 2a rows x 3 seeds = summarized as 45 rows per method
 rows: direct_target, generic_support, FlowEdit, FlowAlign, SplitFlow,
-Fixed DeCE-SD3, DeCE-RF-SD3
+Fixed CleanEdit-SD3, CleanEdit-SD3
 ```
 
 Optional same-backbone row only if genuinely verified:
@@ -264,7 +264,7 @@ If main-paper space allows, this can be promoted to Table 2c. Otherwise it
 should remain Supplement Table S1 with a short summary in the main text.
 
 This is an oracle binary-localization diagnostic, not an ordinary baseline
-comparison. It answers whether DeCE-RF is only winning because it has access to
+comparison. It answers whether CleanEdit is only winning because it has access to
 an edit mask/support region.
 
 Locked artifacts:
@@ -295,7 +295,7 @@ Current strengthened E2.4 status:
 ```text
 direct_target_medit_gate: inference-time same fixed M_edit, 36/36 complete
 FlowEdit + same M_edit gating: blocked; no verified mask-aware wrapper
-Fixed DeCE / DeCE-RF: component and full-method references, not support-only rows
+Fixed CleanEdit / CleanEdit: component and full-method references, not support-only rows
 ```
 
 Artifacts:
@@ -312,11 +312,11 @@ Interpretation:
 ```text
 Binary localization improves outside preservation but does not reliably recover
 relation correctness, boundary consistency, or target integration, indicating
-that DeCE-RF's gain is not explained by mask access alone.
+that CleanEdit's gain is not explained by mask access alone.
 ```
 
 Use only a binary edit support for baseline diagnostic rows. Do not give
-baseline rows DeCE-RF's `M_core`, `M_contact`, `M_preserve`, feedback weights,
+baseline rows CleanEdit's `M_core`, `M_contact`, `M_preserve`, feedback weights,
 or projection. Output blending and `M_edit` gating must be labeled as
 diagnostic, not as fair natural-use baselines.
 
@@ -396,7 +396,7 @@ Paper-safe claim:
 ```text
 Operation-conditioned support improves fixed-mask overlap and downstream edit
 behavior relative to weak generic support, while Grounding/SAM alone tends to
-over-cover the object/host region. This supports the claim that DeCE-RF's
+over-cover the object/host region. This supports the claim that CleanEdit's
 support geometry is not merely generic segmentation or raw attention evidence.
 ```
 
@@ -408,7 +408,7 @@ package.
 Boundary:
 
 ```text
-E4 fixes operation-conditioned support and compares Fixed DeCE, DeCE-RF full,
+E4 fixes operation-conditioned support and compares Fixed CleanEdit, CleanEdit full,
 and selected controller/stress variants. Support perturbation is interpreted as
 controller robustness stress, not as a new support-geometry comparison.
 ```
@@ -455,21 +455,21 @@ experiments/support_v3_2026-06-02/e4_controller_ablation/e4_controller_ablation.
 Paper-facing identity:
 
 ```text
-Fixed DeCE (same-backbone component control) = support_v3_fixed
-DeCE-RF = support_v3_controller_rmsgap
+Fixed CleanEdit (same-backbone component control) = support_v3_fixed
+CleanEdit = support_v3_controller_rmsgap
 ```
 
 Interpretation:
 
 ```text
-Fixed DeCE displacement is a component ablation. It is not an external baseline
+Fixed CleanEdit displacement is a component ablation. It is not an external baseline
 and not an E2.4 support-only row.
 ```
 
 Paper-safe claim:
 
 ```text
-E4 evaluates the full adaptive controller relative to a fixed-displacement DeCE
+E4 evaluates the full adaptive controller relative to a fixed-displacement CleanEdit
 variant under the same SD3 implementation and fixed evaluation masks. The
 stress curve should be reported as an edit-preserve tradeoff using local edit
 L1 as an edit-pressure proxy, not as a standalone semantic success score.
@@ -480,10 +480,10 @@ no-feedback row is present. If compute allows, put the following finer ablation
 in supplement:
 
 ```text
-Fixed DeCE
-DeCE without feedback
-DeCE without projection / clipping
-Full DeCE-RF
+Fixed CleanEdit
+CleanEdit without feedback
+CleanEdit without projection / clipping
+Full CleanEdit
 ```
 
 The revised design treats E4 as Pareto/stress evidence rather than a single
@@ -505,7 +505,7 @@ Purpose:
 
 ```text
 document scope boundary: where the base method stops working and which
-extension routes are separate from the base DeCE-RF mean
+extension routes are separate from the base CleanEdit mean
 ```
 
 Scope:
@@ -535,17 +535,17 @@ Paper-safe claim:
 ```text
 E5 documents extension routes and scope boundaries. It supports Figure 6 and
 the limitations paragraph, but the extension routes are named separately and
-are not aggregated into the base DeCE-RF mean.
+are not aggregated into the base CleanEdit mean.
 ```
 
-E5 should explicitly communicate that DeCE-RF is not a general inpainting or
+E5 should explicitly communicate that CleanEdit is not a general inpainting or
 arbitrary replacement method. It is designed for localized edit-preserve control
 when the desired local displacement is well defined.
 
 ## Same-Support Removal Diagnostic
 
 A removal-only diagnostic was generated for `backpack_remove_toy_charm` using
-Telea and Navier-Stokes OpenCV inpainting with the DeCE-RF support mask. Report
+Telea and Navier-Stokes OpenCV inpainting with the CleanEdit support mask. Report
 it separately from the main comparison because it receives the same support mask
 and only applies to removal/fill cases.
 
@@ -556,7 +556,7 @@ be cited as active paper evidence unless regenerated and summarized.
 
 Readout: same-support inpainting gives lower outside drift on the backpack case
 but produces visible fill artifacts around the strap/zipper region, while
-DeCE-RF removes the target charm but locally smooths the occluded zipper/fabric.
+CleanEdit removes the target charm but locally smooths the occluded zipper/fabric.
 
 ## Legacy Baseline Artifacts
 

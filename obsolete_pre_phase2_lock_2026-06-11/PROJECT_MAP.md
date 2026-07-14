@@ -1,4 +1,4 @@
-# RF h-Edit Project Map
+# CleanEdit Project Map
 
 This file is the current entry point for the project after the 2026-05-11
 cleanup.
@@ -26,7 +26,7 @@ M_edit, M_core, M_contact/M_ring, M_preserve
 ```
 
 The main controller keeps the source-conditioned trajectory and applies
-\(v_{\mathrm{DeCE}} = v_{\mathrm{src}} - t^{-1}\Delta_t^0\), where the clean
+\(v_{\mathrm{CleanEdit}} = v_{\mathrm{src}} - t^{-1}\Delta_t^0\), where the clean
 displacement is decomposed into edit and preserve components. The
 rmsgap/adaptive path updates the edit and preserve displacement weights online.
 `support_v3_fixed` is the baseline, and M22/core-target-transport is currently a
