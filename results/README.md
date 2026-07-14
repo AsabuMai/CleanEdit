@@ -1,12 +1,15 @@
 # Results
 
-This directory contains compact numerical evidence, not generated images or model artifacts.
+This directory contains selected numerical references, not generated images or
+model artifacts.
 
-- `submission/`: main no-final-postprocess and fixed-mask summaries, per-sample main metrics, and audit metadata.
-- `ablations/multiseed/`: seeds 10, 11, and 12.
-- `ablations/components/`: controller component ablation excluding T4 recolor.
-- `ablations/masked_gap/`: masked-gap component analysis.
-- `ablations/pareto/`: edit/preservation trade-off sweep.
-- `ablations/t4_operator/`: T4 recolor operator and color-specific metrics.
+- `submission/`: main no-final-postprocess summaries, the fixed-mask method
+  aggregate, and per-sample main metrics.
+- `ablations/`: one method-level reference per component, masked-gap,
+  multiseed, Pareto, and T4 operator experiment.
+
+The evaluation scripts regenerate the omitted per-family, per-seed, and audit
+files. Keeping those derived views out of Git avoids storing the same
+measurements in several layouts.
 
 The main comparison must use `ABLATE=no_final_postprocess`. Diagnostic final compositing modes are not part of the fair reported protocol.
