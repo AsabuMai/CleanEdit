@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -41,6 +42,21 @@ class OperationSupportV3Result:
     stats: dict[str, float | int | str]
 
 
+@dataclass(frozen=True)
+class OperationMaskPolicy:
+    """Operation-level spatial permissions shared by SD3 and FLUX.
+
+    ``expansion_kernel`` is expressed at the support-map resolution.  It is a
+    fixed property of the operation family, never a per-image tuning knob.
+    """
+
+    name: str
+    geometry: str
+    expansion_kernel: int
+    include_removed_support: bool
+    normalize_grounded_instances: bool
+
+
 def parse_edit_operation(edit_operation: str | None) -> str:
     op = (edit_operation or "auto").strip().lower()
     aliases = {
@@ -56,12 +72,100 @@ def parse_edit_operation(edit_operation: str | None) -> str:
         "recolour_object": "recolor",
         "replace_object": "replace",
         "replace_attribute": "replace",
+        "material_change": "material",
+        "material_only": "material",
+        "texture_change": "texture",
+        "texture_only": "texture",
+        "change_shape": "shape_change",
+        "reshape": "shape_change",
     }
     op = aliases.get(op, op)
-    valid = {"auto", "add_object", "add_decal", "remove_object", "replace", "recolor"}
+    valid = {
+        "auto",
+        "add_object",
+        "add_decal",
+        "remove_object",
+        "replace",
+        "recolor",
+        "material",
+        "texture",
+        "shape_change",
+    }
     if op not in valid:
         raise ValueError(f"Unsupported edit operation for support v3: {edit_operation}")
     return op
+
+
+def resolve_operation_mask_policy(edit_operation: str | None) -> OperationMaskPolicy:
+    """Return the uniform mask policy for an operation family.
+
+    Appearance-only edits may rewrite pixels inside the supplied subject but
+    may not grow its silhouette.  Additions and explicit shape changes receive
+    one bounded expansion.  Replacements cover source tokens that disappear,
+    but do not get an unrelated geometric expansion.
+    """
+
+    operation = parse_edit_operation(edit_operation)
+    if operation in {"recolor", "material", "texture"}:
+        return OperationMaskPolicy(
+            name="appearance_zero_expand",
+            geometry="appearance_only",
+            expansion_kernel=1,
+            include_removed_support=False,
+            normalize_grounded_instances=True,
+        )
+    if operation in {"add_object", "add_decal", "shape_change"}:
+        return OperationMaskPolicy(
+            name="finite_shape_expand",
+            geometry="shape_change",
+            expansion_kernel=5,
+            include_removed_support=False,
+            normalize_grounded_instances=True,
+        )
+    if operation in {"replace", "remove_object"}:
+        return OperationMaskPolicy(
+            name="replacement_removed_support",
+            geometry="replacement",
+            expansion_kernel=1,
+            include_removed_support=True,
+            normalize_grounded_instances=True,
+        )
+    return OperationMaskPolicy(
+        name="auto_zero_expand",
+        geometry="unspecified",
+        expansion_kernel=1,
+        include_removed_support=False,
+        normalize_grounded_instances=True,
+    )
+
+
+_REMOVED_PROMPT_STOPWORDS = {
+    "a", "an", "the", "is", "are", "was", "were", "on", "in", "at", "of", "and", "with", "to",
+    "it", "its", "this", "that", "placed", "wearing", "has", "have", "there", "appears", "same",
+}
+
+
+def infer_removed_prompt_tokens(
+    source_prompt: str,
+    target_prompt: str,
+    host_tokens: str | list[str] | None = None,
+    max_words: int = 3,
+) -> list[str]:
+    """Infer disappeared content words with one backend-independent rule."""
+
+    source = re.findall(r"[a-z]+", (source_prompt or "").lower())
+    target = set(re.findall(r"[a-z]+", (target_prompt or "").lower()))
+    if isinstance(host_tokens, str):
+        host_text = host_tokens
+    else:
+        host_text = " ".join(host_tokens or [])
+    hosts = set(re.findall(r"[a-z]+", host_text.lower()))
+    removed: list[str] = []
+    for word in source:
+        if word in target or word in hosts or word in _REMOVED_PROMPT_STOPWORDS or len(word) < 3 or word in removed:
+            continue
+        removed.append(word)
+    return removed[: max(0, int(max_words))]
 
 
 def _match_map(x: torch.Tensor | None, reference: torch.Tensor) -> torch.Tensor | None:
@@ -80,6 +184,64 @@ def _match_map(x: torch.Tensor | None, reference: torch.Tensor) -> torch.Tensor 
         else:
             out = out[: reference.shape[0]]
     return normalize_spatial_map(out).to(device=reference.device, dtype=reference.dtype)
+
+
+def apply_operation_mask_policy(
+    edit_mask: torch.Tensor,
+    core_mask: torch.Tensor,
+    *,
+    edit_operation: str | None,
+    removed_attention_map: torch.Tensor | None = None,
+    removed_threshold: float = 0.5,
+    removed_max_area_ratio: float = 0.20,
+) -> tuple[torch.Tensor, torch.Tensor, dict[str, float | int | str]]:
+    """Apply the shared operation-conditioned spatial permission once.
+
+    The fixed removed-token area guard is deliberately operation-level.  A
+    diffuse source attention map is rejected instead of being rescued by a
+    case-specific threshold.
+    """
+
+    policy = resolve_operation_mask_policy(edit_operation)
+    edit = edit_mask.float().clamp(0.0, 1.0)
+    core = torch.minimum(core_mask.float().clamp(0.0, 1.0), edit)
+    removed_area = 0.0
+    removed_applied = False
+    removed_rejected = False
+    if policy.include_removed_support and removed_attention_map is not None:
+        removed = _match_map(removed_attention_map, edit)
+        if removed is not None:
+            removed_binary = (removed.detach().float() >= float(removed_threshold)).to(dtype=edit.dtype)
+            removed_area = _area(removed_binary)
+            if 0.0 < removed_area <= float(removed_max_area_ratio):
+                removed_support = (removed * removed_binary).clamp(0.0, 1.0)
+                edit = torch.maximum(edit, removed_support)
+                core = torch.maximum(core, removed_support)
+                removed_applied = True
+            elif removed_area > float(removed_max_area_ratio):
+                removed_rejected = True
+    if policy.expansion_kernel > 1:
+        kernel = int(policy.expansion_kernel)
+        if kernel % 2 == 0:
+            kernel += 1
+        edit = F.max_pool2d(edit, kernel_size=kernel, stride=1, padding=kernel // 2)
+        core = F.max_pool2d(core, kernel_size=kernel, stride=1, padding=kernel // 2)
+    edit = edit.to(device=edit_mask.device, dtype=edit_mask.dtype).clamp(0.0, 1.0)
+    core = torch.minimum(
+        core.to(device=core_mask.device, dtype=core_mask.dtype).clamp(0.0, 1.0),
+        edit.to(device=core_mask.device, dtype=core_mask.dtype),
+    )
+    return edit, core, {
+        "support_mask_policy": policy.name,
+        "support_mask_geometry": policy.geometry,
+        "support_mask_expansion_kernel": int(policy.expansion_kernel),
+        "support_removed_required": int(policy.include_removed_support),
+        "support_removed_available": int(removed_attention_map is not None),
+        "support_removed_applied": int(removed_applied),
+        "support_removed_rejected_by_area": int(removed_rejected),
+        "support_removed_area_ratio": float(removed_area),
+        "support_removed_max_area_ratio": float(removed_max_area_ratio),
+    }
 
 
 def normalize_within_mask(value: torch.Tensor, mask: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
@@ -884,7 +1046,7 @@ def default_candidate_for_operation(
 ) -> str:
     op = parse_edit_operation(edit_operation)
     rel = (relation or "auto").strip().lower()
-    if op == "add_object":
+    if op in {"add_object", "shape_change"}:
         if has_relation and rel in {"inside_host", "inside"}:
             return "surface_local_response"
         if has_relation and rel in {
@@ -913,7 +1075,7 @@ def default_candidate_for_operation(
         if has_grounding:
             return "seg_only"
         return "src_tar_attn_x_clean"
-    if op == "recolor":
+    if op in {"recolor", "material", "texture"}:
         if has_relation:
             return "relation_only"
         if has_grounding:
@@ -1306,8 +1468,13 @@ def build_operation_support_v3(
     velocity_map_override: torch.Tensor | None = None,
     temporal_aggregation: str = "single",
     temporal_steps: int = 1,
+    mask_policy: str = "legacy",
 ) -> OperationSupportV3Result:
     parsed_operation = parse_edit_operation(edit_operation)
+    mask_policy_mode = (mask_policy or "legacy").strip().lower()
+    if mask_policy_mode not in {"legacy", "operation"}:
+        raise ValueError(f"Unsupported mask policy: {mask_policy}")
+    operation_mask_policy = resolve_operation_mask_policy(parsed_operation)
     attention = compute_token_attention(attention_map, x_t)
     if attention is None:
         raise ValueError("operation support v3 requires an attention_map")
@@ -1353,12 +1520,17 @@ def build_operation_support_v3(
         grounding_mask=grounding,
     )
     instance_count = 0
-    if OPS_V3_PER_INSTANCE and grounding is not None:
+    normalize_instances = (
+        mask_policy_mode == "operation" and operation_mask_policy.normalize_grounded_instances
+    ) or OPS_V3_PER_INSTANCE
+    instance_min_area = 0.005 if mask_policy_mode == "operation" else OPS_V3_INSTANCE_MIN_AREA
+    instance_max_erosion = 4 if mask_policy_mode == "operation" else OPS_V3_INSTANCE_MAX_EROSION
+    if normalize_instances and grounding is not None:
         score, instance_count = per_instance_normalized_score(
             score,
             grounding,
-            min_area_ratio=OPS_V3_INSTANCE_MIN_AREA,
-            max_erosion=OPS_V3_INSTANCE_MAX_EROSION,
+            min_area_ratio=instance_min_area,
+            max_erosion=instance_max_erosion,
         )
         if instance_count > 1:
             keep_components = max(int(keep_components), int(instance_count))
@@ -1370,11 +1542,27 @@ def build_operation_support_v3(
         min_area_ratio=min_area_ratio,
         max_area_ratio=max_area_ratio,
         keep_components=keep_components,
-        dilate_radius=dilate_radius,
+        dilate_radius=1 if mask_policy_mode == "operation" else dilate_radius,
         blur_kernel=blur_kernel,
         component_score_map=component_score_ref if use_component_scoring else None,
         relation_map=(relation_map if relation_map is not None else grounding) if use_component_scoring else None,
     )
+    policy_stats: dict[str, float | int | str] = {}
+    if mask_policy_mode == "operation":
+        edit, core, policy_stats = apply_operation_mask_policy(
+            edit,
+            core,
+            edit_operation=parsed_operation,
+            removed_attention_map=removed,
+        )
+        policy_stats.update(
+            {
+                "support_instance_min_area_ratio": float(instance_min_area),
+                "support_instance_max_erosion": int(instance_max_erosion),
+            }
+        )
+        stats["support_area_core"] = _area(core)
+        stats["support_area_edit"] = _area(edit)
     stats.update(
         {
             "support_mode": "operation_v3",
@@ -1390,15 +1578,19 @@ def build_operation_support_v3(
             "support_min_area_ratio": float(min_area_ratio),
             "support_max_area_ratio": float(max_area_ratio),
             "support_keep_components": int(keep_components),
-            "support_dilate_radius": int(dilate_radius),
+            "support_dilate_radius": int(
+                operation_mask_policy.expansion_kernel if mask_policy_mode == "operation" else dilate_radius
+            ),
             "support_blur_kernel": int(blur_kernel),
             "support_temporal_aggregation": temporal_aggregation,
             "support_temporal_steps": int(temporal_steps),
-            "support_per_instance_norm": int(OPS_V3_PER_INSTANCE),
+            "support_per_instance_norm": int(normalize_instances),
             "support_instance_count": int(instance_count),
+            "support_mask_policy_mode": mask_policy_mode,
             "support_attention_local_confidence": attention_localization_confidence(attention),
         }
     )
+    stats.update(policy_stats)
     if grounding is not None:
         stats.update(support_overlap_metrics(edit, grounding))
     return OperationSupportV3Result(

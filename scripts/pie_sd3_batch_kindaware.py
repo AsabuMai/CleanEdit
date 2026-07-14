@@ -1,7 +1,11 @@
 import os, sys, json, re, types, time
 from pathlib import Path
-PROJ=Path(__file__).resolve().parents[1]; sys.path.insert(0, str(PROJ))
+PROJ=Path(os.environ.get("CLEANEDIT_ROOT",Path(__file__).resolve().parents[1])).resolve(); sys.path.insert(0, str(PROJ))
+_expected_root=os.environ.get("EXPECTED_PROJECT_ROOT")
+if _expected_root and PROJ != Path(_expected_root).resolve():
+    raise SystemExit(f"project root mismatch: {PROJ} != {Path(_expected_root).resolve()}")
 import torch, run_edit_sd3
+from operation_support_v3 import infer_removed_prompt_tokens
 _orig=run_edit_sd3.StableDiffusion3Pipeline.from_pretrained; _cache={}
 def _fp(*a,**k):
     key=str(a[0]) if a else "d"
@@ -17,6 +21,7 @@ man=json.load(open(os.environ.get("MANIFEST",str(PROJ/"data/flowedit_compatible_
 START=int(os.environ.get("START","0"))
 LIMIT=int(os.environ.get("LIMIT",len(man))); OUT=PROJ/os.environ.get("OUT","outputs/flowedit135_sd3"); SEED=os.environ.get("SEED","10")
 SD3_SHARED_CORE_SHADOW=os.environ.get("SD3_SHARED_CORE_SHADOW","0").lower() in ("1","true","yes","on")
+MASK_POLICY=os.environ.get("MASK_POLICY","operation").strip().lower()
 T4_TEXTURE_DETAIL_TRANSFER=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER","0").lower() in ("1","true","yes","on")
 T4_TEXTURE_DETAIL_TRANSFER_STRENGTH=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER_STRENGTH","0.8")
 T4_TEXTURE_DETAIL_TRANSFER_KERNEL=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER_KERNEL","9")
@@ -28,12 +33,12 @@ KIND={
       "t3_text":dict(operation="add_decal",relation="inside_host",layering="none",hedit="1.05",text="0.18",rec="0.45",struct="0.45",core="1.05",subj="0.30",color=None),
       "t3_decal":dict(operation="add_decal",relation="on_surface",layering="none",hedit="0.85",text="0.10",rec="0.45",struct="0.45",core="0.95",subj="0.20",color=None),
       "t4_recolor":dict(operation="recolor",relation="inside_host",layering="recolor_trimap",hedit="0.22",text="0.02",rec="0.58",struct="0.50",core="0.85",subj="0.80",color="0.22"),
-      "t5_material":dict(operation="replace",relation="inside_host",layering="none",hedit="0.86",text="0.14",rec="0.55",struct="0.70",core="1.00",subj="0.75",color=None),
+      "t5_material":dict(operation="material",relation="inside_host",layering="none",hedit="0.86",text="0.14",rec="0.55",struct="0.70",core="1.00",subj="0.75",color=None),
       # Backward-compatible aliases for old overrides.
       "add":dict(operation="add_object",relation="inside_container",layering="none",hedit="0.95",text="0.10",rec="0.26",struct="0.45",core="1.00",subj="0.25",color=None),
       "decal":dict(operation="add_decal",relation="inside_host",layering="none",hedit="1.05",text="0.18",rec="0.45",struct="0.45",core="1.05",subj="0.30",color=None),
       "recolor":dict(operation="recolor",relation="inside_host",layering="recolor_trimap",hedit="0.22",text="0.02",rec="0.58",struct="0.50",core="0.85",subj="0.80",color="0.22"),
-      "material":dict(operation="replace",relation="inside_host",layering="none",hedit="0.95",text="0.18",rec="0.38",struct="0.45",core="1.00",subj="0.75",color=None)}
+      "material":dict(operation="material",relation="inside_host",layering="none",hedit="0.95",text="0.18",rec="0.38",struct="0.45",core="1.00",subj="0.75",color=None)}
 FAM2KIND={"T1":"t1_accessory","F1":"t1_accessory",
           "T2":"t2_insert","F2":"t2_insert",
           "T3":"t3_decal","F3":"t3_decal",
@@ -386,6 +391,10 @@ for e in work:
     if (od/"result.png").exists(): print("skip",e["key"]); continue
     od.mkdir(parents=True,exist_ok=True)
     new_tokens,host_tokens=pp_tokens(e,k)
+    removed_tokens=infer_removed_prompt_tokens(e.get("source_prompt",""),e.get("target_prompt",""),host_tokens)
+    operation=P["operation"]
+    if removed_tokens and k in ("t1_accessory","t2_insert","t3_text","t3_decal","add","decal"):
+        operation="replace"
     target_prompt=e["target_prompt"]
     if k in ("t3_text","t3_decal"):
         compact=t3_compact_prompt(e,new_tokens,host_tokens)
@@ -416,7 +425,7 @@ for e in work:
       "--rec-guidance-scale",P["rec"],"--struct-guidance-scale",P["struct"],"--trajectory-preserve-scale","0.25","--trajectory-subject-preserve-scale","0.0",
       "--edit-core-scale",P["core"],"--edit-subject-scale",P["subj"],"--region-target-transport-scale","0.0","--region-target-outside-lock-scale","0.0",
       "--rec-stop-timestep","0.08","--beta-max","1.0","--velocity-conversion-mode","linear_path","--linear-path-t-min","0.05",
-      "--object-mask-provider","attention_velocity","--grounding-method","none","--edit-operation",P["operation"],"--relation",P["relation"],"--mask-layering-mode",P["layering"],
+      "--object-mask-provider","attention_velocity","--grounding-method","none","--edit-operation",operation,"--mask-policy",MASK_POLICY,"--relation",P["relation"],"--mask-layering-mode",P["layering"],
       "--adaptive-clean-control","--adaptive-edit-target-rms","0.42","--adaptive-rmsgap-mode","legacy","--adaptive-preserve-drift-budget","0.12",
       "--adaptive-edit-gain","2.0","--adaptive-preserve-gain","4.2","--adaptive-edit-weight-min","0.85","--adaptive-edit-weight-max","1.55",
       "--adaptive-preserve-weight-min","1.0","--adaptive-preserve-weight-max","1.65","--adaptive-projection-scale","0.65","--adaptive-preserve-clean-correction-scale","0.5",
@@ -446,6 +455,7 @@ for e in work:
             argv += ["--mask-blend","--mask-blend-mode",SUBJECT_MASK_BLEND_MODE]
     if new_tokens: argv+=["--new-tokens",new_tokens]
     if host_tokens: argv+=["--host-tokens",host_tokens]
+    if removed_tokens: argv+=["--removed-tokens",",".join(removed_tokens)]
     if T3_REAL_EDIT and k in ("t3_text","t3_decal"):
         set_arg(argv,"--relation",T3_REAL_RELATION)
         set_arg(argv,"--mask-layering-mode",T3_REAL_LAYERING)
@@ -517,7 +527,7 @@ for e in work:
     if mask:
         final_mask=final_blend_mask(e) or mask
         final_mode="subject_core" if SUBJECT_PRESERVE_MODE else "replace"
-        if SUBJECT_PRESERVE_MODE and k == "t5_material" and T5_EXPAND_EDIT_MASK:
+        if MASK_POLICY == "legacy" and SUBJECT_PRESERVE_MODE and k == "t5_material" and T5_EXPAND_EDIT_MASK:
             final_mask=expanded_t5_mask(mask,e)
             final_mode="replace"
         argv+=["--support-mask",mask,"--final-edit-mask",final_mask,

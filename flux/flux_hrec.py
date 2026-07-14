@@ -18,13 +18,13 @@ from PIL import Image, ImageDraw, ImageFilter
 from tqdm import tqdm
 
 try:
-    from operation_support_v3 import build_operation_support_v3, save_support_debug
+    from operation_support_v3 import apply_operation_mask_policy, build_operation_support_v3, save_support_debug
     from run_provenance import flux_run_provenance
     from schedules import get_schedule_value
     from spatial_masks import build_object_contact_masks, save_mask_image, spatial_mask_stats
 except ImportError:  # pragma: no cover - supports direct execution from flux/
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from operation_support_v3 import build_operation_support_v3, save_support_debug
+    from operation_support_v3 import apply_operation_mask_policy, build_operation_support_v3, save_support_debug
     from run_provenance import flux_run_provenance
     from schedules import get_schedule_value
     from spatial_masks import build_object_contact_masks, save_mask_image, spatial_mask_stats
@@ -47,6 +47,7 @@ try:
         encode_flux_image,
         encode_flux_prompt,
         extract_flux_prompt_attention_map,
+        extract_flux_prompt_attention_maps,
         flux_changed_words,
         flux_content_edit_words,
         flux_token_indices_for_words,
@@ -64,6 +65,7 @@ except ImportError:  # pragma: no cover - supports direct script execution
         encode_flux_image,
         encode_flux_prompt,
         extract_flux_prompt_attention_map,
+        extract_flux_prompt_attention_maps,
         flux_changed_words,
         flux_content_edit_words,
         flux_token_indices_for_words,
@@ -257,6 +259,7 @@ def _build_flux_support(
     v_tar: torch.Tensor,
     attention_map: torch.Tensor | None = None,
     host_attention_map: torch.Tensor | None = None,
+    removed_attention_map: torch.Tensor | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, dict[str, object]]:
     if attention_map is None and not args.semantic_base_mask:
         raise ValueError("dece_rf_flux currently requires --support-mask/--semantic-base-mask")
@@ -301,6 +304,17 @@ def _build_flux_support(
             "support_fixed_core_from_attention": int(fixed_attention_core),
             "support_fixed_core_attention_percentile": float(args.fixed_core_attention_percentile),
         }
+        if args.mask_policy == "operation":
+            edit_map, core_map, policy_stats = apply_operation_mask_policy(
+                edit_map,
+                core_map,
+                edit_operation=args.edit_operation,
+                removed_attention_map=removed_attention_map,
+            )
+            support_stats_base.update(policy_stats)
+            support_stats_base["support_mask_policy_mode"] = "operation"
+        else:
+            support_stats_base["support_mask_policy_mode"] = "legacy"
     else:
         support = build_operation_support_v3(
             attention_map=attention_map,
@@ -309,6 +323,7 @@ def _build_flux_support(
             source_velocity=src_map,
             target_velocity=tar_map,
             host_attention_map=host_attention_map,
+            removed_attention_map=removed_attention_map,
             grounding_mask=grounding,
             edit_operation=args.edit_operation,
             relation=args.support_relation,
@@ -319,10 +334,12 @@ def _build_flux_support(
             keep_components=args.support_keep_components,
             dilate_radius=args.support_dilate_radius,
             blur_kernel=args.support_blur_kernel,
+            mask_policy=args.mask_policy,
         )
         edit_map = support.edit_mask.float().to(device=x_t.device)
         core_map = support.core_mask.float().to(device=x_t.device)
         support_stats_base = dict(support.stats)
+    policy_permission = edit_map.clone() if args.mask_policy == "operation" else None
     contact_map = None
     edge_map = None
     if args.mask_layering_mode == "object_contact":
@@ -341,6 +358,12 @@ def _build_flux_support(
         preserve_map = (1.0 - edit_map).clamp(0.0, 1.0)
     else:
         raise ValueError(f"Unsupported mask_layering_mode: {args.mask_layering_mode}")
+    if policy_permission is not None:
+        edit_map = torch.minimum(edit_map, policy_permission)
+        core_map = torch.minimum(core_map, edit_map)
+        if contact_map is not None:
+            contact_map = torch.minimum(contact_map, edit_map)
+        preserve_map = (1.0 - edit_map).clamp(0.0, 1.0)
     if args.mask_output_dir:
         os.makedirs(args.mask_output_dir, exist_ok=True)
         if support is not None:
@@ -534,6 +557,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="SD3-compatible mask provider name recorded for interface parity.",
     )
     parser.add_argument("--edit-operation", default="auto")
+    parser.add_argument("--mask-policy", default="legacy", choices=["legacy", "operation"])
     parser.add_argument("--support-relation", default="auto")
     parser.add_argument("--support-score", default=None)
     parser.add_argument("--support-candidate", default="operation_default")
@@ -789,14 +813,19 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
             ).to(torch.float32)
         attention_map = None
         host_attention_map = None
+        removed_attention_map = None
+        attention_support_forward_count = 0
         if args.use_flux_attention_support:
             src_changed, tar_changed = flux_changed_words(args.source_prompt, args.prompt)
             new_words = _parse_word_list(args.new_tokens)
             host_words = _parse_word_list(args.host_tokens)
+            removed_words = _parse_word_list(args.removed_tokens)
             if new_words is None:
                 new_words = flux_content_edit_words(tar_changed)
             if host_words is None:
                 host_words = flux_content_edit_words(src_changed)
+            if removed_words is None and args.edit_operation in {"replace", "remove_object"}:
+                removed_words = flux_content_edit_words(src_changed)
             new_token_indices = flux_token_indices_for_words(
                 pipe,
                 args.prompt,
@@ -807,6 +836,12 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
                 pipe,
                 args.source_prompt,
                 host_words,
+                max_sequence_length=args.max_sequence_length,
+            )
+            removed_token_indices = flux_token_indices_for_words(
+                pipe,
+                args.source_prompt,
+                removed_words,
                 max_sequence_length=args.max_sequence_length,
             )
             n_blocks = len(pipe.transformer.transformer_blocks)
@@ -829,8 +864,14 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
                 layer_indices=layer_indices,
                 self_weight=args.flux_attention_self_weight,
             ).to(device=x_src.device, dtype=torch.float32)
+            attention_support_forward_count += 1
+            source_groups = {}
             if host_token_indices:
-                host_attention_map = extract_flux_prompt_attention_map(
+                source_groups["host"] = host_token_indices
+            if removed_token_indices:
+                source_groups["removed"] = removed_token_indices
+            if source_groups:
+                source_attention_maps = extract_flux_prompt_attention_maps(
                     pipe=pipe,
                     latents=x_src,
                     prompt_embeds=src_prompt["prompt_embeds"],
@@ -841,14 +882,22 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
                     guidance_scale=base_guidance,
                     packed_h=packed_h,
                     packed_w=packed_w,
-                    token_indices=host_token_indices,
+                    token_groups=source_groups,
                     layer_indices=layer_indices,
                     self_weight=args.flux_attention_self_weight,
-                ).to(device=x_src.device, dtype=torch.float32)
+                )
+                attention_support_forward_count += 1
+                host_attention_map = source_attention_maps.get("host")
+                removed_attention_map = source_attention_maps.get("removed")
+                if host_attention_map is not None:
+                    host_attention_map = host_attention_map.to(device=x_src.device, dtype=torch.float32)
+                if removed_attention_map is not None:
+                    removed_attention_map = removed_attention_map.to(device=x_src.device, dtype=torch.float32)
             print(
                 "[flux] attention support "
                 f"new_words={new_words} new_tokens={new_token_indices} "
                 f"host_words={host_words} host_tokens={host_token_indices} "
+                f"removed_words={removed_words} removed_tokens={removed_token_indices} "
                 f"layers={layer_indices}",
                 flush=True,
             )
@@ -861,6 +910,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
             v_tar_support,
             attention_map=attention_map,
             host_attention_map=host_attention_map,
+            removed_attention_map=removed_attention_map,
         )
         print(
             "[flux] support "
@@ -1845,6 +1895,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
         "support_mode": args.support_mode,
         "object_mask_provider": args.object_mask_provider,
         "support_external_mask_role": args.support_external_mask_role,
+        "mask_policy": args.mask_policy,
         "support_score": args.support_score,
         "support_candidate": args.support_candidate,
         "support_relation": args.support_relation,
@@ -1852,6 +1903,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
         "save_support_debug": bool(args.save_support_debug),
         "support_debug_only": bool(args.support_debug_only),
         "use_flux_attention_support": bool(args.use_flux_attention_support),
+        "attention_support_forward_count": int(locals().get("attention_support_forward_count", 0)),
         "new_tokens": _parse_word_list(args.new_tokens),
         "host_tokens": _parse_word_list(args.host_tokens),
         "removed_tokens": _parse_word_list(args.removed_tokens),

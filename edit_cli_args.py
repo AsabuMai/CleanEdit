@@ -567,9 +567,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--edit-operation",
-        choices=("auto", "add_object", "add_decal", "remove_object", "replace", "recolor"),
+        choices=(
+            "auto",
+            "add_object",
+            "add_decal",
+            "remove_object",
+            "replace",
+            "recolor",
+            "material",
+            "texture",
+            "shape_change",
+        ),
         default="auto",
         help="Operation label recorded for operation-aware generic support.",
+    )
+    parser.add_argument(
+        "--mask-policy",
+        choices=("legacy", "operation"),
+        default="legacy",
+        help="Use legacy mask knobs or the fixed operation-conditioned spatial policy.",
     )
     parser.add_argument("--new-tokens", type=str, default=None)
     parser.add_argument("--host-tokens", type=str, default=None)

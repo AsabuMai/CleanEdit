@@ -45,6 +45,7 @@ from recolor_projection import (
     _save_clean_estimate_debug_images,
 )
 from schedules import get_schedule_value
+from operation_support_v3 import apply_operation_mask_policy, resolve_operation_mask_policy
 from sd3_mask_geometry import SD3MaskGeometryConfig, apply_sd3_mask_geometry
 from sd3_mask_provider import SD3PromptSupportConfig, build_sd3_prompt_support
 from spatial_masks import (
@@ -249,6 +250,7 @@ def HRecSD3Edit(
     semantic_base_mask_path: str | None = None,
     support_score: str = "attention_x_clean",
     support_edit_operation: str = "auto",
+    support_mask_policy: str = "legacy",
     support_relation: str = "auto",
     support_grounding_method: str = "external_mask",
     save_support_debug_maps: bool = False,
@@ -443,6 +445,7 @@ def HRecSD3Edit(
     M_generic_support_score = None
     M_operation_support_grounding = None
     M_operation_support_relation = None
+    M_operation_permission = None
     M_subject_local_core = None
     generic_support_stats: dict[str, float | int | str] = {}
     auto_anchor_mask = None
@@ -576,6 +579,7 @@ def HRecSD3Edit(
                         semantic_base_mask_path=semantic_base_mask_path,
                         grounding_method=support_grounding_method,
                         edit_operation=support_edit_operation,
+                        mask_policy=support_mask_policy,
                         relation=support_relation,
                         score=support_score,
                         attention_power=support_attention_power,
@@ -648,6 +652,46 @@ def HRecSD3Edit(
                     M_edit = M_semantic_base.to(dtype=x_src.dtype).clamp(0.0, 1.0)
                 M_core = M_edit
                 M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
+            operation_policy = (
+                resolve_operation_mask_policy(support_edit_operation)
+                if support_mask_policy == "operation"
+                else None
+            )
+            if (
+                operation_policy is not None
+                and operation_policy.include_removed_support
+                and support_removed_tokens
+                and M_generic_support_removed is None
+            ):
+                removed_masks = extract_attention_masks(
+                    pipe=pipe,
+                    x_src=x_src,
+                    src_prompt=src_prompt,
+                    tar_prompt=tar_prompt,
+                    src_prompt_embeds=src_prompt_embeds,
+                    src_pooled_embeds=src_pooled_prompt_embeds,
+                    tar_prompt_embeds=tar_prompt_embeds,
+                    tar_pooled_embeds=tar_pooled_prompt_embeds,
+                    t=t_mid,
+                    mode=attention_mask_mode,
+                    target_token_words=None,
+                    source_token_words=support_removed_tokens,
+                    subject_threshold=attention_mask_subject_threshold,
+                    core_threshold=attention_mask_core_threshold,
+                )
+                M_generic_support_removed = removed_masks["source_changed"]
+            if support_mask_policy == "operation" and object_mask_provider != "operation_support_v3":
+                M_edit, M_core, operation_policy_stats = apply_operation_mask_policy(
+                    M_edit,
+                    M_core,
+                    edit_operation=support_edit_operation,
+                    removed_attention_map=M_generic_support_removed,
+                )
+                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
+                generic_support_stats.update(operation_policy_stats)
+                generic_support_stats["support_mask_policy_mode"] = "operation"
+            if support_mask_policy == "operation":
+                M_operation_permission = M_edit.clone()
             mask_geometry = apply_sd3_mask_geometry(
                 edit_mask=M_edit,
                 core_mask=M_core,
@@ -710,6 +754,12 @@ def HRecSD3Edit(
             M_core = mask_geometry.core_mask
             M_preserve = mask_geometry.preserve_mask
             M_contact = mask_geometry.contact_mask
+            if M_operation_permission is not None:
+                M_edit = torch.minimum(M_edit, M_operation_permission)
+                M_core = torch.minimum(M_core, M_edit)
+                if M_contact is not None:
+                    M_contact = torch.minimum(M_contact, M_edit)
+                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
             M_structure_edge = mask_geometry.structure_edge_mask
             external_mask = mask_geometry.external_mask
             M_subject_local_core = mask_geometry.subject_local_core
@@ -2673,6 +2723,7 @@ def HRecSD3Edit(
             "semantic_base_mask_path": semantic_base_mask_path,
             "support_score": support_score,
             "support_edit_operation": support_edit_operation,
+            "support_mask_policy": support_mask_policy,
             "support_relation": support_relation,
             "support_grounding_method": support_grounding_method,
             "save_support_debug_maps": bool(save_support_debug_maps),
