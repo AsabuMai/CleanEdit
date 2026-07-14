@@ -60,9 +60,11 @@ run_bucket() (
     "$PY" scripts/pie_batch_flux_kindaware_v11.py
 )
 
-run_bucket b4_flux_noed data/flowedit_compatible_135/evidence_20260714/manifest_b4_flux_noed.json
-run_bucket b6_flux_bgrep data/flowedit_compatible_135/evidence_20260714/manifest_b6_flux_bgrep.json
-run_bucket b8_melt_scale data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json
+if [[ "${VERIFY_ONLY:-0}" != "1" ]]; then
+    run_bucket b4_flux_noed data/flowedit_compatible_135/evidence_20260714/manifest_b4_flux_noed.json
+    run_bucket b6_flux_bgrep data/flowedit_compatible_135/evidence_20260714/manifest_b6_flux_bgrep.json
+    run_bucket b8_melt_scale data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json
+fi
 
 "$PY" - "$R/$BASE" <<'PY'
 import json, sys
@@ -80,7 +82,7 @@ for path in metadata:
     assert data["postprocess_applied"] is False
     assert data["evaluation_eligible"] is False
     assert data["paper_use"] is False
-    operation = data["edit_operation"]
+    operation = data["support_stats"]["support_edit_operation"]
     expected = 0.35 if operation in {"recolor", "replace"} else 0.0
     assert data["source_attachment_release_scale"] == expected, path
 stats = sorted(root.glob("**/stats.json"))
