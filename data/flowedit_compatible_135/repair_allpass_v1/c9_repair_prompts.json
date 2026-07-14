@@ -1,0 +1,67 @@
+{
+  "fe_148_jump_kick_2_bronze_statue": {
+    "orig": "A bronze statue of a woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park.",
+    "new": "A woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park. The whole body and skin are turned into bronze material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_149_jump_kick_3_golden_statue": {
+    "orig": "A golden sculpture of a woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park.",
+    "new": "A woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park. The whole body and skin are turned into golden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_150_jump_kick_4_marble_statue": {
+    "orig": "A marble statue of a woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park.",
+    "new": "A woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park. The whole body and skin are turned into marble material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_152_jump_yay_2_bronze_statue": {
+    "orig": "A bronze statue of a man jumping in the air with his left arm raised. He appears to be enjoying the moment and is smiling. The background consists of a cloudy sky, which adds to the overall atmosphere of the scene.",
+    "new": "A man jumping in the air with his left arm raised. He appears to be enjoying the moment and is smiling. The background consists of a cloudy sky, which adds to the overall atmosphere of the scene. The whole body and skin are turned into bronze material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_153_jump_yay_3_golden_statue": {
+    "orig": "A golden sculpture of a man jumping in the air with his left arm raised. He appears to be enjoying the moment and is smiling. The background consists of a cloudy sky, which adds to the overall atmosphere of the scene.",
+    "new": "A man jumping in the air with his left arm raised. He appears to be enjoying the moment and is smiling. The background consists of a cloudy sky, which adds to the overall atmosphere of the scene. The whole body and skin are turned into golden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_157_kid_running_3_sculpture": {
+    "orig": "A sculpture of a young boy running through a grassy field. He appears to be enjoying his time outdoors. The field is surrounded by trees, providing a natural and serene environment.",
+    "new": "A young boy running through a grassy field. He appears to be enjoying his time outdoors. The field is surrounded by trees, providing a natural and serene environment. The whole body and skin are turned into carved sculpted stone, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_158_kid_running_4_wooden_sculpture": {
+    "orig": "A wooden sculpture of a young boy running through a grassy field. He appears to be enjoying his time outdoors. The field is surrounded by trees, providing a natural and serene environment.",
+    "new": "A young boy running through a grassy field. He appears to be enjoying his time outdoors. The field is surrounded by trees, providing a natural and serene environment. The whole body and skin are turned into wooden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_171_meditation_1_wooden_statue": {
+    "orig": "A wooden statue of a woman sitting on the floor in a room and meditating.",
+    "new": "A woman sitting on the floor in a room and meditating. The whole body and skin are turned into wooden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_172_meditation1_1_sand_sculpture": {
+    "orig": "A sand sculpture of man sitting on the ground and appears to be in a relaxed position, meditating.",
+    "new": "A man sitting on the ground and appears to be in a relaxed position, meditating. The whole body and skin are turned into sand material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_173_meditation1_2_golden_buddha_statue": {
+    "orig": "A golden sculpture of buddha sitting on the ground and appears to be in a relaxed position, meditating.",
+    "new": "A buddha sitting on the ground and appears to be in a relaxed position, meditating. The whole body and skin are turned into golden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_174_meditation1_3_wooden_buddha_statue": {
+    "orig": "A wooden statue of a buddha sitting on the ground and appears to be in a relaxed position, meditating.",
+    "new": "A buddha sitting on the ground and appears to be in a relaxed position, meditating. The whole body and skin are turned into wooden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_175_meditation1_4_golden_statue": {
+    "orig": "A golden sculpture of man sitting on the ground and appears to be in a relaxed position, meditating.",
+    "new": "A man sitting on the ground and appears to be in a relaxed position, meditating. The whole body and skin are turned into golden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  },
+  "fe_176_meditation1_5_wooden_statue": {
+    "orig": "A wooden sculpture of man sitting on the ground and appears to be in a relaxed position, meditating.",
+    "new": "A man sitting on the ground and appears to be in a relaxed position, meditating. The whole body and skin are turned into wooden material, while the pose, body silhouette, face position, camera view, and background stay exactly the same.",
+    "negative": "a different person, new identity, changed pose, different body shape, statue pedestal, base, plinth, second statue, duplicated figure"
+  }
+}

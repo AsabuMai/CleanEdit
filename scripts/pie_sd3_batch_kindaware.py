@@ -16,6 +16,7 @@ run_edit_sd3.StableDiffusion3Pipeline.from_pretrained=staticmethod(_fp)
 man=json.load(open(os.environ.get("MANIFEST",str(PROJ/"data/pie_pilot_20260618/manifest_pp_enriched.json"))))
 START=int(os.environ.get("START","0"))
 LIMIT=int(os.environ.get("LIMIT",len(man))); OUT=PROJ/os.environ.get("OUT","outputs/pie_kindaware_sd3_20260618"); SEED=os.environ.get("SEED","10")
+SD3_SHARED_CORE_SHADOW=os.environ.get("SD3_SHARED_CORE_SHADOW","0").lower() in ("1","true","yes","on")
 T4_TEXTURE_DETAIL_TRANSFER=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER","0").lower() in ("1","true","yes","on")
 T4_TEXTURE_DETAIL_TRANSFER_STRENGTH=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER_STRENGTH","0.8")
 T4_TEXTURE_DETAIL_TRANSFER_KERNEL=os.environ.get("T4_TEXTURE_DETAIL_TRANSFER_KERNEL","9")
@@ -420,6 +421,8 @@ for e in work:
       "--adaptive-edit-gain","2.0","--adaptive-preserve-gain","4.2","--adaptive-edit-weight-min","0.85","--adaptive-edit-weight-max","1.55",
       "--adaptive-preserve-weight-min","1.0","--adaptive-preserve-weight-max","1.65","--adaptive-projection-scale","0.65","--adaptive-preserve-clean-correction-scale","0.5",
       "--photo-prompt-mode","both","--log-every","7"]
+    if SD3_SHARED_CORE_SHADOW:
+        argv += ["--shared-core-shadow"]
     if SUBJECT_PRESERVE_MODE and k == "t5_material" and T5_NEGATIVE_PROMPT:
         argv+=["--negative-prompt",T5_NEGATIVE_PROMPT]
     if SUBJECT_PRESERVE_MODE:

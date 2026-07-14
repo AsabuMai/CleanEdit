@@ -20,6 +20,9 @@ FIELDS = [
     "source_image",
     "source_prompt",
     "target_prompt",
+    "source_tokens",
+    "target_tokens",
+    "unchanged_tokens",
     "result_image",
     "metadata",
     "command",
@@ -72,7 +75,7 @@ def read_manifest(path: Path) -> list[dict[str, str]]:
 
 def write_manifest(path: Path, rows: list[dict[str, str]]) -> None:
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=FIELDS, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -105,6 +108,37 @@ def token_args(tokens: dict[str, list[str]]) -> list[str]:
     return args
 
 
+def split_manifest_tokens(value: str | None) -> list[str]:
+    if not value:
+        return []
+    raw = str(value).strip()
+    if not raw:
+        return []
+    if "," in raw:
+        return [item.strip().lower() for item in raw.split(",") if item.strip()]
+    return [raw.lower()]
+
+
+def row_tokens(row: dict[str, str]) -> dict[str, list[str]] | None:
+    source = split_manifest_tokens(row.get("source_tokens"))
+    target = split_manifest_tokens(row.get("target_tokens"))
+    unchanged = split_manifest_tokens(row.get("unchanged_tokens"))
+    if unchanged:
+        return {"unchanged": unchanged}
+    if source and target:
+        return {"source": source, "target": target}
+    return None
+
+
+def append_note(row: dict[str, str], note: str) -> str:
+    previous = row.get("notes", "").strip()
+    if not previous:
+        return note
+    if note in previous:
+        return previous
+    return f"{previous}; {note}"
+
+
 def complete_row(
     row: dict[str, str],
     *,
@@ -125,7 +159,7 @@ def complete_row(
     spec = SAM_FLOW_MODES[baseline]
     matched_conditions = (
         f"official Sam-Flow {spec['mode']} run_image.py; source image resized to max_image_size=512; "
-        "source prompt, target prompt, seed, and fixed task mask tokens match the Phase2 manifest; "
+        "source prompt, target prompt, seed, and fixed task mask tokens match the manifest; "
         f"config={spec['config']}; backbone={spec['backbone']}"
     )
     metadata = {
@@ -136,6 +170,9 @@ def complete_row(
         "source_image": row["source_image"],
         "source_prompt": row["source_prompt"],
         "target_prompt": row["target_prompt"],
+        "source_tokens": row.get("source_tokens", ""),
+        "target_tokens": row.get("target_tokens", ""),
+        "unchanged_tokens": row.get("unchanged_tokens", ""),
         "resolution": prepared_size,
         "tokens": tokens,
         "matched_conditions": matched_conditions,
@@ -154,7 +191,7 @@ def complete_row(
             "command": str((run_dir / "command.txt").relative_to(repo_root)),
             "matched_conditions": matched_conditions,
             "failure_reason": "",
-            "notes": f"official {spec['label']} runner",
+            "notes": append_note(row, f"official {spec['label']} runner"),
         }
     )
     return row
@@ -164,6 +201,7 @@ def run_row(
     row: dict[str, str],
     *,
     repo_root: Path,
+    output_root: Path,
     samflow_root: Path,
     python_bin: str,
     device: str,
@@ -175,10 +213,13 @@ def run_row(
     if baseline not in SAM_FLOW_MODES:
         return row
     spec = SAM_FLOW_MODES[baseline]
+    if not samflow_root.is_absolute():
+        samflow_root = (repo_root / samflow_root).resolve()
     task = row["task"]
     seed = str(row["seed"]).removeprefix("seed_")
-    tokens = TASK_TOKENS.get(task)
-    run_dir = repo_root / "outputs" / "baselines" / baseline / task / f"seed_{seed}"
+    tokens = row_tokens(row) or TASK_TOKENS.get(task)
+    run_root = output_root if output_root.is_absolute() else repo_root / output_root
+    run_dir = run_root / baseline / task / f"seed_{seed}"
     run_dir.mkdir(parents=True, exist_ok=True)
     tmp_dir = run_dir / "tmp_samflow"
     tmp_dir.mkdir(parents=True, exist_ok=True)
@@ -187,6 +228,9 @@ def run_row(
     output_root = tmp_dir / f"results_{spec['mode']}"
     target_code = f"{task}_seed_{seed}_{baseline}"
     final_output = output_root / prepared_image.stem / target_code / f"{target_code}_output.png"
+    python_path = Path(python_bin)
+    if not python_path.is_absolute() and ("/" in python_bin or "\\" in python_bin):
+        python_bin = str(repo_root / python_path)
 
     cmd = [
         python_bin,
@@ -215,7 +259,7 @@ def run_row(
             {
                 "status": "failed",
                 "failure_reason": f"No Sam-Flow token mapping for task={task}",
-                "notes": f"official {spec['label']} runner",
+                "notes": append_note(row, f"official {spec['label']} runner"),
             }
         )
         return row
@@ -261,7 +305,7 @@ def run_row(
             {
                 "status": "pending",
                 "command": str((run_dir / "command.txt").relative_to(repo_root)),
-                "notes": f"dry_run; official {spec['label']} runner",
+                "notes": append_note(row, f"dry_run; official {spec['label']} runner"),
             }
         )
         return row
@@ -308,7 +352,10 @@ def run_row(
                     "prepared_source_image": str(prepared_image),
                     "source_prompt": row["source_prompt"],
                     "target_prompt": row["target_prompt"],
-                    "tokens": tokens,
+        "tokens": tokens,
+        "source_tokens": row.get("source_tokens", ""),
+        "target_tokens": row.get("target_tokens", ""),
+        "unchanged_tokens": row.get("unchanged_tokens", ""),
                     "failure_reason": failure,
                     "command": command_text,
                 },
@@ -323,7 +370,7 @@ def run_row(
                 "metadata": str((run_dir / "metadata.json").relative_to(repo_root)),
                 "command": str((run_dir / "command.txt").relative_to(repo_root)),
                 "failure_reason": failure,
-                "notes": f"official {spec['label']} runner",
+                "notes": append_note(row, f"official {spec['label']} runner"),
             }
         )
         return row
@@ -334,6 +381,7 @@ def main() -> int:
     parser.add_argument("--manifest", default="experiments/support_v3_2026-06-02/e2_t1_t4_formal_baseline_manifest.csv", type=Path)
     parser.add_argument("--samflow-root", default="_baselines/src/Sam-Flow", type=Path)
     parser.add_argument("--python", default="_baselines/envs/sam-flow-py310/bin/python")
+    parser.add_argument("--output-root", default="outputs/baselines", type=Path)
     parser.add_argument("--device", default="0")
     parser.add_argument("--tasks", default="")
     parser.add_argument("--seeds", default="")
@@ -365,6 +413,7 @@ def main() -> int:
         rows[index] = run_row(
             row,
             repo_root=repo_root,
+            output_root=args.output_root,
             samflow_root=args.samflow_root,
             python_bin=args.python,
             device=args.device,

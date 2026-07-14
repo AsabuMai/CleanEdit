@@ -1,28 +1,33 @@
-# Current Results
+# Submitted Results
 
-Current source of truth: FlowEdit-135 full evaluation, completed on
-2026-06-21.
+Frozen source of truth for the submitted paper: FlowEdit-135 no-final-restore main-table refresh,
+completed on 2026-06-29, combined with the peer-reviewed baseline evaluation
+completed on 2026-06-21.
 
 Use these files for manuscript writing:
 
 ```text
+experiments/norestore_metrics/metrics.csv
+experiments/norestore_tradeoff/summary_main_no_samflow.csv
+experiments/norestore_tradeoff/summary_by_method.csv
 experiments/flowedit135_fixedmask_metrics_20260621/metrics.csv
-experiments/flowedit135_fixedmask_metrics_20260621/summary_by_method.csv
 experiments/flowedit135_fixedmask_metrics_20260621/summary_by_family_method.csv
 experiments/flowedit135_fixedmask_metrics_20260621/metric_audit.json
 data/flowedit_compatible_135/eval_masks/_audit.csv
-paper/assets/tradeoff_overall_edit_preservation_compact.png
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
 ```
 
 ## Evidence Status
 
 - Dataset: FlowEdit-compatible 135 tasks.
-- Compared methods: 13.
-- Total metric rows: 1755.
-- Complete rows: 1755/1755.
-- Fixed evaluation region rows: 1755/1755.
-- Local target prompt rows: 1755/1755.
-- Slurm metric job: `745496`, completed on `a100-01`, elapsed `01:52:28`.
+- Main-table methods: 12, after excluding SAM-Flow as concurrent arXiv context.
+- Main-table metric rows: 1620.
+- Main-table complete rows: 1620/1620.
+- No-final-restore Ours rows: 270/270, completed on `a100-01` by Slurm job
+  `769100`.
+- Baseline metric job: `745496`, completed on `a100-01`, elapsed `01:52:28`.
+- Fixed evaluation region rows: complete.
+- Local target prompt rows: complete.
 
 ## Main Result
 
@@ -34,8 +39,10 @@ on the edit-preservation Pareto frontier.
 ```
 
 This should not be written as strongest edit amplitude. The results show that
-SAM-Flow-SD3 has stronger edit-success scores, while our method has much lower
-background drift.
+SplitFlow-SD3 and other editing baselines can produce stronger edit-success
+scores, while our method changes the background far less. The main Ours rows
+are no-final-restore runs and do not rely on final pixel-level source
+compositing.
 
 ## Overall Method Summary
 
@@ -54,15 +61,14 @@ Key columns:
 
 | Method | n | local CLIP-T up | CLIP delta up | BG-LPIPS down | BG-L1 down | BG-DINO up | BG-SSIM up |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ours-SD3 | 135 | 0.2447 | 0.0595 | **0.0054** | **0.0029** | **0.9984** | **0.9939** |
-| SAM-Flow-SD3 | 135 | **0.2543** | **0.0742** | 0.0363 | 0.0236 | 0.9745 | 0.9106 |
-| SplitFlow-SD3 | 135 | 0.2517 | 0.0636 | 0.0789 | 0.0380 | 0.9614 | 0.8869 |
+| Ours-FLUX | 135 | 0.2480 | 0.0517 | **0.0145** | 0.0042 | **0.9988** | 0.9914 |
+| Ours-SD3 | 135 | 0.2408 | 0.0571 | 0.0180 | **0.0028** | 0.9985 | **0.9939** |
+| SplitFlow-SD3 | 135 | **0.2517** | **0.0636** | 0.0789 | 0.0380 | 0.9614 | 0.8869 |
 | FlowEdit-SD3 | 135 | 0.2500 | 0.0624 | 0.0793 | 0.0383 | 0.9609 | 0.8862 |
-| SAM-Flow-FLUX | 135 | 0.2238 | 0.0338 | 0.0179 | 0.0164 | 0.9875 | 0.9479 |
-| OT-RF enhanced-SD3 | 135 | 0.2295 | 0.0247 | 0.0296 | 0.0206 | 0.9846 | 0.9327 |
 | FireFlow | 135 | 0.2516 | 0.0604 | 0.1418 | 0.0578 | 0.9330 | 0.7851 |
-| RF-Solver-Edit | 135 | 0.2451 | 0.0533 | 0.1132 | 0.0400 | 0.9521 | 0.8236 |
 | ReFLEx | 135 | 0.2511 | 0.0573 | 0.1098 | 0.0409 | 0.9613 | 0.7721 |
+| RF-Solver-Edit | 135 | 0.2451 | 0.0533 | 0.1132 | 0.0400 | 0.9521 | 0.8236 |
+| OT-RF enhanced-SD3 | 135 | 0.2295 | 0.0247 | 0.0296 | 0.0206 | 0.9846 | 0.9327 |
 | InstructPix2Pix | 135 | 0.2367 | 0.0172 | 0.1063 | 0.0729 | 0.9621 | 0.7835 |
 | LEDITS++ | 135 | 0.2433 | 0.0525 | 0.1241 | 0.0650 | 0.9108 | 0.7815 |
 | FlowEdit-FLUX | 135 | 0.2430 | 0.0516 | 0.1236 | 0.0579 | 0.9438 | 0.8445 |
@@ -72,31 +78,30 @@ Key columns:
 
 The table supports three paper-facing points.
 
-First, our method has the best preservation metrics by a large margin. It is
-the lowest on BG-LPIPS and BG-L1, and the highest on BG-DINO and BG-SSIM.
+First, the two no-final-restore Ours variants occupy the strongest
+preservation region. Ours-FLUX is best on BG-LPIPS and BG-DINO, while Ours-SD3
+is best on BG-L1 and BG-SSIM.
 
 Second, the method is not a no-op. Its CLIP delta and direction scores are in
 the same range as several editing baselines, although it is not the strongest
 on local CLIP-T.
 
-Third, the strongest edit score belongs to SAM-Flow-SD3. This is useful rather
-than harmful for the paper: it shows that the evaluation captures the expected
-edit-preservation trade-off instead of rewarding only conservative outputs.
+Third, the strongest main-table edit score belongs to SplitFlow-SD3, with
+FlowEdit-SD3, FireFlow, and ReFLEx close behind. This shows that the evaluation
+captures the expected edit-preservation trade-off instead of rewarding only
+conservative outputs.
 
 ## Family-Level Result
 
-Across all five task families, Ours-SD3 ranks first on the main preservation
-metrics:
-
-- T1 attached accessory: rank 1 on BG-LPIPS, BG-L1, BG-DINO.
-- T2 container insertion: rank 1 on BG-LPIPS, BG-L1, BG-DINO.
-- T3 surface decal: rank 1 on BG-LPIPS, BG-L1, BG-DINO.
-- T4 local recolor: rank 1 on BG-LPIPS, BG-L1, BG-DINO.
-- T5 same-color material: rank 1 on BG-LPIPS, BG-L1, BG-DINO.
+Across all five task families, the Ours variants should be reported as
+preservation-first methods. Use the no-final-restore family summary when it is
+available; until then, do not reuse the older restored family-rank wording
+verbatim.
 
 Edit strength varies by family. Ours is especially conservative on T3 text and
-surface-decal tasks, where baselines such as SAM-Flow-SD3 more often rewrite
-the target text but also induce larger non-edit drift.
+surface-decal tasks, where baselines such as FlowEdit-SD3 and SplitFlow-SD3
+can rewrite target text more aggressively but also induce larger non-edit
+drift.
 
 ## Qualitative Reading
 
@@ -104,13 +109,14 @@ Representative review sheets:
 
 ```text
 experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
-experiments/flowedit135_fixedmask_metrics_20260621/review_hard_ours_vs_sam.jpg
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
 ```
 
-Visual inspection agrees with the metrics. Ours keeps backgrounds nearly fixed
-and changes the intended region cautiously. SAM-Flow-SD3, FlowEdit-SD3, and
-SplitFlow-SD3 often produce stronger semantic edits, especially for text-like
-surface decal tasks, but they modify more of the source image.
+The submitted qualitative selection uses the no-final-restore outputs. Do not
+replace it with post-submission nine-bucket outputs without defining a new
+revision. The qualitative message is that Ours keeps backgrounds
+tightly preserved and changes the intended region cautiously, while stronger
+editing baselines often alter more of the source image.
 
 ## Claim Boundary
 
@@ -118,7 +124,8 @@ Supported:
 
 ```text
 On FlowEdit-135, the proposed method provides the strongest non-edit-region
-preservation and lies on the edit-preservation Pareto frontier.
+preservation among the main peer-reviewed baseline set and lies on the
+edit-preservation Pareto frontier.
 ```
 
 Not supported:
@@ -127,4 +134,5 @@ Not supported:
 The method is the strongest editor on every task.
 The method is broad image-editing SOTA.
 The method solves text replacement robustly.
+SAM-Flow is part of the main peer-reviewed baseline set.
 ```

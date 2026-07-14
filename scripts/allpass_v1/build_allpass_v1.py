@@ -47,6 +47,23 @@ GPU_CATEGORIES = {
     "C4_insertion_strength_balance",
 }
 
+ALLOWED_RELATIONS = {
+    "auto",
+    "none",
+    "above_host",
+    "below_host",
+    "on_face",
+    "on_profile_face",
+    "on_profile_face_left",
+    "on_profile_face_right",
+    "on_surface",
+    "remove_source_object",
+    "inside_host",
+    "inside_object",
+    "inside",
+    "inside_container",
+}
+
 TEXT_COLOR_OVERRIDE = {
     "gas_station": (190, 20, 28),
     "stop": (255, 255, 255),
@@ -227,6 +244,27 @@ def operation_relation(category: str, entry: dict[str, Any]) -> tuple[str, str]:
     return entry.get("edit_operation") or "auto", entry.get("sam_support_relation") or "auto"
 
 
+def normalize_relation(relation: str | None, operation: str | None, key: str = "") -> str:
+    rel = (relation or "auto").strip()
+    if rel in ALLOWED_RELATIONS:
+        return rel
+    low = rel.lower().replace("-", "_")
+    if low in {"top", "top_center", "head_top", "on_top", "above", "upper"}:
+        return "above_host"
+    if low in {"face", "head", "front_face"}:
+        return "on_face"
+    if low in {"surface", "table", "ground"}:
+        return "on_surface"
+    if low in {"inside", "inner", "whole_object"}:
+        return "inside"
+    op = (operation or "").lower()
+    if op == "add_object":
+        return "above_host" if any(token in key for token in ("hat", "crown")) else "on_surface"
+    if op in {"replace", "recolor"}:
+        return "inside_host" if op == "replace" else "inside"
+    return "auto"
+
+
 def make_repair_mask(key: str, entry: dict[str, Any], category: str) -> tuple[str, dict[str, str]]:
     image_path = resolve(entry["image"])
     assert image_path is not None
@@ -323,18 +361,28 @@ def old_to_new_copy(old_dir: Path | None, dest_dir: Path, entry: dict[str, Any],
 
 
 def find_font(bold: bool = True) -> str | None:
+    env_font = os.environ.get("ALLPASS_TEXT_FONT")
     candidates = [
+        env_font,
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
         "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/urw-base35/NimbusSans-Bold.otf" if bold else "/usr/share/fonts/urw-base35/NimbusSans-Regular.otf",
+        "/usr/share/fonts/google-droid/DroidSans-Bold.ttf" if bold else "/usr/share/fonts/google-droid/DroidSans.ttf",
     ]
     for path in candidates:
-        if Path(path).exists():
+        if path and Path(path).exists():
             return path
     return None
 
 
-def font_for(text: str, box: tuple[int, int, int, int], multiline: bool = False) -> ImageFont.ImageFont:
+def font_for(
+    text: str,
+    box: tuple[int, int, int, int],
+    multiline: bool = False,
+    width_frac: float = 0.88,
+    height_frac: float = 0.84,
+) -> ImageFont.ImageFont:
     font_path = find_font(True)
     x0, y0, x1, y1 = box
     w, h = max(1, x1 - x0), max(1, y1 - y0)
@@ -344,8 +392,9 @@ def font_for(text: str, box: tuple[int, int, int, int], multiline: bool = False)
         dummy = Image.new("RGB", (4, 4))
         draw = ImageDraw.Draw(dummy)
         widths = [draw.textbbox((0, 0), line, font=font)[2] for line in lines]
-        line_h = draw.textbbox((0, 0), "Mg", font=font)[3]
-        if max(widths) <= w * 0.88 and line_h * len(lines) <= h * 0.84:
+        line_box = draw.textbbox((0, 0), "Mg", font=font)
+        line_h = line_box[3] - line_box[1]
+        if max(widths) <= w * width_frac and line_h * len(lines) <= h * height_frac:
             return font
     return ImageFont.truetype(font_path, 10) if font_path else ImageFont.load_default()
 
@@ -359,10 +408,13 @@ def target_text_for_key(key: str) -> str:
         word = key.rsplit("_", 1)[-1].upper()
         return f"- {word}\n- BREAD\n- EGGS\n- MILK"
     if "this_must_be_the_place_1_home" in key:
-        return "home\nmust be\nthe place"
+        return "home"
     if "this_must_be_the_place" in key:
         word = key.rsplit("_", 1)[-1].upper()
-        return f"{word}\nmust be\nthe place"
+        return word
+    if "_sign_" in key and any(token in key for token in ("cvpr", "eccv", "iccv", "flow")):
+        word = key.rsplit("_", 1)[-1].upper()
+        return f"{word} IS\nALL YOU\nNEED"
     if "volkswagen" in key:
         return "VW"
     if "luna_1_sol" in key:
@@ -387,45 +439,93 @@ def text_color_for(key: str, image: Image.Image, mask: Image.Image) -> tuple[int
     return (25, 25, 25)
 
 
+def text_stroke_for(key: str, fill: tuple[int, int, int]) -> tuple[int, int, int]:
+    if "gas_station" in key:
+        return (250, 245, 238)
+    if "stop" in key:
+        return (105, 20, 20)
+    if "free_wifi" in key:
+        return (8, 8, 8)
+    if "luna" in key:
+        return (75, 10, 5)
+    if "this_must" in key:
+        return (20, 100, 90)
+    if "groceries" in key:
+        return (236, 214, 184)
+    if "_sign_" in key:
+        return (245, 245, 245)
+    luma = 0.299 * fill[0] + 0.587 * fill[1] + 0.114 * fill[2]
+    return (0, 0, 0) if luma > 128 else (245, 245, 245)
+
+
+def text_renderer_params(key: str) -> dict[str, float]:
+    params = {
+        "pad_x": 0.04,
+        "pad_y": 0.08,
+        "width_frac": 0.88,
+        "height_frac": 0.76,
+        "clear_strength": 0.0,
+        "stroke_ratio": 0.06,
+    }
+    if "gas_station" in key:
+        params.update({"pad_x": 0.02, "pad_y": 0.04, "width_frac": 0.92, "height_frac": 0.68, "stroke_ratio": 0.05})
+    elif "stop" in key:
+        params.update({"pad_x": 0.02, "pad_y": 0.04, "width_frac": 0.90, "height_frac": 0.62, "stroke_ratio": 0.07})
+    elif "_sign_" in key:
+        params.update({"pad_x": 0.05, "pad_y": 0.06, "width_frac": 0.82, "height_frac": 0.70, "stroke_ratio": 0.05})
+    elif "this_must" in key:
+        params.update({"pad_x": 0.07, "pad_y": 0.06, "width_frac": 0.74, "height_frac": 0.70, "stroke_ratio": 0.05})
+    return params
+
+
 def apply_text_renderer(image: Image.Image, mask: Image.Image, key: str) -> Image.Image:
     out = image.convert("RGB")
     bbox = mask_bbox(mask, 16)
     if not bbox:
         return out
     x0, y0, x1, y1 = bbox
-    pad_x = max(2, int((x1 - x0) * 0.04))
-    pad_y = max(2, int((y1 - y0) * 0.08))
+    params = text_renderer_params(key)
+    pad_x = max(1, int((x1 - x0) * params["pad_x"]))
+    pad_y = max(1, int((y1 - y0) * params["pad_y"]))
     box = (max(0, x0 + pad_x), max(0, y0 + pad_y), min(out.width, x1 - pad_x), min(out.height, y1 - pad_y))
+    if "this_must" in key:
+        box_h = max(1, box[3] - box[1])
+        box = (box[0], box[1], box[2], min(box[3], box[1] + int(box_h * 0.36)))
     text = target_text_for_key(key)
     multiline = "\n" in text
-    font = font_for(text, box, multiline)
+    font = font_for(text, box, multiline, params["width_frac"], params["height_frac"])
     draw = ImageDraw.Draw(out)
 
-    # Lightly clean the old glyph area before rendering, preserving the original panel color.
-    arr = np.asarray(out).copy()
-    m = np.asarray(mask.filter(ImageFilter.GaussianBlur(1.0))).astype(np.float32) / 255.0
-    hard = m > 0.35
-    if hard.any():
+    # Only weakly clean the old glyph area. Earlier all-mask cleaning washed out
+    # whole signs because these support masks often cover the complete panel.
+    if params["clear_strength"] > 0:
+        arr = np.asarray(out).copy()
+        m = np.asarray(mask.filter(ImageFilter.GaussianBlur(1.0))).astype(np.float32) / 255.0
+        hard = m > 0.35
+    else:
+        hard = None
+    if hard is not None and hard.any():
         bg = np.median(arr[hard], axis=0)
-        clean = arr.astype(np.float32) * (1.0 - (m[..., None] * 0.68)) + bg[None, None, :] * (m[..., None] * 0.68)
+        strength = float(params["clear_strength"])
+        clean = arr.astype(np.float32) * (1.0 - (m[..., None] * strength)) + bg[None, None, :] * (m[..., None] * strength)
         out = Image.fromarray(np.clip(clean, 0, 255).astype(np.uint8))
         draw = ImageDraw.Draw(out)
 
     color = text_color_for(key, out, mask)
+    stroke = text_stroke_for(key, color)
+    stroke_width = max(1, int(getattr(font, "size", 14) * params["stroke_ratio"]))
     lines = text.split("\n")
-    line_boxes = [draw.textbbox((0, 0), line, font=font) for line in lines]
+    line_boxes = [draw.textbbox((0, 0), line, font=font, stroke_width=stroke_width) for line in lines]
     line_h = max((b[3] - b[1] for b in line_boxes), default=10)
-    total_h = line_h * len(lines) + max(0, len(lines) - 1) * max(2, line_h // 5)
+    spacing = max(1, line_h // 7)
+    total_h = line_h * len(lines) + max(0, len(lines) - 1) * spacing
     cy = (box[1] + box[3] - total_h) // 2
     for line, tb in zip(lines, line_boxes):
         tw = tb[2] - tb[0]
         tx = (box[0] + box[2] - tw) // 2
-        draw.text((tx + 1, cy + 1), line, font=font, fill=(0, 0, 0))
-        draw.text((tx, cy), line, font=font, fill=color)
-        cy += line_h + max(2, line_h // 5)
+        draw.text((tx, cy), line, font=font, fill=color, stroke_width=stroke_width, stroke_fill=stroke)
+        cy += line_h + spacing
     return out
-
-
 def infer_color(key: str, prompt: str) -> tuple[float, float, float]:
     text = f"{key} {prompt}".lower()
     for name, rgb in COLOR_TABLE.items():
@@ -490,6 +590,62 @@ def material_stylize(image: Image.Image, mask: Image.Image, key: str, prompt: st
     return Image.fromarray(np.clip(out * 255.0, 0, 255).astype(np.uint8))
 
 
+def draw_top_hat(draw: ImageDraw.ImageDraw, cx: float, base_y: float, w: float, h: float) -> None:
+    x0, x1 = cx - w / 2, cx + w / 2
+    brim_h = h * 0.16
+    body_h = h * 0.70
+    y1 = base_y
+    y0 = y1 - body_h
+    draw.ellipse((x0 - w * 0.18, y1 - brim_h, x1 + w * 0.18, y1 + brim_h), fill=(9, 10, 12), outline=(55, 55, 55), width=max(1, int(w * 0.035)))
+    draw.rounded_rectangle((x0, y0, x1, y1), radius=max(2, int(w * 0.08)), fill=(13, 15, 18), outline=(72, 72, 72), width=max(1, int(w * 0.035)))
+    draw.rectangle((x0, y1 - h * 0.23, x1, y1 - h * 0.13), fill=(36, 38, 42))
+    draw.arc((x0, y0 - brim_h, x1, y0 + brim_h), 180, 360, fill=(105, 105, 105), width=max(1, int(w * 0.035)))
+
+
+def draw_crown(draw: ImageDraw.ImageDraw, cx: float, base_y: float, w: float, h: float) -> None:
+    x0, x1 = cx - w / 2, cx + w / 2
+    y0, y1 = base_y - h, base_y
+    gold = (218, 164, 44)
+    dark = (80, 52, 8)
+    pts = [
+        (x0, y1),
+        (x0 + w * 0.12, y0 + h * 0.32),
+        (x0 + w * 0.30, y1),
+        (cx, y0),
+        (x0 + w * 0.70, y1),
+        (x1 - w * 0.12, y0 + h * 0.32),
+        (x1, y1),
+    ]
+    draw.polygon(pts, fill=gold, outline=dark)
+    draw.rectangle((x0, y1 - h * 0.22, x1, y1), fill=(190, 124, 30), outline=dark, width=max(1, int(w * 0.035)))
+    for px, py in [(x0 + w * 0.12, y0 + h * 0.32), (cx, y0), (x1 - w * 0.12, y0 + h * 0.32)]:
+        r = max(2, w * 0.055)
+        draw.ellipse((px - r, py - r, px + r, py + r), fill=(245, 222, 92), outline=dark)
+
+
+def apply_accessory_renderer(source: Image.Image, key: str) -> Image.Image:
+    scale = 3
+    canvas = source.convert("RGB").resize((source.width * scale, source.height * scale), Image.Resampling.BICUBIC)
+    draw = ImageDraw.Draw(canvas)
+
+    def sx(x: float) -> float:
+        return x * source.width * scale
+
+    def sy(y: float) -> float:
+        return y * source.height * scale
+
+    if key == "fe_192_parrots_1_top_hat":
+        # Small hats on both heads; keep them much smaller than the diffusion proposal.
+        draw_top_hat(draw, sx(0.390), sy(0.455), source.width * 0.072 * scale, source.height * 0.086 * scale)
+        draw_top_hat(draw, sx(0.604), sy(0.420), source.width * 0.076 * scale, source.height * 0.090 * scale)
+    elif key == "fe_195_parrots2_1_crown":
+        draw_crown(draw, sx(0.405), sy(0.265), source.width * 0.074 * scale, source.height * 0.052 * scale)
+        draw_crown(draw, sx(0.690), sy(0.365), source.width * 0.074 * scale, source.height * 0.052 * scale)
+    else:
+        return source.convert("RGB")
+    return canvas.resize(source.size, Image.Resampling.LANCZOS)
+
+
 def apply_cpu_postprocess(dest_dir: Path, entry: dict[str, Any], registry_item: dict[str, Any], backend: str) -> None:
     branch = registry_item["postprocess_branch"]
     if branch in ("none", ""):
@@ -508,6 +664,13 @@ def apply_cpu_postprocess(dest_dir: Path, entry: dict[str, Any], registry_item: 
         fixed = apply_text_renderer(image, mask, entry["key"])
     elif branch == "human_pose_lock_v1":
         fixed = material_stylize(source, mask, entry["key"], registry_item["prompt_override"], strength=0.82)
+    elif branch == "accessory_renderer_v1":
+        fixed = apply_accessory_renderer(source, entry["key"])
+    elif branch == "compound_recolor_v1":
+        body_path = registry_item.get("mask_extra", {}).get("compound_body_mask")
+        body_mask_path = resolve(body_path)
+        body_mask = load_mask(body_mask_path, image.size) if body_mask_path and body_mask_path.exists() else mask
+        fixed = recolor_preserve_luma(image, body_mask, (0.05, 0.24, 0.62), strength=0.68)
     elif branch == "recolor_local_v1":
         fixed = recolor_preserve_luma(source, mask, infer_color(entry["key"], registry_item["prompt_override"]), strength=0.86)
     elif branch == "material_structure_lock_v1":
@@ -520,6 +683,8 @@ def apply_cpu_postprocess(dest_dir: Path, entry: dict[str, Any], registry_item: 
     meta = load_json(meta_path) if meta_path.exists() else {}
     meta["allpass_cpu_postprocess_applied"] = branch
     meta["allpass_cpu_postprocess_source"] = "source_image" if branch != "text_renderer_v1" else "old_result_image"
+    meta["evaluation_eligible"] = False
+    meta["paper_use"] = False
     save_json(meta_path, meta)
 
 
@@ -529,7 +694,22 @@ def registry_item_for(entry: dict[str, Any], repair_row: dict[str, str] | None) 
     mask_path, mask_extra = make_repair_mask(key, entry, category)
     prompt, negative = prompt_override(key, entry, category)
     operation, relation = operation_relation(category, entry)
-    post_branch = CPU_BRANCHES.get(category, "none")
+    relation = normalize_relation(relation, operation, key)
+    if key == "fe_142_iguana_2_blue_lizard_top_hat":
+        post_branch = "compound_recolor_v1"
+    elif key in {"fe_192_parrots_1_top_hat", "fe_195_parrots2_1_crown"}:
+        # Main-comparison accessories must be produced by model inference.
+        post_branch = "none"
+    else:
+        post_branch = CPU_BRANCHES.get(category, "none")
+    # These T3 text families already read well in the old SD3/FLUX results. A
+    # renderer pass makes them look artificial, so keep the old result there and
+    # reserve rendering for the failing long-range/sign/stop-arrow cases.
+    if post_branch == "text_renderer_v1" and (
+        any(token in key for token in ("free_wifi", "groceries", "luna", "stop_sticker"))
+        or ("this_must_be_the_place" in key and "2_cvpr" not in key)
+    ):
+        post_branch = "none"
     item = {
         "key": key,
         "category": category,

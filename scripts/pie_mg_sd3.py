@@ -40,7 +40,7 @@ for e in man[:LIMIT]:
       "--rec-guidance-scale",P["rec"],"--struct-guidance-scale",P["struct"],"--trajectory-preserve-scale","0.25","--trajectory-subject-preserve-scale","0.0",
       "--edit-core-scale",P["core"],"--edit-subject-scale",P["subj"],"--region-target-transport-scale","0.0","--region-target-outside-lock-scale","0.0",
       "--rec-stop-timestep","0.08","--beta-max","1.0","--velocity-conversion-mode","linear_path","--linear-path-t-min","0.05",
-      "--object-mask-provider","semantic","--semantic-base-mask",str((PROJ/e["mask"]).resolve()),"--grounding-method","external_mask","--final-edit-mask",str((PROJ/e["mask"]).resolve()),"--final-edit-mask-mode","replace","--final-outside-restore-mask",str((PROJ/e["mask"]).resolve()),"--final-outside-restore-scale","1.0","--edit-operation","add_object","--relation","on_surface","--mask-layering-mode","object_contact",
+      "--object-mask-provider","semantic","--semantic-base-mask",str((PROJ/e["mask"]).resolve()),"--grounding-method","external_mask","--final-edit-mask",str((PROJ/e["mask"]).resolve()),"--final-edit-mask-mode","replace","--edit-operation","add_object","--relation","on_surface","--mask-layering-mode","object_contact",
       "--adaptive-clean-control","--adaptive-edit-target-rms","0.42","--adaptive-rmsgap-mode","legacy","--adaptive-preserve-drift-budget","0.12",
       "--adaptive-edit-gain","2.0","--adaptive-preserve-gain","4.2","--adaptive-edit-weight-min","0.85","--adaptive-edit-weight-max","1.55",
       "--adaptive-preserve-weight-min","1.0","--adaptive-preserve-weight-max","1.65","--adaptive-projection-scale","0.65","--adaptive-preserve-clean-correction-scale","0.5",

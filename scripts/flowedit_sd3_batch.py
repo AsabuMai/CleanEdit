@@ -112,8 +112,7 @@ for e in man[:LIMIT]:
         if target: argv+=["--edit-color-target",target]
     mask=local_mask(e)
     if mask:
-        argv+=["--support-mask",mask,"--object-mask-provider","semantic","--final-edit-mask",mask,"--final-edit-mask-mode","replace",
-               "--final-outside-restore-mask",mask,"--final-outside-restore-scale","1.0"]
+        argv+=["--support-mask",mask,"--object-mask-provider","semantic","--final-edit-mask",mask,"--final-edit-mask-mode","replace"]
     sys.argv=["run_edit_sd3.py"]+argv; ts=time.time()
     try: run_edit_sd3.main(); done+=1; print("OK",e["key"],k,"%.1fs"%(time.time()-ts),flush=True)
     except Exception as ex:

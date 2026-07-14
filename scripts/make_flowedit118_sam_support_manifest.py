@@ -38,6 +38,7 @@ KEEP_ALL_BOXES = os.environ.get("KEEP_ALL_BOXES", "0") == "1"
 # boxes cannot balloon the union into a near-global mask.
 BOX_SCORE_FLOOR = float(os.environ.get("BOX_SCORE_FLOOR", "0.28"))
 BOX_SCORE_REL = float(os.environ.get("BOX_SCORE_REL", "0.5"))
+BOX_APPEARANCE_DISTANCE = float(os.environ.get("BOX_APPEARANCE_DISTANCE", "0.30"))
 # Apply the support relation (top_center band etc.) per anchor component
 # instead of once on the union bbox, so every instance gets its own band.
 PER_INSTANCE_RELATION = os.environ.get("PER_INSTANCE_RELATION", "0") == "1"
@@ -47,6 +48,10 @@ MIN_INSTANCE_AREA = float(os.environ.get("MIN_INSTANCE_AREA", "0.003"))
 # Ground the source-prompt words that disappear from the target prompt and
 # union their (accessory-sized) masks into the support band.
 ACCESSORY_COVER_REMOVED = os.environ.get("ACCESSORY_COVER_REMOVED", "0") == "1"
+# T2 replacement tasks can be mislabeled as insertions. When source and target
+# differ by an existing content noun (raspberries -> strawberries), use the
+# removed source objects as the edit support instead of the container outline.
+T2_REPLACE_WITH_REMOVED = os.environ.get("T2_REPLACE_WITH_REMOVED", "0") == "1"
 REMOVED_MAX_AREA = float(os.environ.get("REMOVED_MAX_AREA", "0.18"))
 
 _PROMPT_STOPWORDS = {
@@ -227,7 +232,14 @@ class GroundedSAM:
         self.sam_model.eval()
         print("device", self.device, "grounding", GROUNDING_MODEL, "sam", SAM_MODEL, flush=True)
 
-    def mask(self, image: Image.Image, phrase: str, max_area: float) -> tuple[np.ndarray, dict[str, object]]:
+    def mask(
+        self,
+        image: Image.Image,
+        phrase: str,
+        max_area: float,
+        *,
+        appearance_gate: bool = False,
+    ) -> tuple[np.ndarray, dict[str, object]]:
         prompt = phrase if phrase.endswith(".") else f"{phrase}."
         gd_inputs = self.gd_processor(images=image, text=prompt, return_tensors="pt").to(self.device)
         with torch.no_grad():
@@ -278,6 +290,7 @@ class GroundedSAM:
             y1 = max(0, min(height, int(np.ceil(y1))))
             if x1 > x0 and y1 > y0:
                 box_mask[y0:y1, x0:x1] = 1.0
+        appearance_meta: dict[str, object] = {}
         if MASK_MODE == "box":
             union = box_mask
         else:
@@ -295,6 +308,25 @@ class GroundedSAM:
             )[0].float()
             if masks.ndim == 4:
                 masks = masks.max(dim=1).values
+            if appearance_gate and masks.ndim == 3 and len(masks) > 1 and scores is not None:
+                image_rgb = np.asarray(image.convert("RGB"), dtype=np.float32) / 255.0
+                colors: list[np.ndarray] = []
+                for candidate in masks.numpy():
+                    pixels = image_rgb[candidate > 0.5]
+                    colors.append(np.median(pixels, axis=0) if len(pixels) else np.zeros(3, dtype=np.float32))
+                prototype_idx = int(torch.argmax(scores).detach().cpu().item())
+                prototype = colors[prototype_idx]
+                distances = np.asarray([float(np.linalg.norm(color - prototype)) for color in colors])
+                keep = distances <= BOX_APPEARANCE_DISTANCE
+                keep[prototype_idx] = True
+                masks = masks[torch.from_numpy(keep)]
+                appearance_meta = {
+                    "appearance_gate": True,
+                    "appearance_distance_threshold": BOX_APPEARANCE_DISTANCE,
+                    "appearance_prototype_index": prototype_idx,
+                    "appearance_distances": distances.tolist(),
+                    "appearance_kept": keep.tolist(),
+                }
             union = masks.max(dim=0).values.clamp(0.0, 1.0).numpy()
             if MASK_MODE == "sam_box_intersect":
                 union = union * box_mask
@@ -311,6 +343,7 @@ class GroundedSAM:
             "scores": [] if scores is None else [float(v) for v in scores.detach().cpu().tolist()],
             "labels": [] if labels is None else [str(v) for v in labels],
         }
+        meta.update(appearance_meta)
         return union, meta
 
 
@@ -439,6 +472,31 @@ def main() -> None:
                     covered_words.append(removed_word)
                 if covered_words:
                     support_meta["covered_removed_words"] = covered_words
+            if T2_REPLACE_WITH_REMOVED and item.get("family_label") == "T2_container_insertion":
+                removed_support = np.zeros_like(np.asarray(support, dtype=np.float32))
+                replaced_words: list[str] = []
+                for removed_word in removed_prompt_tokens(item)[:3]:
+                    try:
+                        removed_anchor, removed_meta = sam.mask(
+                            image,
+                            removed_word,
+                            REMOVED_MAX_AREA,
+                            appearance_gate=True,
+                        )
+                    except Exception:
+                        continue
+                    removed_area = float((removed_anchor > 0.5).mean())
+                    if removed_area <= 0.0 or removed_area > REMOVED_MAX_AREA:
+                        continue
+                    removed_support = np.maximum(
+                        removed_support,
+                        (np.asarray(removed_anchor, dtype=np.float32) > 0.5).astype(np.float32),
+                    )
+                    replaced_words.append(removed_word)
+                if replaced_words:
+                    support = removed_support
+                    support_meta["support_replaced_by_removed_words"] = replaced_words
+                    support_meta["removed_object_grounding"] = removed_meta
             if int(plan["dilate"]) > 1:
                 kernel = int(plan["dilate"])
                 kernel = kernel + 1 if kernel % 2 == 0 else kernel

@@ -107,8 +107,7 @@ for e in man[:LIMIT]:
         if target: argv+=["--edit-color-target",target]
     mask=local_mask(e)
     if mask:
-        argv+=["--support-mask",mask,"--object-mask-provider","semantic","--final-edit-mask",mask,"--final-edit-mask-mode","replace",
-               "--final-outside-restore-mask",mask,"--final-outside-restore-scale","1.0"]
+        argv+=["--support-mask",mask,"--object-mask-provider","semantic","--final-edit-mask",mask,"--final-edit-mask-mode","replace"]
     _adapt = __import__("os").environ.get("ADAPT_OVERRIDE_JSON")
     if _adapt:
         for _fl, _vl in json.loads(_adapt).get(k, {}).items():

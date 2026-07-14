@@ -1,0 +1,36 @@
+[
+  {
+    "key": "fe_120_gas_station_3_eccv",
+    "flowedit_idx": 120,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gas_station.png",
+    "source_prompt": "A gas station with a white and red sign that reads \"CAFE\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "target_prompt": "A gas station with a white and red sign that reads \"ECCV\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "eccv",
+    "pp_aspect_mapping": {
+      "sign": [
+        "eccv"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_135/derived_t3_oldtext_masks/fe_120_gas_station_3_eccv_oldtext_mask.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_120_gas_station_3_eccv_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_120_gas_station_3_eccv.json",
+    "sam_phrase": "gas station sign",
+    "sam_support_relation": "inside",
+    "pp_local_mask_original": "data/flowedit_compatible_118/sam_support_masks_all/fe_120_gas_station_3_eccv_support.png",
+    "final_blend_mask": "data/flowedit_compatible_135/derived_t3_oldtext_blend_masks/fe_120_gas_station_3_eccv_oldtext_blend_mask.png",
+    "oldtext_mask_probe": true,
+    "edit_ref_image": "data/flowedit_compatible_135/derived_t3_glyph_refs_gas_remaining_v1/fe_120_gas_station_3_eccv_glyph_ref.png",
+    "edit_ref_mask": "data/flowedit_compatible_135/derived_t3_glyph_refs_gas_remaining_v1/fe_120_gas_station_3_eccv_glyph_ref_mask.png",
+    "edit_ref_structure_image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gas_station.png",
+    "glyph_reference_probe": true,
+    "glyph_reference_mode": "natural"
+  }
+]

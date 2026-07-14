@@ -15,6 +15,36 @@ REPAIR_ROOT = ROOT / "data/flowedit_compatible_135/repair_allpass_v1"
 SD3_OUT = ROOT / "outputs/fe135_allpass_sd3_v1"
 FLUX_OUT = ROOT / "outputs/fe135_allpass_flux_v1"
 
+SD3_REUSE_OLD_KEYS = {
+    "fe_046_cat_crown_1_black_top_hat",
+    "fe_094_dog_6_red_top_hat",
+    "fe_142_iguana_2_blue_lizard_top_hat",
+    "fe_180_milk_4_whipped_cream",
+}
+
+FLUX_REUSE_OLD_KEYS = {
+    "fe_201_pizza_1_pineapple_ham",
+    "fe_207_pizza_tomato_olive_1_pepperoni",
+    "fe_208_pizza_tomato_olive_2_mushrooms",
+}
+
+ALLOWED_RELATIONS = {
+    "auto",
+    "none",
+    "above_host",
+    "below_host",
+    "on_face",
+    "on_profile_face",
+    "on_profile_face_left",
+    "on_profile_face_right",
+    "on_surface",
+    "remove_source_object",
+    "inside_host",
+    "inside_object",
+    "inside",
+    "inside_container",
+}
+
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -51,6 +81,35 @@ def support_score_for(category: str) -> str:
     return "attention_x_clean"
 
 
+def sd3_operation_relation(category: str, operation: str, relation: str) -> tuple[str, str]:
+    if category == "C1_replacement_old_object_residue":
+        return "add_object", "inside_host"
+    if category == "C3_insertion_mask_geometry":
+        return "add_object", "inside_container"
+    return operation, relation
+
+
+def normalize_relation(relation: str | None, operation: str | None, key: str = "") -> str:
+    rel = (relation or "auto").strip()
+    if rel in ALLOWED_RELATIONS:
+        return rel
+    low = rel.lower().replace("-", "_")
+    if low in {"top", "top_center", "head_top", "on_top", "above", "upper"}:
+        return "above_host"
+    if low in {"face", "head", "front_face"}:
+        return "on_face"
+    if low in {"surface", "table", "ground"}:
+        return "on_surface"
+    if low in {"inside", "inner", "whole_object"}:
+        return "inside"
+    op = (operation or "").lower()
+    if op == "add_object":
+        return "above_host" if any(token in key for token in ("hat", "crown")) else "on_surface"
+    if op in {"replace", "recolor"}:
+        return "inside_host" if op == "replace" else "inside"
+    return "auto"
+
+
 def sd3_params(category: str, item: dict[str, Any]) -> dict[str, Any]:
     params: dict[str, Any] = {
         "num_inference_steps": 28,
@@ -84,13 +143,14 @@ def sd3_params(category: str, item: dict[str, Any]) -> dict[str, Any]:
     if category == "C1_replacement_old_object_residue":
         params.update(
             {
-                "tar_guidance_scale": 9.0,
-                "edit_text_guidance_scale": 0.35,
-                "edit_text_source_prompt": "crown",
-                "edit_text_target_prompt": "black top hat",
-                "edit_core_scale": 1.25,
-                "edit_subject_scale": 0.12,
-                "trajectory_preserve_scale": 0.30,
+                "tar_guidance_scale": 8.0,
+                "edit_text_guidance_scale": 0.12,
+                "edit_core_scale": 1.0,
+                "edit_subject_scale": 0.15,
+                "trajectory_preserve_scale": 0.25,
+                "support_score": "attention_x_clean",
+                "support_candidate": "attention_x_clean",
+                "mask_layering_mode": "none",
             }
         )
     elif category == "C2_small_or_compound_accessory":
@@ -107,13 +167,16 @@ def sd3_params(category: str, item: dict[str, Any]) -> dict[str, Any]:
     elif category == "C3_insertion_mask_geometry":
         params.update(
             {
-                "tar_guidance_scale": 8.8,
-                "edit_core_scale": 1.25,
-                "edit_subject_scale": 0.20,
-                "edit_initial_noise_scale": 0.18,
+                "tar_guidance_scale": 8.0,
+                "edit_core_scale": 1.0,
+                "edit_subject_scale": 0.25,
+                "edit_initial_noise_scale": 0.0,
                 "edit_initial_noise_region": "core",
-                "region_target_transport_scale": 0.28,
-                "region_target_outside_lock_scale": 0.06,
+                "region_target_transport_scale": 0.0,
+                "region_target_outside_lock_scale": 0.0,
+                "support_score": "attention_x_clean",
+                "support_candidate": "attention_x_clean",
+                "mask_layering_mode": "none",
             }
         )
     elif category == "C4_insertion_strength_balance":
@@ -194,9 +257,12 @@ def build_cmd(backend: str, entry: dict[str, Any], item: dict[str, Any]) -> list
     mask = resolve(item["mask_path"])
     prompt = item["prompt_override"]
     negative = item.get("negative_prompt") or ""
+    operation = item.get("edit_operation") or entry.get("edit_operation") or "auto"
+    relation = normalize_relation(item.get("support_relation"), operation, entry["key"])
     if backend == "sd3":
         cmd = [sys.executable, str(ROOT / "run_edit_sd3.py")]
         params = sd3_params(item["category"], item)
+        operation, relation = sd3_operation_relation(item["category"], operation, relation)
         add(cmd, "--image", image)
         add(cmd, "--source-prompt", entry["source_prompt"])
         add(cmd, "--prompt", prompt)
@@ -207,8 +273,8 @@ def build_cmd(backend: str, entry: dict[str, Any], item: dict[str, Any]) -> list
         add(cmd, "--mask-output-dir", out_dir / "masks")
         add(cmd, "--support-mask", mask)
         add(cmd, "--semantic-base-mask", mask)
-        add(cmd, "--edit-operation", item["edit_operation"])
-        add(cmd, "--support-relation", item["support_relation"])
+        add(cmd, "--edit-operation", operation)
+        add(cmd, "--support-relation", relation)
         add(cmd, "--seed", 10)
         for key, value in params.items():
             add(cmd, "--" + key.replace("_", "-"), value)
@@ -225,8 +291,8 @@ def build_cmd(backend: str, entry: dict[str, Any], item: dict[str, Any]) -> list
     add(cmd, "--metadata-output", out_dir / "metadata.json")
     add(cmd, "--support-mask", mask)
     add(cmd, "--semantic-base-mask", mask)
-    add(cmd, "--edit-operation", item["edit_operation"])
-    add(cmd, "--support-relation", item["support_relation"])
+    add(cmd, "--edit-operation", operation)
+    add(cmd, "--support-relation", relation)
     add(cmd, "--edit-local-target-prompt", prompt)
     add(cmd, "--seed", 10)
     for key, value in params.items():
@@ -234,7 +300,21 @@ def build_cmd(backend: str, entry: dict[str, Any], item: dict[str, Any]) -> list
     return cmd
 
 
+def apply_postprocess_if_needed(backend: str, entry: dict[str, Any], item: dict[str, Any]) -> None:
+    if item.get("postprocess_branch") in (None, "", "none"):
+        return
+    sys.path.insert(0, str(ROOT / "scripts/allpass_v1"))
+    from build_allpass_v1 import apply_cpu_postprocess
+
+    apply_cpu_postprocess(output_dir(backend, entry, item), entry, item, backend)
+
+
 def should_run(entry: dict[str, Any], item: dict[str, Any], args: argparse.Namespace) -> bool:
+    requires_gpu_rerun = bool(item.get("requires_gpu_rerun"))
+    if args.backend == "sd3" and entry["key"] in SD3_REUSE_OLD_KEYS and not requires_gpu_rerun:
+        return False
+    if args.backend == "flux" and entry["key"] in FLUX_REUSE_OLD_KEYS and not requires_gpu_rerun:
+        return False
     if args.keys and entry["key"] not in set(args.keys.split(",")):
         return False
     if args.priority and item["priority"] != args.priority:
@@ -277,6 +357,7 @@ def main() -> None:
         print("+ " + " ".join(shlex.quote(str(part)) for part in cmd))
         if not args.dry_run:
             subprocess.run(cmd, cwd=ROOT, check=True)
+            apply_postprocess_if_needed(args.backend, entry, item)
 
 
 if __name__ == "__main__":

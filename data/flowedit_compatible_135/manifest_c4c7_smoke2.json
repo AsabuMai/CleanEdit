@@ -1,0 +1,61 @@
+[
+  {
+    "key": "fe_031_cake_1_berries",
+    "flowedit_idx": 31,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cake.png",
+    "source_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of fruits. The cake is presented on a white plate.",
+    "target_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of berries. The cake is presented on a white plate. Several fresh berries are clearly visible and densely arranged on top of the cake.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "berries",
+    "pp_aspect_mapping": {
+      "cake": [
+        "berries"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_000_bear_1_black_bear",
+    "flowedit_idx": 0,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large black bear walking through a stream of water. The stream appears to be shallow, as the black bear is able to walk through it without any difficulty. The bear's fur is clearly and fully deep black, while the body shape, pose, and background stay exactly the same.",
+    "global_mask": false,
+    "host_tokens": "bear",
+    "new_tokens": "black",
+    "pp_edit_action": {
+      "black": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bear": [
+        "black"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear.json",
+    "sam_phrase": "bear",
+    "sam_support_relation": "inside"
+  }
+]

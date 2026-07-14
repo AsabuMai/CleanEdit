@@ -25,7 +25,6 @@ for e in man:
       "--rec-stop-timestep","0.08","--beta-max","1.0","--velocity-conversion-mode","linear_path","--linear-path-t-min","0.05",
       "--object-mask-provider","semantic","--support-mask",m,"--grounding-method","external_mask",
       "--final-edit-mask",m,"--final-edit-mask-mode","replace",
-      "--final-outside-restore-mask",m,"--final-outside-restore-scale","1.0","--final-outside-restore-mask-blur","1.0",
       "--edit-operation","add_object","--relation","on_surface","--mask-layering-mode","object_contact",
       "--adaptive-clean-control","--adaptive-edit-target-rms","0.42","--adaptive-rmsgap-mode","legacy",
       "--adaptive-preserve-drift-budget","0.12","--adaptive-edit-gain","2.0","--adaptive-preserve-gain","4.2",

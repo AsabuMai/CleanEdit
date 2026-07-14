@@ -1,68 +1,100 @@
 # RF h-Edit Project
 
-Current paper method:
+The paper has been submitted. Its evidence is frozen; start with
+`docs/SUBMISSION_FREEZE.md`. Work performed after submission is indexed in
+`post_submission/README.md` and must not be mixed into the submitted results.
+
+Submitted paper method:
 
 ```text
 DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
 ```
 
-Current project lock:
+Current paper scope:
 
 ```text
-Phase2 = T1-T5, three source cases per family, seeds 10/11/12.
+FlowEdit-compatible 135-task benchmark, seed 10, preservation-first evaluation.
 ```
 
-Start with `PHASE2_LOCK_2026-06-11.md` for scope and
-`CURRENT_PHASE2_STATUS_2026-06-11.md` for what is already complete and what
-comes next. The old five-canonical-case Core-5 entry points were archived and
-are not current evidence.
+The older Phase2 T1-T5 diagnostic set remains useful for method-development
+history, ablations, and appendix context, but it is no longer the main paper
+evidence. Start with the paper-facing files before using any Phase2 document.
 
 ## Active Entry Points
 
-- `PHASE2_LOCK_2026-06-11.md`: current scope, task map, table policy, and compute rule.
-- `CURRENT_PHASE2_STATUS_2026-06-11.md`: completed artifacts, audit status, and next tasks.
+- `docs/SUBMISSION_FREEZE.md`: frozen submission evidence and boundary.
+- `post_submission/README.md`: nine-bucket and later research status.
+- `paper/README.md`: current paper scope, evidence, and claim boundary.
+- `paper/results.md`: current quantitative result narrative.
+- `paper/tables.md`: main table source and table policy.
+- `paper/figures.md`: current figure set and figure cautions.
+- `paper/limitations.md`: current limitation language.
 - `PROJECT_MAP.md`: active file map.
-- `paper/README.md`: paper-facing current tables/results/figure notes.
-- `docs/README.md`: current docs index.
-- `docs/todo_2026-06-11.md`: next execution queue.
+- `docs/README.md`: docs index and current execution queue.
+- `docs/todo_2026-06-11.md`: current queue, superseding the old Phase2 queue.
 
 ## Active Evidence
 
-Current artifacts live in:
+Current FlowEdit-135 artifacts:
 
 ```text
-experiments/support_v3_2026-06-02/
+data/flowedit_compatible_135/manifest.json
+data/flowedit_compatible_135/local_target_prompts.json
+data/flowedit_compatible_135/eval_masks/
+outputs/flowedit135_metric_runs/
+outputs/norestore_metric_runs/
+experiments/norestore_metrics/metrics.csv
+experiments/norestore_tradeoff/summary_by_method.csv
+experiments/norestore_tradeoff/summary_main_no_samflow.csv
+experiments/flowedit135_fixedmask_metrics_20260621/metrics.csv
+experiments/flowedit135_fixedmask_metrics_20260621/summary_by_family_method.csv
+experiments/flowedit135_fixedmask_metrics_20260621/metric_audit.json
 ```
 
-Use these as the current paper-facing outputs:
+Current figure artifacts:
 
-- `phase2_paper_tables_2026-06-11.md`
-- `phase2_tables_audit_2026-06-11.json`
-- `table1_phase2_t1_t5_main_final.csv`
-- `table2a_phase2_sd3_common_subset_final.csv`
-- `table2b_phase2_native_context_final.csv`
-- `phase2_t1_t5_family_breakdown_final.csv`
-- `blind_internal_audit_phase2_t1_t5_2026-06-11/`
-- `efficiency_context_2026-06-11.md`
+```text
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
+experiments/norestore_tradeoff/tradeoff_by_family_edit_preservation.png
+experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
+data/flowedit_compatible_135/eval_masks/_contact_sheet.jpg
+```
 
 ## Active Scripts
 
-- `scripts/build_phase2_paper_tables.py`
-- `scripts/build_blind_internal_audit_phase2.py`
-- `scripts/summarize_blind_internal_audit.py`
-- `scripts/build_efficiency_context_table.py`
+- `prepare_flowedit135_metric_runs.py`
+- `scripts/evaluate_paper_metrics.py`
+- `scripts/pie_sd3_batch_kindaware.py`
+- `scripts/pie_batch_flux_kindaware_v11.py`
+- `scripts/run_samflow_baseline.py`
+- `scripts/allpass_v1/build_allpass_v1.py`
+- `scripts/allpass_v1/run_allpass_batch.py`
 
-The older Core-5/five-case builders and old generated artifacts were moved to
-`obsolete_pre_phase2_lock_2026-06-11` folders.
+## Historical Phase2 Files
+
+These are historical/internal diagnostic entry points, not the main paper
+scope:
+
+- `PHASE2_LOCK_2026-06-11.md`
+- `CURRENT_PHASE2_STATUS_2026-06-11.md`
+- `experiments/support_v3_2026-06-02/`
+- `paper/phase2_experiment_report_2026-06-11.md`
+
+Do not mix Phase2 table numbers with the FlowEdit-135 main result unless the
+manuscript explicitly frames Phase2 as an internal ablation or development
+diagnostic.
 
 ## Compute Boundary
 
 Do not run heavy operations on the master node. Heavy install/model/GPU/Torch/
-diffusers work must run on `a100-01` through Slurm:
+diffusers work must run through Slurm. Use `a100-01` for SD3 work:
 
 ```bash
 srun -p a100 -w a100-01 --gres shard:1 --pty /bin/bash -l
 ```
+
+Use `h100-01` for FLUX work; FLUX jobs must request the `h100` partition and
+verify the hostname before loading the model.
 
 The shared environment is:
 
@@ -72,7 +104,14 @@ The shared environment is:
 
 ## Current Claim
 
-The conservative claim is that DeCE-RF improves localized edit-preserve behavior
-on the locked Phase2 T1-T5 diagnostic set, with preservation and locality
-reported alongside edit metrics. E5/removal remains a separate boundary probe,
-not part of the Phase2 T1-T5 main tables.
+The supported claim is preservation-first:
+
+```text
+On FlowEdit-135, DeCE-RF achieves the strongest non-edit-region preservation
+among the main peer-reviewed baseline set while remaining on the
+edit-preservation Pareto frontier.
+```
+
+Do not claim strongest edit amplitude, broad image-editing SOTA, or robust text
+replacement. The main Ours rows are no-final-restore runs and do not use final
+pixel-level source compositing.

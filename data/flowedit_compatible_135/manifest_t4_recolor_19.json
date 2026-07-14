@@ -1,0 +1,634 @@
+[
+  {
+    "key": "fe_000_bear_1_black_bear",
+    "flowedit_idx": 0,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large black bear walking through a stream of water. The stream appears to be shallow, as the black bear is able to walk through it without any difficulty.",
+    "global_mask": false,
+    "host_tokens": "bear",
+    "new_tokens": "black",
+    "pp_edit_action": {
+      "black": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bear": [
+        "black"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_000_bear_1_black_bear.json",
+    "sam_phrase": "bear",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_004_bear_grass_1_black_bear",
+    "flowedit_idx": 4,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bear_grass.png",
+    "source_prompt": "A large brown bear walking through a grassy field.",
+    "target_prompt": "A large black bear walking through a grassy field.",
+    "global_mask": false,
+    "host_tokens": "bear",
+    "new_tokens": "black",
+    "pp_edit_action": {
+      "black": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bear": [
+        "black"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_004_bear_grass_1_black_bear_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_004_bear_grass_1_black_bear_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_004_bear_grass_1_black_bear.json",
+    "sam_phrase": "bear",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_015_bikes_5_green_bicycle",
+    "flowedit_idx": 15,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+    "source_prompt": "A bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+    "target_prompt": "A green bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+    "global_mask": false,
+    "host_tokens": "bicycle",
+    "new_tokens": "green",
+    "pp_edit_action": {
+      "green": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bicycle": [
+        "green"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle.json",
+    "sam_phrase": "bicycle",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_016_bikes_6_yellow_bicycle",
+    "flowedit_idx": 16,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+    "source_prompt": "A bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+    "target_prompt": "A yellow bicycle parked on the sidewalk in front of a red brick building. The bicycle is positioned close to the door of the building, making it easily accessible for the owner. The building has a red brick exterior, giving it a distinctive appearance.",
+    "global_mask": false,
+    "host_tokens": "bicycle",
+    "new_tokens": "yellow",
+    "pp_edit_action": {
+      "yellow": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bicycle": [
+        "yellow"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_016_bikes_6_yellow_bicycle_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_016_bikes_6_yellow_bicycle_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_016_bikes_6_yellow_bicycle.json",
+    "sam_phrase": "bicycle",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_017_boat_silhouette_1_sailboat_white_sails_red_hull",
+    "flowedit_idx": 17,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "color_plus_content_or_silhouette_change",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/boat_silhouette.png",
+    "source_prompt": "A serene scene of a lake with a silhouette of a sailboat floating on the water. The silhouette of the boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+    "target_prompt": "A serene scene of a lake with a sailboat floating on the water. The sailboat has white sails and red hull. The boat is positioned in the middle of the lake, slightly to the left. The sun is setting in the background, casting a warm glow over the scene.",
+    "global_mask": false,
+    "host_tokens": "sailboat,boat",
+    "new_tokens": "sailboat,sails,hull,white,red",
+    "pp_edit_action": {
+      "white": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "hull": [
+        "white",
+        "red"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull.json",
+    "sam_phrase": "sailboat",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_019_brown_owl_1_white_owl",
+    "flowedit_idx": 19,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+    "source_prompt": "A small, brown owl standing on a patch of grass.",
+    "target_prompt": "A small, white owl standing on a patch of grass.",
+    "global_mask": false,
+    "host_tokens": "owl",
+    "new_tokens": "white",
+    "pp_edit_action": {
+      "white": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "owl": [
+        "white"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl.json",
+    "sam_phrase": "owl",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_025_bus_3_pink_van",
+    "flowedit_idx": 25,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bus.png",
+    "source_prompt": "A yellow van parked in front of a house, outside a garage. The van is of a classic model. The house has a brown exterior, and there is a tree nearby. There is a spare tire hanged between the headlights of the van.",
+    "target_prompt": "A pink van parked in front of a house, outside a garage. The van is of a classic model. The house has a brown exterior, and there is a tree nearby. There is a spare tire hanged between the headlights of the van.",
+    "global_mask": false,
+    "host_tokens": "van",
+    "new_tokens": "pink",
+    "pp_edit_action": {
+      "pink": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "van": [
+        "pink"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_025_bus_3_pink_van_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_025_bus_3_pink_van_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_025_bus_3_pink_van.json",
+    "sam_phrase": "front of the van",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_027_butterflies_1_yellow",
+    "flowedit_idx": 27,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterflies.png",
+    "source_prompt": "A vibrant orange flower with two black and white butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+    "target_prompt": "A vibrant orange flower with two yellow butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+    "global_mask": false,
+    "host_tokens": "butterflies",
+    "new_tokens": "butterflies,yellow",
+    "pp_edit_action": {
+      "yellow": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "object": [
+        "yellow"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow.json",
+    "sam_phrase": "butterflies",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_028_butterfly_1_orange_butterfly",
+    "flowedit_idx": 28,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+    "source_prompt": "A beautiful purple flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the left side of the flower.",
+    "target_prompt": "A beautiful purple flower with an orange butterfly perched on top of it. The butterfly is positioned towards the right side of the flower.",
+    "global_mask": false,
+    "host_tokens": "butterfly",
+    "new_tokens": "orange",
+    "pp_edit_action": {
+      "orange": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "butterfly": [
+        "orange"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly.json",
+    "sam_phrase": "butterfly",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_029_butterfly_2_red_flower",
+    "flowedit_idx": 29,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+    "source_prompt": "A beautiful purple flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the left side of the flower.",
+    "target_prompt": "A beautiful red flower with a white and black butterfly perched on top of it. The butterfly is positioned towards the right side of the flower.",
+    "global_mask": false,
+    "host_tokens": "flower",
+    "new_tokens": "red",
+    "pp_edit_action": {
+      "red": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "flower": [
+        "red"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_029_butterfly_2_red_flower_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_029_butterfly_2_red_flower_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_029_butterfly_2_red_flower.json",
+    "sam_phrase": "flower",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_067_cat_stone_1_black_kitten",
+    "flowedit_idx": 67,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_stone.png",
+    "source_prompt": "A small gray kitten sitting on a stone ledge. The ledge is located near a wall, and there is a cement block nearby.",
+    "target_prompt": "A small black kitten sitting on a stone ledge. The ledge is located near a wall, and there is a cement block nearby.",
+    "global_mask": false,
+    "host_tokens": "kitten",
+    "new_tokens": "black",
+    "pp_edit_action": {
+      "black": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "kitten": [
+        "black"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_067_cat_stone_1_black_kitten_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_067_cat_stone_1_black_kitten_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_067_cat_stone_1_black_kitten.json",
+    "sam_phrase": "kitten",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_084_cupcake_2_red_velvet",
+    "flowedit_idx": 84,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "color_plus_content_or_silhouette_change",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cupcake.png",
+    "source_prompt": "A small chocolate cupcake with light brown whipped cream on top.",
+    "target_prompt": "A small red velvet cupcake with whipped cream on top.",
+    "global_mask": false,
+    "host_tokens": "cupcake",
+    "new_tokens": "cupcake,red,velvet",
+    "pp_edit_action": {
+      "red": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "velvet": [
+        "red"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_084_cupcake_2_red_velvet_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_084_cupcake_2_red_velvet_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_084_cupcake_2_red_velvet.json",
+    "sam_phrase": "cupcake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_108_duck_1_colorful_duck",
+    "flowedit_idx": 108,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/duck.png",
+    "source_prompt": "A brown duck swimming in a lake. The duck is floating on the surface of the water, surrounded by a few ripples. The duck is preening its feathers. The scene is set against a black background, which emphasizes the duck''s presence in the water.",
+    "target_prompt": "A colorful duck swimming in a lake. The duck is floating on the surface of the water, surrounded by a few ripples. The scene is set against a black background, which emphasizes the duck''s presence in the water.",
+    "global_mask": false,
+    "host_tokens": "duck",
+    "new_tokens": "colorful",
+    "pp_edit_action": {
+      "colorful": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "duck": [
+        "colorful"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_108_duck_1_colorful_duck_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_108_duck_1_colorful_duck_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_108_duck_1_colorful_duck.json",
+    "sam_phrase": "duck",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_114_flowers_1_orange_yellow_white",
+    "flowedit_idx": 114,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/flowers.png",
+    "source_prompt": "A vase filled with a beautiful bouquet of pink, red and white flowers.",
+    "target_prompt": "A vase filled with a beautiful bouquet of orange, yellow and white flowers.",
+    "global_mask": false,
+    "host_tokens": "flowers",
+    "new_tokens": "flowers,orange,yellow,white",
+    "pp_edit_action": {
+      "orange": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "object": [
+        "orange",
+        "yellow",
+        "white"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_114_flowers_1_orange_yellow_white_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_114_flowers_1_orange_yellow_white_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_114_flowers_1_orange_yellow_white.json",
+    "sam_phrase": "flowers",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_115_flowers_2_blue_purple_white",
+    "flowedit_idx": 115,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/flowers.png",
+    "source_prompt": "A vase filled with a beautiful bouquet of pink, red and white flowers.",
+    "target_prompt": "A vase filled with a beautiful bouquet of blue, purple and white flowers.",
+    "global_mask": false,
+    "host_tokens": "flowers",
+    "new_tokens": "flowers,blue,purple,white",
+    "pp_edit_action": {
+      "blue": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "object": [
+        "blue",
+        "purple",
+        "white"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_115_flowers_2_blue_purple_white_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_115_flowers_2_blue_purple_white_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_115_flowers_2_blue_purple_white.json",
+    "sam_phrase": "flowers",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_128_gray_bird_2_red_bird",
+    "flowedit_idx": 128,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+    "source_prompt": "A small blue and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+    "target_prompt": "A small red and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+    "global_mask": false,
+    "host_tokens": "bird",
+    "new_tokens": "red",
+    "pp_edit_action": {
+      "red": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "bird": [
+        "red"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird.json",
+    "sam_phrase": "bird",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_140_horse_4_brown_horse",
+    "flowedit_idx": 140,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/horse.png",
+    "source_prompt": "A white horse running through a grassy field. The horse appears to be galloping, creating a sense of motion and energy in the image. The field is surrounded by a forest, with trees visible in the background. The overall atmosphere of the scene is lively and dynamic, capturing the horse''s freedom and grace as it moves through the natural environment.",
+    "target_prompt": "A brown horse running through a grassy field. The horse appears to be galloping, creating a sense of motion and energy in the image. The field is surrounded by a forest, with trees visible in the background. The overall atmosphere of the scene is lively and dynamic, capturing the horse''s freedom and grace as it moves through the natural environment.",
+    "global_mask": false,
+    "host_tokens": "horse",
+    "new_tokens": "brown",
+    "pp_edit_action": {
+      "brown": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "horse": [
+        "brown"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse.json",
+    "sam_phrase": "horse",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_141_iguana_1_green_lizard",
+    "flowedit_idx": 141,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/iguana.png",
+    "source_prompt": "A large orange lizard sitting on a rock near the ocean. The lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the lizard''s resting spot.",
+    "target_prompt": "A large green lizard sitting on a rock near the ocean. The green lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the green lizard''s resting spot.",
+    "global_mask": false,
+    "host_tokens": "lizard",
+    "new_tokens": "green",
+    "pp_edit_action": {
+      "green": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "lizard": [
+        "green"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_141_iguana_1_green_lizard_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_141_iguana_1_green_lizard_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_141_iguana_1_green_lizard.json",
+    "sam_phrase": "lizard",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_199_piece_of_cake_2_red_velvet_cake",
+    "flowedit_idx": 199,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "color_plus_content_or_silhouette_change",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/piece_of_cake.png",
+    "source_prompt": "A delicious chocolate cake with chocolate frosting, sitting on a dining table.",
+    "target_prompt": "A delicious red velvet cake with white frosting, sitting on a dining table.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "red",
+    "pp_edit_action": {
+      "red": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "cake": [
+        "red"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_199_piece_of_cake_2_red_velvet_cake_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_199_piece_of_cake_2_red_velvet_cake_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_199_piece_of_cake_2_red_velvet_cake.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  }
+]

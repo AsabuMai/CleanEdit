@@ -1,4 +1,4 @@
-import os, sys, json, re, time
+import os, sys, json, re, time, hashlib
 from pathlib import Path
 import torch
 _PROJ_PATH=Path("/cluster/users/grad/2025/25t8103/project")
@@ -18,6 +18,8 @@ FLUX_MAX_SEQ=os.environ.get("FLUX_MAX_SEQ","512")
 FLUX_LOCAL_FILES_ONLY=os.environ.get("FLUX_LOCAL_FILES_ONLY","1").lower() in {"1","true","yes","on"}
 FLUX_OFFLOAD=os.environ.get("FLUX_OFFLOAD","model").lower()
 FLUX_PROMPT_ENCODE_DEVICE=os.environ.get("FLUX_PROMPT_ENCODE_DEVICE","cuda").lower()
+RUN_PURPOSE=os.environ.get("RUN_PURPOSE","diagnostic").lower()
+ADAPTIVE_COMPONENT_CONTROL=os.environ.get("ADAPTIVE_COMPONENT_CONTROL","0").lower() in {"1","true","yes","on"}
 FLUX_KEEP_TEXT_ENCODERS_CPU=os.environ.get("FLUX_KEEP_TEXT_ENCODERS_CPU","0").lower() in {"1","true","yes","on"}
 T3_SPELL_TEXT=os.environ.get("T3_SPELL_TEXT","0").lower() in {"1","true","yes","on"}
 T3_SPELL_MAX_LEN=int(os.environ.get("T3_SPELL_MAX_LEN","6"))
@@ -29,6 +31,10 @@ T5_AUTO_PROMPT_PREFIX=os.environ.get("T5_AUTO_PROMPT_PREFIX","1").lower() in {"1
 T5_NEGATIVE_PROMPT=os.environ.get("T5_NEGATIVE_PROMPT","").strip()
 T3_NEGATIVE_PROMPT=os.environ.get("T3_NEGATIVE_PROMPT","").strip()
 T3_NEG_FROM_REMOVED=os.environ.get("T3_NEG_FROM_REMOVED","0").lower() in {"1","true","yes","on"}
+T3_TWO_STAGE=os.environ.get("T3_TWO_STAGE","0").lower() in {"1","true","yes","on"}
+T3_ERASE_FILL_SCALE=float(os.environ.get("T3_ERASE_FILL_SCALE","1.0"))
+T3_ERASE_SUPPRESSION_SCALE=float(os.environ.get("T3_ERASE_SUPPRESSION_SCALE","0.55"))
+T3_ERASE_RING_REC_SCALE=float(os.environ.get("T3_ERASE_RING_REC_SCALE","0.35"))
 T5_EXPAND_EDIT_MASK=os.environ.get("T5_EXPAND_EDIT_MASK","1").lower() in {"1","true","yes","on"}
 T5_EXPAND_EDIT_RADIUS=int(os.environ.get("T5_EXPAND_EDIT_RADIUS","21"))
 T5_EXPAND_EDIT_MASK_BLUR=float(os.environ.get("T5_EXPAND_EDIT_MASK_BLUR","6.0"))
@@ -208,6 +214,26 @@ def t3_compact_prompt(entry, new_tokens, host_tokens):
         return f'Same glass acrylic glowing sign, tubing, reflections, perspective, and background; replace only the top glowing word with "{word}". Built into the sign, not sticker or overlay.'
     host=(str(host_tokens).split(",")[0].strip() if host_tokens else "surface")
     return f'Same {host}, perspective, lighting, material, and background; replace only the existing surface text with "{word}". On the original surface, not sticker or overlay.'
+def t3_removed_words(entry):
+    src_w=re.findall(r"[A-Za-z]+", entry["source_prompt"].lower())
+    tgt_w=set(re.findall(r"[A-Za-z]+", entry["target_prompt"].lower()))
+    stop={"a","an","the","of","with","and","that","reads","says","word","words","text","sign","above","below","on","in","there","are","is"}
+    return [w.upper() for w in dict.fromkeys(src_w) if w not in tgt_w and w not in stop and len(w)>=3][:3]
+def t3_blank_prompt(entry):
+    key=str(entry.get("key","")).lower()
+    if "gas_station" in key:
+        return "The same gas station, cars, canopy, lighting, and background, with a clean blank white and red sign panel containing no letters or text."
+    if "groceries" in key:
+        return "The same grocery list on the same brown paper, with the first handwritten item cleanly removed while EGGS and MILK, the magnet, lighting, hand, and background remain unchanged."
+    if "stop_arrow" in key:
+        return "The same red octagonal sign, pole, blue arrow sign, lighting, and background, with the red sign face clean and blank, containing no letters or text."
+    host=(str(entry.get("host_tokens") or "surface").split(",")[0].strip())
+    return f"The same image with the existing writing cleanly removed from the {host}, leaving a natural blank {host} with no letters or text; everything else remains unchanged."
+def t3_negative_for_words(words):
+    if not words:
+        return "letters, words, text, ghost letters, double exposure"
+    old=", ".join('the word "%s"'%word for word in words)
+    return old+", old text showing through, ghost letters, double exposure"
 def _phrase(csv):
     if not csv:
         return ""
@@ -224,7 +250,8 @@ def argv_for(e, od, P):
     kind=kind_of(e)
     t=e["target_prompt"]
     new_tokens,host_tokens=pp_tokens(e, kind)
-    if kind in ("t3_text","t3_decal"):
+    t3_erase_stage=bool(e.get("_t3_erase_stage"))
+    if kind in ("t3_text","t3_decal") and not t3_erase_stage:
         compact=t3_compact_prompt(e,new_tokens,host_tokens)
         if compact:
             t=compact
@@ -238,7 +265,7 @@ def argv_for(e, od, P):
         suffix="Preserve pose, silhouette, camera, and background; only material changes."
         if suffix.lower() not in t.lower():
             t=t.rstrip(".")+". "+suffix
-    if kind in ("t3_text","t3_decal"):
+    if kind in ("t3_text","t3_decal") and not t3_erase_stage:
         suffix=t3_surface_suffix(e,new_tokens,host_tokens)
         if suffix and suffix.lower() not in t.lower():
             t=t.rstrip(".")+". "+suffix
@@ -247,7 +274,8 @@ def argv_for(e, od, P):
             t=t.rstrip(".")+". "+suffix
     a=["--image",str((PROJ/e["image"]).resolve()),"--source-prompt",e["source_prompt"],"--prompt",t,
       "--output",str(od/"result.png"),"--metadata-output",str(od/"metadata.json"),"--stats-output",str(od/"stats.json"),"--mask-output-dir",str(od/"masks"),
-      "--method","dece_rf_flux","--seed",SEED,"--num-inference-steps",FLUX_STEPS,"--n-max",FLUX_N_MAX,"--max-image-size","512","--max-sequence-length",FLUX_MAX_SEQ,
+      "--method","dece_rf_flux","--run-purpose",RUN_PURPOSE,"--comparison-protocol",("diagnostic_multi_pass" if T3_TWO_STAGE else "single_pass"),
+      "--seed",SEED,"--num-inference-steps",FLUX_STEPS,"--n-max",FLUX_N_MAX,"--max-image-size","512","--max-sequence-length",FLUX_MAX_SEQ,
       "--src-guidance-scale","1.0","--base-guidance-scale","1.0","--tar-guidance-scale","5.0",
       "--support-control-mode","operation","--use-flux-attention-support",
       "--edit-operation",P["operation"],"--support-relation",P["relation"],"--mask-layering-mode",P["layering"],
@@ -266,6 +294,8 @@ def argv_for(e, od, P):
       "--true-cfg","--distilled-guidance","1.0"]
     if FLUX_LOCAL_FILES_ONLY:
         a+=["--local-files-only"]
+    if ADAPTIVE_COMPONENT_CONTROL:
+        a+=["--adaptive-component-control"]
     if FLUX_OFFLOAD == "sequential":
         a+=["--sequential-offload"]
     elif FLUX_OFFLOAD == "model":
@@ -279,13 +309,9 @@ def argv_for(e, od, P):
     if kind in ("t3_text","t3_decal") and (T3_NEGATIVE_PROMPT or T3_NEG_FROM_REMOVED):
         neg=T3_NEGATIVE_PROMPT
         if T3_NEG_FROM_REMOVED:
-            src_w=re.findall(r"[A-Za-z]+", e["source_prompt"].lower())
-            tgt_w=set(re.findall(r"[A-Za-z]+", e["target_prompt"].lower()))
-            stop={"a","an","the","of","with","and","that","reads","says","word","words","text","sign","above","below","on","in","there","are","is"}
-            olds=[w.upper() for w in dict.fromkeys(src_w) if w not in tgt_w and w not in stop and len(w)>=3][:3]
+            olds=t3_removed_words(e)
             if olds:
-                ghost=", ".join('the word "%s"'%w for w in olds)
-                neg=(neg+", " if neg else "")+ghost+", old text showing through, ghost letters, double exposure"
+                neg=(neg+", " if neg else "")+t3_negative_for_words(olds)
                 print("[t3-neg]",e["key"],"->",neg,flush=True)
         if neg:
             a+=["--negative-prompt",neg]
@@ -352,19 +378,81 @@ work=man[START:START+LIMIT]
 if not work:
     raise SystemExit(f"empty manifest slice START={START} LIMIT={LIMIT} total={len(man)}")
 dev=torch.device("cuda"); 
-e0=work[0]; od0=OUT/e0["key"]/"dece_rf_flux"/f"seed_{SEED}"; od0.mkdir(parents=True,exist_ok=True)
+recipe="dece_rf_flux_two_stage" if T3_TWO_STAGE else "dece_rf_flux"
+e0=work[0]; od0=OUT/e0["key"]/recipe/f"seed_{SEED}"; od0.mkdir(parents=True,exist_ok=True)
 base=build_parser().parse_args(argv_for(e0,od0,KIND[kind_of(e0)]))
 t0=time.time(); PIPE=load_flux_pipeline(base,dev); print("[ka-flux] loaded once %.1fs"%(time.time()-t0),flush=True)
 flux_hrec.load_flux_pipeline=lambda a,d=dev: PIPE
+def save_result(res,args):
+    Path(args.output).parent.mkdir(parents=True,exist_ok=True)
+    res.images[0].save(args.output)
+    json.dump(res.metadata,open(args.metadata_output,"w"),indent=2)
+    json.dump(res.stats,open(args.stats_output,"w"),indent=2)
+def sha256(path):
+    h=hashlib.sha256()
+    with open(path,"rb") as f:
+        for chunk in iter(lambda:f.read(1024*1024),b""):
+            h.update(chunk)
+    return h.hexdigest()
 done=0
 for e in work:
-    k=kind_of(e); P=KIND[k]; od=OUT/e["key"]/"dece_rf_flux"/f"seed_{SEED}"; od.mkdir(parents=True,exist_ok=True)
+    k=kind_of(e); P=KIND[k]; od=OUT/e["key"]/recipe/f"seed_{SEED}"; od.mkdir(parents=True,exist_ok=True)
     if (od/"result.png").exists():
         print("skip",e["key"],flush=True); continue
-    args=build_parser().parse_args(argv_for(e,od,P)); ts=time.time()
+    ts=time.time()
     try:
-        res=HRecFluxEdit(args); res.images[0].save(args.output)
-        json.dump(res.metadata,open(args.metadata_output,"w")); json.dump(res.stats,open(args.stats_output,"w"))
+        if T3_TWO_STAGE and k in ("t3_text","t3_decal"):
+            old_words=t3_removed_words(e)
+            blank_prompt=t3_blank_prompt(e)
+            erase_entry=dict(e)
+            erase_entry["target_prompt"]=blank_prompt
+            erase_entry["new_tokens"]="blank"
+            erase_entry["_t3_erase_stage"]=True
+            erase_params=dict(P,operation="remove_object",relation="none",layering="none",core=None,edit_source=0.0)
+            erase_dir=od/"stage1_erase"; erase_dir.mkdir(parents=True,exist_ok=True)
+            erase_argv=argv_for(erase_entry,erase_dir,erase_params)
+            set_arg(erase_argv,"--edit-operation","remove_object")
+            set_arg(erase_argv,"--removal-controller-mode","clean_fill")
+            set_arg(erase_argv,"--removal-fill-scale",T3_ERASE_FILL_SCALE)
+            set_arg(erase_argv,"--removal-suppression-scale",T3_ERASE_SUPPRESSION_SCALE)
+            set_arg(erase_argv,"--removal-ring-rec-scale",T3_ERASE_RING_REC_SCALE)
+            set_arg(erase_argv,"--negative-prompt",t3_negative_for_words(old_words))
+            erase_args=build_parser().parse_args(erase_argv)
+            erase_res=HRecFluxEdit(erase_args)
+            erase_res.metadata["two_stage_role"]="erase_fill"
+            erase_res.metadata["two_stage_blank_prompt"]=blank_prompt
+            erase_res.metadata["two_stage_removed_words"]=old_words
+            save_result(erase_res,erase_args)
+
+            write_entry=dict(e)
+            write_entry["image"]=str(erase_dir/"result.png")
+            write_entry["source_prompt"]=blank_prompt
+            write_dir=od/"stage2_write"; write_dir.mkdir(parents=True,exist_ok=True)
+            write_argv=argv_for(write_entry,write_dir,P)
+            set_arg(write_argv,"--negative-prompt",t3_negative_for_words(old_words))
+            write_args=build_parser().parse_args(write_argv)
+            write_res=HRecFluxEdit(write_args)
+            write_res.metadata["two_stage_role"]="write"
+            write_res.metadata["two_stage_input"]=str(erase_dir/"result.png")
+            write_res.metadata["two_stage_input_sha256"]=sha256(erase_dir/"result.png")
+            write_res.metadata["two_stage_original_source_prompt"]=e["source_prompt"]
+            save_result(write_res,write_args)
+            write_res.images[0].save(od/"result.png")
+            json.dump({
+                "enabled":True,
+                "erase_output":str(erase_dir/"result.png"),
+                "erase_sha256":sha256(erase_dir/"result.png"),
+                "write_output":str(write_dir/"result.png"),
+                "write_sha256":sha256(write_dir/"result.png"),
+                "final_output":str(od/"result.png"),
+                "final_sha256":sha256(od/"result.png"),
+                "blank_prompt":blank_prompt,
+                "removed_words":old_words,
+            },open(od/"two_stage.json","w"),indent=2)
+        else:
+            args=build_parser().parse_args(argv_for(e,od,P))
+            res=HRecFluxEdit(args)
+            save_result(res,args)
         done+=1; print("OK",e["key"],k,"%.1fs"%(time.time()-ts),flush=True)
     except Exception as ex:
         import traceback; traceback.print_exc(); print("FAILED",e["key"],repr(ex),flush=True)

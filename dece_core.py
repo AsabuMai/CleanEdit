@@ -43,6 +43,10 @@ class DeceCoreConfig:
     adaptive_preserve_weight_max: float = 10.0
     adaptive_preserve_clean_correction_scale: float = 0.0
     adaptive_projection_scale: float = 0.0
+    masked_rms_channel_normalize: bool = False
+    adaptive_component_control: bool = False
+    adaptive_component_threshold: float = 0.5
+    adaptive_component_min_pixels: int = 4
 
     edit_local_target_guidance_scale: float = 0.0
     region_target_transport_scale: float = 0.0
@@ -89,6 +93,10 @@ class DeceCoreStepInput:
 
     target_feature_map: torch.Tensor | None = None
     source_feature_map: torch.Tensor | None = None
+    current_rec_feature_map: torch.Tensor | None = None
+    source_rec_feature_map: torch.Tensor | None = None
+    base_rec_post_gate: torch.Tensor | None = None
+    base_edit_post_gate: torch.Tensor | None = None
     x0_local_target: torch.Tensor | None = None
     recolor_projection_target: torch.Tensor | None = None
     recolor_projection_gate: torch.Tensor | None = None
@@ -114,7 +122,12 @@ def _apply_gate(value: torch.Tensor, gate: torch.Tensor | None) -> torch.Tensor:
     return value * gate
 
 
-def _masked_rms(value: torch.Tensor, gate: torch.Tensor | None) -> torch.Tensor:
+def _masked_rms(
+    value: torch.Tensor,
+    gate: torch.Tensor | None,
+    *,
+    normalize_channels: bool = False,
+) -> torch.Tensor:
     value = value.float()
     if gate is None:
         return value.square().mean().sqrt()
@@ -125,7 +138,10 @@ def _masked_rms(value: torch.Tensor, gate: torch.Tensor | None) -> torch.Tensor:
         gate_for_value = gate.expand(*value.shape[:-1], value.shape[-1])
     else:
         gate_for_value = gate
-    denom = gate.sum().clamp_min(1e-8)
+    denom = gate.sum()
+    if normalize_channels and value.ndim >= 2:
+        denom = denom * value.shape[1]
+    denom = denom.clamp_min(1e-8)
     return ((value.square() * gate_for_value).sum() / denom).sqrt()
 
 
@@ -157,6 +173,147 @@ def _transport_schedule(t_scalar: torch.Tensor, scale: float) -> tuple[float, fl
     return core_beta, core_gamma, ring_beta
 
 
+def _label_components_2d(binary: torch.Tensor) -> tuple[torch.Tensor, int]:
+    """Label 4-connected components of a 2D binary mask.
+
+    Returns (labels LongTensor HxW with 0=background and 1..n for components,
+    n_components). Used to recover the discrete support instances (e.g. each
+    animal head) declared by the operation-aware support mask.
+    """
+    h, w = binary.shape
+    b = (binary > 0.5).to(torch.bool).cpu()
+    try:
+        from scipy.ndimage import label as _sci_label
+
+        lab, n = _sci_label(b.numpy())
+        return torch.from_numpy(lab.astype("int64")), int(n)
+    except Exception:
+        labels = torch.zeros((h, w), dtype=torch.long)
+        bb = b.tolist()
+        seen = [[False] * w for _ in range(h)]
+        cur = 0
+        for i in range(h):
+            for j in range(w):
+                if bb[i][j] and not seen[i][j]:
+                    cur += 1
+                    stack = [(i, j)]
+                    seen[i][j] = True
+                    while stack:
+                        y, x = stack.pop()
+                        labels[y, x] = cur
+                        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                            ny, nx = y + dy, x + dx
+                            if 0 <= ny < h and 0 <= nx < w and bb[ny][nx] and not seen[ny][nx]:
+                                seen[ny][nx] = True
+                                stack.append((ny, nx))
+        return labels, cur
+
+
+def compute_component_adaptive_edit_weight_map(
+    *,
+    current_delta: torch.Tensor,
+    target_delta: torch.Tensor,
+    target_gap: torch.Tensor,
+    edit_map: torch.Tensor,
+    preserve_drift: float,
+    rmsgap_mode: str,
+    rmsgap_dead_zone: float,
+    rmsgap_preserve_gate_budget: float,
+    edit_target_progress: float,
+    edit_target_rms: float,
+    edit_gain: float,
+    edit_weight_min: float,
+    edit_weight_max: float,
+    component_threshold: float = 0.5,
+    component_min_pixels: int = 4,
+    normalize_channels: bool = False,
+) -> tuple[torch.Tensor | None, dict[str, float]]:
+    """Build one adaptive edit weight per connected support component.
+
+    The controller uses only clean estimates already available in the current
+    RF step. It never copies an edit between instances and adds no model
+    forward. Each component follows the same normalized-gap/progress rule as
+    the global adaptive controller.
+    """
+
+    support = edit_map.float()
+    if support.ndim != 4:
+        raise ValueError(f"edit_map must be BCHW, got shape={tuple(support.shape)}")
+    if support.shape[1] > 1:
+        support = support.mean(dim=1, keepdim=True)
+    if support.shape[-2:] != target_gap.shape[-2:]:
+        support = F.interpolate(support, size=target_gap.shape[-2:], mode="bilinear", align_corners=False)
+    support = support.clamp(0.0, 1.0)
+    weight_map = torch.ones_like(support)
+    component_weights: list[float] = []
+    component_count = 0
+    active_count = 0
+    min_pixels = max(1, int(component_min_pixels))
+
+    for batch_index in range(support.shape[0]):
+        labels, count = _label_components_2d(support[batch_index, 0] >= float(component_threshold))
+        labels = labels.to(device=support.device)
+        for component_index in range(1, count + 1):
+            hard_gate = labels == component_index
+            if int(hard_gate.sum().item()) < min_pixels:
+                continue
+            component_count += 1
+            hard_gate_4d = hard_gate.to(dtype=support.dtype).view(1, 1, *hard_gate.shape)
+            component_gate = support[batch_index : batch_index + 1] * hard_gate_4d
+            target_rms_value = float(
+                _masked_rms(
+                    target_delta[batch_index : batch_index + 1],
+                    component_gate,
+                    normalize_channels=normalize_channels,
+                ).item()
+            )
+            gap_rms_value = float(
+                _masked_rms(
+                    target_gap[batch_index : batch_index + 1],
+                    component_gate,
+                    normalize_channels=normalize_channels,
+                ).item()
+            )
+            if rmsgap_mode == "normgate" and target_rms_value > 1e-6:
+                deficit = max(0.0, gap_rms_value / max(target_rms_value, 1e-6) - rmsgap_dead_zone)
+                if rmsgap_preserve_gate_budget > 0.0 and preserve_drift >= rmsgap_preserve_gate_budget:
+                    deficit = 0.0
+            elif edit_target_progress > 0.0:
+                current = current_delta[batch_index : batch_index + 1]
+                target = target_delta[batch_index : batch_index + 1]
+                progress_num = (current * target * component_gate).sum()
+                progress_den = (target.square() * component_gate).sum().clamp_min(1e-8)
+                progress = float((progress_num / progress_den).detach().item())
+                deficit = max(0.0, edit_target_progress - progress)
+            elif edit_target_rms > 0.0:
+                deficit = max(0.0, edit_target_rms - gap_rms_value)
+            else:
+                deficit = 0.0
+            weight = max(edit_weight_min, min(edit_weight_max, 1.0 + edit_gain * deficit))
+            component_weights.append(float(weight))
+            if abs(weight - 1.0) > 1e-8:
+                active_count += 1
+            weight_map[batch_index : batch_index + 1] += (weight - 1.0) * component_gate
+
+    if not component_weights:
+        return None, {
+            "adaptive_component_count": 0.0,
+            "adaptive_component_active_count": 0.0,
+            "adaptive_component_weight_min": 1.0,
+            "adaptive_component_weight_max": 1.0,
+            "adaptive_component_weight_mean": 1.0,
+        }
+    support_sum = support.sum().clamp_min(1e-8)
+    weighted_mean = float(((weight_map * support).sum() / support_sum).item())
+    return weight_map, {
+        "adaptive_component_count": float(component_count),
+        "adaptive_component_active_count": float(active_count),
+        "adaptive_component_weight_min": float(min(component_weights)),
+        "adaptive_component_weight_max": float(max(component_weights)),
+        "adaptive_component_weight_mean": weighted_mean,
+    }
+
+
 def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> DeceCoreStepOutput:
     """Compute the shared DeCE-RF edit/preserve velocity components.
 
@@ -170,9 +327,27 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     target_delta = step.x0_tar - step.x_src.to(torch.float32)
     target_gap = step.x0_tar - step.x0_src
 
-    edit_target_rms = float(_masked_rms(target_delta, step.edit_gate).item())
-    edit_gap_rms = float(_masked_rms(target_gap, step.edit_gate).item())
-    preserve_drift = float(_masked_rms(current_delta, step.preserve_gate).item())
+    edit_target_rms = float(
+        _masked_rms(
+            target_delta,
+            step.edit_gate,
+            normalize_channels=config.masked_rms_channel_normalize,
+        ).item()
+    )
+    edit_gap_rms = float(
+        _masked_rms(
+            target_gap,
+            step.edit_gate,
+            normalize_channels=config.masked_rms_channel_normalize,
+        ).item()
+    )
+    preserve_drift = float(
+        _masked_rms(
+            current_delta,
+            step.preserve_gate,
+            normalize_channels=config.masked_rms_channel_normalize,
+        ).item()
+    )
     adaptive_edit_weight = 1.0
     adaptive_preserve_weight = 1.0
     adaptive_projection_norm = 0.0
@@ -213,6 +388,8 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         x_src=step.x_src_map,
         t_scalar=step.t_scalar,
         M_preserve=step.preserve_map,
+        current_feature_map=step.current_rec_feature_map,
+        source_feature_map=step.source_rec_feature_map,
         lambda_latent=1.0,
         lambda_struct=0.0,
         lambda_feature=config.struct_guidance_scale,
@@ -222,6 +399,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     v_rec = step.alpha_t * step.map_to_native(rec_terms["total"]).to(device=step.z_t.device, dtype=torch.float32)
     if config.adaptive_clean_control:
         v_rec = adaptive_preserve_weight * v_rec
+    v_rec = _apply_gate(v_rec, step.base_rec_post_gate)
 
     edit_terms = editing_velocity_surrogate_total(
         base_edit_velocity=step.base_edit_velocity_map,
@@ -239,6 +417,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         velocity_t_min=config.linear_path_t_min,
     )
     v_edit = step.beta_t * step.map_to_native(edit_terms["total"]).to(device=step.z_t.device, dtype=torch.float32)
+    v_edit = _apply_gate(v_edit, step.base_edit_post_gate)
     edit_terms_norm = _term_norms(edit_terms, step.map_to_native)
 
     local_target_formation_norm = 0.0
@@ -306,8 +485,41 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         v_rec = v_rec + preserve_correction
         adaptive_preserve_clean_correction_norm = float(preserve_correction.norm().item())
 
+    adaptive_edit_weight_map = None
+    adaptive_component_diagnostics: dict[str, float] = {}
+    if (
+        config.adaptive_clean_control
+        and config.adaptive_component_control
+        and config.adaptive_edit_gain > 0.0
+    ):
+        adaptive_edit_weight_map, adaptive_component_diagnostics = compute_component_adaptive_edit_weight_map(
+            current_delta=step.x0_src_map - step.x_src_map,
+            target_delta=step.x0_tar_map - step.x_src_map,
+            target_gap=step.x0_tar_map - step.x0_src_map,
+            edit_map=step.edit_map,
+            preserve_drift=preserve_drift,
+            rmsgap_mode=config.adaptive_rmsgap_mode,
+            rmsgap_dead_zone=config.adaptive_rmsgap_dead_zone,
+            rmsgap_preserve_gate_budget=config.adaptive_rmsgap_preserve_gate_budget,
+            edit_target_progress=config.adaptive_edit_target_progress,
+            edit_target_rms=config.adaptive_edit_target_rms,
+            edit_gain=config.adaptive_edit_gain,
+            edit_weight_min=config.adaptive_edit_weight_min,
+            edit_weight_max=config.adaptive_edit_weight_max,
+            component_threshold=config.adaptive_component_threshold,
+            component_min_pixels=config.adaptive_component_min_pixels,
+            normalize_channels=config.masked_rms_channel_normalize,
+        )
+        adaptive_edit_weight = adaptive_component_diagnostics["adaptive_component_weight_mean"]
+
     if config.adaptive_clean_control:
-        v_edit = adaptive_edit_weight * v_edit
+        if adaptive_edit_weight_map is not None:
+            w_native = step.map_to_native(adaptive_edit_weight_map).to(
+                device=step.z_t.device, dtype=torch.float32
+            )
+            v_edit = w_native * v_edit
+        else:
+            v_edit = adaptive_edit_weight * v_edit
 
     if config.adaptive_clean_control and config.adaptive_projection_scale > 0.0:
         clean_edit_effect = -step.t_scalar * v_edit
@@ -365,6 +577,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
             "region_target_transport_ring_beta": float(region_target_transport_ring_beta),
             "region_target_transport_core_gamma": float(region_target_transport_core_gamma),
             "recolor_clean_projection_norm": float(recolor_clean_projection_norm),
+            **adaptive_component_diagnostics,
             "removal_controller_norm": float(removal_controller_norm),
             "removal_fill_norm": float(removal_fill_norm),
             "removal_suppression_norm": float(removal_suppression_norm),

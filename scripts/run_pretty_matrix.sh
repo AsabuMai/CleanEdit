@@ -88,16 +88,6 @@ task_config() {
   TASK_FINAL_REF_COMPOSITE_BLUR=""
   TASK_FINAL_CHROMA_SOURCE_SCALE=""
   TASK_FINAL_CHROMA_SOURCE_BLUR=""
-  TASK_FINAL_OUTSIDE_RESTORE_SCALE=""
-  TASK_FINAL_OUTSIDE_RESTORE_BLUR=""
-  TASK_RESTORE_SOURCE_POLYGON=""
-  TASK_RESTORE_SOURCE_FEATHER="0.8"
-  TASK_RESTORE_EXCLUDE_SOURCE_RED="0"
-  TASK_RESTORE_YELLOW_SCREEN_POLYGON=""
-  TASK_RESTORE_YELLOW_SCREEN_DILATE="19"
-  TASK_RESTORE_YELLOW_SCREEN_EXTRA_DILATE="9"
-  TASK_RESTORE_YELLOW_SCREEN_ERODE="5"
-  TASK_RESTORE_YELLOW_SCREEN_BLUR="0.5"
   TASK_RECOLOR_EXCLUDE_POLYGON=""
   TASK_RECOLOR_EXCLUDE_FEATHER="0.0"
   TASK_GLASSES_REF_GUIDANCE_SCALE=""
@@ -169,9 +159,6 @@ task_config() {
   RECOLOR_SOURCE_SUPPLEMENT_DILATE_KERNEL=""
   RECOLOR_SOURCE_SUPPLEMENT_DILATE_ITERATIONS=""
   RECOLOR_SOURCE_SUPPLEMENT_DILATE_MIN_SATURATION=""
-  RECOLOR_TEXTURE_RESTORE="0"
-  RECOLOR_TEXTURE_RESTORE_STRENGTH=""
-  RECOLOR_TEXTURE_RESTORE_KERNEL_SIZE=""
   REPLACEMENT_COLOR="blue"
   REPLACEMENT_SHAPE="semantic"
   REPLACEMENT_OPACITY="0.98"
@@ -186,6 +173,9 @@ task_config() {
   REPLACEMENT_TRAJECTORY_PRESERVE_SCALE="0.14"
   REPLACEMENT_OLD_PHRASE=""
   REPLACEMENT_TARGET_PHRASE=""
+  RECOLOR_TEXTURE_DETAIL_TRANSFER="0"
+  RECOLOR_TEXTURE_DETAIL_TRANSFER_STRENGTH=""
+  RECOLOR_TEXTURE_DETAIL_TRANSFER_KERNEL_SIZE=""
 
   case "${task_id}" in
     P1|cat_crown)
@@ -561,7 +551,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_BLUR="${T5_FINAL_REF_COMPOSITE_BLUR:-1.6}"
       TASK_FINAL_CHROMA_SOURCE_SCALE="${T5_FINAL_CHROMA_SOURCE_SCALE:-1.0}"
       TASK_FINAL_CHROMA_SOURCE_BLUR="${T5_FINAL_CHROMA_SOURCE_BLUR:-2.0}"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="${T5_FINAL_OUTSIDE_RESTORE_SCALE:-1.0}"
       ;;
     pillow_same_color_cable_knit_grey)
       TASK_NAME="pillow_same_color_cable_knit_grey"
@@ -598,7 +587,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_SCALE="0.0"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     pillow_same_color_cable_knit_armchair)
       TASK_NAME="pillow_same_color_cable_knit_armchair"
@@ -634,7 +622,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_SCALE="0.32"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     pillow_white_chair_cable_knit)
       TASK_NAME="pillow_white_chair_cable_knit"
@@ -670,7 +657,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_SCALE="0.0"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     pillow_white_sofa_cluster_cable_knit)
       TASK_NAME="pillow_white_sofa_cluster_cable_knit"
@@ -706,7 +692,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_SCALE="0.0"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     pillow_same_color_linen_panel)
       TASK_NAME="pillow_same_color_linen_panel"
@@ -1477,8 +1462,6 @@ task_config() {
       TASK_DECAL_REF_GRADIENT_PRESERVE="0.18"
       TASK_FINAL_REF_COMPOSITE_SCALE="0.0"
       TASK_FINAL_REF_COMPOSITE_BLUR="1.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
-      TASK_FINAL_OUTSIDE_RESTORE_BLUR="0.70"
       SUPPORT_V3_OPFIELD_OBJECT_HEDIT="0.62"
       SUPPORT_V3_OPFIELD_OBJECT_TEXT="0.08"
       SUPPORT_V3_OPFIELD_OBJECT_ANCHOR="0.01"
@@ -1516,8 +1499,6 @@ task_config() {
       TASK_DECAL_REF_GRADIENT_PRESERVE="0.08"
       TASK_FINAL_REF_COMPOSITE_SCALE="0.26"
       TASK_FINAL_REF_COMPOSITE_BLUR="0.8"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
-      TASK_FINAL_OUTSIDE_RESTORE_BLUR="0.55"
       SUPPORT_V3_OPFIELD_OBJECT_HEDIT="0.56"
       SUPPORT_V3_OPFIELD_OBJECT_TEXT="0.07"
       SUPPORT_V3_OPFIELD_OBJECT_ANCHOR="0.01"
@@ -1765,14 +1746,6 @@ task_config() {
       RECOLOR_CLEAN_PROJECTION_BOUNDARY_BOOST="0.15"
       TASK_FINAL_REF_COMPOSITE_SCALE="0.82"
       TASK_FINAL_REF_COMPOSITE_BLUR="0.6"
-      TASK_RESTORE_SOURCE_POLYGON="0.490,0.300;0.718,0.420;0.522,0.795;0.355,0.715"
-      TASK_RESTORE_SOURCE_FEATHER="0.25"
-      TASK_RESTORE_EXCLUDE_SOURCE_RED="1"
-      TASK_RESTORE_YELLOW_SCREEN_POLYGON="0.300,0.300;0.740,0.400;0.610,0.875;0.250,0.720"
-      TASK_RESTORE_YELLOW_SCREEN_DILATE="19"
-      TASK_RESTORE_YELLOW_SCREEN_EXTRA_DILATE="9"
-      TASK_RESTORE_YELLOW_SCREEN_ERODE="5"
-      TASK_RESTORE_YELLOW_SCREEN_BLUR="0.5"
       TASK_RECOLOR_EXCLUDE_POLYGON="0.360,0.285;0.625,0.362;0.505,0.705;0.205,0.535"
       TASK_RECOLOR_EXCLUDE_FEATHER="0.2"
       ;;
@@ -1829,9 +1802,9 @@ task_config() {
       RECOLOR_CLEAN_PROJECTION_CHROMA_TEXTURE_SCALE="0.18"
       RECOLOR_CLEAN_PROJECTION_ALPHA_POWER="0.80"
       RECOLOR_CLEAN_PROJECTION_BOUNDARY_BOOST="0.10"
-      RECOLOR_TEXTURE_RESTORE="1"
-      RECOLOR_TEXTURE_RESTORE_STRENGTH="0.85"
-      RECOLOR_TEXTURE_RESTORE_KERNEL_SIZE="7"
+      RECOLOR_TEXTURE_DETAIL_TRANSFER="1"
+      RECOLOR_TEXTURE_DETAIL_TRANSFER_STRENGTH="0.85"
+      RECOLOR_TEXTURE_DETAIL_TRANSFER_KERNEL_SIZE="7"
       TASK_FINAL_REF_COMPOSITE_SCALE="0.66"
       TASK_FINAL_REF_COMPOSITE_BLUR="0.0"
       ;;
@@ -1913,7 +1886,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_BLUR="1.2"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     web_white_shirt_lace_panel)
       TASK_NAME="web_white_shirt_lace_panel"
@@ -1956,7 +1928,6 @@ task_config() {
       TASK_FINAL_REF_COMPOSITE_BLUR="1.2"
       TASK_FINAL_CHROMA_SOURCE_SCALE="1.0"
       TASK_FINAL_CHROMA_SOURCE_BLUR="2.0"
-      TASK_FINAL_OUTSIDE_RESTORE_SCALE="1.0"
       ;;
     P19|web_plate_apple)
       TASK_NAME="web_plate_apple"
@@ -3178,16 +3149,16 @@ apply_recolor_edit_config() {
     --edit-color-clean-projection-target-mode "${RECOLOR_CLEAN_PROJECTION_TARGET_MODE:-static}"
     --edit-color-clean-projection-refresh-interval "${RECOLOR_CLEAN_PROJECTION_REFRESH_INTERVAL:-0}"
   )
+  if [[ "${RECOLOR_TEXTURE_DETAIL_TRANSFER:-0}" == "1" ]]; then
+    EDIT_COLOR_ARGS+=(
+      --edit-color-texture-detail-transfer
+      --edit-color-texture-detail-transfer-mask "${SUPPORT_MASK}"
+      --edit-color-texture-detail-transfer-strength "${RECOLOR_TEXTURE_DETAIL_TRANSFER_STRENGTH:-0.8}"
+      --edit-color-texture-detail-transfer-kernel-size "${RECOLOR_TEXTURE_DETAIL_TRANSFER_KERNEL_SIZE:-9}"
+    )
+  fi
   if [[ -n "${RECOLOR_SOURCE_COLOR}" ]]; then
     EDIT_COLOR_ARGS+=(--edit-color-source "${RECOLOR_SOURCE_COLOR}")
-  fi
-  if [[ "${RECOLOR_TEXTURE_RESTORE:-0}" == "1" ]]; then
-    EDIT_COLOR_ARGS+=(
-      --edit-color-texture-restore
-      --edit-color-texture-restore-mask "${SUPPORT_MASK}"
-      --edit-color-texture-restore-strength "${RECOLOR_TEXTURE_RESTORE_STRENGTH:-0.8}"
-      --edit-color-texture-restore-kernel-size "${RECOLOR_TEXTURE_RESTORE_KERNEL_SIZE:-9}"
-    )
   fi
   FINAL_MASK_ARGS=(--final-edit-mask "${SUPPORT_MASK}" --final-edit-mask-mode replace)
   REF_ARGS=(
@@ -3508,13 +3479,6 @@ run_one() {
             --final-chroma-source-mask-blur "${TASK_FINAL_CHROMA_SOURCE_BLUR:-2.0}"
           )
         fi
-        if [[ "${TASK_FINAL_OUTSIDE_RESTORE_SCALE:-0.0}" != "0.0" ]]; then
-          REF_ARGS+=(
-            --final-outside-restore-scale "${TASK_FINAL_OUTSIDE_RESTORE_SCALE}"
-            --final-outside-restore-mask "${DECAL_MASK}"
-            --final-outside-restore-mask-blur "${TASK_FINAL_OUTSIDE_RESTORE_BLUR:-1.0}"
-          )
-        fi
       fi
       if [[ "${SUPPORT_PRESET}" == "localized_decal" ]]; then
         ensure_decal_reference "${out_dir}"
@@ -3546,13 +3510,6 @@ run_one() {
             --final-chroma-source-scale "${TASK_FINAL_CHROMA_SOURCE_SCALE}"
             --final-chroma-source-mask "${DECAL_MASK}"
             --final-chroma-source-mask-blur "${TASK_FINAL_CHROMA_SOURCE_BLUR:-2.0}"
-          )
-        fi
-        if [[ "${TASK_FINAL_OUTSIDE_RESTORE_SCALE:-0.0}" != "0.0" ]]; then
-          REF_ARGS+=(
-            --final-outside-restore-scale "${TASK_FINAL_OUTSIDE_RESTORE_SCALE}"
-            --final-outside-restore-mask "${DECAL_MASK}"
-            --final-outside-restore-mask-blur "${TASK_FINAL_OUTSIDE_RESTORE_BLUR:-1.0}"
           )
         fi
       fi
@@ -4083,58 +4040,6 @@ run_one() {
     cat "${out_dir}/command.txt"
   else
     CUDA_VISIBLE_DEVICES="${DEVICE}" "${cmd[@]}"
-    if [[ -n "${TASK_RESTORE_SOURCE_POLYGON:-}" ]]; then
-      local result_path="${out_dir}/result.png"
-      local raw_result_path="${out_dir}/result_before_source_restore.png"
-      local restored_result_path="${out_dir}/result_source_restore_tmp.png"
-      if [[ -s "${result_path}" ]]; then
-        cp "${result_path}" "${raw_result_path}"
-        local restore_cmd=(
-          "${PYTHON}" "${ROOT}/scripts/restore_source_region.py"
-          --source "${IMAGE}" \
-          --result "${result_path}" \
-          --output "${restored_result_path}" \
-          --polygon "${TASK_RESTORE_SOURCE_POLYGON}" \
-          --feather "${TASK_RESTORE_SOURCE_FEATHER:-0.8}" \
-          --mask-output "${out_dir}/masks/source_restore_mask.png" \
-          --overlay-output "${out_dir}/masks/source_restore_overlay.png"
-        )
-        if [[ "${TASK_RESTORE_EXCLUDE_SOURCE_RED:-0}" == "1" ]]; then
-          restore_cmd+=(--exclude-source-red)
-        fi
-        "${restore_cmd[@]}"
-        mv "${restored_result_path}" "${result_path}"
-        echo "[pretty-matrix] restored source region into final result: ${result_path}"
-      else
-        echo "[pretty-matrix] warning: source restore skipped; missing result ${result_path}" >&2
-      fi
-    fi
-    if [[ -n "${TASK_RESTORE_YELLOW_SCREEN_POLYGON:-}" ]]; then
-      local result_path="${out_dir}/result.png"
-      local raw_yellow_restore_path="${out_dir}/result_before_yellow_screen_restore.png"
-      local yellow_restored_result_path="${out_dir}/result_yellow_screen_restore_tmp.png"
-      if [[ -s "${result_path}" ]]; then
-        cp "${result_path}" "${raw_yellow_restore_path}"
-        local yellow_restore_cmd=(
-          "${PYTHON}" "${ROOT}/scripts/restore_yellow_screen_region.py"
-          --source "${IMAGE}" \
-          --result "${result_path}" \
-          --output "${yellow_restored_result_path}" \
-          --polygon "${TASK_RESTORE_YELLOW_SCREEN_POLYGON}" \
-          --dilate "${TASK_RESTORE_YELLOW_SCREEN_DILATE:-19}" \
-          --extra-dilate "${TASK_RESTORE_YELLOW_SCREEN_EXTRA_DILATE:-9}" \
-          --erode "${TASK_RESTORE_YELLOW_SCREEN_ERODE:-5}" \
-          --blur "${TASK_RESTORE_YELLOW_SCREEN_BLUR:-0.5}" \
-          --mask-output "${out_dir}/masks/yellow_screen_restore_mask.png" \
-          --overlay-output "${out_dir}/masks/yellow_screen_restore_overlay.png"
-        )
-        "${yellow_restore_cmd[@]}"
-        mv "${yellow_restored_result_path}" "${result_path}"
-        echo "[pretty-matrix] restored yellow-screen source region into final result: ${result_path}"
-      else
-        echo "[pretty-matrix] warning: yellow-screen restore skipped; missing result ${result_path}" >&2
-      fi
-    fi
   fi
 }
 

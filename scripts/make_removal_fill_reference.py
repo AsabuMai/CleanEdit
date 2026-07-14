@@ -2,7 +2,7 @@
 
 Inside the removal mask the reference combines:
 - low frequency from a smooth inpaint (keeps shading/lighting gradients), and
-- high frequency cloned from a user-specified clean fabric patch (restores
+- high frequency cloned from a user-specified clean fabric patch (reintroduces
   material grain that diffusion fills tend to paint too smooth).
 
 Used as a weak --edit-ref-image hint plus optional final composite.

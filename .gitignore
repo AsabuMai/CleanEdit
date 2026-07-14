@@ -64,7 +64,13 @@ phase2_*_preview.jpg
 flux_tmp_sync/
 slurm_logs/
 phase2_review/
-flux/
+# Keep FLUX source code versioned while ignoring local scratch files/backups.
+flux/*
+!flux/__init__.py
+!flux/dece_flux_adapter.py
+!flux/flux_hrec.py
+!flux/flux_model_ops.py
+!flux/run_edit_flux.py
 sd3/
 tmp_reference_*/
 

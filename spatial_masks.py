@@ -55,6 +55,74 @@ def smooth_spatial_mask(mask: torch.Tensor, kernel_size: int = 0) -> torch.Tenso
     return torch.nn.functional.avg_pool2d(mask.float(), kernel_size=kernel_size, stride=1, padding=pad).to(mask.dtype)
 
 
+def apply_mask_morphology_pair(
+    edit_mask: torch.Tensor,
+    core_mask: torch.Tensor,
+    *,
+    dilate_kernel: int = 0,
+    erode_kernel: int = 0,
+    hole_fraction: float = 0.0,
+    boundary_noise_scale: float = 0.0,
+    smooth_kernel: int = 0,
+    constrain_after_each: bool = True,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Apply the shared edit/core morphology chain without changing RNG order."""
+
+    def constrain_core() -> None:
+        nonlocal core_mask
+        core_mask = torch.minimum(core_mask, edit_mask)
+
+    if dilate_kernel > 1:
+        edit_mask = dilate_spatial_mask(edit_mask, kernel_size=dilate_kernel).clamp(0.0, 1.0)
+        core_mask = dilate_spatial_mask(core_mask, kernel_size=dilate_kernel).clamp(0.0, 1.0)
+        if constrain_after_each:
+            constrain_core()
+    if erode_kernel > 1:
+        edit_mask = (
+            1.0 - dilate_spatial_mask((1.0 - edit_mask).clamp(0.0, 1.0), kernel_size=erode_kernel)
+        ).clamp(0.0, 1.0)
+        core_mask = (
+            1.0 - dilate_spatial_mask((1.0 - core_mask).clamp(0.0, 1.0), kernel_size=erode_kernel)
+        ).clamp(0.0, 1.0)
+        if constrain_after_each:
+            constrain_core()
+    if hole_fraction > 0.0:
+        hole_keep = (torch.rand_like(edit_mask) >= float(hole_fraction)).to(dtype=edit_mask.dtype)
+        edit_mask = (edit_mask * hole_keep).clamp(0.0, 1.0)
+        core_mask = (core_mask * hole_keep).clamp(0.0, 1.0)
+        if constrain_after_each:
+            constrain_core()
+    if boundary_noise_scale > 0.0:
+        band_kernel = 3
+        edit_eroded = (
+            1.0 - dilate_spatial_mask((1.0 - edit_mask).clamp(0.0, 1.0), kernel_size=band_kernel)
+        ).clamp(0.0, 1.0)
+        edit_band = (dilate_spatial_mask(edit_mask, kernel_size=band_kernel) - edit_eroded).clamp(0.0, 1.0)
+        core_eroded = (
+            1.0 - dilate_spatial_mask((1.0 - core_mask).clamp(0.0, 1.0), kernel_size=band_kernel)
+        ).clamp(0.0, 1.0)
+        core_band = (dilate_spatial_mask(core_mask, kernel_size=band_kernel) - core_eroded).clamp(0.0, 1.0)
+        edit_mask = (
+            edit_mask
+            + (torch.rand_like(edit_mask) - 0.5) * float(boundary_noise_scale) * edit_band
+        ).clamp(0.0, 1.0)
+        core_mask = (
+            core_mask
+            + (torch.rand_like(core_mask) - 0.5) * float(boundary_noise_scale) * core_band
+        ).clamp(0.0, 1.0)
+        if constrain_after_each:
+            constrain_core()
+    if smooth_kernel > 1:
+        edit_mask = smooth_spatial_mask(edit_mask, kernel_size=smooth_kernel).clamp(0.0, 1.0)
+        core_mask = smooth_spatial_mask(core_mask, kernel_size=smooth_kernel).clamp(0.0, 1.0)
+        if constrain_after_each:
+            constrain_core()
+    if not constrain_after_each:
+        constrain_core()
+    preserve_mask = (1.0 - edit_mask).clamp(0.0, 1.0)
+    return edit_mask, core_mask, preserve_mask
+
+
 def latent_structure_edge_mask(
     reference: torch.Tensor,
     threshold: float = 0.55,
@@ -299,6 +367,13 @@ def save_mask_image(mask: torch.Tensor, path: str) -> None:
     image = mask.detach().float()[0, 0].clamp(0.0, 1.0)
     array = (image.cpu().numpy() * 255.0).round().astype("uint8")
     Image.fromarray(array, mode="L").save(path)
+
+
+def save_mask_bundle(output_dir: str, masks: dict[str, torch.Tensor | None]) -> None:
+    """Save named masks in insertion order, skipping unavailable diagnostics."""
+    for filename, mask in masks.items():
+        if mask is not None:
+            save_mask_image(mask.to(dtype=torch.float32), os.path.join(output_dir, filename))
 
 
 def spatial_mask_stats(mask: torch.Tensor | None, prefix: str = "mask") -> dict[str, float | None]:

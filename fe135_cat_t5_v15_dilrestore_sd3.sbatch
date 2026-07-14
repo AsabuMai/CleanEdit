@@ -5,8 +5,8 @@
 #SBATCH -c 8
 #SBATCH --mem=80G
 #SBATCH --time=00:40:00
-#SBATCH -J fe135-cat-v15-dilrest
-#SBATCH -o /cluster/users/grad/2025/25t8103/project/logs/fe135_cat_t5_v15_dilrestore_sd3_%j.log
+#SBATCH -J fe135-cat-v15-dilmask
+#SBATCH -o /cluster/users/grad/2025/25t8103/project/logs/fe135_cat_t5_v15_dilmask_sd3_%j.log
 
 set -uo pipefail
 
@@ -22,12 +22,11 @@ date
 cd "$PROJ"
 
 MANIFEST=$PROJ/data/flowedit_compatible_135/manifest_subjectpreserve_cat_t5probe1.json \
-OUT=outputs/fe135_cat_t5_v15_dilrestore_sd3 \
+OUT=outputs/fe135_cat_t5_v15_dilmask_sd3 \
 SUBJECT_PRESERVE_MODE=1 \
 SUBJECT_OBJECT_PROVIDER=operation_support_v3 \
 SUBJECT_GROUNDING_METHOD=external_mask \
-ADAPT_OVERRIDE_JSON='{"t5_material":{"--final-outside-restore-mask":"data/flowedit_compatible_135/derived_masks/fe_055_cat_7_wooden_sculpture_support_dilated_restore.png","--final-outside-restore-mask-blur":"3.0"}}' \
 "$PROJ/.venv/bin/python" scripts/pie_sd3_batch_kindaware.py
 
 date
-echo fe135_cat_t5_v15_dilrestore_sd3_complete
+echo fe135_cat_t5_v15_dilmask_sd3_complete

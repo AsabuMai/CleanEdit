@@ -21,7 +21,7 @@ hostname
 date
 cd "$PROJ"
 
-MASK=data/flowedit_compatible_135/derived_masks/fe_055_cat_7_wooden_sculpture_support_dilated_restore.png
+MASK=data/flowedit_compatible_135/derived_masks/fe_055_cat_7_wooden_sculpture_support_dilated_editmask.png
 
 MANIFEST=$PROJ/data/flowedit_compatible_135/manifest_subjectpreserve_cat_t5probe1.json \
 OUT=outputs/fe135_cat_t5_v16_expandedit_sd3 \
@@ -29,7 +29,7 @@ SUBJECT_PRESERVE_MODE=1 \
 SUBJECT_OBJECT_PROVIDER=operation_support_v3 \
 SUBJECT_GROUNDING_METHOD=external_mask \
 SUBJECT_KIND_OVERRIDE_JSON='{"t5_material":{"source_v":"0.0","source_mask":"edit","source_steps":"12"}}' \
-ADAPT_OVERRIDE_JSON='{"t5_material":{"--final-edit-mask":"'"$MASK"'","--final-edit-mask-mode":"replace","--final-outside-restore-mask":"'"$MASK"'","--final-outside-restore-mask-blur":"3.0"}}' \
+ADAPT_OVERRIDE_JSON='{"t5_material":{"--final-edit-mask":"'"$MASK"'","--final-edit-mask-mode":"replace"}}' \
 "$PROJ/.venv/bin/python" scripts/pie_sd3_batch_kindaware.py
 
 date

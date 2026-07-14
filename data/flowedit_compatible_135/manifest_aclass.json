@@ -1,0 +1,165 @@
+[
+  {
+    "key": "fe_146_japanese_castle_1_lego_castle",
+    "flowedit_idx": 146,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/japanese_castle.png",
+    "source_prompt": "A large, white, Japanese castle with a distinctive pagoda-style roof. The castle is surrounded by green trees. The castle is situated on a hill, giving it a majestic appearance.",
+    "target_prompt": "A large, white, Japanese castle made out of lego bricks with a distinctive pagoda-style roof. The lego castle is surrounded by green trees, creating a serene and picturesque scene. The lego castle is situated on a hill, giving it a majestic appearance.",
+    "global_mask": false,
+    "host_tokens": "castle",
+    "new_tokens": "lego",
+    "pp_aspect_mapping": {
+      "castle": [
+        "lego"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle.json",
+    "sam_phrase": "castle",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_221_rocks_6_colorful_wooden_blocks",
+    "flowedit_idx": 221,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/rocks.png",
+    "source_prompt": "A stack of gray rocks, laying on top of each other on a brown and gray beach. The rocks are arranged in a pyramid shape, creating an impressive and natural display. The brown and gray beach setting provides a serene and picturesque backdrop for this unique rock formation.",
+    "target_prompt": "A stack of colorful wooden blocks, laying on top of each other on a brown and gray beach. The colorful wooden blocks are arranged in a pyramid shape, creating an impressive and natural display. The brown and gray beach setting provides a serene and picturesque backdrop for this unique colorful wooden blocks formation.",
+    "global_mask": false,
+    "host_tokens": "rocks",
+    "new_tokens": "blocks,wooden",
+    "pp_aspect_mapping": {
+      "object": [
+        "wooden"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_221_rocks_6_colorful_wooden_blocks_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_221_rocks_6_colorful_wooden_blocks_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_221_rocks_6_colorful_wooden_blocks.json",
+    "sam_phrase": "rocks",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_027_butterflies_1_yellow",
+    "flowedit_idx": 27,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "6_local_recolor_40",
+    "family": "F4",
+    "family_label": "T4_local_recolor",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterflies.png",
+    "source_prompt": "A vibrant orange flower with two black and white butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+    "target_prompt": "A vibrant orange flower with two yellow butterflies perched on it. The butterflies are positioned on opposite sides of the flower, with one butterfly on the left side and the other on the right side. The butterflies appear to be resting or possibly feeding on the flower, creating a captivating scene.",
+    "global_mask": false,
+    "host_tokens": "butterflies",
+    "new_tokens": "butterflies,yellow",
+    "pp_edit_action": {
+      "yellow": {
+        "position": 0,
+        "edit_type": 6,
+        "action": ""
+      }
+    },
+    "pp_aspect_mapping": {
+      "object": [
+        "yellow"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_027_butterflies_1_yellow.json",
+    "sam_phrase": "butterflies",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_037_castle_1_lego_castle",
+    "flowedit_idx": 37,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/castle.png",
+    "source_prompt": "A majestic castle with a tall, pointed roof, situated on a hillside. The sky above the castle is filled with clouds, creating a dramatic atmosphere. There are several windows on the castle, with some located on the lower levels and others on the upper levels.",
+    "target_prompt": "A majestic castle made out of lego bricks with a tall, pointed roof, situated on a hillside. The sky above the lego castle is filled with clouds, creating a dramatic atmosphere. There are several windows on the lego castle, with some located on the lower levels and others on the upper levels.",
+    "global_mask": false,
+    "host_tokens": "castle",
+    "new_tokens": "lego",
+    "pp_aspect_mapping": {
+      "castle": [
+        "lego"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_037_castle_1_lego_castle_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_037_castle_1_lego_castle_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_037_castle_1_lego_castle.json",
+    "sam_phrase": "castle",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_205_pizza_slice_1_pepperoni",
+    "flowedit_idx": 205,
+    "flowedit_status": "expanded-stress",
+    "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/pizza_slice.png",
+    "source_prompt": "A pizza with thick crust, topped with graded cheese and basil.",
+    "target_prompt": "A pizza with thick crust, topped with graded cheese, basil and pepperoni.",
+    "global_mask": false,
+    "host_tokens": "pizza",
+    "new_tokens": "pepperoni",
+    "pp_aspect_mapping": {
+      "pizza": [
+        "pepperoni"
+      ]
+    },
+    "subset": "expanded",
+    "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_205_pizza_slice_1_pepperoni_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_205_pizza_slice_1_pepperoni_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_205_pizza_slice_1_pepperoni.json",
+    "sam_phrase": "pizza",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_186_muffins_1_strawberries",
+    "flowedit_idx": 186,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/muffins.png",
+    "source_prompt": "A plate of white muffins, decorated with a few raspberries.",
+    "target_prompt": "A plate of white muffins, decorated with a few strawberries.",
+    "global_mask": false,
+    "host_tokens": "plate",
+    "new_tokens": "strawberries",
+    "pp_aspect_mapping": {
+      "plate": [
+        "strawberries"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries.json",
+    "sam_phrase": "plate",
+    "sam_support_relation": "inside"
+  }
+]
