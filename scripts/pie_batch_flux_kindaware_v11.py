@@ -387,9 +387,39 @@ e0=work[0]; od0=OUT/e0["key"]/recipe/f"seed_{SEED}"; od0.mkdir(parents=True,exis
 base=build_parser().parse_args(argv_for(e0,od0,KIND[kind_of(e0)]))
 t0=time.time(); PIPE=load_flux_pipeline(base,dev); print("[ka-flux] loaded once %.1fs"%(time.time()-t0),flush=True)
 flux_hrec.load_flux_pipeline=lambda a,d=dev: PIPE
+def env_json(name):
+    raw=os.environ.get(name,"").strip()
+    return json.loads(raw) if raw else {}
+def canonical_sha256(value):
+    payload=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+def batch_recipe_config():
+    return {
+        "ablate":os.environ.get("ABLATE",""),
+        "run_purpose":RUN_PURPOSE,
+        "adaptive_component_control":ADAPTIVE_COMPONENT_CONTROL,
+        "t3_neg_from_removed":T3_NEG_FROM_REMOVED,
+        "t3_compact_prompt":T3_COMPACT_PROMPT,
+        "t3_spell_text":T3_SPELL_TEXT,
+        "t3_surface_prompt":T3_SURFACE_PROMPT,
+        "t5_pose_prompt":T5_POSE_PROMPT,
+        "t5_auto_prompt_prefix":T5_AUTO_PROMPT_PREFIX,
+        "t5_prompt_prefix":T5_PROMPT_PREFIX,
+        "t5_negative_prompt":T5_NEGATIVE_PROMPT,
+        "t5_expand_edit_mask":T5_EXPAND_EDIT_MASK,
+        "t5_expand_edit_radius":T5_EXPAND_EDIT_RADIUS,
+        "t5_expand_edit_mask_blur":T5_EXPAND_EDIT_MASK_BLUR,
+        "kind_override":env_json("KIND_OVERRIDE_JSON"),
+        "key_override":env_json("KEY_OVERRIDE_JSON"),
+        "mask_override":env_json("MASK_OVERRIDE_JSON"),
+        "adapt_override":env_json("ADAPT_OVERRIDE_JSON"),
+    }
 def save_result(res,args):
     Path(args.output).parent.mkdir(parents=True,exist_ok=True)
     res.images[0].save(args.output)
+    recipe_config=batch_recipe_config()
+    res.metadata["batch_recipe_config"]=recipe_config
+    res.metadata["batch_recipe_config_sha256"]=canonical_sha256(recipe_config)
     json.dump(res.metadata,open(args.metadata_output,"w"),indent=2)
     json.dump(res.stats,open(args.stats_output,"w"),indent=2)
 def sha256(path):

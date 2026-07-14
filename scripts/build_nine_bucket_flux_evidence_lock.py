@@ -17,6 +17,37 @@ OUT = DATA / "evidence_20260714"
 ASSET_ROOT: Path | None = None
 
 
+BASE_T5_NEGATIVE_PROMPT = (
+    "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, "
+    "text, letters, logo, watermark"
+)
+
+
+def batch_recipe_config(**overrides: Any) -> dict[str, Any]:
+    config: dict[str, Any] = {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": False,
+        "t3_neg_from_removed": False,
+        "t3_compact_prompt": False,
+        "t3_spell_text": False,
+        "t3_surface_prompt": False,
+        "t5_pose_prompt": True,
+        "t5_auto_prompt_prefix": True,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": BASE_T5_NEGATIVE_PROMPT,
+        "t5_expand_edit_mask": True,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {},
+    }
+    config.update(overrides)
+    return config
+
+
 BUCKETS: dict[str, dict[str, Any]] = {
     "b1_inst": {
         "recipe": "instance_final_v3",
@@ -30,12 +61,14 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "fe_036_cake_red_blueberries_2_raspberries",
         ],
         "old_conclusion": "Plural support reaches all instances; fe_195 FLUX crown quality remains a limitation.",
+        "batch_recipe_config": batch_recipe_config(),
     },
     "b2_sd3_text_control": {
         "recipe": "flux_canonical_text_control",
         "sources": ["manifest_bucket23_t3.json"],
         "keys": ["fe_119_gas_station_2_iccv", "fe_134_groceries_4_eccv", "fe_238_stop_arrow_1_cvpr"],
         "old_conclusion": "FLUX is a control for the SD3 blank/text limitation; this track does not repair SD3.",
+        "batch_recipe_config": batch_recipe_config(),
     },
     "b3_flux_ghost": {
         "recipe": "best_single_pass_text_nofinal",
@@ -47,6 +80,16 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_134_groceries_4_eccv_C5_exact_text_needs_renderer_support.png",
             "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_238_stop_arrow_1_cvpr_C6_short_text_needs_text_aware_refine_support.png",
         ],
+        "batch_recipe_config": batch_recipe_config(
+            t3_neg_from_removed=True,
+            t3_compact_prompt=True,
+            t3_spell_text=True,
+            mask_override={
+                "fe_119": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_119_gas_station_2_iccv_C5_exact_text_needs_renderer_support.png",
+                "fe_134": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_134_groceries_4_eccv_C5_exact_text_needs_renderer_support.png",
+                "fe_238": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_238_stop_arrow_1_cvpr_C6_short_text_needs_text_aware_refine_support.png",
+            },
+        ),
     },
     "b4_flux_noed": {
         "recipe": "kind_budget_final",
@@ -57,6 +100,12 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "fe_180_milk_4_whipped_cream", "fe_207_pizza_tomato_olive_1_pepperoni",
         ],
         "old_conclusion": "Simple insertions improve with budget; backlit whole-object recolors remain under-edited.",
+        "batch_recipe_config": batch_recipe_config(
+            kind_override={
+                "t2_insert": {"edit_hedit": 1.20, "local_target": 1.10},
+                "t4_recolor": {"edit_hedit": 0.80, "local_target": 0.35},
+            }
+        ),
     },
     "b5_sd3_leak_control": {
         "recipe": "flux_canonical_recolor_control",
@@ -66,6 +115,7 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "fe_084_cupcake_2_red_velvet", "fe_141_iguana_1_green_lizard",
         ],
         "old_conclusion": "The halo mechanism is SD3-specific; FLUX is the unchanged control on these recolors.",
+        "batch_recipe_config": batch_recipe_config(),
     },
     "b6_flux_bgrep": {
         "recipe": "zero_expand_outside_lock_final",
@@ -77,12 +127,25 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "fe_268_yellow_bulldog_12_origami_bear",
         ],
         "old_conclusion": "Zero expansion plus outside lock repairs background drift for several cases; meditation whole-subject transforms remain limited.",
+        "batch_recipe_config": batch_recipe_config(
+            t5_expand_edit_mask=False,
+            t5_negative_prompt=(
+                BASE_T5_NEGATIVE_PROMPT
+                + ", duplicated figure, second person, oversized figure"
+            ),
+            kind_override={"t5_material": {"outside_lock": 0.45}},
+            key_override={"fe_130": {"--edit-hedit-guidance-scale": "1.55"}},
+        ),
     },
     "b7_half": {
         "recipe": "full_body_mask_zero_expand",
         "sources": ["manifest_bucket7_half.json"],
         "keys": ["fe_080_corgi_1_lego_bricks", "fe_081_corgi_2_wooden_sculpture"],
         "old_conclusion": "The fixed full-body multi-box mask removes the head-only support failure.",
+        "batch_recipe_config": batch_recipe_config(
+            t5_expand_edit_mask=False,
+            kind_override={"t5_material": {"outside_lock": 0.45}},
+        ),
     },
     "b8_melt_scale": {
         "recipe": "flux_support_control_zero_expand",
@@ -93,12 +156,17 @@ BUCKETS: dict[str, dict[str, Any]] = {
             "fe_157_kid_running_3_sculpture",
         ],
         "old_conclusion": "FLUX remains the recolor stability control; zero expansion controls scale on material cases.",
+        "batch_recipe_config": batch_recipe_config(
+            t5_expand_edit_mask=False,
+            kind_override={"t5_material": {"outside_lock": 0.45}},
+        ),
     },
     "b9_resid": {
         "recipe": "removed_token_support",
         "sources": ["manifest_bucket9_resid.json"],
         "keys": ["fe_046_cat_crown_1_black_top_hat"],
         "old_conclusion": "Removed-token support fixes SD3 residue; FLUX old-object residue remains tied to bucket 3.",
+        "batch_recipe_config": batch_recipe_config(),
     },
 }
 
@@ -191,6 +259,8 @@ def main() -> None:
             }
         lock["buckets"][bucket] = {
             "recipe": spec["recipe"],
+            "batch_recipe_config": spec["batch_recipe_config"],
+            "batch_recipe_config_sha256": canonical_sha(spec["batch_recipe_config"]),
             "old_conclusion": spec["old_conclusion"],
             "manifest": str(manifest.relative_to(ROOT)),
             "manifest_sha256": file_sha(manifest),

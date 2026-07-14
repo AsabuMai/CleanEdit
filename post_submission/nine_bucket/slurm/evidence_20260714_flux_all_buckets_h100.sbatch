@@ -13,7 +13,7 @@ PROJ=/cluster/users/grad/2025/25t8103/CleanEdit-evidence
 ASSET_ROOT=/cluster/users/grad/2025/25t8103/project
 PY=$ASSET_ROOT/.venv-h100/bin/python
 LOCK=$PROJ/data/flowedit_compatible_135/evidence_20260714/nine_bucket_flux_evidence.lock.json
-OUTPUT_ROOT=outputs/evidence_20260714_clean_v3
+OUTPUT_ROOT=outputs/evidence_20260714_clean_v4
 
 cd "$PROJ"
 test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
@@ -59,6 +59,7 @@ run_bucket() (
             ;;
     esac
     if test "$bucket" = b6_flux_bgrep; then
+        export T5_NEGATIVE_PROMPT='fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark, duplicated figure, second person, oversized figure'
         export KEY_OVERRIDE_JSON='{"fe_130":{"--edit-hedit-guidance-scale":"1.55"}}'
     fi
     "$PY" scripts/pie_batch_flux_kindaware_v11.py

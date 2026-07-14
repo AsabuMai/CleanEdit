@@ -55,6 +55,8 @@ def main() -> None:
                 errors.append(f"{bucket}/{key}: missing result or metadata")
                 continue
             data = json.loads(metadata_path.read_text(encoding="utf-8"))
+            actual_batch_recipe = data.get("batch_recipe_config", {})
+            expected_batch_recipe = bucket_spec.get("batch_recipe_config", {})
             checks = {
                 "seed": data.get("seed") == 10,
                 "steps": data.get("num_inference_steps") == 12,
@@ -73,6 +75,11 @@ def main() -> None:
                 "recipe": data.get("evidence_recipe") == bucket_spec["recipe"],
                 "lock": data.get("evidence_lock_sha256") == lock_sha,
                 "config_hash": config_sha(data.get("run_config", {})) == data.get("run_config_sha256"),
+                "batch_recipe": actual_batch_recipe == expected_batch_recipe,
+                "batch_recipe_hash": (
+                    config_sha(actual_batch_recipe) == data.get("batch_recipe_config_sha256")
+                    == bucket_spec.get("batch_recipe_config_sha256")
+                ),
                 "source_path": data.get("source_image_path") == case["source_image_path"],
                 "source_size": data.get("source_image_size_bytes") == case["source_image_size_bytes"],
                 "source_hash": data.get("source_image_sha256") == case["source_image_sha256"],

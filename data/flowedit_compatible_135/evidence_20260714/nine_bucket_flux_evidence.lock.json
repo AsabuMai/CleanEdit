@@ -13,6 +13,27 @@
   "buckets": {
     "b1_inst": {
       "recipe": "instance_final_v3",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "4c1a6dc21695eacf91e763ce14591cb3f07242dc57f7525f2d2c9a693a4de4f8",
       "old_conclusion": "Plural support reaches all instances; fe_195 FLUX crown quality remains a limitation.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b1_inst.json",
       "manifest_sha256": "cce03c03603b6850f326bba3cc3ebf9d4e9ca1192f3514becf9a774687369a5d",
@@ -153,6 +174,27 @@
     },
     "b2_sd3_text_control": {
       "recipe": "flux_canonical_text_control",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "4c1a6dc21695eacf91e763ce14591cb3f07242dc57f7525f2d2c9a693a4de4f8",
       "old_conclusion": "FLUX is a control for the SD3 blank/text limitation; this track does not repair SD3.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b2_sd3_text_control.json",
       "manifest_sha256": "78952a6cdd84525ba801f517710f41ee418b067958e006f2b2d99b29d4601789",
@@ -184,6 +226,31 @@
     },
     "b3_flux_ghost": {
       "recipe": "best_single_pass_text_nofinal",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": true,
+        "t3_compact_prompt": true,
+        "t3_spell_text": true,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {
+          "fe_119": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_119_gas_station_2_iccv_C5_exact_text_needs_renderer_support.png",
+          "fe_134": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_134_groceries_4_eccv_C5_exact_text_needs_renderer_support.png",
+          "fe_238": "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_238_stop_arrow_1_cvpr_C6_short_text_needs_text_aware_refine_support.png"
+        },
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "1189bedbde4a1cac866041370e79e1a648773e76ba76f4081250e52aec69e43f",
       "old_conclusion": "Single-pass FLUX text replacement remains unresolved: old glyph structure or incorrect spelling persists.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b3_flux_ghost.json",
       "manifest_sha256": "78952a6cdd84525ba801f517710f41ee418b067958e006f2b2d99b29d4601789",
@@ -231,6 +298,36 @@
     },
     "b4_flux_noed": {
       "recipe": "kind_budget_final",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {
+          "t2_insert": {
+            "edit_hedit": 1.2,
+            "local_target": 1.1
+          },
+          "t4_recolor": {
+            "edit_hedit": 0.8,
+            "local_target": 0.35
+          }
+        },
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "5c1a968db80969e35f5b4e7f96ede9b7eaf7b2c2a92af1602cfcf61e92d07ebc",
       "old_conclusion": "Simple insertions improve with budget; backlit whole-object recolors remain under-edited.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b4_flux_noed.json",
       "manifest_sha256": "88411d7f3dc6bf227c051e7955f67ab14f86a950f9a90dfc3a6727ddc127ee57",
@@ -319,6 +416,27 @@
     },
     "b5_sd3_leak_control": {
       "recipe": "flux_canonical_recolor_control",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "4c1a6dc21695eacf91e763ce14591cb3f07242dc57f7525f2d2c9a693a4de4f8",
       "old_conclusion": "The halo mechanism is SD3-specific; FLUX is the unchanged control on these recolors.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b5_sd3_leak_control.json",
       "manifest_sha256": "4ef676cb5984f4e2a42816702932e407b4a7bde00a82f073ce47df79839104f5",
@@ -381,6 +499,35 @@
     },
     "b6_flux_bgrep": {
       "recipe": "zero_expand_outside_lock_final",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark, duplicated figure, second person, oversized figure",
+        "t5_expand_edit_mask": false,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {
+          "t5_material": {
+            "outside_lock": 0.45
+          }
+        },
+        "key_override": {
+          "fe_130": {
+            "--edit-hedit-guidance-scale": "1.55"
+          }
+        },
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "d62151fb031e32d00ce093291eac0d06db2fd39d73e6797492b37ca0dafb1982",
       "old_conclusion": "Zero expansion plus outside lock repairs background drift for several cases; meditation whole-subject transforms remain limited.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b6_flux_bgrep.json",
       "manifest_sha256": "9407bb3684405f2091cda850371526647cd34e0c4b19d7ace03ee8453464f5f7",
@@ -470,6 +617,31 @@
     },
     "b7_half": {
       "recipe": "full_body_mask_zero_expand",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": false,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {
+          "t5_material": {
+            "outside_lock": 0.45
+          }
+        },
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "3a4cc2c36e2ad0d56eb16c7e8d3c043cfc5e61c1cd6a73dfc922e34ab87d8015",
       "old_conclusion": "The fixed full-body multi-box mask removes the head-only support failure.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b7_half.json",
       "manifest_sha256": "aa576c186a83b8c550c9a3e62cb17d262423b7909eef0ecd1114e6ecf742c277",
@@ -506,6 +678,31 @@
     },
     "b8_melt_scale": {
       "recipe": "flux_support_control_zero_expand",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": false,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {
+          "t5_material": {
+            "outside_lock": 0.45
+          }
+        },
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "3a4cc2c36e2ad0d56eb16c7e8d3c043cfc5e61c1cd6a73dfc922e34ab87d8015",
       "old_conclusion": "FLUX remains the recolor stability control; zero expansion controls scale on material cases.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json",
       "manifest_sha256": "450fb543c24a0c705d75b6edf109e2ff15cb36e52e5fb4f0a9b931bcb9929379",
@@ -569,6 +766,27 @@
     },
     "b9_resid": {
       "recipe": "removed_token_support",
+      "batch_recipe_config": {
+        "ablate": "no_final_postprocess",
+        "run_purpose": "evaluation",
+        "adaptive_component_control": false,
+        "t3_neg_from_removed": false,
+        "t3_compact_prompt": false,
+        "t3_spell_text": false,
+        "t3_surface_prompt": false,
+        "t5_pose_prompt": true,
+        "t5_auto_prompt_prefix": true,
+        "t5_prompt_prefix": "",
+        "t5_negative_prompt": "fur, animal fur, whiskers, hair strands, fuzzy outline, floating thin lines, text, letters, logo, watermark",
+        "t5_expand_edit_mask": true,
+        "t5_expand_edit_radius": 21,
+        "t5_expand_edit_mask_blur": 6.0,
+        "kind_override": {},
+        "key_override": {},
+        "mask_override": {},
+        "adapt_override": {}
+      },
+      "batch_recipe_config_sha256": "4c1a6dc21695eacf91e763ce14591cb3f07242dc57f7525f2d2c9a693a4de4f8",
       "old_conclusion": "Removed-token support fixes SD3 residue; FLUX old-object residue remains tied to bucket 3.",
       "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b9_resid.json",
       "manifest_sha256": "d05681d29bf9b11c86146df08e3d760cdab121e9a596375b9f2a3c7a47e3809e",

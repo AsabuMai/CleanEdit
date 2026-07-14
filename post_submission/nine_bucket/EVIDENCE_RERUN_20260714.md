@@ -6,7 +6,14 @@ This rerun repairs provenance only. It does not change denoising, controller, su
 
 Earlier `outputs/evidence_20260714/` runs covered only buckets 1/3/4/6/9 and recorded a dirty worktree while still marking the outputs eligible. They remain historical diagnostics, not the authoritative evidence set.
 
-Two rejected rerun attempts are also retained as audit history: v1 stopped when an SD3-only color-mask CLI flag was passed to FLUX; v2 generated images but the legacy batch runner's hard-coded project root redirected them into the dirty laboratory tree. Neither attempt is eligible. The authoritative runner now resolves its repository dynamically and asserts `EXPECTED_PROJECT_ROOT` before loading the model.
+Three rejected rerun attempts are also retained as audit history: v1 stopped when an SD3-only color-mask CLI flag was passed to FLUX; v2 generated images but the legacy batch runner's hard-coded project root redirected them into the dirty laboratory tree; v3 stopped before inference because the runner's explicit cache directory pointed at the clean worktree instead of the shared H100 cache. None is eligible. The authoritative runner now resolves its repository dynamically, asserts `EXPECTED_PROJECT_ROOT`, and explicitly binds the shared H100 FLUX cache before loading the model.
+
+A subsequent 41/41 machine-valid run was rejected during visual comparison. The
+initial lock covered model arguments and assets but not batch-only environment
+settings; bucket 6 therefore omitted the r5 duplicate-figure negative prompt,
+and `fe_157` regressed from a sculpture to a black silhouette. The repaired
+lock now records and hashes the complete batch recipe, and the verifier requires
+the result metadata to match it exactly.
 
 ## Locked protocol
 
@@ -23,6 +30,7 @@ Two rejected rerun attempts are also retained as audit history: v1 stopped when 
 - final recolor blend: 0
 - final texture/overlay post-processing: disabled
 - clean Git worktree required for eligibility
+- complete batch recipe recorded, hashed, and matched to the lock
 
 The lock file is `data/flowedit_compatible_135/evidence_20260714/nine_bucket_flux_evidence.lock.json`. It contains 41 bucket-case runs. Repeated cases in buckets 2/3 and 6/8 are intentional because the recipes and claims differ.
 
