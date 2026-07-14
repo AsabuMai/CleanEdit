@@ -3,21 +3,24 @@
 Current FlowEdit-135 figure set:
 
 ```text
-paper/assets/tradeoff_overall_edit_preservation_compact.png
-paper/assets/tradeoff_overall_edit_preservation_compact.pdf
-paper/assets/tradeoff_by_family_edit_preservation.png
-paper/assets/tradeoff_by_family_edit_preservation.pdf
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.pdf
+experiments/norestore_tradeoff/tradeoff_by_family_edit_preservation.png
+experiments/norestore_tradeoff/tradeoff_by_family_edit_preservation.pdf
 experiments/flowedit135_fixedmask_metrics_20260621/review_selected_methods.jpg
 experiments/flowedit135_fixedmask_metrics_20260621/review_hard_ours_vs_sam.jpg
 data/flowedit_compatible_135/eval_masks/_contact_sheet.jpg
 ```
+
+The older `paper/assets/tradeoff_*` files were built from the restored/full
+snapshot and should be refreshed before being used as main-paper assets.
 
 ## Main Figure: Edit-Preservation Trade-Off
 
 Use:
 
 ```text
-paper/assets/tradeoff_overall_edit_preservation_compact.png
+experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png
 ```
 
 Suggested caption:
@@ -26,14 +29,18 @@ Suggested caption:
 Edit-preservation trade-off on FlowEdit-135. The x-axis measures local edit
 strength with local CLIP-T, and the y-axis measures non-edit-region
 preservation as -log10(BG-LPIPS), where BG is the complement of a dilated fixed
-evaluation region. Ours achieves the strongest preservation and lies on the
-Pareto frontier, while SAM-Flow-SD3 produces stronger local edit scores at the
-cost of higher background drift.
+evaluation region. The main Ours variants use no final pixel-level source
+compositing and lie in the high-preservation region of the trade-off, while
+SplitFlow-SD3 and other editing baselines produce stronger local edit scores at
+the cost of higher background drift.
 ```
 
 Markdown preview:
 
-![Edit-preservation trade-off](assets/tradeoff_overall_edit_preservation_compact.png)
+![Edit-preservation trade-off](../experiments/norestore_tradeoff/tradeoff_overall_edit_preservation_compact.png)
+
+Before submission, refresh or filter the main figure so SAM-Flow is not shown
+in the main paper plot.
 
 ## Qualitative Comparison Figure
 
@@ -47,7 +54,7 @@ This figure is useful for internal selection and appendix material. For the
 main paper, crop it to fewer methods:
 
 ```text
-source | fixed eval region | Ours | SAM-Flow-SD3 | FlowEdit-SD3 | SplitFlow-SD3 | OT-RF enhanced
+source | fixed eval region | Ours-SD3 | Ours-FLUX | FlowEdit-SD3 | SplitFlow-SD3 | OT-RF enhanced
 ```
 
 Recommended examples:
@@ -75,14 +82,17 @@ experiments/flowedit135_fixedmask_metrics_20260621/review_hard_ours_vs_sam.jpg
 
 This should not be a main positive-only figure. It is valuable for limitation
 discussion because it shows that text-like T3 surface-decal edits are often
-under-edited by Ours, while SAM-Flow-SD3 rewrites them more aggressively.
+under-edited by Ours, while more aggressive editing baselines rewrite them more
+clearly at the cost of larger non-edit drift. Because SAM-Flow is concurrent
+arXiv context rather than a main baseline, do not use a SAM-Flow-centered hard
+case figure as the main limitation figure.
 
 ## Family-Level Trade-Off Figure
 
 Use:
 
 ```text
-paper/assets/tradeoff_by_family_edit_preservation.png
+experiments/norestore_tradeoff/tradeoff_by_family_edit_preservation.png
 ```
 
 Recommended appendix caption:
@@ -92,6 +102,9 @@ Family-level edit-preservation trade-off. Orange stars denote Ours and grey
 dots denote baselines. Ours consistently occupies the high-preservation region
 for T1-T5, while edit strength varies by family.
 ```
+
+As with the overall trade-off figure, refresh or filter this before submission
+so SAM-Flow does not appear in the main-paper figure set.
 
 ## Fixed Evaluation Region Audit
 

@@ -1,2 +1,0 @@
-/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_10/command.txt
-/cluster/users/grad/2025/25t8103/project/outputs/pretty_matrix/mug_heart/support_v3_controller_rmsgap_mugbox145_c180_ref075_v1/seed_11/command.txt

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -14,6 +15,14 @@ from generic_support import (
     normalize_spatial_map,
     velocity_disagreement_map,
 )
+
+# Per-instance support normalization: with a multi-instance grounding mask the
+# raw support score is dominated by the strongest instance and percentile
+# thresholding drops the weaker ones. When enabled, each grounded instance is
+# renormalized to its own [0, 1] range so every instance survives selection.
+OPS_V3_PER_INSTANCE = os.environ.get("OPS_V3_PER_INSTANCE", "0") == "1"
+OPS_V3_INSTANCE_MIN_AREA = float(os.environ.get("OPS_V3_INSTANCE_MIN_AREA", "0.005"))
+OPS_V3_INSTANCE_MAX_EROSION = int(os.environ.get("OPS_V3_INSTANCE_MAX_EROSION", "4"))
 
 
 @dataclass
@@ -95,6 +104,96 @@ def normalize_within_mask(value: torch.Tensor, mask: torch.Tensor, eps: float = 
 def ground_object_mask(mask: torch.Tensor | None, reference: torch.Tensor) -> torch.Tensor | None:
     """Normalize an externally grounded / segmented mask to latent resolution."""
     return _match_map(mask, reference)
+
+
+def _plane_components(plane: torch.Tensor, min_area_ratio: float) -> list[list[tuple[int, int]]]:
+    """8-connected components of a boolean [h, w] plane above min_area_ratio."""
+    h, w = plane.shape
+    visited = torch.zeros_like(plane, dtype=torch.bool)
+    components: list[list[tuple[int, int]]] = []
+    for y in range(h):
+        for x in range(w):
+            if not bool(plane[y, x]) or bool(visited[y, x]):
+                continue
+            stack = [(y, x)]
+            visited[y, x] = True
+            points: list[tuple[int, int]] = []
+            while stack:
+                cy, cx = stack.pop()
+                points.append((cy, cx))
+                for dy in (-1, 0, 1):
+                    for dx in (-1, 0, 1):
+                        if dy == 0 and dx == 0:
+                            continue
+                        ny, nx = cy + dy, cx + dx
+                        if 0 <= ny < h and 0 <= nx < w and bool(plane[ny, nx]) and not bool(visited[ny, nx]):
+                            visited[ny, nx] = True
+                            stack.append((ny, nx))
+            if len(points) / max(1, h * w) >= float(min_area_ratio):
+                components.append(points)
+    return components
+
+
+def _split_touching_instances(
+    plane: torch.Tensor, min_area_ratio: float, max_erosion: int
+) -> list[list[tuple[int, int]]]:
+    """Instance components of a boolean plane, eroding to split touching subjects.
+
+    Adjacent subjects (two penguins with touching flippers) form one component
+    at threshold; erode until the plane splits, then assign every original
+    pixel to the nearest surviving component centroid.
+    """
+    components = _plane_components(plane, min_area_ratio)
+    if len(components) >= 2 or not components:
+        return components
+    eroded = plane.float()[None, None]
+    for _ in range(max(0, int(max_erosion))):
+        eroded = -F.max_pool2d(-eroded, kernel_size=3, stride=1, padding=1)
+        parts = _plane_components(eroded[0, 0] > 0.5, min_area_ratio)
+        if len(parts) >= 2:
+            centroids = [
+                (sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts)) for pts in parts
+            ]
+            assigned: list[list[tuple[int, int]]] = [[] for _ in parts]
+            for py, px in components[0]:
+                distances = [(py - cy) ** 2 + (px - cx) ** 2 for cy, cx in centroids]
+                assigned[distances.index(min(distances))].append((py, px))
+            return [pts for pts in assigned if pts]
+    return components
+
+
+def per_instance_normalized_score(
+    score: torch.Tensor,
+    grounding: torch.Tensor,
+    threshold: float = 0.5,
+    min_area_ratio: float = 0.005,
+    max_erosion: int = 4,
+) -> tuple[torch.Tensor, int]:
+    """Renormalize the support score within each grounded instance.
+
+    Outside the grounding the score is left as-is; inside, each instance gets
+    its own min/max range so percentile thresholding cannot silently drop the
+    weaker instances of a plural edit target. Returns (score, num_instances).
+    """
+    grounded = _match_map(grounding, score)
+    if grounded is None:
+        return score, 0
+    out = score.detach().float().clone()
+    num_instances = 0
+    for b in range(out.shape[0]):
+        plane = grounded[b, 0].detach().float() > float(threshold)
+        components = _split_touching_instances(plane, min_area_ratio, max_erosion)
+        num_instances = max(num_instances, len(components))
+        if len(components) < 2:
+            continue
+        for points in components:
+            component = torch.zeros((1, 1, *plane.shape), dtype=torch.float32, device=out.device)
+            for py, px in points:
+                component[0, 0, py, px] = 1.0
+            normalized = normalize_within_mask(out[b : b + 1], component)
+            selected = component[0, 0] > 0.5
+            out[b, 0][selected] = torch.maximum(out[b, 0][selected], normalized[0, 0][selected])
+    return normalize_spatial_map(out).to(device=score.device, dtype=score.dtype), num_instances
 
 
 def compute_token_attention(attention_map: torch.Tensor | None, reference: torch.Tensor) -> torch.Tensor | None:
@@ -308,6 +407,234 @@ def build_host_top_contact_region(
     return normalize_spatial_map(contact).to(device=host.device, dtype=host.dtype)
 
 
+def build_head_contour_contact_region(
+    host_mask: torch.Tensor,
+    up_frac: float = 0.10,
+    overlap_frac: float = 0.03,
+    half_w_frac: float = 0.085,
+    peak_distance_frac: float = 0.10,
+    peak_prominence_frac: float = 0.04,
+    merge_ratio: float = 0.80,
+    max_merge_dist_frac: float = 0.14,
+    taper_floor: float = 0.35,
+    threshold: float = 0.5,
+) -> torch.Tensor:
+    """Place an accessory contact band on each HEAD of the host silhouette.
+
+    A head is detected as a LOCAL PEAK of the per-column top contour (a locally highest
+    silhouette point). This is fully automatic and uniform across cases: it finds however
+    many heads exist (one for an upright single subject, one per subject for touching
+    multi-instance hosts such as two birds, the raised head/neck for a horizontal subject)
+    with no per-case head count or special-casing. Around each detected head the band hugs
+    the local top contour, extends upward by an ABSOLUTE fraction of image height (room for
+    the accessory, tapered so the empty space above is not over-edited), and overlaps a
+    little onto the head for contact. Replaces the single-bbox geometry of
+    build_above_host_region / build_host_top_contact_region, which assumes the head sits at
+    the top of an upright single subject.
+    """
+    host = normalize_spatial_map(host_mask)
+    if host.dim() == 2:
+        host = host.view(1, 1, *host.shape)
+    elif host.dim() == 3:
+        host = host.unsqueeze(1)
+    h, w = host.shape[-2:]
+    device = host.device
+    m = (host.float() > float(threshold)).float()  # [B,1,h,w] silhouette
+    rows = torch.arange(h, device=device, dtype=torch.float32).view(1, 1, h, 1)
+    big = float(h + 1)
+    top = torch.where(m > 0.5, rows, torch.full_like(m, big)).amin(dim=2)   # [B,1,w] topmost host row
+    valid = top < big                                                       # [B,1,w]
+    height = torch.where(valid, (float(h) - top), torch.zeros_like(top))    # [B,1,w] taller -> higher
+    # detect heads = local peaks of the top-contour height (automatic count, uniform)
+    sk = max(3, int(0.012 * w) // 2 * 2 + 1)
+    height_s = F.avg_pool1d(height, kernel_size=sk, stride=1, padding=sk // 2)
+    win = max(3, int(peak_distance_frac * w) // 2 * 2 + 1)
+    local_max = F.max_pool1d(height_s, kernel_size=win, stride=1, padding=win // 2)
+    is_peak = (height_s >= local_max - 1e-4) & (height_s > float(peak_prominence_frac) * float(h)) & valid
+    hw = max(1, int(half_w_frac * w))
+    # group adjacent peaks: merge into one head iff the valley between them is shallow (same
+    # head, e.g. two ears of a frontal face); deep valley/gap => separate subjects (two birds).
+    # Fully geometric & uniform -- no per-case head count / special-casing.
+    head_cols = torch.zeros_like(height)
+    for b in range(height.shape[0]):
+        hs = height_s[b, 0]
+        peaks = is_peak[b, 0].nonzero().flatten().tolist()
+        if not peaks:
+            peaks = [int(torch.argmax(hs).item())]
+        peaks.sort()
+        groups = [[peaks[0]]]
+        for p in peaks[1:]:
+            prev = groups[-1][-1]
+            seg = hs[prev:p + 1]
+            valley = float(seg.min().item()) if seg.numel() else 0.0
+            hp = min(float(hs[prev].item()), float(hs[p].item()))
+            if (
+                hp > 0
+                and valley >= float(merge_ratio) * hp
+                and (p - prev) <= int(float(max_merge_dist_frac) * float(w))
+            ):
+                groups[-1].append(p)
+            else:
+                groups.append([p])
+        for g in groups:
+            lo = max(0, g[0] - hw)
+            hi = min(w, g[-1] + hw + 1)
+            head_cols[b, 0, lo:hi] = 1.0
+    head_cols = head_cols > 0.5
+    if float(head_cols.float().sum().item()) <= 0:
+        return build_host_top_contact_region(host_mask)
+    # band around the local contour of each head column: full on the head + overlap, tapering up
+    up = int(round(float(up_frac) * h))
+    ov = int(round(float(overlap_frac) * h))
+    top_b = top.unsqueeze(2)                            # [B,1,1,w]
+    yy = rows                                           # [1,1,h,1]
+    above = (top_b - yy).clamp(min=0.0)                 # >0 above the contour
+    in_up = (yy >= (top_b - up)) & (yy < top_b)
+    in_ov = (yy >= top_b) & (yy <= (top_b + ov))
+    taper = float(taper_floor) + (1.0 - float(taper_floor)) * (1.0 - above / float(max(up, 1)))
+    band = torch.where(in_ov, torch.ones_like(taper), torch.where(in_up, taper.clamp(0.0, 1.0), torch.zeros_like(taper)))
+    band = band * head_cols.unsqueeze(2).float() * valid.unsqueeze(2).float()
+    if float(band.detach().float().max().item()) <= 1e-6:
+        return build_host_top_contact_region(host_mask)
+    return normalize_spatial_map(band).to(device=host_mask.device, dtype=host_mask.dtype)
+
+
+def build_multi_head_contact_region(
+    host_mask: torch.Tensor,
+    requested_instances: int = 2,
+    min_area_ratio: float = 0.002,
+    max_area_ratio: float = 0.35,
+    min_center_distance_frac: float = 0.16,
+    threshold_start: float = 0.70,
+    threshold_stop: float = 0.30,
+) -> torch.Tensor:
+    """Build one head-contact band per separated host component.
+
+    The plain head-contact relation expects a reasonably clean silhouette. SD3 token
+    attention for plural hosts is often fragmented, so first select separated host
+    components from the host-attention map, then apply the contour contact logic to
+    each component independently.
+    """
+    host = normalize_spatial_map(host_mask)
+    if host.dim() == 2:
+        host = host.view(1, 1, *host.shape)
+    elif host.dim() == 3:
+        host = host.unsqueeze(1)
+    h, w = host.shape[-2:]
+    out = torch.zeros_like(host)
+    thresholds = [
+        threshold_start,
+        0.60,
+        0.50,
+        0.40,
+        threshold_stop,
+    ]
+    thresholds = sorted({float(t) for t in thresholds if 0.0 < float(t) < 1.0}, reverse=True)
+    min_dist = max(1.0, float(min_center_distance_frac) * float(w))
+    target_count = max(1, int(requested_instances))
+
+    for b in range(host.shape[0]):
+        plane = host[b, 0].detach().float().cpu().clamp(0.0, 1.0)
+        best_components: list[tuple[float, float, float, tuple[int, int, int, int], list[tuple[int, int]]]] = []
+        for threshold in thresholds:
+            binary = plane > threshold
+            visited = torch.zeros_like(binary, dtype=torch.bool)
+            components: list[tuple[float, float, float, tuple[int, int, int, int], list[tuple[int, int]]]] = []
+            for y in range(h):
+                for x in range(w):
+                    if not bool(binary[y, x]) or bool(visited[y, x]):
+                        continue
+                    stack = [(y, x)]
+                    visited[y, x] = True
+                    points: list[tuple[int, int]] = []
+                    while stack:
+                        cy, cx = stack.pop()
+                        points.append((cy, cx))
+                        for dy in (-1, 0, 1):
+                            for dx in (-1, 0, 1):
+                                if dy == 0 and dx == 0:
+                                    continue
+                                ny, nx = cy + dy, cx + dx
+                                if 0 <= ny < h and 0 <= nx < w and bool(binary[ny, nx]) and not bool(visited[ny, nx]):
+                                    visited[ny, nx] = True
+                                    stack.append((ny, nx))
+                    area = len(points)
+                    area_ratio = area / max(1, h * w)
+                    if area_ratio < float(min_area_ratio) or area_ratio > float(max_area_ratio):
+                        continue
+                    ys = [p[0] for p in points]
+                    xs = [p[1] for p in points]
+                    y0, y1 = min(ys), max(ys) + 1
+                    x0, x1 = min(xs), max(xs) + 1
+                    bw = max(1, x1 - x0)
+                    bh = max(1, y1 - y0)
+                    width_ratio = bw / max(1, w)
+                    height_ratio = bh / max(1, h)
+                    # Reject broad border strips produced by diffuse plural-token attention.
+                    if (y0 <= 1 and width_ratio > 0.35) or (height_ratio < 0.035 and width_ratio > 0.25):
+                        continue
+                    cx = sum(xs) / max(1, len(xs))
+                    cy = sum(ys) / max(1, len(ys))
+                    mass = sum(float(plane[py, px].item()) for py, px in points) / max(1, area)
+                    edge_touch = float(x0 <= 0 or y0 <= 0 or x1 >= w or y1 >= h)
+                    size_bonus = min(1.0, area_ratio / max(float(min_area_ratio) * 4.0, 1e-6))
+                    upper_bonus = 1.0 - min(1.0, cy / max(1.0, float(h)))
+                    score_value = mass + 0.12 * size_bonus + 0.10 * upper_bonus - 0.20 * edge_touch
+                    components.append((float(score_value), float(area_ratio), float(cx), (x0, y0, x1, y1), points))
+            components.sort(key=lambda item: item[0], reverse=True)
+            selected: list[tuple[float, float, float, tuple[int, int, int, int], list[tuple[int, int]]]] = []
+            for component in components:
+                _, _, cx, _, _ = component
+                if all(abs(cx - other[2]) >= min_dist for other in selected):
+                    selected.append(component)
+                if len(selected) >= target_count:
+                    break
+            if selected and (len(selected) > len(best_components) or not best_components):
+                best_components = selected
+            if len(best_components) >= target_count:
+                break
+
+        if not best_components:
+            out[b : b + 1] = build_head_contour_contact_region(host[b : b + 1])
+            continue
+        for _, _, cx, box, points in best_components[:target_count]:
+            component = torch.zeros_like(host[b : b + 1])
+            for py, px in points:
+                component[0, 0, py, px] = 1.0
+            component = F.max_pool2d(component.float(), kernel_size=3, stride=1, padding=1).to(component.dtype)
+            band = build_head_contour_contact_region(
+                component,
+                up_frac=0.13,
+                overlap_frac=0.045,
+                half_w_frac=0.12,
+                threshold=0.4,
+            )
+            x0, y0, x1, y1 = box
+            bw = max(1, x1 - x0)
+            bh = max(1, y1 - y0)
+            half_w = max(int(round(0.065 * float(w))), int(round(1.00 * float(bw))))
+            up = max(int(round(0.095 * float(h))), int(round(1.80 * float(bh))))
+            overlap = max(int(round(0.040 * float(h))), int(round(0.65 * float(bh))))
+            rx0 = int(round(float(cx))) - half_w
+            rx1 = int(round(float(cx))) + half_w + 1
+            ry0 = int(y0) - up
+            ry1 = int(y0) + overlap + 1
+            box_mask = _box_mask_like(component, (rx0, ry0, rx1, ry1)).float()
+            yy = torch.arange(h, device=component.device, dtype=torch.float32).view(1, 1, h, 1)
+            xx = torch.arange(w, device=component.device, dtype=torch.float32).view(1, 1, 1, w)
+            center_y = float(y0) - 0.35 * float(up)
+            sigma_x = max(1.0, 0.55 * float(max(half_w, 1)))
+            sigma_y = max(1.0, 0.45 * float(max(up + overlap, 1)))
+            accessory_box = box_mask * torch.exp(
+                -0.5 * (((xx - float(cx)) / sigma_x) ** 2 + ((yy - center_y) / sigma_y) ** 2)
+            )
+            band = torch.maximum(band, normalize_spatial_map(accessory_box).to(device=band.device, dtype=band.dtype))
+            out[b : b + 1] = torch.maximum(out[b : b + 1], band.to(device=out.device, dtype=out.dtype))
+    if float(out.detach().float().max().item()) <= 1e-6:
+        return build_head_contour_contact_region(host_mask)
+    return normalize_spatial_map(out).to(device=host_mask.device, dtype=host_mask.dtype)
+
+
 def build_face_accessory_region(
     host_mask: torch.Tensor,
     upper_height: float = 0.42,
@@ -383,6 +710,10 @@ def build_relation_region(
         )
     if relation in {"below_host", "below"} and base_host is not None:
         return build_below_host_region(base_host)
+    if relation in {"on_multi_head", "on_multi_head_contact", "multi_head_contact", "multi_head_top_contact"} and base_host is not None:
+        return build_multi_head_contact_region(base_host)
+    if relation in {"on_head", "on_head_contact", "head_contact", "head_top_contact"} and base_host is not None:
+        return build_head_contour_contact_region(base_host)
     if relation in {"on_surface", "surface"} and base_host is not None:
         return build_surface_region(base_host)
     if relation in {"remove_source_object", "removed_object"}:
@@ -497,6 +828,10 @@ def build_support_candidates(
                 "relation_x_clean": relation * clean,
                 "relation_x_velocity": relation * velocity,
                 "relation_x_response": relation * response,
+                # response-floored: keep the relation band even where the edit response is
+                # weak (e.g. small/multi-instance heads), so a correctly-placed accessory
+                # band is not gated away into the high-response background.
+                "relation_x_floored_response": normalize_spatial_map(relation * (0.4 + 0.6 * response)),
             }
         )
     if relation_map is not None or grounding_mask is not None:
@@ -552,6 +887,17 @@ def default_candidate_for_operation(
     if op == "add_object":
         if has_relation and rel in {"inside_host", "inside"}:
             return "surface_local_response"
+        if has_relation and rel in {
+            "on_head",
+            "on_head_contact",
+            "head_contact",
+            "head_top_contact",
+            "on_multi_head",
+            "on_multi_head_contact",
+            "multi_head_contact",
+            "multi_head_top_contact",
+        }:
+            return "relation_x_floored_response"
         if has_relation and rel not in {"none", "auto", ""}:
             return "relation_x_response"
         return "attention_x_clean"
@@ -1006,6 +1352,16 @@ def build_operation_support_v3(
         clean_map=clean,
         grounding_mask=grounding,
     )
+    instance_count = 0
+    if OPS_V3_PER_INSTANCE and grounding is not None:
+        score, instance_count = per_instance_normalized_score(
+            score,
+            grounding,
+            min_area_ratio=OPS_V3_INSTANCE_MIN_AREA,
+            max_erosion=OPS_V3_INSTANCE_MAX_EROSION,
+        )
+        if instance_count > 1:
+            keep_components = max(int(keep_components), int(instance_count))
     use_component_scoring = parsed_operation == "add_object" and relation_map is not None
     component_score_ref = score if parsed_operation == "add_object" else clean
     edit, core, stats = postprocess_support(
@@ -1038,6 +1394,8 @@ def build_operation_support_v3(
             "support_blur_kernel": int(blur_kernel),
             "support_temporal_aggregation": temporal_aggregation,
             "support_temporal_steps": int(temporal_steps),
+            "support_per_instance_norm": int(OPS_V3_PER_INSTANCE),
+            "support_instance_count": int(instance_count),
             "support_attention_local_confidence": attention_localization_confidence(attention),
         }
     )

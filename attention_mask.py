@@ -127,7 +127,7 @@ class SD3AttentionStore:
             self._orig_processors[i] = block.attn.processor
             block.attn.processor = _CapturingJointAttnProcessor(self, i, detach=detach)
 
-    def restore(self, transformer):
+    def remove_hooks(self, transformer):
         for i, proc in self._orig_processors.items():
             transformer.transformer_blocks[i].attn.processor = proc
         self._orig_processors.clear()
@@ -324,7 +324,7 @@ def _extract_single_prompt_attention_maps(
                 return_dict=False,
             )
         finally:
-            store.restore(pipe.transformer)
+            store.remove_hooks(pipe.transformer)
 
     cross_map = store.aggregate_cross_spatial(img_h, img_w, token_indices=token_indices).to(x_latent.device)
     self_map = store.aggregate_self_spatial(img_h, img_w).to(x_latent.device)

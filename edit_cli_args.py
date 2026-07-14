@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 
 
@@ -6,6 +8,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--image", required=True, help="Path to source image.")
     parser.add_argument("--source-prompt", required=True, help="Source prompt.")
     parser.add_argument("--prompt", required=True, help="Target prompt.")
+    parser.add_argument("--negative-prompt", default="", help="Optional negative prompt for target denoising.")
     parser.add_argument("--output", required=True, help="Output image path.")
     parser.add_argument(
         "--max-image-size",
@@ -17,11 +20,6 @@ def build_parser() -> argparse.ArgumentParser:
         "--low-vram",
         action="store_true",
         help="Prefer sequential CPU offload over model CPU offload for small-memory GPUs.",
-    )
-    parser.add_argument(
-        "--no-model-offload",
-        action="store_true",
-        help="Keep the SD3 pipeline on the active device instead of enabling CPU/model offload.",
     )
     parser.add_argument("--seed", type=int, default=10)
     parser.add_argument("--num-inference-steps", type=int, default=28)
@@ -111,6 +109,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--edit-color-luma-gradient-preserve-scale", type=float, default=0.15)
     parser.add_argument("--edit-color-texture-preserve-scale", type=float, default=0.0)
     parser.add_argument("--edit-color-texture-kernel-size", type=int, default=7)
+    parser.add_argument(
+        "--edit-color-texture-detail-transfer",
+        action="store_true",
+        help="Transfer source high-frequency luma detail inside the color edit mask only; does not composite source pixels outside the edit region.",
+    )
+    parser.add_argument("--edit-color-texture-detail-transfer-mask", type=str, default=None)
+    parser.add_argument("--edit-color-texture-detail-transfer-strength", type=float, default=0.8)
+    parser.add_argument("--edit-color-texture-detail-transfer-kernel-size", type=int, default=9)
     parser.add_argument("--edit-color-boundary-chroma-scale", type=float, default=0.0)
     parser.add_argument("--edit-color-boundary-kernel-size", type=int, default=7)
     parser.add_argument("--edit-color-clean-projection-scale", type=float, default=0.0)
@@ -130,10 +136,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--edit-color-clean-projection-background-kernel-size", type=int, default=31)
     parser.add_argument("--edit-color-clean-projection-target-mode", choices=("static", "dynamic"), default="static")
     parser.add_argument("--edit-color-clean-projection-refresh-interval", type=int, default=0)
-    parser.add_argument("--edit-color-texture-restore", action="store_true")
-    parser.add_argument("--edit-color-texture-restore-mask", type=str, default=None)
-    parser.add_argument("--edit-color-texture-restore-strength", type=float, default=0.8)
-    parser.add_argument("--edit-color-texture-restore-kernel-size", type=int, default=9)
     parser.add_argument("--edit-ref-guidance-scale", type=float, default=0.0)
     parser.add_argument("--edit-ref-image", type=str, default=None)
     parser.add_argument("--edit-ref-mask", type=str, default=None)
@@ -233,6 +235,21 @@ def build_parser() -> argparse.ArgumentParser:
         default=False,
         help="Enable per-step clean-estimate diagnostics and closed-loop local guidance scaling.",
     )
+    parser.add_argument(
+        "--shared-core-shadow",
+        action="store_true",
+        default=False,
+        help="Compute shared dece_core diagnostics without changing the legacy SD3 update.",
+    )
+    parser.add_argument(
+        "--shared-core-authoritative",
+        action="store_true",
+        default=False,
+        help="Use dece_core for the supported SD3 velocity path; unsupported combinations fail closed.",
+    )
+    parser.add_argument("--adaptive-component-control", action="store_true", default=False)
+    parser.add_argument("--adaptive-component-threshold", type=float, default=0.5)
+    parser.add_argument("--adaptive-component-min-pixels", type=int, default=4)
     parser.add_argument(
         "--adaptive-edit-target-progress",
         type=float,
@@ -464,6 +481,7 @@ def build_parser() -> argparse.ArgumentParser:
             "relation_x_clean",
             "relation_x_velocity",
             "relation_x_response",
+            "relation_x_floored_response",
             "host_surface_x_clean",
             "host_surface_x_response",
             "new_x_surface_x_clean",
@@ -510,6 +528,7 @@ def build_parser() -> argparse.ArgumentParser:
             "relation_x_clean",
             "relation_x_velocity",
             "relation_x_response",
+            "relation_x_floored_response",
             "host_surface_x_clean",
             "host_surface_x_response",
             "new_x_surface_x_clean",
@@ -558,6 +577,14 @@ def build_parser() -> argparse.ArgumentParser:
             "on_profile_face_left",
             "on_profile_face_right",
             "on_surface",
+            "on_head",
+            "on_head_contact",
+            "on_multi_head",
+            "on_multi_head_contact",
+            "multi_head_contact",
+            "head_contact",
+            "head_top_contact",
+            "multi_head_top_contact",
             "remove_source_object",
             "inside_host",
             "inside_object",
@@ -840,9 +867,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--final-edit-mask-mode",
         dest="external_edit_mask_mode",
         type=str,
-        choices=("replace", "intersect", "union"),
+        choices=("replace", "intersect", "union", "subject_core"),
         default="replace",
-        help="How --final-edit-mask combines with the current edit mask.",
+        help=(
+            "How --final-edit-mask combines with the current edit mask. "
+            "'subject_core' uses the external mask as the broad editable subject "
+            "while deriving a local edit core from the current operation support, "
+            "clipped to that subject."
+        ),
     )
     parser.add_argument(
         "--proposal-edit-image",
@@ -899,14 +931,6 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--final-chroma-source-mask", type=str, default=None)
     parser.add_argument("--final-chroma-source-mask-blur", type=float, default=0.0)
-    parser.add_argument(
-        "--final-outside-restore-scale",
-        type=float,
-        default=0.0,
-        help="Restore the region outside the final edit mask toward the source image at full pixel resolution; suppresses latent-downsampled mask feather leak.",
-    )
-    parser.add_argument("--final-outside-restore-mask", type=str, default=None)
-    parser.add_argument("--final-outside-restore-mask-blur", type=float, default=1.0)
     parser.add_argument(
         "--photo-prompt-mode",
         type=str,

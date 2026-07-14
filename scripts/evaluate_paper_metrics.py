@@ -35,9 +35,18 @@ METHOD_DISPLAY_NAMES = {
     "base_only": "RF reconstruction / base reconstruction",
     "direct_target": "Direct target guidance",
     "adaptive_full_generic_support": "Generic support control",
-    "support_v3_fixed": "Fixed DeCE displacement",
-    "support_v3_controller_rmsgap": "DeCE-RF",
+    "support_v3_fixed": "Fixed CleanEdit displacement",
+    "support_v3_controller_rmsgap": "CleanEdit",
     "ours_sd3": "Ours (SD3)",
+    "ours_flux": "Ours (FLUX)",
+    "fluxabl_preserve": "FLUX w/o preserve terms",
+    "fluxabl_adaptive": "FLUX w/o adaptive controller",
+    "fluxabl_opsupport": "FLUX w/o operation support",
+    "fluxabl_nofinal": "FLUX w/o final postprocess",
+    "sd3abl_preserve": "SD3 w/o preserve terms",
+    "sd3abl_adaptive": "SD3 w/o adaptive controller",
+    "sd3abl_opsupport": "SD3 w/o operation support",
+    "sd3abl_nofinal": "SD3 w/o final postprocess",
     "fireflow": "FireFlow",
     "rf_solver_edit": "RF-Solver-Edit",
     "flowedit_flux": "FlowEdit (FLUX)",
@@ -695,7 +704,7 @@ def evaluate_run(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Evaluate paper-level RF h-Edit metrics.")
+    parser = argparse.ArgumentParser(description="Evaluate paper-level CleanEdit metrics.")
     parser.add_argument("--outputs-dir", type=Path, default=Path("outputs/main_matrix"))
     parser.add_argument("--csv-output", type=Path, default=Path("experiments/main_metrics.csv"))
     parser.add_argument("--json-output", type=Path, default=Path("experiments/main_metrics.json"))

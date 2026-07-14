@@ -7,12 +7,34 @@ import os
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parent
 DEFAULT_MANIFEST = PROJ / "data/flowedit_compatible_135/manifest.json"
 DEFAULT_OUT = PROJ / "outputs/flowedit135_metric_runs"
 
 METHODS = [
     "ours_sd3",
+    "ours_flux",
+    "ours_flux_t4fix",
+    "fluxabl_preserve",
+    "fluxabl_adaptive",
+    "fluxabl_opsupport",
+    "fluxabl_nofinal",
+    "sd3abl_preserve",
+    "sd3abl_adaptive",
+    "sd3abl_opsupport",
+    "sd3abl_nofinal",
+    "fluxpg_s030",
+    "fluxpg_s060",
+    "fluxpg_s160",
+    "fluxpg_s250",
+    "fluxsw_s070",
+    "fluxsw_s085",
+    "fluxsw_s115",
+    "fluxsw_s130",
+    "sd3sw_s070",
+    "sd3sw_s085",
+    "sd3sw_s115",
+    "sd3sw_s130",
     "fireflow",
     "rf_solver_edit",
     "flowedit_flux",
@@ -63,10 +85,28 @@ def direct_run_result(root: str, key: str, method: str) -> Path:
 
 def result_path(item: dict, method: str, csv_maps: dict[str, dict[str, Path]]) -> Path | None:
     key = item["key"]
+    family_label = item.get("family_label", "")
+    family = item.get("family", "")
     if method in csv_maps:
         return csv_maps[method].get(key)
     if method == "ours_sd3":
-        return PROJ / "outputs/fe135_full_dece_sd3" / key / "support_v3_controller_rmsgap/seed_10/result.png"
+        return PROJ / "outputs/fe135_subjectpreserve_full_v10_sd3" / key / "support_v3_controller_rmsgap/seed_10/result.png"
+    if method == "ours_flux":
+        return PROJ / "outputs/fe135_full_dece_flux_v11c_pcie8_h100" / key / "dece_rf_flux/seed_10/result.png"
+    if method == "ours_flux_t4fix":
+        return PROJ / "outputs/fe135_t4fix_dece_flux" / key / "dece_rf_flux/seed_10/result.png"
+    if method.startswith("fluxsw_s"):
+        tag=method.split("_s")[1]
+        return PROJ / ("outputs/fe135_flux_sweepsub_s"+tag) / key / "dece_rf_flux/seed_10/result.png"
+    if method.startswith("sd3sw_s"):
+        tag=method.split("_s")[1]
+        return PROJ / ("outputs/fe135_sd3_sweepsub_s"+tag) / key / "support_v3_controller_rmsgap/seed_10/result.png"
+    if method.startswith("fluxpg_s"):
+        return PROJ / ("outputs/fe135_flux_pgsweep_s"+method.split("_s")[1]) / key / "dece_rf_flux/seed_10/result.png"
+    if method.startswith("fluxabl_"):
+        return PROJ / ("outputs/fe135_flux_abl_"+method.split("_",1)[1]) / key / "dece_rf_flux/seed_10/result.png"
+    if method.startswith("sd3abl_"):
+        return PROJ / ("outputs/fe135_sd3_abl_"+method.split("_",1)[1]) / key / "support_v3_controller_rmsgap/seed_10/result.png"
     if method == "reflex":
         return direct_run_result("outputs/flowedit135_baselines/reflex", key, "reflex")
     if method == "sam_flow_flux":

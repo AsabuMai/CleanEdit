@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parent
 GENERATOR = PROJ / "make_flowedit118_fixed_eval_masks.py"
 
 

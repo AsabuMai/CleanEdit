@@ -1,78 +1,101 @@
-# RF h-Edit Project
+# CleanEdit
 
-Current paper method:
+CleanEdit is a training-free image editor for rectified-flow diffusion models. It combines operation-conditioned spatial support with clean-space adaptive control, using a shared controller design for SD3 and FLUX while keeping backend-specific model plumbing separate.
 
-```text
-DeCE-RF: Decoupled Clean-Estimate Edit-Preserve Control for Localized Rectified Flow Editing
-```
+This repository is the compact reproduction release. Generated images, model weights, external baseline clones, caches, and exploratory runs are intentionally excluded. The complete pre-cleanup laboratory snapshot is preserved in the Git tag `archive/full-lab-2026-07-14`.
 
-Current project lock:
+## What is included
 
 ```text
-Phase2 = T1-T5, three source cases per family, seeds 10/11/12.
+CleanEdit/
+├── run_edit_sd3.py              # single-image SD3 entry point
+├── run_edit_flux.py             # single-image FLUX entry point
+├── dece_core.py                 # shared controller and clean-control logic
+├── operation_support_v3.py      # operation-conditioned support
+├── sd3_*.py                     # SD3 backend
+├── flux/                        # FLUX backend
+├── scripts/                     # batch, metric, and baseline adapters
+├── slurm/                       # cluster launchers
+├── data/flowedit_compatible_135 # benchmark manifests and fixed masks
+├── results/                     # published summaries and audits
+├── tests/                       # controller and metric regression tests
+└── docs/                        # method and reproduction notes
 ```
 
-Start with `PHASE2_LOCK_2026-06-11.md` for scope and
-`CURRENT_PHASE2_STATUS_2026-06-11.md` for what is already complete and what
-comes next. The old five-canonical-case Core-5 entry points were archived and
-are not current evidence.
+## Installation
 
-## Active Entry Points
-
-- `PHASE2_LOCK_2026-06-11.md`: current scope, task map, table policy, and compute rule.
-- `CURRENT_PHASE2_STATUS_2026-06-11.md`: completed artifacts, audit status, and next tasks.
-- `PROJECT_MAP.md`: active file map.
-- `paper/README.md`: paper-facing current tables/results/figure notes.
-- `docs/README.md`: current docs index.
-- `docs/todo_2026-06-11.md`: next execution queue.
-
-## Active Evidence
-
-Current artifacts live in:
-
-```text
-experiments/support_v3_2026-06-02/
-```
-
-Use these as the current paper-facing outputs:
-
-- `phase2_paper_tables_2026-06-11.md`
-- `phase2_tables_audit_2026-06-11.json`
-- `table1_phase2_t1_t5_main_final.csv`
-- `table2a_phase2_sd3_common_subset_final.csv`
-- `table2b_phase2_native_context_final.csv`
-- `phase2_t1_t5_family_breakdown_final.csv`
-- `blind_internal_audit_phase2_t1_t5_2026-06-11/`
-- `efficiency_context_2026-06-11.md`
-
-## Active Scripts
-
-- `scripts/build_phase2_paper_tables.py`
-- `scripts/build_blind_internal_audit_phase2.py`
-- `scripts/summarize_blind_internal_audit.py`
-- `scripts/build_efficiency_context_table.py`
-
-The older Core-5/five-case builders and old generated artifacts were moved to
-`obsolete_pre_phase2_lock_2026-06-11` folders.
-
-## Compute Boundary
-
-Do not run heavy operations on the master node. Heavy install/model/GPU/Torch/
-diffusers work must run on `a100-01` through Slurm:
+Python 3.10+ and a CUDA-capable PyTorch installation are expected. Create the environment in the repository so batch jobs and interactive runs use the same packages:
 
 ```bash
-srun -p a100 -w a100-01 --gres shard:1 --pty /bin/bash -l
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 -r requirements.txt
 ```
 
-The shared environment is:
+Model weights are downloaded from Hugging Face on first use. Accept the corresponding model licenses and authenticate beforehand when required. SD3 uses `stabilityai/stable-diffusion-3-medium-diffusers`; the FLUX backend uses the model configured by `flux/flux_hrec.py`.
 
-```text
-/cluster/users/grad/2025/25t8103/project/.venv
+## Single-image editing
+
+The complete argument surface is available with `--help`. Minimal commands are:
+
+```bash
+source .venv/bin/activate
+python run_edit_sd3.py \
+  --image input.png \
+  --source-prompt "a red mug on a table" \
+  --prompt "a blue mug on a table" \
+  --output outputs/sd3.png
+
+python run_edit_flux.py \
+  --image input.png \
+  --source-prompt "a red mug on a table" \
+  --prompt "a blue mug on a table" \
+  --output outputs/flux.png
 ```
 
-## Current Claim
+The benchmark batch launchers contain the operation-specific settings used for the reported runs.
 
-The conservative claim is that DeCE-RF improves localized edit-preserve behavior
-on the locked Phase2 T1-T5 diagnostic set, with preservation and locality
-reported alongside edit metrics. E5/removal remains a separate boundary probe,
-not part of the Phase2 T1-T5 main tables.
+## Reproduce FlowEdit-135
+
+1. Obtain the source images from the official FlowEdit repository according to its license.
+2. Rebase the checked-in manifest to that local image directory:
+
+```bash
+python scripts/rebase_manifest.py \
+  --manifest data/flowedit_compatible_135/manifest.json \
+  --flowedit-root /path/to/FlowEdit \
+  --output data/flowedit_compatible_135/manifest.local.json
+```
+
+3. Launch SD3 or FLUX. On Slurm:
+
+```bash
+MANIFEST=$PWD/data/flowedit_compatible_135/manifest.local.json \
+  sbatch slurm/run_sd3_flowedit135.sbatch
+
+MANIFEST=$PWD/data/flowedit_compatible_135/manifest.local.json \
+  sbatch slurm/run_flux_flowedit135.sbatch
+```
+
+4. Assemble runs and evaluate them with the scripts documented in [docs/reproduction.md](docs/reproduction.md).
+
+## Fair comparison protocol
+
+The main comparison uses the same benchmark inputs, masks, seeds, resolution, and metric implementation for all methods. CleanEdit's main SD3/FLUX launchers set `ABLATE=no_final_postprocess`: the reported image is the diffusion result, with no final source-pixel restoration, cut-and-paste, or method-specific compositing. Diagnostic post-processing modes remain in the implementation for ablation and debugging only and must not be mixed into the main comparison.
+
+## Results and limitations
+
+Compact CSV/JSON summaries and metric audits are in [`results/`](results/). The known limitations include unreliable small rendered text in SD3 and incomplete whole-subject material conversion for large subjects; see [paper/limitations.md](paper/limitations.md).
+
+## Tests
+
+Run tests on a CUDA compute node when the environment imports GPU-enabled PyTorch:
+
+```bash
+python -m pytest -q tests
+```
+
+## Citation
+
+The paper has been submitted. Citation metadata will be added when a public paper record is available.

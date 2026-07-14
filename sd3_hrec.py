@@ -5,8 +5,6 @@ import json
 import os
 from typing import Optional
 
-import PIL.Image
-
 import torch
 from tqdm import tqdm
 
@@ -21,7 +19,7 @@ from energies import (
     reconstruction_energy_total,
     reconstruction_velocity_surrogate_total,
 )
-from generic_support import build_generic_support
+from dece_core import DeceCoreConfig, DeceCoreStepInput, compute_dece_core_step
 from guidance_fields import (
     decode_latent_to_unit_image,
     infer_source_color_rgb,
@@ -39,523 +37,45 @@ from guidance_fields import (
     source_color_similarity_mask,
     suppress_low_frequency_guidance,
 )
-from operation_support_v3 import (
-    build_operation_support_v3,
-    compute_clean_disagreement,
-    compute_velocity_disagreement,
-    save_support_debug,
+from recolor_projection import (
+    _build_recolor_projection_latent_target,
+    _estimate_recolor_boundary_alpha,
+    _estimate_recolor_closed_form_alpha,
+    _prepare_recolor_projection_alpha,
+    _save_clean_estimate_debug_images,
 )
 from schedules import get_schedule_value
+from sd3_mask_geometry import SD3MaskGeometryConfig, apply_sd3_mask_geometry
+from sd3_mask_provider import SD3PromptSupportConfig, build_sd3_prompt_support
 from spatial_masks import (
     _attention_object_mask_from_map,
     _attention_velocity_object_mask,
-    _box_from_mask,
     _box_to_list,
-    _clamp_box,
-    _conservative_attention_box,
-    _expand_box,
     _largest_component_box_from_mask,
     _largest_component_mask_from_mask,
-    _mask_binary_area_ratio,
     _semantic_velocity_object_mask,
     _top_components_mask_from_mask,
     _velocity_diff_object_mask,
-    build_object_contact_masks,
-    build_recolor_trimap_masks,
     dilate_spatial_mask,
-    filter_spatial_mask_components,
     latent_structure_edge_mask,
     load_external_image_like,
     load_external_mask_like,
     normalized_box_mask_like,
+    save_mask_bundle,
     save_mask_image,
     smooth_spatial_mask,
     spatial_mask_stats,
-    translate_spatial_mask,
 )
-
-
-
-
-def _tensor_unit_image_to_pil(image: torch.Tensor) -> PIL.Image.Image:
-    array = (
-        image[0]
-        .detach()
-        .float()
-        .cpu()
-        .permute(1, 2, 0)
-        .clamp(0.0, 1.0)
-        .mul(255.0)
-        .round()
-        .to(torch.uint8)
-        .numpy()
-    )
-    return PIL.Image.fromarray(array)
-
-
-def _encode_unit_image_to_latent(pipe, image: torch.Tensor) -> torch.Tensor:
-    vae = pipe.vae
-    vae_dtype = next(vae.parameters()).dtype
-    image_input = (image.to(dtype=vae_dtype) * 2.0 - 1.0).clamp(-1.0, 1.0)
-    autocast_enabled = image_input.device.type == "cuda"
-    with torch.autocast("cuda", enabled=autocast_enabled), torch.inference_mode():
-        latent_denorm = vae.encode(image_input).latent_dist.mode()
-    return (latent_denorm - vae.config.shift_factor) * vae.config.scaling_factor
-
-
-def _yuv_to_rgb(image_yuv: torch.Tensor) -> torch.Tensor:
-    y = image_yuv[:, 0:1]
-    u = image_yuv[:, 1:2]
-    v = image_yuv[:, 2:3]
-    r = y + 1.13983 * v
-    g = y - 0.39465 * u - 0.58060 * v
-    b = y + 2.03211 * u
-    return torch.cat([r, g, b], dim=1)
-
-
-def _spatial_low_pass(tensor: torch.Tensor, kernel_size: int) -> torch.Tensor:
-    kernel_size = max(1, int(kernel_size))
-    if kernel_size <= 1:
-        return tensor
-    if kernel_size % 2 == 0:
-        kernel_size += 1
-    pad = kernel_size // 2
-    return torch.nn.functional.avg_pool2d(tensor, kernel_size=kernel_size, stride=1, padding=pad)
-
-
-def _luma_low_pass(luma: torch.Tensor, kernel_size: int) -> torch.Tensor:
-    return _spatial_low_pass(luma, kernel_size)
-
-
-def _estimate_local_background(
-    image: torch.Tensor,
-    alpha: torch.Tensor,
-    kernel_size: int,
-) -> torch.Tensor:
-    kernel_size = max(1, int(kernel_size))
-    if kernel_size % 2 == 0:
-        kernel_size += 1
-    outside = (1.0 - alpha).clamp(0.0, 1.0)
-    if kernel_size <= 1:
-        return image
-    pad = kernel_size // 2
-    weighted = torch.nn.functional.avg_pool2d(image * outside, kernel_size=kernel_size, stride=1, padding=pad)
-    denom = torch.nn.functional.avg_pool2d(outside, kernel_size=kernel_size, stride=1, padding=pad).clamp_min(1e-4)
-    estimate = weighted / denom
-    return torch.where(denom > 1e-3, estimate, image).clamp(0.0, 1.0)
-
-
-def _soft_mask_boundary_band(alpha: torch.Tensor, kernel_size: int) -> torch.Tensor:
-    kernel_size = max(1, int(kernel_size))
-    if kernel_size <= 1:
-        return torch.zeros_like(alpha)
-    if kernel_size % 2 == 0:
-        kernel_size += 1
-    pad = kernel_size // 2
-    dilated = torch.nn.functional.max_pool2d(alpha, kernel_size=kernel_size, stride=1, padding=pad)
-    eroded = -torch.nn.functional.max_pool2d(-alpha, kernel_size=kernel_size, stride=1, padding=pad)
-    return (dilated - eroded).clamp(0.0, 1.0)
-
-
-def _estimate_recolor_boundary_alpha(
-    source_image: torch.Tensor,
-    mask: torch.Tensor,
-    source_rgb: torch.Tensor,
-    threshold: float,
-    softness: float,
-    boundary_kernel_size: int,
-) -> torch.Tensor:
-    """Use source color evidence only in a narrow band around the support edge."""
-    alpha = mask.to(dtype=torch.float32, device=source_image.device)
-    if alpha.shape[-2:] != source_image.shape[-2:]:
-        alpha = torch.nn.functional.interpolate(
-            alpha,
-            size=source_image.shape[-2:],
-            mode="bilinear",
-            align_corners=False,
-        )
-    alpha = alpha.clamp(0.0, 1.0)
-    boundary = _soft_mask_boundary_band(alpha, boundary_kernel_size)
-    if float(boundary.max().item()) <= 0.0:
-        return alpha
-    color_alpha = source_color_similarity_mask(
-        source_image.to(dtype=torch.float32),
-        source_rgb.to(dtype=torch.float32, device=source_image.device),
-        None,
-        threshold=threshold,
-        softness=softness,
-    ).clamp(0.0, 1.0)
-    return (alpha * (1.0 - boundary) + color_alpha * boundary).clamp(0.0, 1.0)
-
-
-def _closed_form_alpha_crop(
-    image: "np.ndarray",
-    known_alpha: "np.ndarray",
-    known_mask: "np.ndarray",
-    epsilon: float,
-    constraint_scale: float,
-) -> "np.ndarray":
-    import numpy as np
-    from scipy import sparse
-    from scipy.sparse import linalg
-
-    height, width, channels = image.shape
-    if channels != 3:
-        raise ValueError("closed-form matting expects RGB input")
-    radius = 1
-    win_size = (2 * radius + 1) ** 2
-    flat_image = image.reshape(-1, 3).astype(np.float64)
-    inds = np.arange(height * width).reshape(height, width)
-    row_inds = []
-    col_inds = []
-    values = []
-    eye = np.eye(3)
-    for y in range(radius, height - radius):
-        for x in range(radius, width - radius):
-            win_inds = inds[y - radius : y + radius + 1, x - radius : x + radius + 1].reshape(-1)
-            win_i = flat_image[win_inds]
-            mean = win_i.mean(axis=0)
-            centered = win_i - mean
-            cov = centered.T @ centered / win_size
-            inv = np.linalg.inv(cov + (float(epsilon) / win_size) * eye)
-            affinity = (1.0 + centered @ inv @ centered.T) / win_size
-            local_l = np.eye(win_size) - affinity
-            row_inds.extend(np.repeat(win_inds, win_size))
-            col_inds.extend(np.tile(win_inds, win_size))
-            values.extend(local_l.reshape(-1))
-    n = height * width
-    laplacian = sparse.coo_matrix((values, (row_inds, col_inds)), shape=(n, n)).tocsr()
-    known = known_mask.reshape(-1).astype(bool)
-    alpha0 = known_alpha.reshape(-1).astype(np.float64)
-    constraints = sparse.diags(known.astype(np.float64) * float(constraint_scale), format="csr")
-    rhs = known.astype(np.float64) * float(constraint_scale) * alpha0
-    alpha = linalg.spsolve(laplacian + constraints, rhs)
-    return np.clip(alpha.reshape(height, width), 0.0, 1.0).astype(np.float32)
-
-
-def _estimate_recolor_closed_form_alpha(
-    source_image: torch.Tensor,
-    mask: torch.Tensor,
-    boundary_kernel_size: int,
-    max_size: int,
-    epsilon: float,
-    constraint_scale: float,
-) -> torch.Tensor:
-    import numpy as np
-
-    alpha = mask.to(dtype=torch.float32, device=source_image.device)
-    if alpha.shape[-2:] != source_image.shape[-2:]:
-        alpha = torch.nn.functional.interpolate(
-            alpha,
-            size=source_image.shape[-2:],
-            mode="bilinear",
-            align_corners=False,
-        )
-    alpha = alpha.clamp(0.0, 1.0)
-    hard = (alpha > 0.5).to(dtype=torch.float32)
-    kernel_size = max(3, int(boundary_kernel_size))
-    if kernel_size % 2 == 0:
-        kernel_size += 1
-    pad = kernel_size // 2
-    eroded = -torch.nn.functional.max_pool2d(-hard, kernel_size=kernel_size, stride=1, padding=pad)
-    dilated = torch.nn.functional.max_pool2d(hard, kernel_size=kernel_size, stride=1, padding=pad)
-    unknown = (dilated - eroded).clamp(0.0, 1.0) > 0.0
-    if not bool(unknown.any().item()):
-        return alpha
-
-    active = (dilated[0, 0] > 0.0).detach().cpu().numpy()
-    ys, xs = np.where(active)
-    if len(xs) == 0:
-        return alpha
-    margin = max(2, pad + 2)
-    height, width = alpha.shape[-2:]
-    x0 = max(0, int(xs.min()) - margin)
-    x1 = min(width, int(xs.max()) + margin + 1)
-    y0 = max(0, int(ys.min()) - margin)
-    y1 = min(height, int(ys.max()) + margin + 1)
-
-    image_crop = source_image[:, :, y0:y1, x0:x1].to(dtype=torch.float32)
-    alpha_crop = alpha[:, :, y0:y1, x0:x1]
-    eroded_crop = eroded[:, :, y0:y1, x0:x1]
-    dilated_crop = dilated[:, :, y0:y1, x0:x1]
-    crop_h, crop_w = alpha_crop.shape[-2:]
-    scale = min(1.0, float(max(16, int(max_size))) / float(max(crop_h, crop_w)))
-    solve_h = max(8, int(round(crop_h * scale)))
-    solve_w = max(8, int(round(crop_w * scale)))
-    if (solve_h, solve_w) != (crop_h, crop_w):
-        image_solve = torch.nn.functional.interpolate(
-            image_crop,
-            size=(solve_h, solve_w),
-            mode="bilinear",
-            align_corners=False,
-        )
-        alpha_solve = torch.nn.functional.interpolate(
-            alpha_crop,
-            size=(solve_h, solve_w),
-            mode="bilinear",
-            align_corners=False,
-        )
-        eroded_solve = torch.nn.functional.interpolate(eroded_crop, size=(solve_h, solve_w), mode="nearest")
-        dilated_solve = torch.nn.functional.interpolate(dilated_crop, size=(solve_h, solve_w), mode="nearest")
-    else:
-        image_solve = image_crop
-        alpha_solve = alpha_crop
-        eroded_solve = eroded_crop
-        dilated_solve = dilated_crop
-
-    known_fg = eroded_solve[0, 0] > 0.5
-    known_bg = dilated_solve[0, 0] < 0.5
-    known_mask = (known_fg | known_bg).detach().cpu().numpy()
-    known_alpha = alpha_solve[0, 0].detach().cpu().numpy()
-    known_alpha[known_fg.detach().cpu().numpy()] = 1.0
-    known_alpha[known_bg.detach().cpu().numpy()] = 0.0
-    if not known_mask.any() or known_mask.all():
-        return alpha
-    image_np = image_solve[0].detach().cpu().permute(1, 2, 0).numpy()
-    alpha_np = _closed_form_alpha_crop(
-        image_np,
-        known_alpha,
-        known_mask,
-        epsilon=epsilon,
-        constraint_scale=constraint_scale,
-    )
-    alpha_tensor = torch.from_numpy(alpha_np).to(dtype=torch.float32, device=source_image.device).view(1, 1, solve_h, solve_w)
-    if (solve_h, solve_w) != (crop_h, crop_w):
-        alpha_tensor = torch.nn.functional.interpolate(
-            alpha_tensor,
-            size=(crop_h, crop_w),
-            mode="bilinear",
-            align_corners=False,
-        ).clamp(0.0, 1.0)
-    unknown_crop = ((dilated_crop - eroded_crop).clamp(0.0, 1.0) > 0.0).to(dtype=torch.float32)
-    refined_crop = alpha_crop * (1.0 - unknown_crop) + alpha_tensor * unknown_crop
-    refined = alpha.clone()
-    refined[:, :, y0:y1, x0:x1] = refined_crop.clamp(0.0, 1.0)
-    return refined.clamp(0.0, 1.0)
-
-
-def _prepare_recolor_projection_alpha(
-    alpha: torch.Tensor,
-    size: tuple[int, int],
-    alpha_power: float,
-    boundary_boost: float,
-    boundary_kernel_size: int,
-    device: torch.device,
-) -> torch.Tensor:
-    alpha = torch.nn.functional.interpolate(
-        alpha.to(dtype=torch.float32, device=device),
-        size=size,
-        mode="bilinear",
-        align_corners=False,
-    ).clamp(0.0, 1.0)
-    alpha_power = max(0.01, float(alpha_power))
-    shaped = alpha.pow(alpha_power)
-    if boundary_boost <= 0.0:
-        return shaped
-    boundary_kernel_size = max(1, int(boundary_kernel_size))
-    if boundary_kernel_size % 2 == 0:
-        boundary_kernel_size += 1
-    if boundary_kernel_size <= 1:
-        inner_boundary = alpha
-    else:
-        pad = boundary_kernel_size // 2
-        eroded = -torch.nn.functional.max_pool2d(
-            -alpha,
-            kernel_size=boundary_kernel_size,
-            stride=1,
-            padding=pad,
-        )
-        inner_boundary = (alpha - eroded).clamp(0.0, 1.0) * alpha
-    return (shaped + float(boundary_boost) * inner_boundary).clamp(0.0, 1.0)
-
-
-def _build_recolor_clean_projection_image(
-    current_image: torch.Tensor,
-    source_image: torch.Tensor,
-    reference_image: torch.Tensor | None,
-    target_rgb: torch.Tensor,
-    alpha: torch.Tensor,
-    mode: str,
-    texture_kernel_size: int,
-    luma_texture_scale: float,
-    chroma_texture_scale: float,
-    composite_mode: str,
-    background_kernel_size: int,
-) -> torch.Tensor:
-    current_yuv = rgb_to_yuv(current_image.to(torch.float32))
-    source_yuv = rgb_to_yuv(source_image.to(torch.float32))
-    if reference_image is not None:
-        chroma_yuv = rgb_to_yuv(reference_image.to(torch.float32))
-    else:
-        target_image = target_rgb.to(dtype=torch.float32, device=current_image.device).view(1, 3, 1, 1).expand_as(
-            current_image
-        )
-        chroma_yuv = rgb_to_yuv(target_image)
-
-    mode = mode.strip().lower()
-    if mode == "strict":
-        target_y = source_yuv[:, :1]
-    elif mode == "soft":
-        source_low = _luma_low_pass(source_yuv[:, :1], texture_kernel_size)
-        current_low = _luma_low_pass(current_yuv[:, :1], texture_kernel_size)
-        target_y = (current_low + (source_yuv[:, :1] - source_low)).clamp(0.0, 1.0)
-    elif mode == "yuv_texture":
-        source_low = _luma_low_pass(source_yuv, texture_kernel_size)
-        current_low_y = _luma_low_pass(current_yuv[:, :1], texture_kernel_size)
-        luma_high = source_yuv[:, :1] - source_low[:, :1]
-        chroma_high = source_yuv[:, 1:] - source_low[:, 1:]
-        target_y = (current_low_y + float(luma_texture_scale) * luma_high).clamp(0.0, 1.0)
-        chroma_yuv = torch.cat(
-            [
-                chroma_yuv[:, :1],
-                chroma_yuv[:, 1:] + float(chroma_texture_scale) * chroma_high,
-            ],
-            dim=1,
-        )
-    else:
-        raise ValueError(f"Unsupported recolor clean projection mode: {mode}")
-
-    target_yuv = torch.cat([target_y, chroma_yuv[:, 1:]], dim=1)
-    target_rgb_image = _yuv_to_rgb(target_yuv).clamp(0.0, 1.0)
-    alpha = alpha.to(dtype=torch.float32, device=current_image.device).clamp(0.0, 1.0)
-    composite_mode = composite_mode.strip().lower()
-    if composite_mode == "blend":
-        background = current_image.to(torch.float32)
-    elif composite_mode == "matte":
-        background = _estimate_local_background(
-            source_image.to(dtype=torch.float32, device=current_image.device),
-            alpha,
-            kernel_size=background_kernel_size,
-        )
-    else:
-        raise ValueError(f"Unsupported recolor clean projection composite mode: {composite_mode}")
-    return (background * (1.0 - alpha) + target_rgb_image * alpha).clamp(0.0, 1.0)
-
-
-def _build_recolor_projection_latent_target(
-    pipe,
-    current_image: torch.Tensor,
-    source_image: torch.Tensor,
-    reference_image: torch.Tensor | None,
-    target_rgb: torch.Tensor,
-    composite_alpha_image: torch.Tensor,
-    gate_alpha_image: torch.Tensor,
-    mode: str,
-    texture_kernel_size: int,
-    luma_texture_scale: float,
-    chroma_texture_scale: float,
-    composite_mode: str,
-    background_kernel_size: int,
-    latent_size: tuple[int, int],
-    latent_device: torch.device,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    if reference_image is not None and reference_image.shape[-2:] != current_image.shape[-2:]:
-        reference_image = torch.nn.functional.interpolate(
-            reference_image.to(dtype=torch.float32, device=current_image.device),
-            size=current_image.shape[-2:],
-            mode="bilinear",
-            align_corners=False,
-        )
-    target_image = _build_recolor_clean_projection_image(
-        current_image=current_image,
-        source_image=source_image.to(dtype=torch.float32, device=current_image.device),
-        reference_image=reference_image,
-        target_rgb=target_rgb.to(device=current_image.device),
-        alpha=composite_alpha_image.to(dtype=torch.float32, device=current_image.device),
-        mode=mode,
-        texture_kernel_size=texture_kernel_size,
-        luma_texture_scale=luma_texture_scale,
-        chroma_texture_scale=chroma_texture_scale,
-        composite_mode=composite_mode,
-        background_kernel_size=background_kernel_size,
-    )
-    target_latent = _encode_unit_image_to_latent(pipe, target_image).to(dtype=torch.float32, device=latent_device)
-    gate_latent = torch.nn.functional.interpolate(
-        gate_alpha_image.to(dtype=torch.float32, device=latent_device),
-        size=latent_size,
-        mode="bilinear",
-        align_corners=False,
-    ).clamp(0.0, 1.0)
-    return target_latent, gate_latent
-
-
-def _mask_bbox_for_image(
-    mask: torch.Tensor | None,
-    image_size: tuple[int, int],
-    pad_fraction: float = 0.75,
-) -> tuple[int, int, int, int] | None:
-    if mask is None:
-        return None
-    width, height = image_size
-    mask_img = torch.nn.functional.interpolate(
-        mask.detach().float(),
-        size=(height, width),
-        mode="bilinear",
-        align_corners=False,
-    )[0, 0]
-    active = mask_img > 0.2
-    if not bool(active.any().item()):
-        return None
-    ys, xs = active.nonzero(as_tuple=True)
-    x0 = int(xs.min().item())
-    x1 = int(xs.max().item()) + 1
-    y0 = int(ys.min().item())
-    y1 = int(ys.max().item()) + 1
-    side = max(x1 - x0, y1 - y0)
-    pad = int(round(side * pad_fraction))
-    cx = (x0 + x1) // 2
-    cy = (y0 + y1) // 2
-    half = max(side // 2 + pad, 48)
-    return (
-        max(0, cx - half),
-        max(0, cy - half),
-        min(width, cx + half),
-        min(height, cy + half),
-    )
-
-
-def _save_clean_estimate_debug_images(
-    pipe,
-    x0_src_step: torch.Tensor,
-    x0_tar: torch.Tensor,
-    edit_mask: torch.Tensor | None,
-    output_dir: str,
-    step_index: int,
-    t_value: float,
-) -> None:
-    os.makedirs(output_dir, exist_ok=True)
-    with torch.no_grad():
-        src_image = decode_latent_to_unit_image(pipe, x0_src_step)
-        tar_image = decode_latent_to_unit_image(pipe, x0_tar)
-    src_pil = _tensor_unit_image_to_pil(src_image)
-    tar_pil = _tensor_unit_image_to_pil(tar_image)
-    prefix = f"step_{step_index:03d}_t_{t_value:.4f}"
-    src_pil.save(os.path.join(output_dir, f"{prefix}_x0_src.png"))
-    tar_pil.save(os.path.join(output_dir, f"{prefix}_x0_tar.png"))
-
-    gap = (tar_image - src_image).detach().float().abs().mean(dim=1, keepdim=True)
-    gap = gap / gap.flatten(1).amax(dim=1).view(-1, 1, 1, 1).clamp_min(1e-8)
-    gap_pil = _tensor_unit_image_to_pil(gap.repeat(1, 3, 1, 1))
-    gap_pil.save(os.path.join(output_dir, f"{prefix}_target_gap.png"))
-
-    bbox = _mask_bbox_for_image(edit_mask, tar_pil.size)
-    if bbox is not None:
-        src_pil.crop(bbox).save(os.path.join(output_dir, f"{prefix}_x0_src_crop.png"))
-        tar_pil.crop(bbox).save(os.path.join(output_dir, f"{prefix}_x0_tar_crop.png"))
-        gap_pil.crop(bbox).save(os.path.join(output_dir, f"{prefix}_target_gap_crop.png"))
-    with open(os.path.join(output_dir, f"{prefix}_metadata.json"), "w", encoding="utf-8") as handle:
-        json.dump({"step": step_index, "t": t_value, "crop_box": bbox}, handle, indent=2)
-
-
 from sd3_model_ops import (
     _cfg_v_sd3_with_grad,
     calc_cfg_v_sd3,
     calc_cfg_v_sd3_with_source_qkv_injection,
     extract_sd3_feature_structure_map,
-    invert_source_sd3,
+    prepare_sd3_edit_conditioning,
     predict_x0_from_linear_rf_path,
     scale_noise,
 )
+
 
 def HRecSD3Edit(
     pipe,
@@ -681,6 +201,9 @@ def HRecSD3Edit(
     beta_max: Optional[float] = None,
     beta_schedule: str = "constant",
     adaptive_clean_control: bool = False,
+    adaptive_component_control: bool = False,
+    adaptive_component_threshold: float = 0.5,
+    adaptive_component_min_pixels: int = 4,
     adaptive_edit_target_progress: float = 0.0,
     adaptive_edit_target_rms: float = 0.0,
     adaptive_rmsgap_mode: str = "legacy",
@@ -788,6 +311,8 @@ def HRecSD3Edit(
     log_every: int = 0,
     stats_output_path: Optional[str] = None,
     clean_estimate_debug_dir: str | None = None,
+    shared_core_shadow: bool = False,
+    shared_core_authoritative: bool = False,
 ):
     """
     RF image editing via source inversion + controlled reverse ODE.
@@ -838,102 +363,55 @@ def HRecSD3Edit(
         edit_src_cfg_scale = base_guidance_scale
     if edit_local_target_cfg_scale is None:
         edit_local_target_cfg_scale = tar_guidance_scale
-    source_encode_guidance_scale = max(
-        float(inversion_guidance_scale),
-        float(base_guidance_scale),
-        float(edit_src_cfg_scale),
-        float(edit_local_target_cfg_scale),
-        1.0,
-    )
-
-    with torch.no_grad():
-        pipe._guidance_scale = source_encode_guidance_scale
-        (
-            src_prompt_embeds,
-            src_negative_prompt_embeds,
-            src_pooled_prompt_embeds,
-            src_negative_pooled_prompt_embeds,
-        ) = pipe.encode_prompt(
-            prompt=src_prompt,
-            prompt_2=None,
-            prompt_3=None,
-            negative_prompt=negative_prompt,
-            do_classifier_free_guidance=pipe.do_classifier_free_guidance,
-            device=device,
-        )
-
-        pipe._guidance_scale = tar_guidance_scale
-        (
-            tar_prompt_embeds,
-            tar_negative_prompt_embeds,
-            tar_pooled_prompt_embeds,
-            tar_negative_pooled_prompt_embeds,
-        ) = pipe.encode_prompt(
-            prompt=tar_prompt,
-            prompt_2=None,
-            prompt_3=None,
-            negative_prompt=negative_prompt,
-            do_classifier_free_guidance=pipe.do_classifier_free_guidance,
-            device=device,
-        )
-        local_target_prompt_embeds = None
-        local_target_negative_prompt_embeds = None
-        local_target_pooled_prompt_embeds = None
-        local_target_negative_pooled_prompt_embeds = None
-        if edit_local_target_prompt:
-            pipe._guidance_scale = edit_local_target_cfg_scale
-            (
-                local_target_prompt_embeds,
-                local_target_negative_prompt_embeds,
-                local_target_pooled_prompt_embeds,
-                local_target_negative_pooled_prompt_embeds,
-            ) = pipe.encode_prompt(
-                prompt=edit_local_target_prompt,
-                prompt_2=None,
-                prompt_3=None,
-                negative_prompt=negative_prompt,
-                do_classifier_free_guidance=pipe.do_classifier_free_guidance,
-                device=device,
-            )
-
-    # --- Source inversion: forward ODE x_src → z_T ---
-    print("[inversion] running source forward ODE ...")
-    source_inject_enabled = max(source_inject_q_scale, source_inject_k_scale, source_inject_v_scale) > 0.0
-    inversion_result = invert_source_sd3(
+    conditioning = prepare_sd3_edit_conditioning(
         pipe=pipe,
         x_src=x_src,
-        negative_prompt_embeds=src_negative_prompt_embeds,
-        prompt_embeds=src_prompt_embeds,
-        negative_pooled_prompt_embeds=src_negative_pooled_prompt_embeds,
-        pooled_prompt_embeds=src_pooled_prompt_embeds,
-        guidance_scale=inversion_guidance_scale,
+        device=device,
+        src_prompt=src_prompt,
+        tar_prompt=tar_prompt,
+        negative_prompt=negative_prompt,
         timesteps=timesteps,
         T_steps=T_steps,
         n_max=n_max,
-        return_trajectory=(
-            trajectory_preserve_scale > 0.0
-            or trajectory_subject_preserve_scale > 0.0
-            or source_inject_enabled
-            or region_target_outside_lock_scale > 0.0
-        ),
+        inversion_guidance_scale=inversion_guidance_scale,
+        base_guidance_scale=base_guidance_scale,
+        edit_src_cfg_scale=edit_src_cfg_scale,
+        tar_guidance_scale=tar_guidance_scale,
+        edit_local_target_prompt=edit_local_target_prompt,
+        edit_local_target_cfg_scale=edit_local_target_cfg_scale,
+        source_inject_q_scale=source_inject_q_scale,
+        source_inject_k_scale=source_inject_k_scale,
+        source_inject_v_scale=source_inject_v_scale,
+        trajectory_preserve_scale=trajectory_preserve_scale,
+        trajectory_subject_preserve_scale=trajectory_subject_preserve_scale,
+        region_target_outside_lock_scale=region_target_outside_lock_scale,
     )
-    if (
-        trajectory_preserve_scale > 0.0
-        or trajectory_subject_preserve_scale > 0.0
-        or source_inject_enabled
-        or region_target_outside_lock_scale > 0.0
-    ):
-        z_T, source_trajectory_by_timestep = inversion_result
-    else:
-        z_T = inversion_result
-        source_trajectory_by_timestep = {}
-    print("[inversion] done.")
+    source = conditioning.source
+    target = conditioning.target
+    local_target = conditioning.local_target
+    src_prompt_embeds = source.prompt_embeds
+    src_negative_prompt_embeds = source.negative_prompt_embeds
+    src_pooled_prompt_embeds = source.pooled_prompt_embeds
+    src_negative_pooled_prompt_embeds = source.negative_pooled_prompt_embeds
+    tar_prompt_embeds = target.prompt_embeds
+    tar_negative_prompt_embeds = target.negative_prompt_embeds
+    tar_pooled_prompt_embeds = target.pooled_prompt_embeds
+    tar_negative_pooled_prompt_embeds = target.negative_pooled_prompt_embeds
+    local_target_prompt_embeds = None if local_target is None else local_target.prompt_embeds
+    local_target_negative_prompt_embeds = None if local_target is None else local_target.negative_prompt_embeds
+    local_target_pooled_prompt_embeds = None if local_target is None else local_target.pooled_prompt_embeds
+    local_target_negative_pooled_prompt_embeds = (
+        None if local_target is None else local_target.negative_pooled_prompt_embeds
+    )
+    z_T = conditioning.z_T
+    source_trajectory_by_timestep = conditioning.source_trajectory_by_timestep
+    source_inject_enabled = conditioning.source_inject_enabled
 
     if alpha_max is None:
         alpha_max = rec_guidance_scale
     if beta_max is None:
         beta_max = 1.0
-    color_source = infer_source_color_rgb(src_prompt, edit_color_source)
+    color_source = infer_source_color_rgb(src_prompt, edit_color_source, host_words=support_host_tokens)
     color_target = infer_target_color_rgb(src_prompt, tar_prompt, edit_color_target)
     n_transformer_blocks = len(pipe.transformer.transformer_blocks)
     if source_inject_layer_from < 0:
@@ -1069,140 +547,34 @@ def HRecSD3Edit(
                     M_core = M_edit
                     M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
             if object_mask_provider in {"generic_support", "operation_support_v3"}:
-                object_source = masks.get("target_changed")
-                if support_new_tokens is not None:
-                    new_masks = extract_attention_masks(
-                        pipe=pipe,
-                        x_src=x_src,
-                        src_prompt=src_prompt,
-                        tar_prompt=tar_prompt,
-                        src_prompt_embeds=src_prompt_embeds,
-                        src_pooled_embeds=src_pooled_prompt_embeds,
-                        tar_prompt_embeds=tar_prompt_embeds,
-                        tar_pooled_embeds=tar_pooled_prompt_embeds,
-                        t=t_mid,
-                        mode=attention_mask_mode,
-                        target_token_words=support_new_tokens,
-                        source_token_words=None,
-                        subject_threshold=attention_mask_subject_threshold,
-                        core_threshold=attention_mask_core_threshold,
-                    )
-                    object_source = new_masks.get("target_changed")
-                if object_source is None or float(object_source.detach().float().max().item()) <= 1e-6:
-                    object_source = masks.get("combined")
-                host_source = None
-                if support_host_tokens is not None:
-                    host_masks = extract_attention_masks(
-                        pipe=pipe,
-                        x_src=x_src,
-                        src_prompt=src_prompt,
-                        tar_prompt=tar_prompt,
-                        src_prompt_embeds=src_prompt_embeds,
-                        src_pooled_embeds=src_pooled_prompt_embeds,
-                        tar_prompt_embeds=tar_prompt_embeds,
-                        tar_pooled_embeds=tar_pooled_prompt_embeds,
-                        t=t_mid,
-                        mode=attention_mask_mode,
-                        target_token_words=support_host_tokens,
-                        source_token_words=support_host_tokens,
-                        subject_threshold=attention_mask_subject_threshold,
-                        core_threshold=attention_mask_core_threshold,
-                    )
-                    host_source = torch.maximum(host_masks["source_changed"], host_masks["target_changed"])
-                removed_source = None
-                if support_removed_tokens is not None:
-                    removed_masks = extract_attention_masks(
-                        pipe=pipe,
-                        x_src=x_src,
-                        src_prompt=src_prompt,
-                        tar_prompt=tar_prompt,
-                        src_prompt_embeds=src_prompt_embeds,
-                        src_pooled_embeds=src_pooled_prompt_embeds,
-                        tar_prompt_embeds=tar_prompt_embeds,
-                        tar_pooled_embeds=tar_pooled_prompt_embeds,
-                        t=t_mid,
-                        mode=attention_mask_mode,
-                        target_token_words=None,
-                        source_token_words=support_removed_tokens,
-                        subject_threshold=attention_mask_subject_threshold,
-                        core_threshold=attention_mask_core_threshold,
-                    )
-                    removed_source = removed_masks["source_changed"]
-                support_grounding = None
-                if (
-                    object_mask_provider == "operation_support_v3"
-                    and semantic_base_mask_path is not None
-                    and (support_grounding_method or "external_mask").strip().lower() != "none"
-                ):
-                    support_grounding = load_external_mask_like(M_edit, semantic_base_mask_path)
-                    M_operation_support_grounding = support_grounding
-                if object_mask_provider == "operation_support_v3":
-                    temporal_mode = (support_temporal_aggregation or "single").strip().lower()
-                    clean_map_override = None
-                    velocity_map_override = None
-                    temporal_step_count = 1
-                    if temporal_mode in {"mean", "max"}:
-                        support_indices = sorted(
-                            {
-                                max(0, min(len(timesteps) - 1, len(timesteps) // 4)),
-                                max(0, min(len(timesteps) - 1, len(timesteps) // 2)),
-                                max(0, min(len(timesteps) - 1, (3 * len(timesteps)) // 4)),
-                            }
-                        )
-                        clean_maps = []
-                        velocity_maps = []
-                        mid_index = len(timesteps) // 2
-                        for support_index in support_indices:
-                            support_t = timesteps[support_index]
-                            if support_index == mid_index:
-                                v_src_support = v_src_mid
-                                v_tar_support = v_tar_mid
-                            else:
-                                v_src_support = calc_cfg_v_sd3(
-                                    pipe=pipe,
-                                    latents=x_src,
-                                    negative_prompt_embeds=src_negative_prompt_embeds,
-                                    prompt_embeds=src_prompt_embeds,
-                                    negative_pooled_prompt_embeds=src_negative_pooled_prompt_embeds,
-                                    pooled_prompt_embeds=src_pooled_prompt_embeds,
-                                    guidance_scale=base_guidance_scale,
-                                    t=support_t,
-                                )
-                                v_tar_support = calc_cfg_v_sd3(
-                                    pipe=pipe,
-                                    latents=x_src,
-                                    negative_prompt_embeds=tar_negative_prompt_embeds,
-                                    prompt_embeds=tar_prompt_embeds,
-                                    negative_pooled_prompt_embeds=tar_negative_pooled_prompt_embeds,
-                                    pooled_prompt_embeds=tar_pooled_prompt_embeds,
-                                    guidance_scale=tar_guidance_scale,
-                                    t=support_t,
-                                )
-                            clean_maps.append(compute_clean_disagreement(x_src, support_t, v_src_support, v_tar_support))
-                            velocity_maps.append(compute_velocity_disagreement(v_src_support, v_tar_support))
-                        temporal_step_count = len(support_indices)
-                        clean_stack = torch.stack(clean_maps, dim=0)
-                        velocity_stack = torch.stack(velocity_maps, dim=0)
-                        if temporal_mode == "max":
-                            clean_map_override = clean_stack.max(dim=0).values
-                            velocity_map_override = velocity_stack.max(dim=0).values
-                        else:
-                            clean_map_override = clean_stack.mean(dim=0)
-                            velocity_map_override = velocity_stack.mean(dim=0)
-                    elif temporal_mode != "single":
-                        raise ValueError(f"Unsupported support_temporal_aggregation: {support_temporal_aggregation}")
-                    generic = build_operation_support_v3(
-                        attention_map=object_source,
-                        x_t=x_src,
-                        t=t_mid,
-                        source_velocity=v_src_mid,
-                        target_velocity=v_tar_mid,
-                        host_attention_map=host_source,
-                        removed_attention_map=removed_source,
-                        grounding_mask=support_grounding,
+                prompt_support = build_sd3_prompt_support(
+                    pipe=pipe,
+                    x_src=x_src,
+                    src_prompt=src_prompt,
+                    tar_prompt=tar_prompt,
+                    source=source,
+                    target=target,
+                    timesteps=timesteps,
+                    t_mid=t_mid,
+                    v_src_mid=v_src_mid,
+                    v_tar_mid=v_tar_mid,
+                    base_masks=masks,
+                    mask_reference=M_edit,
+                    base_guidance_scale=base_guidance_scale,
+                    tar_guidance_scale=tar_guidance_scale,
+                    config=SD3PromptSupportConfig(
+                        provider=object_mask_provider,
+                        attention_mask_mode=attention_mask_mode,
+                        attention_mask_subject_threshold=attention_mask_subject_threshold,
+                        attention_mask_core_threshold=attention_mask_core_threshold,
+                        new_tokens=support_new_tokens,
+                        host_tokens=support_host_tokens,
+                        removed_tokens=support_removed_tokens,
+                        semantic_base_mask_path=semantic_base_mask_path,
+                        grounding_method=support_grounding_method,
                         edit_operation=support_edit_operation,
                         relation=support_relation,
-                        candidate=support_score,
+                        score=support_score,
                         attention_power=support_attention_power,
                         disagreement_power=support_disagreement_power,
                         top_percentile=support_top_percentile,
@@ -1211,34 +583,15 @@ def HRecSD3Edit(
                         keep_components=support_keep_components,
                         dilate_radius=support_dilate_radius,
                         blur_kernel=support_blur_kernel,
-                        clean_map_override=clean_map_override,
-                        velocity_map_override=velocity_map_override,
-                        temporal_aggregation=temporal_mode,
-                        temporal_steps=temporal_step_count,
-                    )
+                        temporal_aggregation=support_temporal_aggregation,
+                        save_debug_maps=save_support_debug_maps,
+                        mask_output_dir=mask_output_dir,
+                    ),
+                )
+                generic = prompt_support.support
+                M_operation_support_grounding = prompt_support.grounding_mask
+                if object_mask_provider == "operation_support_v3":
                     M_operation_support_relation = generic.relation_map
-                    if save_support_debug_maps and mask_output_dir is not None:
-                        save_support_debug(generic, mask_output_dir)
-                else:
-                    generic = build_generic_support(
-                        attention_map=object_source,
-                        x_t=x_src,
-                        t=t_mid,
-                        source_velocity=v_src_mid,
-                        target_velocity=v_tar_mid,
-                        host_attention_map=host_source,
-                        removed_attention_map=removed_source,
-                        edit_operation=support_edit_operation,
-                        score_mode=support_score,
-                        attention_power=support_attention_power,
-                        disagreement_power=support_disagreement_power,
-                        top_percentile=support_top_percentile,
-                        min_area_ratio=support_min_area_ratio,
-                        max_area_ratio=support_max_area_ratio,
-                        keep_components=support_keep_components,
-                        dilate_radius=support_dilate_radius,
-                        blur_kernel=support_blur_kernel,
-                    )
                 M_edit = generic.edit_mask.to(dtype=x_src.dtype).clamp(0.0, 1.0)
                 M_core = torch.minimum(generic.core_mask.to(dtype=x_src.dtype).clamp(0.0, 1.0), M_edit)
                 M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
@@ -1292,375 +645,106 @@ def HRecSD3Edit(
                     M_edit = M_semantic_base.to(dtype=x_src.dtype).clamp(0.0, 1.0)
                 M_core = M_edit
                 M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            auto_anchor_mask = M_core
-            if (
-                edit_mask_keep_components > 0
-                or edit_mask_component_y_min is not None
-                or edit_mask_component_y_max is not None
-            ):
-                component_threshold = edit_mask_component_threshold if edit_mask_component_threshold > 0.0 else 0.5
-                M_edit = filter_spatial_mask_components(
-                    M_edit,
-                    threshold=component_threshold,
-                    keep_components=edit_mask_keep_components,
-                    center_y_min=edit_mask_component_y_min,
-                    center_y_max=edit_mask_component_y_max,
-                ).clamp(0.0, 1.0)
-                M_core = filter_spatial_mask_components(
-                    M_core,
-                    threshold=component_threshold,
-                    keep_components=edit_mask_keep_components,
-                    center_y_min=edit_mask_component_y_min,
-                    center_y_max=edit_mask_component_y_max,
-                ).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-                auto_anchor_mask = M_core
-                if (
-                    object_mask_provider in {"attention", "attention_velocity", "auto"}
-                    and M_attention_object is not None
-                    and float(M_edit.detach().float().max().item()) <= 1e-6
-                    and float(M_attention_object.detach().float().max().item()) > 1e-6
-                ):
-                    M_edit = M_attention_object.to(dtype=x_src.dtype).clamp(0.0, 1.0)
-                    M_core = M_edit
-                    M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-                    auto_anchor_mask = M_core
-                    print("[mask] component filters removed the attention object; restored generic attention object mask")
-            if edit_mask_shift_y != 0.0 or edit_mask_shift_x != 0.0:
-                M_edit = translate_spatial_mask(M_edit, shift_y=edit_mask_shift_y, shift_x=edit_mask_shift_x)
-                M_core = translate_spatial_mask(M_core, shift_y=edit_mask_shift_y, shift_x=edit_mask_shift_x)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-                auto_anchor_mask = M_core
-            if edit_mask_dilate_kernel > 1:
-                M_edit = dilate_spatial_mask(M_edit, kernel_size=edit_mask_dilate_kernel).clamp(0.0, 1.0)
-                M_core = dilate_spatial_mask(M_core, kernel_size=edit_mask_dilate_kernel).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if edit_mask_erode_kernel > 1:
-                M_edit = (1.0 - dilate_spatial_mask((1.0 - M_edit).clamp(0.0, 1.0), kernel_size=edit_mask_erode_kernel)).clamp(0.0, 1.0)
-                M_core = (1.0 - dilate_spatial_mask((1.0 - M_core).clamp(0.0, 1.0), kernel_size=edit_mask_erode_kernel)).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if edit_mask_hole_fraction > 0.0:
-                hole_keep = (torch.rand_like(M_edit) >= float(edit_mask_hole_fraction)).to(dtype=M_edit.dtype)
-                M_edit = (M_edit * hole_keep).clamp(0.0, 1.0)
-                M_core = torch.minimum((M_core * hole_keep).clamp(0.0, 1.0), M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if edit_mask_boundary_noise_scale > 0.0:
-                band_kernel = 3
-                edit_eroded = (1.0 - dilate_spatial_mask((1.0 - M_edit).clamp(0.0, 1.0), kernel_size=band_kernel)).clamp(0.0, 1.0)
-                edit_band = (dilate_spatial_mask(M_edit, kernel_size=band_kernel) - edit_eroded).clamp(0.0, 1.0)
-                core_eroded = (1.0 - dilate_spatial_mask((1.0 - M_core).clamp(0.0, 1.0), kernel_size=band_kernel)).clamp(0.0, 1.0)
-                core_band = (dilate_spatial_mask(M_core, kernel_size=band_kernel) - core_eroded).clamp(0.0, 1.0)
-                M_edit = (M_edit + (torch.rand_like(M_edit) - 0.5) * float(edit_mask_boundary_noise_scale) * edit_band).clamp(0.0, 1.0)
-                M_core = (M_core + (torch.rand_like(M_core) - 0.5) * float(edit_mask_boundary_noise_scale) * core_band).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if edit_mask_smooth_kernel > 1:
-                M_edit = smooth_spatial_mask(M_edit, kernel_size=edit_mask_smooth_kernel).clamp(0.0, 1.0)
-                M_core = smooth_spatial_mask(M_core, kernel_size=edit_mask_smooth_kernel).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            mask_area_before_guard = _mask_binary_area_ratio(M_edit, threshold=0.5)
-            skip_attention_velocity_soft_guard = (
-                object_mask_provider == "attention_velocity"
-                and M_attention_velocity_object is not None
-                and mask_area_before_guard <= 1.30 * attention_mask_max_area_ratio
+            mask_geometry = apply_sd3_mask_geometry(
+                edit_mask=M_edit,
+                core_mask=M_core,
+                preserve_mask=M_preserve,
+                structure_reference=x_src,
+                attention_masks=masks,
+                attention_object=M_attention_object,
+                velocity_object=M_velocity_object,
+                attention_velocity_object=M_attention_velocity_object,
+                generic_support_score=M_generic_support_score,
+                operation_support_relation=M_operation_support_relation,
+                config=SD3MaskGeometryConfig(
+                    object_mask_provider=object_mask_provider,
+                    attention_mask_fallback_threshold=attention_mask_fallback_threshold,
+                    attention_mask_max_area_ratio=attention_mask_max_area_ratio,
+                    auto_box_threshold=auto_box_threshold,
+                    edit_mask_component_threshold=edit_mask_component_threshold,
+                    edit_mask_keep_components=edit_mask_keep_components,
+                    edit_mask_component_y_min=edit_mask_component_y_min,
+                    edit_mask_component_y_max=edit_mask_component_y_max,
+                    edit_mask_shift_y=edit_mask_shift_y,
+                    edit_mask_shift_x=edit_mask_shift_x,
+                    edit_mask_dilate_kernel=edit_mask_dilate_kernel,
+                    edit_mask_erode_kernel=edit_mask_erode_kernel,
+                    edit_mask_hole_fraction=edit_mask_hole_fraction,
+                    edit_mask_boundary_noise_scale=edit_mask_boundary_noise_scale,
+                    edit_mask_smooth_kernel=edit_mask_smooth_kernel,
+                    auto_local_boxes=auto_local_boxes,
+                    auto_edit_pad_x=auto_edit_pad_x,
+                    auto_edit_pad_y=auto_edit_pad_y,
+                    auto_edit_min_width=auto_edit_min_width,
+                    auto_edit_min_height=auto_edit_min_height,
+                    auto_source_pad_x=auto_source_pad_x,
+                    auto_source_pad_y=auto_source_pad_y,
+                    auto_preserve_pad_x=auto_preserve_pad_x,
+                    auto_preserve_start_offset=auto_preserve_start_offset,
+                    auto_preserve_height=auto_preserve_height,
+                    edit_mask_box=edit_mask_box,
+                    edit_mask_box_mode=edit_mask_box_mode,
+                    edit_mask_exclude_box=edit_mask_exclude_box,
+                    source_inject_mask_mode=source_inject_mask_mode,
+                    source_inject_mask_box=source_inject_mask_box,
+                    final_preserve_box=final_preserve_box,
+                    external_edit_mask_path=external_edit_mask_path,
+                    external_edit_mask_mode=external_edit_mask_mode,
+                    mask_layering_mode=mask_layering_mode,
+                    mask_object_threshold=mask_object_threshold,
+                    mask_contact_dilate_kernel=mask_contact_dilate_kernel,
+                    mask_contact_scale=mask_contact_scale,
+                    mask_contact_edge_threshold=mask_contact_edge_threshold,
+                    mask_contact_edge_protect_scale=mask_contact_edge_protect_scale,
+                    mask_trimap_inner_erode_kernel=mask_trimap_inner_erode_kernel,
+                    mask_trimap_outer_dilate_kernel=mask_trimap_outer_dilate_kernel,
+                    mask_trimap_boundary_edit_scale=mask_trimap_boundary_edit_scale,
+                    mask_trimap_boundary_preserve_scale=mask_trimap_boundary_preserve_scale,
+                    edit_mask_use_core_as_subject=edit_mask_use_core_as_subject,
+                ),
             )
-            if (
-                attention_mask_max_area_ratio > 0.0
-                and mask_area_before_guard > attention_mask_max_area_ratio
-                and not skip_attention_velocity_soft_guard
-            ):
-                if object_mask_provider == "velocity_diff" and M_velocity_object is not None:
-                    guard_source = M_velocity_object
-                else:
-                    guard_source = masks.get("target_changed")
-                    if guard_source is None or float(guard_source.detach().float().max().item()) <= 1e-6:
-                        guard_source = masks.get("combined")
-                guard_anchor_box = _conservative_attention_box(
-                    guard_source,
-                    threshold=attention_mask_fallback_threshold,
-                    fallback=_box_from_mask(M_core, threshold=auto_box_threshold),
-                )
-                if guard_anchor_box is not None:
-                    mask_area_guard_box = _expand_box(
-                        guard_anchor_box,
-                        pad_x=auto_edit_pad_x,
-                        pad_y_top=auto_edit_pad_y,
-                        pad_y_bottom=auto_edit_pad_y,
-                        min_width=0.28,
-                        min_height=0.12,
-                    )
-                    guard_mask = normalized_box_mask_like(M_edit, mask_area_guard_box)
-                    M_edit = (M_edit * guard_mask).clamp(0.0, 1.0)
-                    M_core = (M_core * guard_mask).clamp(0.0, 1.0)
-                    M_core = torch.minimum(M_core, M_edit)
-                    M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-                    auto_anchor_mask = guard_mask
-                    auto_anchor_box = mask_area_guard_box
-                    mask_area_guard_applied = True
-                    if resolved_edit_mask_box is None:
-                        resolved_edit_mask_box = mask_area_guard_box
-                    print(
-                        "[mask_guard] "
-                        f"area={mask_area_before_guard:.2%} "
-                        f"limit={attention_mask_max_area_ratio:.2%} "
-                        f"box={_box_to_list(mask_area_guard_box)}"
-                    )
-            if auto_local_boxes:
-                if auto_anchor_box is None:
-                    auto_anchor_box = _box_from_mask(
-                        auto_anchor_mask,
-                        threshold=auto_box_threshold,
-                        fallback=_box_from_mask(M_edit, threshold=auto_box_threshold),
-                    )
-                if auto_anchor_box is not None:
-                    if resolved_edit_mask_box is None:
-                        resolved_edit_mask_box = _expand_box(
-                            auto_anchor_box,
-                            pad_x=auto_edit_pad_x,
-                            pad_y_top=auto_edit_pad_y,
-                            pad_y_bottom=auto_edit_pad_y,
-                            min_width=auto_edit_min_width,
-                            min_height=auto_edit_min_height,
-                        )
-                    if resolved_source_inject_mask_box is None and source_inject_mask_mode == "box":
-                        resolved_source_inject_mask_box = _expand_box(
-                            auto_anchor_box,
-                            pad_x=auto_source_pad_x,
-                            pad_y_top=auto_source_pad_y,
-                            pad_y_bottom=auto_source_pad_y,
-                            min_width=0.56,
-                            min_height=0.24,
-                        )
-                    if resolved_edit_mask_box is None:
-                        preserve_x0, preserve_y0, preserve_x1, preserve_y1 = auto_anchor_box
-                    else:
-                        preserve_x0, preserve_y0, preserve_x1, preserve_y1 = resolved_edit_mask_box
-                    preserve_width = max(preserve_x1 - preserve_x0, 1e-6)
-                    px0 = max(0.0, preserve_x0 + 0.15 * preserve_width - auto_preserve_pad_x)
-                    px1 = min(1.0, preserve_x1 - 0.05 * preserve_width + auto_preserve_pad_x)
-                    y1 = preserve_y1
-                    py0 = min(1.0, y1 + auto_preserve_start_offset)
-                    py1 = min(1.0, py0 + auto_preserve_height)
-                    if py1 > py0:
-                        preserve_box = _clamp_box((px0, py0, px1, py1))
-                        if resolved_edit_mask_exclude_box is None:
-                            resolved_edit_mask_exclude_box = preserve_box
-                        if resolved_final_preserve_box is None:
-                            resolved_final_preserve_box = preserve_box
-            if resolved_edit_mask_box is not None:
-                box_mask = normalized_box_mask_like(M_edit, resolved_edit_mask_box)
-                if edit_mask_box_mode == "replace":
-                    M_edit = box_mask
-                    M_core = box_mask
-                elif edit_mask_box_mode == "intersect":
-                    M_edit = M_edit * box_mask
-                    M_core = M_core * box_mask
-                elif edit_mask_box_mode == "union":
-                    M_edit = torch.maximum(M_edit, box_mask)
-                    M_core = torch.maximum(M_core, box_mask)
-                else:
-                    raise ValueError(f"Unsupported edit_mask_box_mode: {edit_mask_box_mode}")
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if resolved_edit_mask_exclude_box is not None:
-                exclude_mask = normalized_box_mask_like(M_edit, resolved_edit_mask_exclude_box)
-                keep_mask = (1.0 - exclude_mask).clamp(0.0, 1.0)
-                M_edit = (M_edit * keep_mask).clamp(0.0, 1.0)
-                M_core = (M_core * keep_mask).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            external_mask = None
-            if external_edit_mask_path is not None:
-                external_mask = load_external_mask_like(M_edit, external_edit_mask_path)
-                if external_edit_mask_mode == "replace":
-                    M_edit = external_mask
-                    M_core = external_mask
-                elif external_edit_mask_mode == "intersect":
-                    M_edit = M_edit * external_mask
-                    M_core = M_core * external_mask
-                elif external_edit_mask_mode == "union":
-                    M_edit = torch.maximum(M_edit, external_mask)
-                    M_core = torch.maximum(M_core, external_mask)
-                elif external_edit_mask_mode == "subject_core":
-                    # Keep the external segmentation as a broad subject support,
-                    # but use the pre-external local edit support as the strong
-                    # core. For operation_support_v3, the postprocessed edit
-                    # mask can become too tiny, so reinforce it with the
-                    # operation relation map and support score before clipping
-                    # it to the broad subject. This gives a local edit core and
-                    # a larger subject/preserve ring without making the whole
-                    # external SAM mask the strongest edit region.
-                    local_core = M_edit
-                    if M_generic_support_score is not None:
-                        score_core = M_generic_support_score.to(dtype=local_core.dtype, device=local_core.device)
-                        if score_core.shape[-2:] != local_core.shape[-2:]:
-                            score_core = torch.nn.functional.interpolate(
-                                score_core,
-                                size=local_core.shape[-2:],
-                                mode="bilinear",
-                                align_corners=False,
-                            )
-                        local_core = torch.maximum(local_core, score_core.clamp(0.0, 1.0))
-                    if M_operation_support_relation is not None:
-                        relation_core = M_operation_support_relation.to(dtype=local_core.dtype, device=local_core.device)
-                        if relation_core.shape[-2:] != local_core.shape[-2:]:
-                            relation_core = torch.nn.functional.interpolate(
-                                relation_core,
-                                size=local_core.shape[-2:],
-                                mode="bilinear",
-                                align_corners=False,
-                            )
-                        local_core = torch.maximum(local_core, relation_core.clamp(0.0, 1.0))
-                    M_edit = external_mask
-                    M_subject_local_core = torch.minimum(local_core, external_mask).clamp(0.0, 1.0)
-                    M_core = M_subject_local_core
-                else:
-                    raise ValueError(f"Unsupported external_edit_mask_mode: {external_edit_mask_mode}")
-                if edit_mask_dilate_kernel > 1:
-                    M_edit = dilate_spatial_mask(M_edit, kernel_size=edit_mask_dilate_kernel).clamp(0.0, 1.0)
-                    M_core = dilate_spatial_mask(M_core, kernel_size=edit_mask_dilate_kernel).clamp(0.0, 1.0)
-                if edit_mask_erode_kernel > 1:
-                    M_edit = (1.0 - dilate_spatial_mask((1.0 - M_edit).clamp(0.0, 1.0), kernel_size=edit_mask_erode_kernel)).clamp(0.0, 1.0)
-                    M_core = (1.0 - dilate_spatial_mask((1.0 - M_core).clamp(0.0, 1.0), kernel_size=edit_mask_erode_kernel)).clamp(0.0, 1.0)
-                if edit_mask_hole_fraction > 0.0:
-                    hole_keep = (torch.rand_like(M_edit) >= float(edit_mask_hole_fraction)).to(dtype=M_edit.dtype)
-                    M_edit = (M_edit * hole_keep).clamp(0.0, 1.0)
-                    M_core = (M_core * hole_keep).clamp(0.0, 1.0)
-                if edit_mask_boundary_noise_scale > 0.0:
-                    band_kernel = 3
-                    edit_eroded = (1.0 - dilate_spatial_mask((1.0 - M_edit).clamp(0.0, 1.0), kernel_size=band_kernel)).clamp(0.0, 1.0)
-                    edit_band = (dilate_spatial_mask(M_edit, kernel_size=band_kernel) - edit_eroded).clamp(0.0, 1.0)
-                    core_eroded = (1.0 - dilate_spatial_mask((1.0 - M_core).clamp(0.0, 1.0), kernel_size=band_kernel)).clamp(0.0, 1.0)
-                    core_band = (dilate_spatial_mask(M_core, kernel_size=band_kernel) - core_eroded).clamp(0.0, 1.0)
-                    M_edit = (M_edit + (torch.rand_like(M_edit) - 0.5) * float(edit_mask_boundary_noise_scale) * edit_band).clamp(0.0, 1.0)
-                    M_core = (M_core + (torch.rand_like(M_core) - 0.5) * float(edit_mask_boundary_noise_scale) * core_band).clamp(0.0, 1.0)
-                if edit_mask_smooth_kernel > 1:
-                    M_edit = smooth_spatial_mask(M_edit, kernel_size=edit_mask_smooth_kernel).clamp(0.0, 1.0)
-                    M_core = smooth_spatial_mask(M_core, kernel_size=edit_mask_smooth_kernel).clamp(0.0, 1.0)
-                M_core = torch.minimum(M_core, M_edit)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
-            if mask_layering_mode == "object_contact":
-                M_edit, M_core, M_contact, M_preserve, M_structure_edge = build_object_contact_masks(
-                    edit_mask=M_edit,
-                    core_mask=M_core,
-                    structure_reference=x_src,
-                    object_threshold=mask_object_threshold,
-                    contact_dilate_kernel=mask_contact_dilate_kernel,
-                    contact_scale=mask_contact_scale,
-                    contact_edge_threshold=mask_contact_edge_threshold,
-                    contact_edge_protect_scale=mask_contact_edge_protect_scale,
-                )
-            elif mask_layering_mode == "recolor_trimap":
-                M_edit, M_core, M_contact, M_preserve = build_recolor_trimap_masks(
-                    edit_mask=M_edit,
-                    core_mask=M_core,
-                    object_threshold=mask_object_threshold,
-                    inner_erode_kernel=mask_trimap_inner_erode_kernel,
-                    outer_dilate_kernel=mask_trimap_outer_dilate_kernel,
-                    boundary_edit_scale=mask_trimap_boundary_edit_scale,
-                    boundary_preserve_scale=mask_trimap_boundary_preserve_scale,
-                )
-            elif mask_layering_mode != "none":
-                raise ValueError(f"Unsupported mask_layering_mode: {mask_layering_mode}")
-            if edit_mask_use_core_as_subject:
-                M_edit = M_core.clamp(0.0, 1.0)
-                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
+            M_edit = mask_geometry.edit_mask
+            M_core = mask_geometry.core_mask
+            M_preserve = mask_geometry.preserve_mask
+            M_contact = mask_geometry.contact_mask
+            M_structure_edge = mask_geometry.structure_edge_mask
+            external_mask = mask_geometry.external_mask
+            M_subject_local_core = mask_geometry.subject_local_core
+            auto_anchor_box = mask_geometry.auto_anchor_box
+            mask_area_guard_applied = mask_geometry.mask_area_guard_applied
+            mask_area_before_guard = mask_geometry.mask_area_before_guard
+            mask_area_guard_box = mask_geometry.mask_area_guard_box
+            resolved_edit_mask_box = mask_geometry.resolved_edit_mask_box
+            resolved_edit_mask_exclude_box = mask_geometry.resolved_edit_mask_exclude_box
+            resolved_source_inject_mask_box = mask_geometry.resolved_source_inject_mask_box
+            resolved_final_preserve_box = mask_geometry.resolved_final_preserve_box
             if mask_output_dir is not None:
-                for name, mask in masks.items():
-                    save_mask_image(mask.to(dtype=torch.float32), os.path.join(mask_output_dir, f"{name}.png"))
-                if M_attention_object is not None:
-                    save_mask_image(
-                        M_attention_object.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "attention_object.png"),
-                    )
-                if M_velocity_object is not None:
-                    save_mask_image(
-                        M_velocity_object.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "velocity_diff_object.png"),
-                    )
-                if M_attention_velocity_object is not None:
-                    save_mask_image(
-                        M_attention_velocity_object.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "attention_velocity_object.png"),
-                    )
-                if M_semantic_base is not None:
-                    save_mask_image(
-                        M_semantic_base.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "semantic_base.png"),
-                    )
-                if M_semantic_velocity_object is not None:
-                    save_mask_image(
-                        M_semantic_velocity_object.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "semantic_velocity_object.png"),
-                    )
-                if M_generic_support_attention is not None:
-                    save_mask_image(
-                        M_generic_support_attention.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_attention_map.png"),
-                    )
-                if M_generic_support_host is not None:
-                    save_mask_image(
-                        M_generic_support_host.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_host_attention_map.png"),
-                    )
-                if M_generic_support_removed is not None:
-                    save_mask_image(
-                        M_generic_support_removed.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_removed_attention_map.png"),
-                    )
-                if M_generic_support_clean is not None:
-                    save_mask_image(
-                        M_generic_support_clean.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_clean_disagreement_map.png"),
-                    )
-                if M_generic_support_velocity is not None:
-                    save_mask_image(
-                        M_generic_support_velocity.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_velocity_disagreement_map.png"),
-                    )
-                if M_generic_support_score is not None:
-                    save_mask_image(
-                        M_generic_support_score.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "generic_support_score.png"),
-                    )
-                if M_operation_support_grounding is not None:
-                    save_mask_image(
-                        M_operation_support_grounding.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "operation_v3_grounding_mask.png"),
-                    )
-                if M_operation_support_relation is not None:
-                    save_mask_image(
-                        M_operation_support_relation.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "operation_v3_relation_map.png"),
-                    )
-                if M_subject_local_core is not None:
-                    save_mask_image(
-                        M_subject_local_core.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "subject_local_core.png"),
-                    )
-                save_mask_image(M_edit.to(dtype=torch.float32), os.path.join(mask_output_dir, "subject_final.png"))
-                save_mask_image(M_core.to(dtype=torch.float32), os.path.join(mask_output_dir, "core_final.png"))
-                save_mask_image(M_preserve.to(dtype=torch.float32), os.path.join(mask_output_dir, "preserve_final.png"))
-                if M_contact is not None:
-                    save_mask_image(
-                        M_contact.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "contact_final.png"),
-                    )
-                if M_structure_edge is not None:
-                    save_mask_image(
-                        M_structure_edge.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "structure_edge.png"),
-                    )
-                if external_mask is not None:
-                    save_mask_image(
-                        external_mask.to(dtype=torch.float32),
-                        os.path.join(mask_output_dir, "external_edit_mask.png"),
-                    )
+                debug_masks = {f"{name}.png": mask for name, mask in masks.items()}
+                debug_masks.update(
+                    {
+                        "attention_object.png": M_attention_object,
+                        "velocity_diff_object.png": M_velocity_object,
+                        "attention_velocity_object.png": M_attention_velocity_object,
+                        "semantic_base.png": M_semantic_base,
+                        "semantic_velocity_object.png": M_semantic_velocity_object,
+                        "generic_attention_map.png": M_generic_support_attention,
+                        "generic_host_attention_map.png": M_generic_support_host,
+                        "generic_removed_attention_map.png": M_generic_support_removed,
+                        "generic_clean_disagreement_map.png": M_generic_support_clean,
+                        "generic_velocity_disagreement_map.png": M_generic_support_velocity,
+                        "generic_support_score.png": M_generic_support_score,
+                        "operation_v3_grounding_mask.png": M_operation_support_grounding,
+                        "operation_v3_relation_map.png": M_operation_support_relation,
+                        "subject_local_core.png": M_subject_local_core,
+                        "subject_final.png": M_edit,
+                        "core_final.png": M_core,
+                        "preserve_final.png": M_preserve,
+                        "contact_final.png": M_contact,
+                        "structure_edge.png": M_structure_edge,
+                        "external_edit_mask.png": external_mask,
+                    }
+                )
+                save_mask_bundle(mask_output_dir, debug_masks)
             if edit_initial_noise_scale > 0.0:
                 if edit_initial_noise_region == "core":
                     noise_gate = M_core
@@ -1767,6 +851,58 @@ def HRecSD3Edit(
         grad_vae.eval()
         for param in grad_vae.parameters():
             param.requires_grad_(False)
+    if (
+        needs_color_reference
+        and color_source is None
+        and os.environ.get("COLOR_SOURCE_FROM_MASK", "0") == "1"
+    ):
+        # No prompt-derived source color (host-aware inference found none).
+        # Estimate it as the median color inside the external object mask so
+        # the color-similarity gate targets the object instead of whichever
+        # background color word appeared first in the prompt.
+        try:
+            color_probe_mask = external_mask
+        except NameError:
+            color_probe_mask = None
+        if color_probe_mask is not None:
+            with torch.no_grad():
+                probe_image = decode_latent_to_unit_image(pipe, x_src, vae_override=grad_vae)
+                probe_active = (
+                    torch.nn.functional.interpolate(
+                        color_probe_mask.to(dtype=probe_image.dtype, device=probe_image.device),
+                        size=probe_image.shape[-2:],
+                        mode="bilinear",
+                        align_corners=False,
+                    )
+                    > 0.5
+                )
+                if bool(probe_active.any().item()):
+                    # Background-aware median: thin structures (bike wheels) let
+                    # background pixels through the silhouette, so a plain
+                    # median inside the mask can return the wall color. Estimate
+                    # the background from a ring outside the mask and take the
+                    # median over the interior half FARTHEST from it.
+                    ring = (
+                        torch.nn.functional.max_pool2d(
+                            probe_active.float(), kernel_size=31, stride=1, padding=15
+                        )
+                        > 0.5
+                    ) & ~probe_active
+                    interior = probe_image[0][:, probe_active[0, 0]]
+                    if bool(ring.any().item()):
+                        bg_rgb = torch.stack(
+                            [probe_image[0, c][ring[0, 0]].median() for c in range(3)]
+                        )
+                        distance = (interior - bg_rgb.view(3, 1)).square().sum(dim=0).sqrt()
+                        far = distance >= distance.median()
+                        if bool(far.any().item()):
+                            interior = interior[:, far]
+                    median_rgb = interior.median(dim=1).values.cpu()
+                    color_source = ("mask_median", median_rgb)
+                    print(
+                        "[color-source] mask median rgb="
+                        + str([round(float(v), 3) for v in median_rgb])
+                    )
     if needs_color_reference and color_source is not None and M_edit is not None:
         with torch.no_grad():
             source_color_image = decode_latent_to_unit_image(pipe, x_src, vae_override=grad_vae)
@@ -1996,6 +1132,55 @@ def HRecSD3Edit(
     # --- Controlled reverse ODE ---
     z_t = z_T.clone()
     step_stats: list[dict[str, float | str | None]] = []
+    shared_core_shadow_rel_total: list[float] = []
+    shared_core_shadow_unsupported = []
+    if edit_field_mode not in {"surrogate", "rf_diff"}:
+        shared_core_shadow_unsupported.append(f"edit_field_mode={edit_field_mode}")
+    for name, value in {
+        "edit_clip_guidance_scale": edit_clip_guidance_scale,
+        "edit_image_tv_scale": edit_image_tv_scale,
+        "edit_text_guidance_scale": edit_text_guidance_scale,
+        "edit_dds_guidance_scale": edit_dds_guidance_scale,
+        "edit_app_guidance_scale": edit_app_guidance_scale,
+        "edit_color_guidance_scale": edit_color_guidance_scale,
+        "edit_ref_guidance_scale": edit_ref_guidance_scale,
+        "completion_clean_delta_scale": completion_clean_delta_scale,
+        "edit_color_clean_projection_scale": edit_color_clean_projection_scale,
+        "edit_bound_scale": edit_bound_scale,
+    }.items():
+        if float(value) != 0.0:
+            shared_core_shadow_unsupported.append(name)
+    if velocity_conversion_mode != "linear_path":
+        shared_core_shadow_unsupported.append(f"velocity_conversion_mode={velocity_conversion_mode}")
+    if any(
+        float(value) != 0.0
+        for value in (
+            adaptive_hybrid_progress_target,
+            adaptive_hybrid_progress_gain,
+            adaptive_hybrid_progress_ema_decay,
+            adaptive_hybrid_preserve_gate_budget,
+        )
+    ):
+        shared_core_shadow_unsupported.append("adaptive_hybrid")
+    if adaptive_clean_control and adaptive_preserve_gain > 0.0 and adaptive_preserve_drift_budget <= 0.0:
+        shared_core_shadow_unsupported.append("zero_preserve_drift_budget")
+    if adaptive_component_control and not shared_core_authoritative:
+        raise ValueError("adaptive_component_control requires shared_core_authoritative for SD3")
+    shared_core_requested = bool(shared_core_shadow or shared_core_authoritative)
+    shared_core_supported = bool(shared_core_requested and not shared_core_shadow_unsupported)
+    if shared_core_authoritative and shared_core_shadow_unsupported:
+        raise ValueError(
+            "shared_core_authoritative unsupported for: " + ",".join(shared_core_shadow_unsupported)
+        )
+    if shared_core_requested:
+        if shared_core_supported:
+            mode = "authoritative" if shared_core_authoritative else "shadow"
+            print(f"[shared-core] {mode} mode enabled", flush=True)
+        else:
+            print(
+                "[shared-core-shadow] skipped unsupported=" + ",".join(shared_core_shadow_unsupported),
+                flush=True,
+            )
     active_edit_step = 0
     adaptive_edit_progress_ema: float | None = None
     clean_debug_active_steps: set[int] = set()
@@ -2236,6 +1421,11 @@ def HRecSD3Edit(
         rec_guidance_norm = 0.0
         current_rec_feature_map = None
         source_rec_feature_map = None
+        target_feature_map_for_core = None
+        source_feature_map_for_core = None
+        v_src_edit_for_core = v_src
+        x0_local_target_for_core = None
+        base_edit_post_gate_for_core = None
         if alpha_t != 0.0 and rec_guidance_scale > 0.0:
             step_key = int(t.item())
             if struct_guidance_scale != 0.0:
@@ -2345,6 +1535,9 @@ def HRecSD3Edit(
                     edit_src_cfg_scale,
                     t,
                 ).to(torch.float32)
+                v_src_edit_for_core = v_src_edit
+                target_feature_map_for_core = target_feature_map
+                source_feature_map_for_core = source_feature_map
                 v_edit_terms = editing_velocity_surrogate_total(
                     base_edit_velocity=(v_tar.to(torch.float32) - v_src_edit),
                     x0_tar=x0_tar,
@@ -2747,6 +1940,7 @@ def HRecSD3Edit(
                 spatial_edit_weight = edit_core_scale * core_gate + edit_subject_scale * subject_ring
             else:
                 spatial_edit_weight = edit_gate
+            base_edit_post_gate_for_core = spatial_edit_weight
             edit_guidance = edit_guidance * spatial_edit_weight
             clip_guidance = clip_guidance * spatial_edit_weight
             text_guidance = text_guidance * spatial_edit_weight
@@ -2922,6 +2116,7 @@ def HRecSD3Edit(
                     t,
                 ).to(torch.float32)
                 x0_local_target = predict_x0_from_linear_rf_path(z_t, v_local_target, t_i).to(torch.float32)
+                x0_local_target_for_core = x0_local_target
                 formation_gate = edit_gate.to(dtype=torch.float32, device=z_t.device)
                 if formation_gate.shape[-2:] != v_base.shape[-2:]:
                     formation_gate = torch.nn.functional.interpolate(
@@ -3096,6 +2291,138 @@ def HRecSD3Edit(
             removal_fill_norm = float((beta_t * float(removal_fill_scale) * u_fill).norm().item())
             removal_suppression_norm = float((beta_t * float(removal_suppression_scale) * u_suppress).norm().item())
             removal_ring_rec_norm = float((beta_t * float(removal_ring_rec_scale) * u_ring_rec).norm().item())
+        shared_core_shadow_active = False
+        shared_core_shadow_rec_rel = 0.0
+        shared_core_shadow_edit_rel = 0.0
+        shared_core_shadow_total_rel = 0.0
+        shared_core_shadow_reason = "disabled"
+        shared_core_component_diagnostics: dict[str, float] = {}
+        shared_core_authoritative_active = False
+        if shared_core_supported:
+            if M_edit is None or M_preserve is None or edit_gate is None or rec_gate is None:
+                shared_core_shadow_reason = "missing_masks"
+                if shared_core_authoritative:
+                    raise RuntimeError("shared_core_authoritative requires edit and preserve masks")
+            else:
+                shared_core_shadow_reason = "active"
+                with torch.no_grad():
+                    shadow_out = compute_dece_core_step(
+                        DeceCoreConfig(
+                            struct_guidance_scale=float(struct_guidance_scale),
+                            edit_hedit_guidance_scale=float(edit_hedit_guidance_scale)
+                            if use_rf_diff_edit_field
+                            else 0.0,
+                            edit_guidance_scale=float(edit_guidance_scale)
+                            if use_legacy_edit_surrogates
+                            else 0.0,
+                            edit_region_guidance_scale=float(edit_region_guidance_scale)
+                            if use_legacy_edit_surrogates
+                            else 0.0,
+                            edit_target_guidance_scale=float(edit_target_guidance_scale)
+                            if use_legacy_edit_surrogates
+                            else 0.0,
+                            edit_source_guidance_scale=float(edit_source_guidance_scale)
+                            if use_legacy_edit_surrogates
+                            else 0.0,
+                            linear_path_t_min=float(linear_path_t_min),
+                            adaptive_clean_control=bool(adaptive_clean_control),
+                            adaptive_rmsgap_mode=adaptive_rmsgap_mode,
+                            adaptive_rmsgap_dead_zone=float(adaptive_rmsgap_dead_zone),
+                            adaptive_rmsgap_preserve_gate_budget=float(
+                                adaptive_rmsgap_preserve_gate_budget
+                            ),
+                            adaptive_edit_target_progress=float(adaptive_edit_target_progress),
+                            adaptive_edit_target_rms=float(adaptive_edit_target_rms),
+                            adaptive_preserve_drift_budget=float(adaptive_preserve_drift_budget),
+                            adaptive_edit_gain=float(adaptive_edit_gain),
+                            adaptive_preserve_gain=float(adaptive_preserve_gain),
+                            adaptive_edit_weight_min=float(adaptive_edit_weight_min),
+                            adaptive_edit_weight_max=float(adaptive_edit_weight_max),
+                            adaptive_preserve_weight_min=float(adaptive_preserve_weight_min),
+                            adaptive_preserve_weight_max=float(adaptive_preserve_weight_max),
+                            adaptive_preserve_clean_correction_scale=float(
+                                adaptive_preserve_clean_correction_scale
+                            ),
+                            adaptive_projection_scale=float(adaptive_projection_scale),
+                            masked_rms_channel_normalize=True,
+                            adaptive_component_control=bool(adaptive_component_control),
+                            adaptive_component_threshold=float(adaptive_component_threshold),
+                            adaptive_component_min_pixels=int(adaptive_component_min_pixels),
+                            edit_local_target_guidance_scale=float(
+                                edit_local_target_guidance_scale
+                            ),
+                            region_target_transport_scale=float(region_target_transport_scale),
+                            removal_controller_mode=removal_controller_mode,
+                            edit_operation=support_edit_operation or "",
+                            removal_fill_scale=float(removal_fill_scale),
+                            removal_suppression_scale=float(removal_suppression_scale),
+                            removal_ring_rec_scale=float(removal_ring_rec_scale),
+                        ),
+                        DeceCoreStepInput(
+                            z_t=z_t.to(torch.float32),
+                            x_src=x_src.to(torch.float32),
+                            x0_src=x0_src_step,
+                            x0_tar=x0_tar,
+                            v_src=v_src,
+                            v_tar=v_tar,
+                            v_src_edit=v_src_edit_for_core,
+                            t_scalar=t_i,
+                            alpha_t=alpha_t,
+                            beta_t=beta_t,
+                            x_src_map=x_src.to(torch.float32),
+                            x0_src_map=x0_src_step,
+                            x0_tar_map=x0_tar,
+                            base_edit_velocity_map=v_tar - v_src_edit_for_core,
+                            edit_map=M_edit.to(device=z_t.device, dtype=torch.float32),
+                            preserve_map=M_preserve.to(device=z_t.device, dtype=torch.float32),
+                            edit_gate=edit_gate.to(device=z_t.device, dtype=torch.float32),
+                            preserve_gate=rec_gate.to(device=z_t.device, dtype=torch.float32),
+                            core_gate=None
+                            if core_gate is None
+                            else core_gate.to(device=z_t.device, dtype=torch.float32),
+                            target_feature_map=target_feature_map_for_core,
+                            source_feature_map=source_feature_map_for_core,
+                            current_rec_feature_map=current_rec_feature_map,
+                            source_rec_feature_map=source_rec_feature_map,
+                            base_rec_post_gate=rec_gate.to(
+                                device=z_t.device,
+                                dtype=torch.float32,
+                            ),
+                            base_edit_post_gate=base_edit_post_gate_for_core,
+                            x0_local_target=x0_local_target_for_core,
+                        ),
+                    )
+                legacy_total_for_shadow = v_base + v_rec + v_edit_total
+                shared_core_shadow_rec_rel = float(
+                    ((shadow_out.v_rec - v_rec).norm() / v_rec.norm().clamp_min(1e-8)).item()
+                )
+                shared_core_shadow_edit_rel = float(
+                    (
+                        (shadow_out.v_edit - v_edit_total).norm()
+                        / v_edit_total.norm().clamp_min(1e-8)
+                    ).item()
+                )
+                shared_core_shadow_total_rel = float(
+                    (
+                        (shadow_out.v_total - legacy_total_for_shadow).norm()
+                        / legacy_total_for_shadow.norm().clamp_min(1e-8)
+                    ).item()
+                )
+                shared_core_shadow_rel_total.append(shared_core_shadow_total_rel)
+                shared_core_shadow_active = True
+                shared_core_component_diagnostics = {
+                    key: float(value)
+                    for key, value in shadow_out.diagnostics.items()
+                    if key.startswith("adaptive_component_")
+                }
+                if shared_core_authoritative:
+                    v_rec = shadow_out.v_rec
+                    v_edit_total = shadow_out.v_edit
+                    adaptive_edit_weight = shadow_out.diagnostics["adaptive_edit_weight"]
+                    adaptive_preserve_weight = shadow_out.diagnostics["adaptive_preserve_weight"]
+                    shared_core_authoritative_active = True
+        elif shared_core_requested:
+            shared_core_shadow_reason = "unsupported"
         if edit_bound_scale > 0.0:
             edit_rms = v_edit_total.square().mean().sqrt().clamp_min(1e-8)
             v_edit_total = beta_t * edit_bound_scale * (v_edit_total / edit_rms)
@@ -3565,6 +2892,28 @@ def HRecSD3Edit(
             "cos_rec_base": cosine_safe(v_rec, v_base),
             "cos_rec_edit_total": cosine_safe(v_rec, v_edit_total),
         }
+        if shared_core_requested:
+            step_stat.update(
+                {
+                    "shared_core_shadow_requested": True,
+                    "shared_core_shadow_active": bool(shared_core_shadow_active),
+                    "shared_core_authoritative_requested": bool(shared_core_authoritative),
+                    "shared_core_authoritative_active": bool(shared_core_authoritative_active),
+                    "shared_core_shadow_reason": shared_core_shadow_reason,
+                    "shared_core_shadow_rec_rel": float(shared_core_shadow_rec_rel),
+                    "shared_core_shadow_edit_rel": float(shared_core_shadow_edit_rel),
+                    "shared_core_shadow_total_rel": float(shared_core_shadow_total_rel),
+                }
+            )
+            step_stat.update(shared_core_component_diagnostics)
+        if adaptive_component_control:
+            step_stat.update(
+                {
+                    "adaptive_component_control": True,
+                    "adaptive_component_threshold": float(adaptive_component_threshold),
+                    "adaptive_component_min_pixels": int(adaptive_component_min_pixels),
+                }
+            )
         step_stats.append(step_stat)
 
         if log_every > 0 and (i == 0 or (i + 1) % log_every == 0 or i == len(timesteps) - 1):
@@ -3625,6 +2974,14 @@ def HRecSD3Edit(
 
     result = z_t
 
+    if shared_core_shadow_rel_total:
+        print(
+            "[shared-core-shadow] comparisons="
+            f"{len(shared_core_shadow_rel_total)} "
+            f"mean_total_rel={sum(shared_core_shadow_rel_total) / len(shared_core_shadow_rel_total):.6e} "
+            f"max_total_rel={max(shared_core_shadow_rel_total):.6e}",
+            flush=True,
+        )
     if stats_output_path is not None:
         with open(stats_output_path, "w", encoding="utf-8") as f:
             json.dump(step_stats, f, indent=2)

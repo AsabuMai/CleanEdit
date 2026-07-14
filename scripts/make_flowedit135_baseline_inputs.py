@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 
-PROJ = Path("/cluster/users/grad/2025/25t8103/project")
+PROJ = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJ / "data/flowedit_compatible_135"
 MANIFEST = DATA_DIR / "manifest.json"
 INPUT_DIR = DATA_DIR / "unique_inputs"

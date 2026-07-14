@@ -1,3 +1,0 @@
-complete=12
-expected=12
-missing=0

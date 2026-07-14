@@ -1,0 +1,869 @@
+[
+  {
+    "key": "fe_046_cat_crown_1_black_top_hat",
+    "flowedit_idx": 46,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "accessory_replacement_or_mixed_color",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cat_crown.png",
+    "source_prompt": "A gray cat sitting on a black cloth, wearing a crown. The crown is placed on the cat''s head.",
+    "target_prompt": "A gray cat sitting on a black cloth, wearing a top hat. The top hat is placed on the cat''s head.",
+    "global_mask": false,
+    "host_tokens": "cat",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "cat": [
+        "hat"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_046_cat_crown_1_black_top_hat.json",
+    "sam_phrase": "cat",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_094_dog_6_red_top_hat",
+    "flowedit_idx": 94,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/dog.png",
+    "source_prompt": "A small black and brown dog sitting on a lush green field.",
+    "target_prompt": "A small black and brown dog sitting on a lush green field. The dog is wearing a red top hat.",
+    "global_mask": false,
+    "host_tokens": "dog",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "dog": [
+        "hat"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_094_dog_6_red_top_hat_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_094_dog_6_red_top_hat_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_094_dog_6_red_top_hat.json",
+    "sam_phrase": "dog",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_095_dog_7_jeweled_crown",
+    "flowedit_idx": 95,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/dog.png",
+    "source_prompt": "A small black and brown dog sitting on a lush green field.",
+    "target_prompt": "A small black and brown dog sitting on a lush green field. The dog is wearing a jeweled crown.",
+    "global_mask": false,
+    "host_tokens": "dog",
+    "new_tokens": "crown",
+    "pp_aspect_mapping": {
+      "dog": [
+        "crown"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_095_dog_7_jeweled_crown_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_095_dog_7_jeweled_crown_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_095_dog_7_jeweled_crown.json",
+    "sam_phrase": "dog",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_142_iguana_2_blue_lizard_top_hat",
+    "flowedit_idx": 142,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "accessory_replacement_or_mixed_color",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/iguana.png",
+    "source_prompt": "A large orange lizard sitting on a rock near the ocean. The lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the lizard''s resting spot.",
+    "target_prompt": "A large blue lizard sitting on a rock near the ocean. The blue lizard is wearing a top hat. The blue lizard is positioned in the center of the scene, with the ocean waves visible in the background. The rock is located close to the water, providing a picturesque setting for the blue lizard''s resting spot.",
+    "global_mask": false,
+    "host_tokens": "lizard",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "lizard": [
+        "hat"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_142_iguana_2_blue_lizard_top_hat_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_142_iguana_2_blue_lizard_top_hat_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_142_iguana_2_blue_lizard_top_hat.json",
+    "sam_phrase": "lizard",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_192_parrots_1_top_hat",
+    "flowedit_idx": 192,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/parrots.png",
+    "source_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow.",
+    "target_prompt": "Two colorful parrots sitting on a wooden stump or log. They are positioned close to each other, with one parrot on the left side and the other on the right side of the stump. The parrot''s wings have blue feathers and their body is yellow. Both parrots have a top hat on their head.",
+    "global_mask": false,
+    "host_tokens": "parrots",
+    "new_tokens": "hat",
+    "pp_aspect_mapping": {
+      "parrots": [
+        "hat"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_192_parrots_1_top_hat_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_192_parrots_1_top_hat_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_192_parrots_1_top_hat.json",
+    "sam_phrase": "parrots",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_195_parrots2_1_crown",
+    "flowedit_idx": 195,
+    "flowedit_status": "main-clean",
+    "flowedit_reason": "",
+    "config": "2_attached_accessory_80",
+    "family": "F1",
+    "family_label": "T1_attached_accessory",
+    "image": "./_baselines/src/FlowEdit/Data/Images/parrots2.png",
+    "source_prompt": "Two colorful parrots perched on a rocky surface. The parrots are positioned close to each other, with one parrot on the left side and the other on the right side of the rock. The parrot colors are predominantly red.",
+    "target_prompt": "Two colorful parrots perched on a rocky surface. Both parrots have a crown on their head. The birds are positioned close to each other, with one parrot on the left side and the other on the right side of the rock. The parrot colors are predominantly red.",
+    "global_mask": false,
+    "host_tokens": "parrots",
+    "new_tokens": "crown",
+    "pp_aspect_mapping": {
+      "parrots": [
+        "crown"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_195_parrots2_1_crown_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_195_parrots2_1_crown_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_195_parrots2_1_crown.json",
+    "sam_phrase": "parrots",
+    "sam_support_relation": "top_center"
+  },
+  {
+    "key": "fe_010_beer_glass_1_cocktail",
+    "flowedit_idx": 10,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/beer_glass.png",
+    "source_prompt": "A wine glass filled with beer.",
+    "target_prompt": "A wine glass filled with a vibrant red cocktail, garnished with an orange wedge.",
+    "global_mask": false,
+    "host_tokens": "glass",
+    "new_tokens": "cocktail",
+    "pp_aspect_mapping": {
+      "glass": [
+        "cocktail"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail.json",
+    "sam_phrase": "glass",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_031_cake_1_berries",
+    "flowedit_idx": 31,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cake.png",
+    "source_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of fruits. The cake is presented on a white plate.",
+    "target_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of berries. The cake is presented on a white plate.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "berries",
+    "pp_aspect_mapping": {
+      "cake": [
+        "berries"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_031_cake_1_berries.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_033_cake_3_wedding_cake",
+    "flowedit_idx": 33,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cake.png",
+    "source_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of fruits. The cake is presented on a white plate.",
+    "target_prompt": "A three-layer wedding cake with white frosting, placed on a wooden table. The cake is presented on a white plate.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "cake",
+    "pp_aspect_mapping": {
+      "cake": [
+        "cake"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_033_cake_3_wedding_cake_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_033_cake_3_wedding_cake_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_033_cake_3_wedding_cake.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_034_cake_4_strawberries",
+    "flowedit_idx": 34,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cake.png",
+    "source_prompt": "A three-layer cake with white frosting, placed on a wooden table. The cake is adorned with a variety of fruits. The cake is presented on a white plate.",
+    "target_prompt": "A three-layer wedding cake with white frosting, placed on a wooden table. The cake is adorned with a lot of strawberries. The cake is presented on a white plate.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "strawberries",
+    "pp_aspect_mapping": {
+      "cake": [
+        "strawberries"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_034_cake_4_strawberries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_034_cake_4_strawberries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_034_cake_4_strawberries.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_036_cake_red_blueberries_2_raspberries",
+    "flowedit_idx": 36,
+    "flowedit_status": "expanded-stress",
+    "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cake_red_blueberries.png",
+    "source_prompt": "A slice of red velvet cake with white frosting, topped with blueberries.",
+    "target_prompt": "A slice of red velvet cake with white frosting, topped with raspberries.",
+    "global_mask": false,
+    "host_tokens": "blueberries",
+    "new_tokens": "raspberries",
+    "pp_aspect_mapping": {
+      "blueberries": [
+        "raspberries"
+      ]
+    },
+    "subset": "expanded",
+    "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_036_cake_red_blueberries_2_raspberries.json",
+    "sam_phrase": "blueberries",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_180_milk_4_whipped_cream",
+    "flowedit_idx": 180,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/milk.png",
+    "source_prompt": "A glass of milk placed on a wooden table. The glass is filled with milk, and a straw is inserted into it.",
+    "target_prompt": "A glass of milk placed on a wooden table. The glass is filled with milk, and a straw is inserted into it. There is whipped cream on top of the milk.",
+    "global_mask": false,
+    "host_tokens": "glass",
+    "new_tokens": "whipped,cream",
+    "pp_aspect_mapping": {
+      "glass": [
+        "whipped",
+        "cream"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream.json",
+    "sam_phrase": "glass",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_186_muffins_1_strawberries",
+    "flowedit_idx": 186,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "near_container_content_or_surface_topping",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/muffins.png",
+    "source_prompt": "A plate of white muffins, decorated with a few raspberries.",
+    "target_prompt": "A plate of white muffins, decorated with a few strawberries.",
+    "global_mask": false,
+    "host_tokens": "plate",
+    "new_tokens": "strawberries",
+    "pp_aspect_mapping": {
+      "plate": [
+        "strawberries"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_186_muffins_1_strawberries.json",
+    "sam_phrase": "plate",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_198_piece_of_cake_1_cherry_on_top",
+    "flowedit_idx": 198,
+    "flowedit_status": "expanded-stress",
+    "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/piece_of_cake.png",
+    "source_prompt": "A delicious chocolate cake with chocolate frosting, sitting on a dining table.",
+    "target_prompt": "A delicious chocolate cake with chocolate frosting and a cherry on top, sitting on a dining table.",
+    "global_mask": false,
+    "host_tokens": "cake",
+    "new_tokens": "cherry",
+    "pp_aspect_mapping": {
+      "cake": [
+        "cherry"
+      ]
+    },
+    "subset": "expanded",
+    "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_198_piece_of_cake_1_cherry_on_top_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_198_piece_of_cake_1_cherry_on_top_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_198_piece_of_cake_1_cherry_on_top.json",
+    "sam_phrase": "cake",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_201_pizza_1_pineapple_ham",
+    "flowedit_idx": 201,
+    "flowedit_status": "expanded-stress",
+    "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+    "config": "2_container_insertion_80",
+    "family": "F2",
+    "family_label": "T2_container_insertion",
+    "image": "./_baselines/src/FlowEdit/Data/Images/pizza.png",
+    "source_prompt": "A large, cheesy pizza sitting on a wooden pizza board.",
+    "target_prompt": "A large, cheesy pizza, topped with pineapple and ham, sitting on a wooden pizza board.",
+    "global_mask": false,
+    "host_tokens": "pizza",
+    "new_tokens": "pineapple,ham",
+    "pp_aspect_mapping": {
+      "pizza": [
+        "pineapple",
+        "ham"
+      ]
+    },
+    "subset": "expanded",
+    "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_201_pizza_1_pineapple_ham_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_201_pizza_1_pineapple_ham_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_201_pizza_1_pineapple_ham.json",
+    "sam_phrase": "pizza",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_024_bus_2_volkswagen_logo",
+    "flowedit_idx": 24,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/bus.png",
+    "source_prompt": "A yellow van parked in front of a house, outside a garage. The van is of a classic model. The house has a brown exterior, and there is a tree nearby. There is a spare tire hanged between the headlights of the van.",
+    "target_prompt": "A yellow van parked in front of a house, outside a garage. The van is of a classic model. The house has a brown exterior, and there is a tree nearby. There is a big Volkswagen logo on the front of the van, between its headlights.",
+    "global_mask": false,
+    "host_tokens": "tire,headlights,van",
+    "new_tokens": "logo,volkswagen",
+    "pp_aspect_mapping": {
+      "logo": [
+        "volkswagen",
+        "logo"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_024_bus_2_volkswagen_logo_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_024_bus_2_volkswagen_logo_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_024_bus_2_volkswagen_logo.json",
+    "sam_phrase": "front of the van",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_119_gas_station_2_iccv",
+    "flowedit_idx": 119,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/gas_station.png",
+    "source_prompt": "A gas station with a white and red sign that reads \"CAFE\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "target_prompt": "A gas station with a white and red sign that reads \"ICCV\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "iccv",
+    "pp_aspect_mapping": {
+      "sign": [
+        "iccv"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_119_gas_station_2_iccv_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_119_gas_station_2_iccv_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_119_gas_station_2_iccv.json",
+    "sam_phrase": "gas station sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_123_gas_station_6_free",
+    "flowedit_idx": 123,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/gas_station.png",
+    "source_prompt": "A gas station with a white and red sign that reads \"CAFE\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "target_prompt": "A gas station with a white and red sign that reads \"FREE\" There are several cars parked in front of the gas station, including a white car and a van.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "free",
+    "pp_aspect_mapping": {
+      "sign": [
+        "free"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_123_gas_station_6_free_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_123_gas_station_6_free_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_123_gas_station_6_free.json",
+    "sam_phrase": "gas station sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_134_groceries_4_eccv",
+    "flowedit_idx": 134,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/groceries.png",
+    "source_prompt": "A grocery list writing on a piece of brown paper with a black marker, which includes BREAD, EGGS, and MILK. The grocery list is attached to a wall or refrigerator with a magnet. The magnet is red and white, possibly in the shape of a phone booth in London.",
+    "target_prompt": "A grocery list writing on a piece of brown paper with a black marker, which includes ECCV, EGGS, and MILK. The grocery list is attached to a wall or refrigerator with a magnet. The magnet is red and white, possibly in the shape of a phone booth in London.",
+    "global_mask": false,
+    "host_tokens": "paper",
+    "new_tokens": "eccv",
+    "pp_aspect_mapping": {
+      "paper": [
+        "eccv"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_134_groceries_4_eccv_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_134_groceries_4_eccv_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_134_groceries_4_eccv.json",
+    "sam_phrase": "brown paper",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_166_luna_3_iccv",
+    "flowedit_idx": 166,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/luna.png",
+    "source_prompt": "A neon sign for a restaurant called Luna, which is located on a street corner. The sign is illuminated with red and orange colors.",
+    "target_prompt": "A neon sign for a restaurant called ICCV, which is located on a street corner. The sign is illuminated with red and orange colors.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "iccv",
+    "pp_aspect_mapping": {
+      "sign": [
+        "iccv"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_166_luna_3_iccv_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_166_luna_3_iccv_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_166_luna_3_iccv.json",
+    "sam_phrase": "neon sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_170_luna_7_heart",
+    "flowedit_idx": 170,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/luna.png",
+    "source_prompt": "A neon sign for a restaurant called Luna, which is located on a street corner. The sign is illuminated with red and orange colors.",
+    "target_prompt": "A neon sign for a restaurant with an heart on it, which is located on a street corner. The sign is illuminated with red and orange colors.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "heart",
+    "pp_aspect_mapping": {
+      "sign": [
+        "heart"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_170_luna_7_heart_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_170_luna_7_heart_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_170_luna_7_heart.json",
+    "sam_phrase": "neon sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_225_sign_4_flow",
+    "flowedit_idx": 225,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/sign.png",
+    "source_prompt": "A large white billboard with a bold message written in black letters. The message reads, \"LOVE IS ALL YOU NEED.\" The billboard is prominently displayed in the scene, capturing the viewer''s attention.",
+    "target_prompt": "A large white billboard with a bold message written in black letters. The message reads, \"FLOW IS ALL YOU NEED.\" The billboard is prominently displayed in the scene, capturing the viewer''s attention.",
+    "global_mask": false,
+    "host_tokens": "billboard",
+    "new_tokens": "flow",
+    "pp_aspect_mapping": {
+      "billboard": [
+        "flow"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_225_sign_4_flow_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_225_sign_4_flow_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_225_sign_4_flow.json",
+    "sam_phrase": "billboard",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_238_stop_arrow_1_cvpr",
+    "flowedit_idx": 238,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/stop_arrow.png",
+    "source_prompt": "A stop sign above a blue sign with arrow pointing up.",
+    "target_prompt": "A sign that says CVPR above a blue sign with arrow pointing up.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "cvpr",
+    "pp_aspect_mapping": {
+      "sign": [
+        "cvpr"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_238_stop_arrow_1_cvpr_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_238_stop_arrow_1_cvpr_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_238_stop_arrow_1_cvpr.json",
+    "sam_phrase": "stop sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_242_stop_arrow_5_home",
+    "flowedit_idx": 242,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "mostly_text_logo_sign_not_nontext_decal",
+    "config": "3_surface_decal_80",
+    "family": "F3",
+    "family_label": "T3_surface_decal",
+    "image": "./_baselines/src/FlowEdit/Data/Images/stop_arrow.png",
+    "source_prompt": "A stop sign above a blue sign with arrow pointing up.",
+    "target_prompt": "A sign that says HOME above a blue sign with arrow pointing up.",
+    "global_mask": false,
+    "host_tokens": "sign",
+    "new_tokens": "home",
+    "pp_aspect_mapping": {
+      "sign": [
+        "home"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_242_stop_arrow_5_home_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_242_stop_arrow_5_home_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_242_stop_arrow_5_home.json",
+    "sam_phrase": "stop sign",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_003_bear_4_sculpture",
+    "flowedit_idx": 3,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/bear.png",
+    "source_prompt": "A large brown bear walking through a stream of water. The stream appears to be shallow, as the bear is able to walk through it without any difficulty.",
+    "target_prompt": "A large sculpture of a brown bear walking through a stream of water. The stream appears to be shallow, as the sculpture of the bear is able to walk through it without any difficulty.",
+    "global_mask": false,
+    "host_tokens": "bear",
+    "new_tokens": "sculpture",
+    "pp_aspect_mapping": {
+      "bear": [
+        "sculpture"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_003_bear_4_sculpture_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_003_bear_4_sculpture_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_003_bear_4_sculpture.json",
+    "sam_phrase": "bear",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_039_cat_and_dog_2_bronze",
+    "flowedit_idx": 39,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+    "source_prompt": "A dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+    "target_prompt": "A bronze sculpture of a dog and a cat sitting together on a sidewalk. The dog is positioned on the left side of the scene, while the cat is on the right side. Both animals appear to be relaxed and enjoying each other''s company.",
+    "global_mask": false,
+    "host_tokens": "dog",
+    "new_tokens": "bronze,sculpture",
+    "pp_aspect_mapping": {
+      "dog": [
+        "bronze",
+        "sculpture"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_039_cat_and_dog_2_bronze_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_039_cat_and_dog_2_bronze_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_039_cat_and_dog_2_bronze.json",
+    "sam_phrase": "dog and cat",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_091_dog_3_crochet",
+    "flowedit_idx": 91,
+    "flowedit_status": "expanded-stress",
+    "flowedit_reason": "expanded_clean_sample_close_to_T2_T5_def",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/dog.png",
+    "source_prompt": "A small black and brown dog sitting on a lush green field.",
+    "target_prompt": "A small black and brown crochet dog sitting on a lush green field.",
+    "global_mask": false,
+    "host_tokens": "dog",
+    "new_tokens": "crochet",
+    "pp_aspect_mapping": {
+      "dog": [
+        "crochet"
+      ]
+    },
+    "subset": "expanded",
+    "pp_local_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_091_dog_3_crochet_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_135/sam_support_masks_17new/fe_091_dog_3_crochet_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_135/sam_support_masks_17new/fe_091_dog_3_crochet.json",
+    "sam_phrase": "dog",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_129_gray_bird_3_sculpture",
+    "flowedit_idx": 129,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+    "source_prompt": "A small blue and gray bird perched on a wooden fence or post. The bird is positioned towards the left side of the image",
+    "target_prompt": "A small sculpture of a blue and gray bird perched on a wooden fence or post. The sculpture is positioned towards the left side of the image",
+    "global_mask": false,
+    "host_tokens": "bird",
+    "new_tokens": "sculpture,wooden",
+    "pp_aspect_mapping": {
+      "bird": [
+        "sculpture",
+        "wooden"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_129_gray_bird_3_sculpture_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_129_gray_bird_3_sculpture_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_129_gray_bird_3_sculpture.json",
+    "sam_phrase": "bird",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_149_jump_kick_3_golden_statue",
+    "flowedit_idx": 149,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/jump_kick.png",
+    "source_prompt": "A woman in a white uniform, kicking in the air. She appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park.",
+    "target_prompt": "A golden sculpture of a woman kicking in the air. It appears to be in the middle of a karate kick, showcasing her skill and agility. The scene takes place outdoors, in a park.",
+    "global_mask": false,
+    "host_tokens": "woman",
+    "new_tokens": "golden,statue,sculpture",
+    "pp_aspect_mapping": {
+      "woman": [
+        "golden",
+        "statue",
+        "sculpture"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_149_jump_kick_3_golden_statue_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_149_jump_kick_3_golden_statue_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_149_jump_kick_3_golden_statue.json",
+    "sam_phrase": "woman",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_171_meditation_1_wooden_statue",
+    "flowedit_idx": 171,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/meditation.png",
+    "source_prompt": "A woman sitting on the floor in a room and meditating.",
+    "target_prompt": "A wooden statue of a woman sitting on the floor in a room and meditating.",
+    "global_mask": false,
+    "host_tokens": "woman",
+    "new_tokens": "wooden,statue",
+    "pp_aspect_mapping": {
+      "woman": [
+        "wooden",
+        "statue"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_171_meditation_1_wooden_statue_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_171_meditation_1_wooden_statue_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_171_meditation_1_wooden_statue.json",
+    "sam_phrase": "woman",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_187_parrot_1_glass_sculpture",
+    "flowedit_idx": 187,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/parrot.png",
+    "source_prompt": "A colorful parrot perched on a tree branch. The parrot is predominantly blue, with a mix of red, green, and yellow colors. It sitting comfortably on the branch. The tree itself is filled with green leaves, creating a lush and vibrant backdrop for the parrot.",
+    "target_prompt": "A glass sculpture of a colorful parrot perched on a tree branch. The glass sculpture of the parrot is predominantly red, with a mix of blue, green, and yellow colors. It sitting comfortably on the branch. The tree itself is filled with green leaves, creating a lush and vibrant backdrop for the glass sculpture of the parrot.",
+    "global_mask": false,
+    "host_tokens": "parrot",
+    "new_tokens": "glass,sculpture",
+    "pp_aspect_mapping": {
+      "parrot": [
+        "glass",
+        "sculpture"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_187_parrot_1_glass_sculpture_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_187_parrot_1_glass_sculpture_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_187_parrot_1_glass_sculpture.json",
+    "sam_phrase": "parrot",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_196_penguins_1_origami",
+    "flowedit_idx": 196,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/penguins.png",
+    "source_prompt": "Two penguins standing in a lake. They are positioned close to each other, with one penguin on the left side and the other on the right side of the picture.",
+    "target_prompt": "Two origami penguins standing in a lake. They are positioned close to each other, with one origami penguin on the left side and the other on the right side of the picture.",
+    "global_mask": false,
+    "host_tokens": "penguin",
+    "new_tokens": "origami",
+    "pp_aspect_mapping": {
+      "penguin": [
+        "origami"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_196_penguins_1_origami_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_196_penguins_1_origami_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_196_penguins_1_origami.json",
+    "sam_phrase": "penguins",
+    "sam_support_relation": "inside"
+  },
+  {
+    "key": "fe_266_yellow_bulldog_10_origami_lion",
+    "flowedit_idx": 266,
+    "flowedit_status": "compatible-stress",
+    "flowedit_reason": "whole_object_material_medium_not_same_color_local_texture",
+    "config": "7_material_transfer_60",
+    "family": "F5",
+    "family_label": "T5_same_color_material",
+    "image": "./_baselines/src/FlowEdit/Data/Images/yellow_bulldog.png",
+    "source_prompt": "A small, yellow, shiny dog figurine positioned in the center of the scene, and it appears to be a decorative piece.",
+    "target_prompt": "A small, yellow, origami lion positioned in the center of the scene, and it appears to be a decorative piece.",
+    "global_mask": false,
+    "host_tokens": "dog",
+    "new_tokens": "origami",
+    "pp_aspect_mapping": {
+      "dog": [
+        "origami"
+      ]
+    },
+    "subset": "strict",
+    "pp_local_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion_support.png",
+    "sam_anchor_mask": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion_anchor.png",
+    "sam_support_meta": "data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion.json",
+    "sam_phrase": "dog figurine",
+    "sam_support_relation": "inside"
+  }
+]

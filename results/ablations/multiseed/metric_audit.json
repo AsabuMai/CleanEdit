@@ -1,0 +1,12 @@
+{
+  "rows": 810,
+  "methods": [
+    "ours_flux",
+    "ours_sd3"
+  ],
+  "method_counts": {
+    "ours_flux": 405,
+    "ours_sd3": 405
+  },
+  "bad": []
+}

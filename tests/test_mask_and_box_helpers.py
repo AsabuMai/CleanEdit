@@ -14,7 +14,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from run_edit_sd3 import (  # noqa: E402
-    apply_y_highpass_texture_restore,
+    transfer_source_luma_detail_inside_mask,
     build_proposal_diff_mask,
     clamp_normalized_box,
     estimate_foreground_head_structure_boxes,
@@ -29,14 +29,11 @@ from scripts.make_semantic_mask import (  # noqa: E402
     _should_fallback_large_eyes_anchor,
     support_from_anchor_mask,
 )
-from sd3_hrec import (  # noqa: E402
+from spatial_masks import (  # noqa: E402
     _attention_object_mask_from_map,
     _attention_velocity_object_mask,
     _box_from_mask,
-    _build_recolor_clean_projection_image,
     _conservative_attention_box,
-    _estimate_recolor_closed_form_alpha,
-    _estimate_recolor_boundary_alpha,
     _largest_component_box_from_mask,
     _largest_component_mask_from_mask,
     _mask_binary_area_ratio,
@@ -45,12 +42,19 @@ from sd3_hrec import (  # noqa: E402
     build_object_contact_masks,
     filter_spatial_mask_components,
     latent_structure_edge_mask,
-    masked_chroma_luma_loss,
-    masked_recolor_texture_boundary_loss,
     normalized_box_mask_like,
     spatial_mask_stats,
-    source_color_similarity_mask,
     translate_spatial_mask,
+)
+from recolor_projection import (  # noqa: E402
+    _build_recolor_clean_projection_image,
+    _estimate_recolor_closed_form_alpha,
+    _estimate_recolor_boundary_alpha,
+)
+from guidance_fields import (  # noqa: E402
+    masked_chroma_luma_loss,
+    masked_recolor_texture_boundary_loss,
+    source_color_similarity_mask,
 )
 from energies import editing_velocity_surrogate_total  # noqa: E402
 
@@ -504,7 +508,7 @@ class SD3MaskHelperTest(unittest.TestCase):
 
         self.assertGreater(float((soft - yuv_texture).abs().mean().item()), 1e-3)
 
-    def test_y_highpass_texture_restore_preserves_result_chroma(self):
+    def test_source_luma_detail_transfer_preserves_result_chroma(self):
         source = Image.new("RGB", (8, 8), (128, 128, 128))
         draw = ImageDraw.Draw(source)
         for x in range(0, 8, 2):
@@ -512,7 +516,7 @@ class SD3MaskHelperTest(unittest.TestCase):
         result = Image.new("RGB", (8, 8), (20, 60, 210))
         mask = Image.new("L", (8, 8), 255)
 
-        restored = apply_y_highpass_texture_restore(
+        restored = transfer_source_luma_detail_inside_mask(
             result,
             source,
             mask,

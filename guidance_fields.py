@@ -1,7 +1,17 @@
 from __future__ import annotations
 
+import os
+
 import torch
 import torch.nn.functional as F
+
+# Host-aware source-color inference: only accept a source-prompt color word as
+# "the color being replaced" when it modifies the edit host noun (adjacent
+# window before the host word). Without this, the FIRST color word anywhere in
+# the prompt wins — e.g. the "red" of a red brick wall hijacks a green-bicycle
+# recolor and the color guidance paints the wall (halo leak).
+COLOR_SOURCE_HOST_AWARE = os.environ.get("COLOR_SOURCE_HOST_AWARE", "0") == "1"
+COLOR_SOURCE_HOST_WINDOW = int(os.environ.get("COLOR_SOURCE_HOST_WINDOW", "3"))
 
 
 def decode_latent_to_unit_image(
@@ -93,13 +103,27 @@ def infer_target_color_rgb(
 def infer_source_color_rgb(
     src_prompt: str,
     explicit: str | None = None,
+    host_words: list[str] | None = None,
 ) -> tuple[str, torch.Tensor] | None:
     if explicit:
         key = explicit.strip().lower()
         if key not in _COLOR_RGB:
             raise ValueError(f"Unsupported source color: {explicit!r}")
         return key, torch.tensor(_COLOR_RGB[key], dtype=torch.float32)
-    for word in _prompt_words(src_prompt):
+    words = list(_prompt_words(src_prompt))
+    if COLOR_SOURCE_HOST_AWARE and host_words:
+        hosts = {h.strip().lower() for h in host_words if h and h.strip()}
+        for index, word in enumerate(words):
+            if word not in hosts and word.rstrip("s") not in hosts:
+                continue
+            for back in range(1, COLOR_SOURCE_HOST_WINDOW + 1):
+                j = index - back
+                if j < 0:
+                    break
+                if words[j] in _COLOR_RGB:
+                    return words[j], torch.tensor(_COLOR_RGB[words[j]], dtype=torch.float32)
+        return None
+    for word in words:
         if word in _COLOR_RGB:
             return word, torch.tensor(_COLOR_RGB[word], dtype=torch.float32)
     return None

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import contextlib
 import re
+from dataclasses import dataclass
 from typing import Optional, Union
 
 import torch
@@ -237,7 +238,7 @@ def _sd3_source_qkv_injection(transformer, controller: _SD3SourceQKVInjectionCon
         transformer.set_attn_processor(dict(original_processors))
 
 
-class _SD3FeatureStore:
+class _SD3FeatureBuffer:
     def __init__(self):
         self.features = []
         self.handles = []
@@ -256,7 +257,7 @@ class _SD3FeatureStore:
 
             self.handles.append(block.register_forward_hook(_make_hook()))
 
-    def restore(self):
+    def remove_hooks(self):
         for h in self.handles:
             h.remove()
         self.handles.clear()
@@ -307,7 +308,7 @@ def extract_sd3_feature_structure_map(
     prompt_embeds = prompt_embeds.to(device=x_small.device, dtype=transformer_dtype)
     pooled_embeds = pooled_embeds.to(device=x_small.device, dtype=transformer_dtype)
 
-    store = _SD3FeatureStore()
+    store = _SD3FeatureBuffer()
     try:
         store.register(pipe.transformer, layer_indices, detach=detach)
         pipe.transformer(
@@ -319,7 +320,7 @@ def extract_sd3_feature_structure_map(
             return_dict=False,
         )
     finally:
-        store.restore()
+        store.remove_hooks()
 
     if not store.features:
         return torch.zeros(1, 1, *orig_size, device=x_latent.device, dtype=x_latent.dtype)
@@ -560,3 +561,118 @@ def invert_source_sd3(
         return z_T, trajectory_by_timestep
     return z_T
 
+
+@dataclass(frozen=True)
+class SD3PromptConditioning:
+    prompt_embeds: torch.Tensor
+    negative_prompt_embeds: torch.Tensor | None
+    pooled_prompt_embeds: torch.Tensor
+    negative_pooled_prompt_embeds: torch.Tensor | None
+
+
+@dataclass(frozen=True)
+class SD3EditConditioning:
+    source: SD3PromptConditioning
+    target: SD3PromptConditioning
+    local_target: SD3PromptConditioning | None
+    z_T: torch.Tensor
+    source_trajectory_by_timestep: dict[int, torch.Tensor]
+    source_inject_enabled: bool
+
+
+def prepare_sd3_edit_conditioning(
+    *,
+    pipe,
+    x_src: torch.Tensor,
+    device: torch.device,
+    src_prompt: str,
+    tar_prompt: str,
+    negative_prompt: str,
+    timesteps,
+    T_steps: int,
+    n_max: int,
+    inversion_guidance_scale: float,
+    base_guidance_scale: float,
+    edit_src_cfg_scale: float,
+    tar_guidance_scale: float,
+    edit_local_target_prompt: str | None,
+    edit_local_target_cfg_scale: float,
+    source_inject_q_scale: float,
+    source_inject_k_scale: float,
+    source_inject_v_scale: float,
+    trajectory_preserve_scale: float,
+    trajectory_subject_preserve_scale: float,
+    region_target_outside_lock_scale: float,
+) -> SD3EditConditioning:
+    source_encode_guidance_scale = max(
+        float(inversion_guidance_scale),
+        float(base_guidance_scale),
+        float(edit_src_cfg_scale),
+        float(edit_local_target_cfg_scale),
+        1.0,
+    )
+
+    def encode(prompt: str, guidance_scale: float) -> SD3PromptConditioning:
+        pipe._guidance_scale = guidance_scale
+        encoded = pipe.encode_prompt(
+            prompt=prompt,
+            prompt_2=None,
+            prompt_3=None,
+            negative_prompt=negative_prompt,
+            do_classifier_free_guidance=pipe.do_classifier_free_guidance,
+            device=device,
+        )
+        return SD3PromptConditioning(
+            prompt_embeds=encoded[0],
+            negative_prompt_embeds=encoded[1],
+            pooled_prompt_embeds=encoded[2],
+            negative_pooled_prompt_embeds=encoded[3],
+        )
+
+    with torch.no_grad():
+        source = encode(src_prompt, source_encode_guidance_scale)
+        target = encode(tar_prompt, tar_guidance_scale)
+        local_target = None
+        if edit_local_target_prompt:
+            local_target = encode(edit_local_target_prompt, edit_local_target_cfg_scale)
+
+    print("[inversion] running source forward ODE ...")
+    source_inject_enabled = max(
+        source_inject_q_scale,
+        source_inject_k_scale,
+        source_inject_v_scale,
+    ) > 0.0
+    return_trajectory = (
+        trajectory_preserve_scale > 0.0
+        or trajectory_subject_preserve_scale > 0.0
+        or source_inject_enabled
+        or region_target_outside_lock_scale > 0.0
+    )
+    inversion_result = invert_source_sd3(
+        pipe=pipe,
+        x_src=x_src,
+        negative_prompt_embeds=source.negative_prompt_embeds,
+        prompt_embeds=source.prompt_embeds,
+        negative_pooled_prompt_embeds=source.negative_pooled_prompt_embeds,
+        pooled_prompt_embeds=source.pooled_prompt_embeds,
+        guidance_scale=inversion_guidance_scale,
+        timesteps=timesteps,
+        T_steps=T_steps,
+        n_max=n_max,
+        return_trajectory=return_trajectory,
+    )
+    if return_trajectory:
+        z_T, source_trajectory_by_timestep = inversion_result
+    else:
+        z_T = inversion_result
+        source_trajectory_by_timestep = {}
+    print("[inversion] done.")
+
+    return SD3EditConditioning(
+        source=source,
+        target=target,
+        local_target=local_target,
+        z_T=z_T,
+        source_trajectory_by_timestep=source_trajectory_by_timestep,
+        source_inject_enabled=source_inject_enabled,
+    )
