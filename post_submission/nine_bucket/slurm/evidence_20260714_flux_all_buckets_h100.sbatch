@@ -25,6 +25,7 @@ export HF_HOME=$ASSET_ROOT/.cache/huggingface
 export HF_HUB_CACHE=$ASSET_ROOT/.cache/huggingface/hub
 export HUGGINGFACE_HUB_CACHE=$ASSET_ROOT/.cache/huggingface/hub
 export TRANSFORMERS_CACHE=$ASSET_ROOT/.cache/huggingface/hub
+export FLUX_CACHE_DIR=$ASSET_ROOT/.cache/huggingface/hub
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 DIFFUSERS_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export CLEANEDIT_ROOT=$PROJ EXPECTED_PROJECT_ROOT=$PROJ
