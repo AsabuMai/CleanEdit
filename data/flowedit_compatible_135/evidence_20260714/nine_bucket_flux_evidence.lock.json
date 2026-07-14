@@ -1,0 +1,610 @@
+{
+  "schema_version": 1,
+  "protocol": {
+    "backend": "FLUX.1-dev",
+    "host": "h100-01.gpu01.cis.k.hosei.ac.jp",
+    "seed": 10,
+    "num_inference_steps": 12,
+    "n_max": 10,
+    "final_postprocess_mode": "none",
+    "comparison_protocol": "single_pass",
+    "require_clean_git": true
+  },
+  "buckets": {
+    "b1_inst": {
+      "recipe": "instance_final_v3",
+      "old_conclusion": "Plural support reaches all instances; fe_195 FLUX crown quality remains a limitation.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b1_inst.json",
+      "manifest_sha256": "cce03c03603b6850f326bba3cc3ebf9d4e9ca1192f3514becf9a774687369a5d",
+      "expected_count": 10,
+      "recipe_assets": {},
+      "cases": {
+        "fe_038_cat_and_dog_1_lego": {
+          "entry_sha256": "fcb5049a2eb365a358e85c6ba83d2b6a717d51a6b7815277cb884af1d9a0130b",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+          "source_image_size_bytes": 902284,
+          "source_image_sha256": "5b26292c4096d8886da77abab6f4084cc8564833f0b0e8455223ad7484a24347",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_038_cat_and_dog_1_lego_support.png",
+              "size_bytes": 7101,
+              "sha256": "c2336a7f17d98e8f09783ca3173d2a8a660655999388ed990fe58c365dde6409"
+            }
+          }
+        },
+        "fe_039_cat_and_dog_2_bronze": {
+          "entry_sha256": "ed389420eb4b0e682a75590818ab8bc91521e6e1615e14e46f58f1c6e714e92c",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_and_dog.png",
+          "source_image_size_bytes": 902284,
+          "source_image_sha256": "5b26292c4096d8886da77abab6f4084cc8564833f0b0e8455223ad7484a24347",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_039_cat_and_dog_2_bronze_support.png",
+              "size_bytes": 7101,
+              "sha256": "c2336a7f17d98e8f09783ca3173d2a8a660655999388ed990fe58c365dde6409"
+            }
+          }
+        },
+        "fe_192_parrots_1_top_hat": {
+          "entry_sha256": "66856b2de1b2b2c30406cc375923265b708683317ea2cf77bb88c6301475315b",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+          "source_image_size_bytes": 1335680,
+          "source_image_sha256": "2e5dd9389743d31093869dd3081b8c707999e467c5d8a71dfadfc2be402c638b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_192_parrots_1_top_hat_support.png",
+              "size_bytes": 857,
+              "sha256": "9ec7b410fcac6a9462bf06bdd6a0db326a51f6a7344f2f89d8730099cade6712"
+            }
+          }
+        },
+        "fe_193_parrots_2_origami": {
+          "entry_sha256": "34d59649ba899ad21ebfac8e033082c6e18083536f1f1fbf0451253e8023c1ab",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+          "source_image_size_bytes": 1335680,
+          "source_image_sha256": "2e5dd9389743d31093869dd3081b8c707999e467c5d8a71dfadfc2be402c638b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_193_parrots_2_origami_support.png",
+              "size_bytes": 5720,
+              "sha256": "d519f0c7dc86904b6fcbfb264a07bf6117431ad44f29c4a8e1c70131cba19704"
+            }
+          }
+        },
+        "fe_194_parrots_3_sculpture": {
+          "entry_sha256": "86299669407c76af3818ecfcba0da19a558e9b1df27a5c38dae12aa3f8c4c4c1",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots.png",
+          "source_image_size_bytes": 1335680,
+          "source_image_sha256": "2e5dd9389743d31093869dd3081b8c707999e467c5d8a71dfadfc2be402c638b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_194_parrots_3_sculpture_support.png",
+              "size_bytes": 5720,
+              "sha256": "d519f0c7dc86904b6fcbfb264a07bf6117431ad44f29c4a8e1c70131cba19704"
+            }
+          }
+        },
+        "fe_195_parrots2_1_crown": {
+          "entry_sha256": "84b0c1f90d3e6ce9972dea9fa9bba0332fa8ff262fa2898890030748094f71c7",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/parrots2.png",
+          "source_image_size_bytes": 2200973,
+          "source_image_sha256": "c2b198f4ef8a4685a424a991dca511734a92cd6b08441a753d0c9c55a52c8b0d",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_195_parrots2_1_crown_support.png",
+              "size_bytes": 856,
+              "sha256": "c9aa2531a8f4958cf6cfb6f5e6ba47ae625356cb9c38c32a741a75cdac183180"
+            }
+          }
+        },
+        "fe_196_penguins_1_origami": {
+          "entry_sha256": "06f776fbf6e135310d5b11c1a3cea7653fb8d24866a44659a5271b6f2e34d410",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/penguins.png",
+          "source_image_size_bytes": 1386297,
+          "source_image_sha256": "9dd65334e5b975b572569873359712c3516554799e4908d74acd38091833a9a7",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_196_penguins_1_origami_support.png",
+              "size_bytes": 9389,
+              "sha256": "7273d1d33adaa839605ff655206b96ec681ffab8ab8d636e398896df40b182af"
+            }
+          }
+        },
+        "fe_197_penguins_2_sculpture": {
+          "entry_sha256": "ff442cc0d560867efec2aaba23dcf87ef8d178ff76cddc80c76799a17ea51119",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/penguins.png",
+          "source_image_size_bytes": 1386297,
+          "source_image_sha256": "9dd65334e5b975b572569873359712c3516554799e4908d74acd38091833a9a7",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_197_penguins_2_sculpture_support.png",
+              "size_bytes": 9389,
+              "sha256": "7273d1d33adaa839605ff655206b96ec681ffab8ab8d636e398896df40b182af"
+            }
+          }
+        },
+        "fe_221_rocks_6_colorful_wooden_blocks": {
+          "entry_sha256": "8dd7c3b34b700d0c9bba149440c1a5bbf22f4a6d590040db116d2016a03e0e1d",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/rocks.png",
+          "source_image_size_bytes": 1015964,
+          "source_image_sha256": "02c2d58d392786ba366ca3d10fda91585e91bee6079c24a2c04b53837d5462c9",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_221_rocks_6_colorful_wooden_blocks_support.png",
+              "size_bytes": 11200,
+              "sha256": "f9f2387a4f9fddcdd507dd7eb357dac07a7634155531b36c72021d4a37ca94ff"
+            }
+          }
+        },
+        "fe_036_cake_red_blueberries_2_raspberries": {
+          "entry_sha256": "6ad3b00c0de931f10d85bad1ce39f399011570f5689779f75beff59b1a958b8c",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cake_red_blueberries.png",
+          "source_image_size_bytes": 1394629,
+          "source_image_sha256": "fd73506ced813fcce1ddea5e9e48554d61e4ae3d40275eea1d022c15b455810f",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_036_cake_red_blueberries_2_raspberries_support.png",
+              "size_bytes": 5037,
+              "sha256": "f7c85cc75cfb949ccd5b9cf91b78e99d5bed28dd24a3faecbf1c1e14e38907b6"
+            }
+          }
+        }
+      }
+    },
+    "b2_sd3_text_control": {
+      "recipe": "flux_canonical_text_control",
+      "old_conclusion": "FLUX is a control for the SD3 blank/text limitation; this track does not repair SD3.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b2_sd3_text_control.json",
+      "manifest_sha256": "78952a6cdd84525ba801f517710f41ee418b067958e006f2b2d99b29d4601789",
+      "expected_count": 3,
+      "recipe_assets": {},
+      "cases": {
+        "fe_119_gas_station_2_iccv": {
+          "entry_sha256": "8dd3b8f293b8d8a677f79d264de3dbc9745e689702115ea6933af3d46e0380a3",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gas_station.png",
+          "source_image_size_bytes": 1096302,
+          "source_image_sha256": "633754e02947653ed33ab741c86c40c8d21170a771cd4aced6250ba23e7c25bf",
+          "support_assets": {}
+        },
+        "fe_134_groceries_4_eccv": {
+          "entry_sha256": "1a9a0de5f347a615a6b8d50ade1279c4ca5de6f894b7138832da179b06f5516b",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/groceries.png",
+          "source_image_size_bytes": 961531,
+          "source_image_sha256": "f589b77966284c0d459e96aa96fb9e53dc089f44f7f3038b06948af53979564e",
+          "support_assets": {}
+        },
+        "fe_238_stop_arrow_1_cvpr": {
+          "entry_sha256": "4be12baea0c8d6f55e99dd54285ccb8d4f44f0a18f434c8f97aa70d09b8ce866",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/stop_arrow.png",
+          "source_image_size_bytes": 788180,
+          "source_image_sha256": "6d6a8653cc88d8b3f00d0c9c50219210fbf333fd6801aff5dce7a36d674bafdb",
+          "support_assets": {}
+        }
+      }
+    },
+    "b3_flux_ghost": {
+      "recipe": "best_single_pass_text_nofinal",
+      "old_conclusion": "Single-pass FLUX text replacement remains unresolved: old glyph structure or incorrect spelling persists.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b3_flux_ghost.json",
+      "manifest_sha256": "78952a6cdd84525ba801f517710f41ee418b067958e006f2b2d99b29d4601789",
+      "expected_count": 3,
+      "recipe_assets": {
+        "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_119_gas_station_2_iccv_C5_exact_text_needs_renderer_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/repair_allpass_v1/masks/fe_119_gas_station_2_iccv_C5_exact_text_needs_renderer_support.png",
+          "size_bytes": 2737,
+          "sha256": "4cebce453a96d71fdeb2f429f94ca1c236a779ff27941c226945e1ebfdbb5bae"
+        },
+        "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_134_groceries_4_eccv_C5_exact_text_needs_renderer_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/repair_allpass_v1/masks/fe_134_groceries_4_eccv_C5_exact_text_needs_renderer_support.png",
+          "size_bytes": 12315,
+          "sha256": "0c603d869baf48a9ff44c1ebc3670624ad277ce5982652fa6b83192af3a7bcda"
+        },
+        "data/flowedit_compatible_135/repair_allpass_v1/masks/fe_238_stop_arrow_1_cvpr_C6_short_text_needs_text_aware_refine_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/repair_allpass_v1/masks/fe_238_stop_arrow_1_cvpr_C6_short_text_needs_text_aware_refine_support.png",
+          "size_bytes": 6131,
+          "sha256": "10a5094b969e0314408aa537db6ae73fd803f3b82fa82878a6d469f605c9de6e"
+        }
+      },
+      "cases": {
+        "fe_119_gas_station_2_iccv": {
+          "entry_sha256": "8dd3b8f293b8d8a677f79d264de3dbc9745e689702115ea6933af3d46e0380a3",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gas_station.png",
+          "source_image_size_bytes": 1096302,
+          "source_image_sha256": "633754e02947653ed33ab741c86c40c8d21170a771cd4aced6250ba23e7c25bf",
+          "support_assets": {}
+        },
+        "fe_134_groceries_4_eccv": {
+          "entry_sha256": "1a9a0de5f347a615a6b8d50ade1279c4ca5de6f894b7138832da179b06f5516b",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/groceries.png",
+          "source_image_size_bytes": 961531,
+          "source_image_sha256": "f589b77966284c0d459e96aa96fb9e53dc089f44f7f3038b06948af53979564e",
+          "support_assets": {}
+        },
+        "fe_238_stop_arrow_1_cvpr": {
+          "entry_sha256": "4be12baea0c8d6f55e99dd54285ccb8d4f44f0a18f434c8f97aa70d09b8ce866",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/stop_arrow.png",
+          "source_image_size_bytes": 788180,
+          "source_image_sha256": "6d6a8653cc88d8b3f00d0c9c50219210fbf333fd6801aff5dce7a36d674bafdb",
+          "support_assets": {}
+        }
+      }
+    },
+    "b4_flux_noed": {
+      "recipe": "kind_budget_final",
+      "old_conclusion": "Simple insertions improve with budget; backlit whole-object recolors remain under-edited.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b4_flux_noed.json",
+      "manifest_sha256": "88411d7f3dc6bf227c051e7955f67ab14f86a950f9a90dfc3a6727ddc127ee57",
+      "expected_count": 6,
+      "recipe_assets": {},
+      "cases": {
+        "fe_010_beer_glass_1_cocktail": {
+          "entry_sha256": "f5ab117895ff5fdc63a18e4af3349874ecf2d56e917d97bbf722de392b9dfed7",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/beer_glass.png",
+          "source_image_size_bytes": 543201,
+          "source_image_sha256": "a89872e9cf746bae3284f17552bf93dfdf8d8b4d084b3c3160d20b5e77dbb35d",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_010_beer_glass_1_cocktail_support.png",
+              "size_bytes": 6691,
+              "sha256": "dc836cb49deb9997c6bfd02e9cc8cb6f98c92f674c7b81480a6f2d0db543dd9b"
+            }
+          }
+        },
+        "fe_017_boat_silhouette_1_sailboat_white_sails_red_hull": {
+          "entry_sha256": "4b02d82cd0f04f71b2e14aefcb2b146642c0120d2971074d111c3acaa99b1d14",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/boat_silhouette.png",
+          "source_image_size_bytes": 1225461,
+          "source_image_sha256": "eb43f5aa48752a4fa811a051a3226dc6b386218988b49ad87b3ba265e1575ed6",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_017_boat_silhouette_1_sailboat_white_sails_red_hull_support.png",
+              "size_bytes": 2941,
+              "sha256": "9c1a00a3531378f37fa4fa0e625cdfc19abefa7f9df0176542b2ae5cd775492a"
+            }
+          }
+        },
+        "fe_019_brown_owl_1_white_owl": {
+          "entry_sha256": "0e796e980b0a19cfc26f087eb8e45b0d94c084240d38d4518e86cd955e5a90ae",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/brown_owl.png",
+          "source_image_size_bytes": 1519556,
+          "source_image_sha256": "fa34f34282d5cc8666f3326bb49cdee56c6c717f2dfd8ac978caed270b3e1b53",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_019_brown_owl_1_white_owl_support.png",
+              "size_bytes": 5486,
+              "sha256": "dd2397eaf468bebe67de59f764f46fcd1dca0ab5aec7855e9d0d4dbd11271297"
+            }
+          }
+        },
+        "fe_140_horse_4_brown_horse": {
+          "entry_sha256": "40443266064ed389be03b16be11b353b1f6c85ae52113ecc55d40f0d5b5da9a0",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/horse.png",
+          "source_image_size_bytes": 1631312,
+          "source_image_sha256": "eeb3d2918e194ebd17d3c1d7eabb0102c2d7516e057c18f2cae2049e9452816a",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_140_horse_4_brown_horse_support.png",
+              "size_bytes": 8635,
+              "sha256": "5b8c950e6f9d6b9777ee9f4a59cabe7fdcc0e75180ece444e2b526075b9bf726"
+            }
+          }
+        },
+        "fe_180_milk_4_whipped_cream": {
+          "entry_sha256": "7390e4a2e06f26df3e70d05cf1df46631cef7cd56010403490513dff98d13e09",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/milk.png",
+          "source_image_size_bytes": 1237232,
+          "source_image_sha256": "13d6c99aa55f3ed748225f6835eff820a59c495d9728d8f76a1ed78a98c2ce0b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_180_milk_4_whipped_cream_support.png",
+              "size_bytes": 3075,
+              "sha256": "5fa781f446a76ca310cf9a73ef61945e25a0e116e86623f6244d3ab6f373cefc"
+            }
+          }
+        },
+        "fe_207_pizza_tomato_olive_1_pepperoni": {
+          "entry_sha256": "ec97b89657602718d7d1552edf7af232a5b006b9836c908690a36e69a2c7c163",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/pizza_tomato_olive.png",
+          "source_image_size_bytes": 1797258,
+          "source_image_sha256": "1fd337ef7f265554c203a81ff9db2d9ffa88dcc9997ac86d3ffb93f720a16c0b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/sam_support_masks_17new/fe_207_pizza_tomato_olive_1_pepperoni_support.png",
+              "size_bytes": 8529,
+              "sha256": "2cbbca703d91b8944f29e1884cf3712d889514b295f1df777c3f5e896afed833"
+            }
+          }
+        }
+      }
+    },
+    "b5_sd3_leak_control": {
+      "recipe": "flux_canonical_recolor_control",
+      "old_conclusion": "The halo mechanism is SD3-specific; FLUX is the unchanged control on these recolors.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b5_sd3_leak_control.json",
+      "manifest_sha256": "4ef676cb5984f4e2a42816702932e407b4a7bde00a82f073ce47df79839104f5",
+      "expected_count": 4,
+      "recipe_assets": {},
+      "cases": {
+        "fe_015_bikes_5_green_bicycle": {
+          "entry_sha256": "8b5549b9df9933a5c3bf339bdafb29b5516be2a8b641af79b4da963e71a6cd01",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+          "source_image_size_bytes": 1818141,
+          "source_image_sha256": "51498aa1880e5fe27135aaede98adeac1c85825725b722d43c29db8eeb7faa99",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_015_bikes_5_green_bicycle_support.png",
+              "size_bytes": 3357,
+              "sha256": "b2e52b4d19c08cb103275f3ecc11fca1cacbc5e43727d9ef9fd92d09cd281b94"
+            }
+          }
+        },
+        "fe_016_bikes_6_yellow_bicycle": {
+          "entry_sha256": "3c0a65a7c4d2e46cec9dc4398cd2d01973694d29707d6528651a8847e6973537",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/bikes.png",
+          "source_image_size_bytes": 1818141,
+          "source_image_sha256": "51498aa1880e5fe27135aaede98adeac1c85825725b722d43c29db8eeb7faa99",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_016_bikes_6_yellow_bicycle_support.png",
+              "size_bytes": 3357,
+              "sha256": "b2e52b4d19c08cb103275f3ecc11fca1cacbc5e43727d9ef9fd92d09cd281b94"
+            }
+          }
+        },
+        "fe_084_cupcake_2_red_velvet": {
+          "entry_sha256": "b6f70cf6f20b217f41b1213b996d57e8e4109a5b97790e4f95145e66d4dfad3d",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cupcake.png",
+          "source_image_size_bytes": 1467174,
+          "source_image_sha256": "5ecf57b562b4ae590b0f2e9c748f7cba9a411b0e1bdc94912553c7627599407e",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_084_cupcake_2_red_velvet_support.png",
+              "size_bytes": 3690,
+              "sha256": "416b020a16252e3ccd0fb55b1f6d400849be87f30f77365c219eb65338162fee"
+            }
+          }
+        },
+        "fe_141_iguana_1_green_lizard": {
+          "entry_sha256": "66bd5505481c08afc93bc7f077a117955c076f5a187342907d540c7db9cadc21",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/iguana.png",
+          "source_image_size_bytes": 1203114,
+          "source_image_sha256": "d9a345d957930f4a9d32539c24513f2da8ed09eed2d69048b6e342b2f0652c89",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_141_iguana_1_green_lizard_support.png",
+              "size_bytes": 5489,
+              "sha256": "619d72abf3c77b248632afeaebac10c955044d86514a0951f51228b51b4a546f"
+            }
+          }
+        }
+      }
+    },
+    "b6_flux_bgrep": {
+      "recipe": "zero_expand_outside_lock_final",
+      "old_conclusion": "Zero expansion plus outside lock repairs background drift for several cases; meditation whole-subject transforms remain limited.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b6_flux_bgrep.json",
+      "manifest_sha256": "9407bb3684405f2091cda850371526647cd34e0c4b19d7ace03ee8453464f5f7",
+      "expected_count": 7,
+      "recipe_assets": {},
+      "cases": {
+        "fe_146_japanese_castle_1_lego_castle": {
+          "entry_sha256": "d276b7dbaf71edf0154247f6351d97d350cbc45a97dad438e034f42ed091134b",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/japanese_castle.png",
+          "source_image_size_bytes": 1677202,
+          "source_image_sha256": "58bb344e3f6573b02333c7414db0a3c2e328dc9fe13754bdaca37665fa989b6d",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_146_japanese_castle_1_lego_castle_support.png",
+              "size_bytes": 6800,
+              "sha256": "0d8b77dd403c0567287fd49ff10f907079c263821867c294b16aa54ee587b217"
+            }
+          }
+        },
+        "fe_172_meditation1_1_sand_sculpture": {
+          "entry_sha256": "390b5ff26f65eecf094729c503affc2e11d5deb59015171da3a36248355ca360",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/meditation2.png",
+          "source_image_size_bytes": 1815299,
+          "source_image_sha256": "faecd91e5347f0ff464dd700aaa00bebf999c09b22f1a8759a05a5007eeb5919",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/sam_support_masks_17new/fe_172_meditation1_1_sand_sculpture_support.png",
+              "size_bytes": 7273,
+              "sha256": "e0ac804d4614a03a6697d7aa429d25c74910bc7a632f4a82cf7af1b208274aa7"
+            }
+          }
+        },
+        "fe_175_meditation1_4_golden_statue": {
+          "entry_sha256": "e62e7b95653b5cd83f7af3a315eb8f939a152c04fc9e6d83b301036c89a9aa0f",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/meditation2.png",
+          "source_image_size_bytes": 1815299,
+          "source_image_sha256": "faecd91e5347f0ff464dd700aaa00bebf999c09b22f1a8759a05a5007eeb5919",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_135/sam_support_masks_17new/fe_175_meditation1_4_golden_statue_support.png",
+              "size_bytes": 7273,
+              "sha256": "e0ac804d4614a03a6697d7aa429d25c74910bc7a632f4a82cf7af1b208274aa7"
+            }
+          }
+        },
+        "fe_130_gray_bird_4_golden_sculpture": {
+          "entry_sha256": "7847845f71377b7f905c8d8b0edaab28c37b8fcb3b4b24d6752b2e0c546d9a00",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+          "source_image_size_bytes": 998169,
+          "source_image_sha256": "6f0797b37c6bbe27eee2af697eb369937be5e073c03446259715ccf5ec8965b7",
+          "support_assets": {}
+        },
+        "fe_157_kid_running_3_sculpture": {
+          "entry_sha256": "63c8fc3dfc853c44dc3642e19aec4080ac21377085d46928a03cf93da4390748",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/kid_running.png",
+          "source_image_size_bytes": 1461170,
+          "source_image_sha256": "b1a89baf3350e3577fe107dfcfcf256f7c9cf68ca195d6375b5f0d3f0323ae80",
+          "support_assets": {}
+        },
+        "fe_266_yellow_bulldog_10_origami_lion": {
+          "entry_sha256": "1d3773f46c552142bb189aed4a4fad524ee917295433303db28188596ba18dfd",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/yellow_bulldog.png",
+          "source_image_size_bytes": 1104219,
+          "source_image_sha256": "5968515ae012147bb10c12cc44a13a588c21b6ca81709f0fe1078912863a238b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_266_yellow_bulldog_10_origami_lion_support.png",
+              "size_bytes": 4755,
+              "sha256": "4dd20653838c7a1a856b5c43cc4b10df09010bb4485a9315c345fee04e2fa08f"
+            }
+          }
+        },
+        "fe_268_yellow_bulldog_12_origami_bear": {
+          "entry_sha256": "e336781fc7bc32c170eabaef99a87d86e724891fd93d0acf5d0c169447a0cbbf",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/yellow_bulldog.png",
+          "source_image_size_bytes": 1104219,
+          "source_image_sha256": "5968515ae012147bb10c12cc44a13a588c21b6ca81709f0fe1078912863a238b",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_268_yellow_bulldog_12_origami_bear_support.png",
+              "size_bytes": 4755,
+              "sha256": "4dd20653838c7a1a856b5c43cc4b10df09010bb4485a9315c345fee04e2fa08f"
+            }
+          }
+        }
+      }
+    },
+    "b7_half": {
+      "recipe": "full_body_mask_zero_expand",
+      "old_conclusion": "The fixed full-body multi-box mask removes the head-only support failure.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b7_half.json",
+      "manifest_sha256": "aa576c186a83b8c550c9a3e62cb17d262423b7909eef0ecd1114e6ecf742c277",
+      "expected_count": 2,
+      "recipe_assets": {},
+      "cases": {
+        "fe_080_corgi_1_lego_bricks": {
+          "entry_sha256": "2794d26313318c0e510d123543f5e7fbd60c5d979e4de8e702ad0c3cc26cfb82",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/corgi.png",
+          "source_image_size_bytes": 1041539,
+          "source_image_sha256": "1dfd5b1769db32474b8ffb8d425e87021ad560594916ce3303c38b07dd978d47",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_080_corgi_1_lego_bricks_support.png",
+              "size_bytes": 6761,
+              "sha256": "22f322dd58322e3c3cbcd858f579b21805aa830a68b86c0f53aca80e767982ef"
+            }
+          }
+        },
+        "fe_081_corgi_2_wooden_sculpture": {
+          "entry_sha256": "76e2d8ea217c208508497f0be9053dc3fae29f90139934541efd680a5211932c",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/corgi.png",
+          "source_image_size_bytes": 1041539,
+          "source_image_sha256": "1dfd5b1769db32474b8ffb8d425e87021ad560594916ce3303c38b07dd978d47",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_081_corgi_2_wooden_sculpture_support.png",
+              "size_bytes": 6761,
+              "sha256": "22f322dd58322e3c3cbcd858f579b21805aa830a68b86c0f53aca80e767982ef"
+            }
+          }
+        }
+      }
+    },
+    "b8_melt_scale": {
+      "recipe": "tight_recolor_mask_zero_expand",
+      "old_conclusion": "Tight recolor support prevents structure melt; zero expansion controls scale on material cases.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b8_melt_scale.json",
+      "manifest_sha256": "450fb543c24a0c705d75b6edf109e2ff15cb36e52e5fb4f0a9b931bcb9929379",
+      "expected_count": 5,
+      "recipe_assets": {
+        "data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
+          "size_bytes": 7507,
+          "sha256": "2859d7c3cd19a2b5e43a252d3b8ba9baac04344e5d7a177eaccbd958153696a7"
+        },
+        "data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
+          "size_bytes": 3781,
+          "sha256": "31aac23734f2f2f55f31624982803fdbcbfaa86a3a658bdb00507ba95de72f77"
+        },
+        "data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png": {
+          "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png",
+          "size_bytes": 7388,
+          "sha256": "7f264eef7de777435dcdb277e4d22a85a75396ac7b5a27947510712e9d487f70"
+        }
+      },
+      "cases": {
+        "fe_027_butterflies_1_yellow": {
+          "entry_sha256": "b339c31ee1db47bb37f5ea89aa2c942e98850bbce8f186d8ca98064e2c5a58e9",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterflies.png",
+          "source_image_size_bytes": 1345025,
+          "source_image_sha256": "d922a547a47095b35aa4935ca7465c877011321a8b212610355839ea917148ef",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_027_butterflies_1_yellow_support.png",
+              "size_bytes": 7388,
+              "sha256": "7f264eef7de777435dcdb277e4d22a85a75396ac7b5a27947510712e9d487f70"
+            }
+          }
+        },
+        "fe_028_butterfly_1_orange_butterfly": {
+          "entry_sha256": "97ce00729eb95d8082dbce71fd0099fb1936c6b902a4a061d47503d2d07860eb",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/butterfly.png",
+          "source_image_size_bytes": 700410,
+          "source_image_sha256": "4d1233d1848c9696a9961a260fefeccfea0748c90362645cbe451760e30db93f",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_028_butterfly_1_orange_butterfly_support.png",
+              "size_bytes": 3781,
+              "sha256": "31aac23734f2f2f55f31624982803fdbcbfaa86a3a658bdb00507ba95de72f77"
+            }
+          }
+        },
+        "fe_128_gray_bird_2_red_bird": {
+          "entry_sha256": "ff15025e14cdf013a49cad49f60cb3c1f590646a379556c3946ce4d25c7fe428",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+          "source_image_size_bytes": 998169,
+          "source_image_sha256": "6f0797b37c6bbe27eee2af697eb369937be5e073c03446259715ccf5ec8965b7",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_all/fe_128_gray_bird_2_red_bird_support.png",
+              "size_bytes": 7507,
+              "sha256": "2859d7c3cd19a2b5e43a252d3b8ba9baac04344e5d7a177eaccbd958153696a7"
+            }
+          }
+        },
+        "fe_130_gray_bird_4_golden_sculpture": {
+          "entry_sha256": "7847845f71377b7f905c8d8b0edaab28c37b8fcb3b4b24d6752b2e0c546d9a00",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/gray_bird.png",
+          "source_image_size_bytes": 998169,
+          "source_image_sha256": "6f0797b37c6bbe27eee2af697eb369937be5e073c03446259715ccf5ec8965b7",
+          "support_assets": {}
+        },
+        "fe_157_kid_running_3_sculpture": {
+          "entry_sha256": "63c8fc3dfc853c44dc3642e19aec4080ac21377085d46928a03cf93da4390748",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/kid_running.png",
+          "source_image_size_bytes": 1461170,
+          "source_image_sha256": "b1a89baf3350e3577fe107dfcfcf256f7c9cf68ca195d6375b5f0d3f0323ae80",
+          "support_assets": {}
+        }
+      }
+    },
+    "b9_resid": {
+      "recipe": "removed_token_support",
+      "old_conclusion": "Removed-token support fixes SD3 residue; FLUX old-object residue remains tied to bucket 3.",
+      "manifest": "data/flowedit_compatible_135/evidence_20260714/manifest_b9_resid.json",
+      "manifest_sha256": "d05681d29bf9b11c86146df08e3d760cdab121e9a596375b9f2a3c7a47e3809e",
+      "expected_count": 1,
+      "recipe_assets": {},
+      "cases": {
+        "fe_046_cat_crown_1_black_top_hat": {
+          "entry_sha256": "952db0a75e6117236eeb81a2be3ad61afbe0525a8f0e35dd069a51d77aa0971f",
+          "source_image_path": "/cluster/users/grad/2025/25t8103/project/_baselines/src/FlowEdit/Data/Images/cat_crown.png",
+          "source_image_size_bytes": 919279,
+          "source_image_sha256": "abd517a6dea18a5494b56056cac2d18efb8d07eed9e1cb33613ffe62b844e57d",
+          "support_assets": {
+            "pp_local_mask": {
+              "path": "/cluster/users/grad/2025/25t8103/CleanEdit-evidence/data/flowedit_compatible_118/sam_support_masks_plural_v2/fe_046_cat_crown_1_black_top_hat_support.png",
+              "size_bytes": 1542,
+              "sha256": "b282efa46e61a6ed4a92c05a1eed822da22d1c8660a70ee3cc1e2abf197119ad"
+            }
+          }
+        }
+      }
+    }
+  }
+}
