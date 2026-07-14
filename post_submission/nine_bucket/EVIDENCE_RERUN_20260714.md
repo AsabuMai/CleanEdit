@@ -6,6 +6,8 @@ This rerun repairs provenance only. It does not change denoising, controller, su
 
 Earlier `outputs/evidence_20260714/` runs covered only buckets 1/3/4/6/9 and recorded a dirty worktree while still marking the outputs eligible. They remain historical diagnostics, not the authoritative evidence set.
 
+Two rejected rerun attempts are also retained as audit history: v1 stopped when an SD3-only color-mask CLI flag was passed to FLUX; v2 generated images but the legacy batch runner's hard-coded project root redirected them into the dirty laboratory tree. Neither attempt is eligible. The authoritative runner now resolves its repository dynamically and asserts `EXPECTED_PROJECT_ROOT` before loading the model.
+
 ## Locked protocol
 
 - host: `h100-01.gpu01.cis.k.hosei.ac.jp`

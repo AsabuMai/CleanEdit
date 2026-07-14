@@ -1,12 +1,16 @@
 import os, sys, json, re, time, hashlib
 from pathlib import Path
 import torch
-_PROJ_PATH=Path(__file__).resolve().parents[1]
+_PROJ_PATH=Path(os.environ.get("CLEANEDIT_ROOT", Path(__file__).resolve().parents[1])).resolve()
 sys.path.insert(0, str(_PROJ_PATH))
 sys.path.insert(0, str(_PROJ_PATH/"flux"))
 import flux_hrec
 from flux_hrec import build_parser, load_flux_pipeline, HRecFluxEdit
 PROJ=_PROJ_PATH
+_expected_root=os.environ.get("EXPECTED_PROJECT_ROOT")
+if _expected_root and _PROJ_PATH != Path(_expected_root).resolve():
+    raise SystemExit(f"project root mismatch: {_PROJ_PATH} != {Path(_expected_root).resolve()}")
+
 man=json.load(open(os.environ.get("MANIFEST", str(PROJ/"data/flowedit_compatible_135/manifest.json"))))
 START=int(os.environ.get("START","0"))
 LIMIT=int(os.environ.get("LIMIT", len(man)))

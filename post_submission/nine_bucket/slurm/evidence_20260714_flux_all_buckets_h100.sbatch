@@ -13,7 +13,7 @@ PROJ=/cluster/users/grad/2025/25t8103/CleanEdit-evidence
 ASSET_ROOT=/cluster/users/grad/2025/25t8103/project
 PY=$ASSET_ROOT/.venv-h100/bin/python
 LOCK=$PROJ/data/flowedit_compatible_135/evidence_20260714/nine_bucket_flux_evidence.lock.json
-OUTPUT_ROOT=outputs/evidence_20260714_clean_v2
+OUTPUT_ROOT=outputs/evidence_20260714_clean_v3
 
 cd "$PROJ"
 test "$(hostname)" = "h100-01.gpu01.cis.k.hosei.ac.jp"
@@ -27,6 +27,7 @@ export HUGGINGFACE_HUB_CACHE=$ASSET_ROOT/.cache/huggingface/hub
 export TRANSFORMERS_CACHE=$ASSET_ROOT/.cache/huggingface/hub
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 DIFFUSERS_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export CLEANEDIT_ROOT=$PROJ EXPECTED_PROJECT_ROOT=$PROJ
 
 run_bucket() (
     bucket=$1
@@ -34,7 +35,7 @@ run_bucket() (
     manifest=$3
     export EVIDENCE_BUCKET=$bucket EVIDENCE_RECIPE=$recipe EVIDENCE_LOCK_SHA256=$LOCK_SHA
     export MANIFEST=$PROJ/$manifest
-    export FLUX_OUT=$OUTPUT_ROOT/$bucket
+    export FLUX_OUT=$PROJ/$OUTPUT_ROOT/$bucket
     export ABLATE=no_final_postprocess RUN_PURPOSE=evaluation SEED=10
     export FLUX_LOCAL_FILES_ONLY=1 FLUX_OFFLOAD=model FLUX_STEPS=12 FLUX_N_MAX=10
     export T3_NEG_FROM_REMOVED=0 T3_COMPACT_PROMPT=0 T3_SPELL_TEXT=0 T3_SURFACE_PROMPT=0
