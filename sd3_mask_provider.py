@@ -29,6 +29,7 @@ class SD3PromptSupportConfig:
     semantic_base_mask_path: str | None
     grounding_method: str | None
     edit_operation: str | None
+    mask_policy: str
     relation: str | None
     score: str
     attention_power: float
@@ -217,6 +218,7 @@ def build_sd3_prompt_support(
             velocity_map_override=velocity_map_override,
             temporal_aggregation=temporal_mode,
             temporal_steps=temporal_step_count,
+            mask_policy=config.mask_policy,
         )
         if config.save_debug_maps and config.mask_output_dir is not None:
             save_support_debug(support, config.mask_output_dir)

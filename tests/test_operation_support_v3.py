@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from operation_support_v3 import (  # noqa: E402
+    apply_operation_mask_policy,
     build_above_host_region,
     build_container_interior_region,
     build_core_ring_preserve_masks,
@@ -24,12 +25,15 @@ from operation_support_v3 import (  # noqa: E402
     compute_clean_disagreement,
     compute_velocity_disagreement,
     default_candidate_for_operation,
+    infer_removed_prompt_tokens,
     normalize_within_mask,
     parse_edit_operation,
     postprocess_support,
+    resolve_operation_mask_policy,
     save_support_debug,
     support_overlap_metrics,
 )
+from flux.flux_model_ops import _FluxAttentionCaptureBuffer  # noqa: E402
 
 
 class OperationSupportV3Test(unittest.TestCase):
@@ -94,6 +98,7 @@ class OperationSupportV3Test(unittest.TestCase):
     def test_default_candidate_is_operation_aware(self):
         self.assertEqual(parse_edit_operation("decal"), "add_decal")
         self.assertEqual(parse_edit_operation("recolour_object"), "recolor")
+        self.assertEqual(parse_edit_operation("material_only"), "material")
         self.assertEqual(
             default_candidate_for_operation("add_object", relation="above_host", has_relation=True),
             "relation_x_response",
@@ -118,6 +123,107 @@ class OperationSupportV3Test(unittest.TestCase):
             default_candidate_for_operation("recolor", relation="inside", has_relation=True),
             "relation_only",
         )
+
+    def test_operation_mask_policy_separates_geometry_from_appearance(self):
+        add = resolve_operation_mask_policy("add_object")
+        material = resolve_operation_mask_policy("material")
+        replacement = resolve_operation_mask_policy("replace")
+
+        self.assertEqual(add.expansion_kernel, 5)
+        self.assertEqual(material.expansion_kernel, 1)
+        self.assertTrue(replacement.include_removed_support)
+
+    def test_removed_token_inference_distinguishes_add_from_replace(self):
+        self.assertEqual(
+            infer_removed_prompt_tokens(
+                "A wine glass filled with beer.",
+                "A wine glass filled with a red cocktail.",
+                "glass",
+            ),
+            ["beer"],
+        )
+        self.assertEqual(
+            infer_removed_prompt_tokens(
+                "A glass filled with milk.",
+                "A glass filled with milk and whipped cream.",
+                "glass",
+            ),
+            [],
+        )
+        self.assertEqual(
+            infer_removed_prompt_tokens(
+                "A gray cat wearing a crown.",
+                "A gray cat wearing a top hat.",
+                "cat",
+            ),
+            ["crown"],
+        )
+
+    def test_flux_capture_reuses_one_buffer_for_host_and_removed_groups(self):
+        store = _FluxAttentionCaptureBuffer()
+        captured = torch.zeros(1, 4, 3)
+        captured[0, :, 0] = torch.tensor([0.0, 1.0, 2.0, 3.0])
+        captured[0, :, 1] = torch.tensor([3.0, 2.0, 1.0, 0.0])
+        store.add_cross(0, captured)
+
+        host = store.aggregate_cross(2, 2, token_indices=[0])
+        removed = store.aggregate_cross(2, 2, token_indices=[1])
+
+        self.assertFalse(torch.equal(host, removed))
+        self.assertEqual(len(store.cross_maps[0]), 1)
+
+    def test_operation_mask_policy_expands_add_but_not_material(self):
+        mask = torch.zeros(1, 1, 12, 12)
+        mask[:, :, 5:7, 5:7] = 1.0
+
+        add_edit, _, add_stats = apply_operation_mask_policy(
+            mask,
+            mask,
+            edit_operation="add_object",
+        )
+        material_edit, _, material_stats = apply_operation_mask_policy(
+            mask,
+            mask,
+            edit_operation="material",
+        )
+
+        self.assertGreater(float(add_edit.sum()), float(mask.sum()))
+        self.assertTrue(torch.equal(material_edit, mask))
+        self.assertEqual(add_stats["support_mask_expansion_kernel"], 5)
+        self.assertEqual(material_stats["support_mask_expansion_kernel"], 1)
+
+    def test_replacement_policy_unions_compact_removed_support(self):
+        mask = torch.zeros(1, 1, 12, 12)
+        mask[:, :, 7:9, 7:9] = 1.0
+        removed = torch.zeros_like(mask)
+        removed[:, :, 2:4, 2:4] = 1.0
+
+        edit, core, stats = apply_operation_mask_policy(
+            mask,
+            mask,
+            edit_operation="replace",
+            removed_attention_map=removed,
+        )
+
+        self.assertGreater(float(edit[0, 0, 2, 2]), 0.9)
+        self.assertGreater(float(core[0, 0, 2, 2]), 0.9)
+        self.assertEqual(stats["support_removed_applied"], 1)
+
+    def test_replacement_policy_rejects_diffuse_removed_support(self):
+        mask = torch.zeros(1, 1, 12, 12)
+        mask[:, :, 7:9, 7:9] = 1.0
+        removed = torch.linspace(0.0, 1.0, 12).view(1, 1, 1, 12).expand_as(mask).clone()
+
+        edit, _, stats = apply_operation_mask_policy(
+            mask,
+            mask,
+            edit_operation="replace",
+            removed_attention_map=removed,
+        )
+
+        self.assertTrue(torch.equal(edit, mask))
+        self.assertEqual(stats["support_removed_applied"], 0)
+        self.assertEqual(stats["support_removed_rejected_by_area"], 1)
 
     def test_face_accessory_region_is_smaller_than_host(self):
         host = torch.zeros(1, 1, 20, 20)
@@ -188,6 +294,39 @@ class OperationSupportV3Test(unittest.TestCase):
         self.assertEqual(result.stats["support_score"], "relation_x_response")
         self.assertIsNotNone(result.relation_map)
         self.assertGreater(float(result.edit_mask[0, 0, 8, 10]), 0.0)
+
+    def test_operation_policy_uses_fixed_expansion_and_all_grounded_instances(self):
+        x_t = torch.zeros(1, 4, 20, 20)
+        source_v = torch.zeros_like(x_t)
+        target_v = torch.ones_like(x_t)
+        attention = torch.zeros(1, 1, 20, 20)
+        attention[:, :, 3:7, 3:7] = torch.linspace(0.2, 1.0, 16).view(1, 1, 4, 4)
+        attention[:, :, 13:17, 13:17] = torch.linspace(0.1, 0.5, 16).view(1, 1, 4, 4)
+        grounding = torch.zeros_like(attention)
+        grounding[:, :, 3:7, 3:7] = 1.0
+        grounding[:, :, 13:17, 13:17] = 1.0
+
+        result = build_operation_support_v3(
+            attention_map=attention,
+            x_t=x_t,
+            t=torch.tensor(0.5),
+            source_velocity=source_v,
+            target_velocity=target_v,
+            grounding_mask=grounding,
+            edit_operation="add_object",
+            keep_components=1,
+            dilate_radius=99,
+            blur_kernel=1,
+            mask_policy="operation",
+        )
+
+        self.assertEqual(result.stats["support_mask_policy_mode"], "operation")
+        self.assertEqual(result.stats["support_dilate_radius"], 5)
+        self.assertEqual(result.stats["support_per_instance_norm"], 1)
+        self.assertEqual(result.stats["support_instance_count"], 2)
+        self.assertEqual(result.stats["support_keep_components"], 2)
+        self.assertEqual(result.stats["support_instance_min_area_ratio"], 0.005)
+        self.assertEqual(result.stats["support_instance_max_erosion"], 4)
 
     def test_surface_local_normalization_ignores_outside_peaks(self):
         value = torch.zeros(1, 1, 8, 8)

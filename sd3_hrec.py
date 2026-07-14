@@ -45,6 +45,7 @@ from recolor_projection import (
     _save_clean_estimate_debug_images,
 )
 from schedules import get_schedule_value
+from operation_support_v3 import apply_operation_mask_policy, resolve_operation_mask_policy
 from sd3_mask_geometry import SD3MaskGeometryConfig, apply_sd3_mask_geometry
 from sd3_mask_provider import SD3PromptSupportConfig, build_sd3_prompt_support
 from spatial_masks import (
@@ -234,6 +235,9 @@ def HRecSD3Edit(
     edit_initial_noise_scale: float = 0.0,
     edit_initial_noise_region: str = "core",
     region_target_transport_scale: float = 0.0,
+    source_attachment_release_scale: float = 0.0,
+    source_attachment_release_stop_t: float = 0.35,
+    source_attachment_release_full_t: float = 0.65,
     region_target_outside_lock_scale: float = 0.0,
     attention_mask_mode: str = "changed_union",
     attention_mask_target_words: list[str] | None = None,
@@ -246,6 +250,7 @@ def HRecSD3Edit(
     semantic_base_mask_path: str | None = None,
     support_score: str = "attention_x_clean",
     support_edit_operation: str = "auto",
+    support_mask_policy: str = "legacy",
     support_relation: str = "auto",
     support_grounding_method: str = "external_mask",
     save_support_debug_maps: bool = False,
@@ -440,6 +445,7 @@ def HRecSD3Edit(
     M_generic_support_score = None
     M_operation_support_grounding = None
     M_operation_support_relation = None
+    M_operation_permission = None
     M_subject_local_core = None
     generic_support_stats: dict[str, float | int | str] = {}
     auto_anchor_mask = None
@@ -573,6 +579,7 @@ def HRecSD3Edit(
                         semantic_base_mask_path=semantic_base_mask_path,
                         grounding_method=support_grounding_method,
                         edit_operation=support_edit_operation,
+                        mask_policy=support_mask_policy,
                         relation=support_relation,
                         score=support_score,
                         attention_power=support_attention_power,
@@ -645,6 +652,46 @@ def HRecSD3Edit(
                     M_edit = M_semantic_base.to(dtype=x_src.dtype).clamp(0.0, 1.0)
                 M_core = M_edit
                 M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
+            operation_policy = (
+                resolve_operation_mask_policy(support_edit_operation)
+                if support_mask_policy == "operation"
+                else None
+            )
+            if (
+                operation_policy is not None
+                and operation_policy.include_removed_support
+                and support_removed_tokens
+                and M_generic_support_removed is None
+            ):
+                removed_masks = extract_attention_masks(
+                    pipe=pipe,
+                    x_src=x_src,
+                    src_prompt=src_prompt,
+                    tar_prompt=tar_prompt,
+                    src_prompt_embeds=src_prompt_embeds,
+                    src_pooled_embeds=src_pooled_prompt_embeds,
+                    tar_prompt_embeds=tar_prompt_embeds,
+                    tar_pooled_embeds=tar_pooled_prompt_embeds,
+                    t=t_mid,
+                    mode=attention_mask_mode,
+                    target_token_words=None,
+                    source_token_words=support_removed_tokens,
+                    subject_threshold=attention_mask_subject_threshold,
+                    core_threshold=attention_mask_core_threshold,
+                )
+                M_generic_support_removed = removed_masks["source_changed"]
+            if support_mask_policy == "operation" and object_mask_provider != "operation_support_v3":
+                M_edit, M_core, operation_policy_stats = apply_operation_mask_policy(
+                    M_edit,
+                    M_core,
+                    edit_operation=support_edit_operation,
+                    removed_attention_map=M_generic_support_removed,
+                )
+                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
+                generic_support_stats.update(operation_policy_stats)
+                generic_support_stats["support_mask_policy_mode"] = "operation"
+            if support_mask_policy == "operation":
+                M_operation_permission = M_edit.clone()
             mask_geometry = apply_sd3_mask_geometry(
                 edit_mask=M_edit,
                 core_mask=M_core,
@@ -707,6 +754,12 @@ def HRecSD3Edit(
             M_core = mask_geometry.core_mask
             M_preserve = mask_geometry.preserve_mask
             M_contact = mask_geometry.contact_mask
+            if M_operation_permission is not None:
+                M_edit = torch.minimum(M_edit, M_operation_permission)
+                M_core = torch.minimum(M_core, M_edit)
+                if M_contact is not None:
+                    M_contact = torch.minimum(M_contact, M_edit)
+                M_preserve = (1.0 - M_edit).clamp(0.0, 1.0)
             M_structure_edge = mask_geometry.structure_edge_mask
             external_mask = mask_geometry.external_mask
             M_subject_local_core = mask_geometry.subject_local_core
@@ -1133,6 +1186,11 @@ def HRecSD3Edit(
     z_t = z_T.clone()
     step_stats: list[dict[str, float | str | None]] = []
     shared_core_shadow_rel_total: list[float] = []
+    if adaptive_component_control:
+        adaptive_clean_control = True
+        shared_core_authoritative = True
+    if source_attachment_release_scale > 0.0:
+        shared_core_authoritative = True
     shared_core_shadow_unsupported = []
     if edit_field_mode not in {"surrogate", "rf_diff"}:
         shared_core_shadow_unsupported.append(f"edit_field_mode={edit_field_mode}")
@@ -1164,8 +1222,6 @@ def HRecSD3Edit(
         shared_core_shadow_unsupported.append("adaptive_hybrid")
     if adaptive_clean_control and adaptive_preserve_gain > 0.0 and adaptive_preserve_drift_budget <= 0.0:
         shared_core_shadow_unsupported.append("zero_preserve_drift_budget")
-    if adaptive_component_control and not shared_core_authoritative:
-        raise ValueError("adaptive_component_control requires shared_core_authoritative for SD3")
     shared_core_requested = bool(shared_core_shadow or shared_core_authoritative)
     shared_core_supported = bool(shared_core_requested and not shared_core_shadow_unsupported)
     if shared_core_authoritative and shared_core_shadow_unsupported:
@@ -1317,6 +1373,8 @@ def HRecSD3Edit(
         region_target_transport_core_beta = 0.0
         region_target_transport_ring_beta = 0.0
         region_target_transport_core_gamma = 0.0
+        source_attachment_release_norm = 0.0
+        source_attachment_release_weight = 0.0
         region_target_outside_lock_norm = 0.0
         region_target_outside_lock_weight = 0.0
         region_target_ring_lock_weight = 0.0
@@ -2352,6 +2410,15 @@ def HRecSD3Edit(
                                 edit_local_target_guidance_scale
                             ),
                             region_target_transport_scale=float(region_target_transport_scale),
+                            source_attachment_release_scale=float(
+                                source_attachment_release_scale
+                            ),
+                            source_attachment_release_stop_t=float(
+                                source_attachment_release_stop_t
+                            ),
+                            source_attachment_release_full_t=float(
+                                source_attachment_release_full_t
+                            ),
                             removal_controller_mode=removal_controller_mode,
                             edit_operation=support_edit_operation or "",
                             removal_fill_scale=float(removal_fill_scale),
@@ -2415,6 +2482,12 @@ def HRecSD3Edit(
                     for key, value in shadow_out.diagnostics.items()
                     if key.startswith("adaptive_component_")
                 }
+                source_attachment_release_norm = shadow_out.diagnostics[
+                    "source_attachment_release_norm"
+                ]
+                source_attachment_release_weight = shadow_out.diagnostics[
+                    "source_attachment_release_weight"
+                ]
                 if shared_core_authoritative:
                     v_rec = shadow_out.v_rec
                     v_edit_total = shadow_out.v_edit
@@ -2571,6 +2644,11 @@ def HRecSD3Edit(
             "removal_suppression_scale": float(removal_suppression_scale),
             "removal_ring_rec_scale": float(removal_ring_rec_scale),
             "region_target_transport_scale": float(region_target_transport_scale),
+            "source_attachment_release_scale": float(source_attachment_release_scale),
+            "source_attachment_release_stop_t": float(source_attachment_release_stop_t),
+            "source_attachment_release_full_t": float(source_attachment_release_full_t),
+            "source_attachment_release_norm": float(source_attachment_release_norm),
+            "source_attachment_release_weight": float(source_attachment_release_weight),
             "region_target_outside_lock_scale": float(region_target_outside_lock_scale),
             "region_target_transport_norm": float(region_target_transport_norm),
             "local_target_formation_norm": float(local_target_formation_norm),
@@ -2645,6 +2723,7 @@ def HRecSD3Edit(
             "semantic_base_mask_path": semantic_base_mask_path,
             "support_score": support_score,
             "support_edit_operation": support_edit_operation,
+            "support_mask_policy": support_mask_policy,
             "support_relation": support_relation,
             "support_grounding_method": support_grounding_method,
             "save_support_debug_maps": bool(save_support_debug_maps),

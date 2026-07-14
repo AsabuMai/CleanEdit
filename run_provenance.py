@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -42,6 +43,14 @@ def config_sha256(config: dict[str, Any]) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def file_sha256(path: str | Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _git(repo_root: Path, *args: str) -> tuple[int, str]:
     completed = subprocess.run(
         ["git", "-C", str(repo_root), *args],
@@ -70,6 +79,12 @@ def git_state(repo_root: str | Path) -> dict[str, Any]:
 
 def flux_run_provenance(args: Any, repo_root: str | Path) -> dict[str, Any]:
     config = effective_config(args)
+    evidence = {
+        "evidence_bucket": os.environ.get("EVIDENCE_BUCKET"),
+        "evidence_recipe": os.environ.get("EVIDENCE_RECIPE"),
+        "evidence_lock_sha256": os.environ.get("EVIDENCE_LOCK_SHA256"),
+    }
+    config.update({key: value for key, value in evidence.items() if value})
     git = git_state(repo_root)
     purpose = str(getattr(args, "run_purpose", "diagnostic"))
     protocol = str(getattr(args, "comparison_protocol", "single_pass"))
@@ -86,6 +101,8 @@ def flux_run_provenance(args: Any, repo_root: str | Path) -> dict[str, Any]:
         reasons.append("final_object_overlay_configured")
     if protocol != "single_pass":
         reasons.append("comparison_protocol_not_single_pass")
+    if git["git_dirty"]:
+        reasons.append("git_worktree_dirty")
 
     requested = purpose in {"evaluation", "paper"}
     eligible = requested and not reasons
@@ -100,13 +117,18 @@ def flux_run_provenance(args: Any, repo_root: str | Path) -> dict[str, Any]:
             or bool((args.final_object_overlay or "").strip())
         )
     )
+    image_path = Path(args.image).expanduser().resolve()
     return {
+        **evidence,
         "run_purpose": purpose,
         "comparison_protocol": protocol,
         "run_config_sha256": config_sha256(config),
-        "run_config_hash_scope": "effective_args_excluding_artifact_paths",
+        "run_config_hash_scope": "effective_args_and_evidence_fields_excluding_artifact_paths",
         "run_config": config,
         **git,
+        "source_image_path": str(image_path),
+        "source_image_size_bytes": image_path.stat().st_size,
+        "source_image_sha256": file_sha256(image_path),
         "postprocess_applied": postprocess_applied,
         "evaluation_eligible_requested": requested,
         "evaluation_eligible": eligible,

@@ -50,6 +50,9 @@ class DeceCoreConfig:
 
     edit_local_target_guidance_scale: float = 0.0
     region_target_transport_scale: float = 0.0
+    source_attachment_release_scale: float = 0.0
+    source_attachment_release_stop_t: float = 0.35
+    source_attachment_release_full_t: float = 0.65
     recolor_clean_projection_scale: float = 0.0
 
     removal_controller_mode: str = "none"
@@ -171,6 +174,23 @@ def _transport_schedule(t_scalar: torch.Tensor, scale: float) -> tuple[float, fl
     core_gamma = max(0.0, scale * core_gamma_base)
     ring_beta = max(0.0, min(1.0, scale * ring_beta_base))
     return core_beta, core_gamma, ring_beta
+
+
+def _early_release_schedule(
+    t_scalar: torch.Tensor,
+    *,
+    stop_t: float,
+    full_t: float,
+) -> float:
+    """Return a linear high-noise release weight without adding a model call."""
+
+    if full_t <= stop_t:
+        raise ValueError(
+            "source_attachment_release_full_t must be greater than "
+            "source_attachment_release_stop_t"
+        )
+    t_value = float(t_scalar.detach().item())
+    return max(0.0, min(1.0, (t_value - stop_t) / (full_t - stop_t)))
 
 
 def _label_components_2d(binary: torch.Tensor) -> tuple[torch.Tensor, int]:
@@ -323,6 +343,9 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     """
 
     diagnostics: dict[str, float] = {}
+    adaptive_control_enabled = bool(
+        config.adaptive_clean_control or config.adaptive_component_control
+    )
     current_delta = step.x0_src - step.x_src.to(torch.float32)
     target_delta = step.x0_tar - step.x_src.to(torch.float32)
     target_gap = step.x0_tar - step.x0_src
@@ -353,7 +376,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     adaptive_projection_norm = 0.0
     adaptive_preserve_clean_correction_norm = 0.0
 
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         edit_progress_num = (_apply_gate(current_delta * target_delta, step.edit_gate)).sum()
         edit_progress_den = (_apply_gate(target_delta.square(), step.edit_gate)).sum().clamp_min(1e-8)
         edit_progress = float((edit_progress_num / edit_progress_den).detach().item())
@@ -397,7 +420,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         velocity_t_min=config.linear_path_t_min,
     )
     v_rec = step.alpha_t * step.map_to_native(rec_terms["total"]).to(device=step.z_t.device, dtype=torch.float32)
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         v_rec = adaptive_preserve_weight * v_rec
     v_rec = _apply_gate(v_rec, step.base_rec_post_gate)
 
@@ -461,6 +484,28 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         v_edit = v_edit + region_target_transport_guidance
         region_target_transport_norm = float(region_target_transport_guidance.norm().item())
 
+    source_attachment_release_norm = 0.0
+    source_attachment_release_weight = 0.0
+    if config.source_attachment_release_scale > 0.0:
+        source_attachment_release_weight = _early_release_schedule(
+            step.t_scalar,
+            stop_t=config.source_attachment_release_stop_t,
+            full_t=config.source_attachment_release_full_t,
+        )
+        release_gate = step.edit_gate.to(
+            device=step.z_t.device,
+            dtype=torch.float32,
+        ).clamp(0.0, 1.0)
+        source_attachment_release = (
+            step.beta_t
+            * config.source_attachment_release_scale
+            * source_attachment_release_weight
+            * release_gate
+            * (step.v_tar - step.v_src)
+        )
+        v_edit = v_edit + source_attachment_release
+        source_attachment_release_norm = float(source_attachment_release.norm().item())
+
     recolor_clean_projection_norm = 0.0
     if step.recolor_projection_target is not None and step.recolor_projection_gate is not None:
         projection_delta = (step.recolor_projection_target - step.x0_src) * step.recolor_projection_gate
@@ -474,7 +519,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         recolor_clean_projection_norm = float(recolor_guidance.norm().item())
 
     if (
-        config.adaptive_clean_control
+        adaptive_control_enabled
         and config.adaptive_preserve_clean_correction_scale > 0.0
         and preserve_drift > config.adaptive_preserve_drift_budget
     ):
@@ -488,7 +533,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     adaptive_edit_weight_map = None
     adaptive_component_diagnostics: dict[str, float] = {}
     if (
-        config.adaptive_clean_control
+        adaptive_control_enabled
         and config.adaptive_component_control
         and config.adaptive_edit_gain > 0.0
     ):
@@ -512,7 +557,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         )
         adaptive_edit_weight = adaptive_component_diagnostics["adaptive_component_weight_mean"]
 
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         if adaptive_edit_weight_map is not None:
             w_native = step.map_to_native(adaptive_edit_weight_map).to(
                 device=step.z_t.device, dtype=torch.float32
@@ -521,7 +566,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         else:
             v_edit = adaptive_edit_weight * v_edit
 
-    if config.adaptive_clean_control and config.adaptive_projection_scale > 0.0:
+    if adaptive_control_enabled and config.adaptive_projection_scale > 0.0:
         clean_edit_effect = -step.t_scalar * v_edit
         preserve_error_eval = _apply_gate(current_delta, step.preserve_gate)
         clean_effect_eval = _apply_gate(clean_edit_effect, step.preserve_gate)
@@ -576,6 +621,8 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
             "region_target_transport_core_beta": float(region_target_transport_core_beta),
             "region_target_transport_ring_beta": float(region_target_transport_ring_beta),
             "region_target_transport_core_gamma": float(region_target_transport_core_gamma),
+            "source_attachment_release_norm": float(source_attachment_release_norm),
+            "source_attachment_release_weight": float(source_attachment_release_weight),
             "recolor_clean_projection_norm": float(recolor_clean_projection_norm),
             **adaptive_component_diagnostics,
             "removal_controller_norm": float(removal_controller_norm),

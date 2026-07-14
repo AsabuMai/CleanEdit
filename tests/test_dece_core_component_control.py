@@ -7,7 +7,13 @@ from pathlib import Path
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from dece_core import compute_component_adaptive_edit_weight_map
+from dece_core import (
+    DeceCoreConfig,
+    DeceCoreStepInput,
+    compute_component_adaptive_edit_weight_map,
+    compute_dece_core_step,
+)
+from flux.dece_flux_adapter import FluxDeceAdapter
 
 
 class ComponentAdaptiveControlTest(unittest.TestCase):
@@ -57,6 +63,127 @@ class ComponentAdaptiveControlTest(unittest.TestCase):
         assert weight_map is not None
         self.assertTrue(torch.equal(weight_map, torch.ones_like(weight_map)))
         self.assertEqual(stats["adaptive_component_active_count"], 0.0)
+
+
+class SharedBackendComponentParityTest(unittest.TestCase):
+    def test_component_flag_is_active_and_backend_neutral(self) -> None:
+        edit_map = torch.zeros(1, 1, 6, 8)
+        edit_map[:, :, 1:3, 1:3] = 1.0
+        edit_map[:, :, 3:5, 5:7] = 1.0
+        preserve_map = 1.0 - edit_map
+        target = edit_map.expand(1, 2, 6, 8).clone()
+        current = torch.zeros_like(target)
+        current[:, :, 1:3, 1:3] = 0.8
+        current[:, :, 3:5, 5:7] = 0.2
+        zeros = torch.zeros_like(target)
+        t_scalar = torch.tensor(0.5)
+        config = DeceCoreConfig(
+            edit_hedit_guidance_scale=1.0,
+            source_attachment_release_scale=0.25,
+            adaptive_clean_control=False,
+            adaptive_component_control=True,
+            adaptive_rmsgap_mode="normgate",
+            adaptive_rmsgap_dead_zone=0.1,
+            adaptive_edit_gain=1.0,
+            adaptive_edit_weight_min=1.0,
+            adaptive_edit_weight_max=2.0,
+            masked_rms_channel_normalize=True,
+        )
+        sd3_out = compute_dece_core_step(
+            config,
+            DeceCoreStepInput(
+                z_t=zeros,
+                x_src=zeros,
+                x0_src=current,
+                x0_tar=target,
+                v_src=zeros,
+                v_tar=target,
+                v_src_edit=zeros,
+                t_scalar=t_scalar,
+                alpha_t=0.0,
+                beta_t=1.0,
+                x_src_map=zeros,
+                x0_src_map=current,
+                x0_tar_map=target,
+                base_edit_velocity_map=target,
+                edit_map=edit_map,
+                preserve_map=preserve_map,
+                edit_gate=edit_map,
+                preserve_gate=preserve_map,
+            ),
+        )
+
+        flux = FluxDeceAdapter(packed_h=6, packed_w=8)
+        flux_out = flux.compute_step(
+            config,
+            z_t=flux.map_to_packed(zeros),
+            x_src=flux.map_to_packed(zeros),
+            x0_src=flux.map_to_packed(current),
+            x0_tar=flux.map_to_packed(target),
+            v_src=flux.map_to_packed(zeros),
+            v_tar=flux.map_to_packed(target),
+            v_src_edit=flux.map_to_packed(zeros),
+            t_scalar=t_scalar,
+            alpha_t=0.0,
+            beta_t=1.0,
+            edit_gate=flux.map_to_packed(edit_map),
+            preserve_gate=flux.map_to_packed(preserve_map),
+        )
+
+        self.assertGreater(sd3_out.diagnostics["adaptive_component_active_count"], 0.0)
+        self.assertEqual(
+            sd3_out.diagnostics["adaptive_component_active_count"],
+            flux_out.diagnostics["adaptive_component_active_count"],
+        )
+        self.assertTrue(
+            torch.allclose(
+                sd3_out.v_total,
+                flux.packed_to_map(flux_out.v_total),
+                atol=1e-6,
+                rtol=1e-6,
+            )
+        )
+
+    def test_source_attachment_release_is_early_and_masked(self) -> None:
+        edit_map = torch.zeros(1, 1, 4, 4)
+        edit_map[:, :, 1:3, 1:3] = 1.0
+        preserve_map = 1.0 - edit_map
+        zeros = torch.zeros(1, 2, 4, 4)
+        target_velocity = torch.ones_like(zeros)
+        config = DeceCoreConfig(source_attachment_release_scale=0.4)
+
+        def run(t_value: float):
+            return compute_dece_core_step(
+                config,
+                DeceCoreStepInput(
+                    z_t=zeros,
+                    x_src=zeros,
+                    x0_src=zeros,
+                    x0_tar=zeros,
+                    v_src=zeros,
+                    v_tar=target_velocity,
+                    v_src_edit=zeros,
+                    t_scalar=torch.tensor(t_value),
+                    alpha_t=0.0,
+                    beta_t=1.0,
+                    x_src_map=zeros,
+                    x0_src_map=zeros,
+                    x0_tar_map=zeros,
+                    base_edit_velocity_map=zeros,
+                    edit_map=edit_map,
+                    preserve_map=preserve_map,
+                    edit_gate=edit_map,
+                    preserve_gate=preserve_map,
+                ),
+            )
+
+        early = run(0.8)
+        late = run(0.2)
+        self.assertEqual(early.diagnostics["source_attachment_release_weight"], 1.0)
+        self.assertGreater(early.diagnostics["source_attachment_release_norm"], 0.0)
+        self.assertTrue(torch.equal(early.v_total * preserve_map, zeros))
+        self.assertEqual(late.diagnostics["source_attachment_release_weight"], 0.0)
+        self.assertTrue(torch.equal(late.v_total, zeros))
 
 
 if __name__ == "__main__":

@@ -364,6 +364,17 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--source-attachment-release-scale",
+        type=float,
+        default=0.0,
+        help=(
+            "Inside the edit mask at high noise, interpolate the source base toward "
+            "the already-computed target velocity; adds no model forward."
+        ),
+    )
+    parser.add_argument("--source-attachment-release-stop-t", type=float, default=0.35)
+    parser.add_argument("--source-attachment-release-full-t", type=float, default=0.65)
+    parser.add_argument(
         "--attention-mask-mode",
         type=str,
         choices=("changed_union", "target_changed", "subject_union", "source_subject", "target_subject"),
@@ -556,9 +567,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--edit-operation",
-        choices=("auto", "add_object", "add_decal", "remove_object", "replace", "recolor"),
+        choices=(
+            "auto",
+            "add_object",
+            "add_decal",
+            "remove_object",
+            "replace",
+            "recolor",
+            "material",
+            "texture",
+            "shape_change",
+        ),
         default="auto",
         help="Operation label recorded for operation-aware generic support.",
+    )
+    parser.add_argument(
+        "--mask-policy",
+        choices=("legacy", "operation"),
+        default="legacy",
+        help="Use legacy mask knobs or the fixed operation-conditioned spatial policy.",
     )
     parser.add_argument("--new-tokens", type=str, default=None)
     parser.add_argument("--host-tokens", type=str, default=None)

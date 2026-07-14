@@ -1,12 +1,17 @@
 import os, sys, json, re, time, hashlib
 from pathlib import Path
 import torch
-_PROJ_PATH=Path(__file__).resolve().parents[1]
+_PROJ_PATH=Path(os.environ.get("CLEANEDIT_ROOT", Path(__file__).resolve().parents[1])).resolve()
 sys.path.insert(0, str(_PROJ_PATH))
 sys.path.insert(0, str(_PROJ_PATH/"flux"))
 import flux_hrec
 from flux_hrec import build_parser, load_flux_pipeline, HRecFluxEdit
+from operation_support_v3 import infer_removed_prompt_tokens
 PROJ=_PROJ_PATH
+_expected_root=os.environ.get("EXPECTED_PROJECT_ROOT")
+if _expected_root and _PROJ_PATH != Path(_expected_root).resolve():
+    raise SystemExit(f"project root mismatch: {_PROJ_PATH} != {Path(_expected_root).resolve()}")
+
 man=json.load(open(os.environ.get("MANIFEST", str(PROJ/"data/flowedit_compatible_135/manifest.json"))))
 START=int(os.environ.get("START","0"))
 LIMIT=int(os.environ.get("LIMIT", len(man)))
@@ -20,6 +25,7 @@ FLUX_OFFLOAD=os.environ.get("FLUX_OFFLOAD","model").lower()
 FLUX_PROMPT_ENCODE_DEVICE=os.environ.get("FLUX_PROMPT_ENCODE_DEVICE","cuda").lower()
 RUN_PURPOSE=os.environ.get("RUN_PURPOSE","diagnostic").lower()
 ADAPTIVE_COMPONENT_CONTROL=os.environ.get("ADAPTIVE_COMPONENT_CONTROL","0").lower() in {"1","true","yes","on"}
+MASK_POLICY=os.environ.get("MASK_POLICY","operation").strip().lower()
 FLUX_KEEP_TEXT_ENCODERS_CPU=os.environ.get("FLUX_KEEP_TEXT_ENCODERS_CPU","0").lower() in {"1","true","yes","on"}
 T3_SPELL_TEXT=os.environ.get("T3_SPELL_TEXT","0").lower() in {"1","true","yes","on"}
 T3_SPELL_MAX_LEN=int(os.environ.get("T3_SPELL_MAX_LEN","6"))
@@ -38,18 +44,20 @@ T3_ERASE_RING_REC_SCALE=float(os.environ.get("T3_ERASE_RING_REC_SCALE","0.35"))
 T5_EXPAND_EDIT_MASK=os.environ.get("T5_EXPAND_EDIT_MASK","1").lower() in {"1","true","yes","on"}
 T5_EXPAND_EDIT_RADIUS=int(os.environ.get("T5_EXPAND_EDIT_RADIUS","21"))
 T5_EXPAND_EDIT_MASK_BLUR=float(os.environ.get("T5_EXPAND_EDIT_MASK_BLUR","6.0"))
+if T3_TWO_STAGE and RUN_PURPOSE != "diagnostic":
+    raise SystemExit("T3_TWO_STAGE is diagnostic-only; use equal multi-pass budgets in a separate comparison")
 KIND={
  "t1_accessory":dict(operation="add_object",relation="on_surface",layering="object_contact",edit_hedit=0.95,edit_anchor=0.18,edit_region=0.32,edit_target=0.18,edit_source=0.02,local_target=0.95,region_transport=0.35,core=82.0,outside_lock=0.03,rec=0.18,struct=0.40,traj=0.12,pbud=0.20,pgain=2.2),
  "t2_insert":dict(operation="add_object",relation="on_surface",layering="object_contact",edit_hedit=0.95,edit_anchor=0.18,edit_region=0.32,edit_target=0.18,edit_source=0.02,local_target=0.95,region_transport=0.35,core=82.0,outside_lock=0.03,rec=0.18,struct=0.40,traj=0.12,pbud=0.20,pgain=2.2),
  "t3_text":dict(operation="add_decal",relation="on_surface",layering="object_contact",edit_hedit=0.98,edit_anchor=0.18,edit_region=0.34,edit_target=0.18,edit_source=0.015,local_target=0.90,region_transport=0.24,core=86.0,outside_lock=0.0,rec=0.28,struct=0.40,traj=0.18,pbud=0.14,pgain=3.2),
  "t3_decal":dict(operation="add_decal",relation="on_surface",layering="object_contact",edit_hedit=0.98,edit_anchor=0.18,edit_region=0.34,edit_target=0.18,edit_source=0.015,local_target=0.90,region_transport=0.24,core=86.0,outside_lock=0.0,rec=0.28,struct=0.40,traj=0.18,pbud=0.14,pgain=3.2),
  "t4_recolor":dict(operation="recolor",relation="none",layering="none",edit_hedit=0.55,edit_anchor=0.06,edit_region=0.14,edit_target=0.04,edit_source=0.0,local_target=0.18,region_transport=0.00,core=None,outside_lock=0.00,rec=0.50,struct=0.45,traj=0.40,pbud=0.10,pgain=3.0),
- "t5_material":dict(operation="replace",relation="none",layering="none",edit_hedit=1.30,edit_anchor=0.14,edit_region=0.30,edit_target=0.26,edit_source=0.01,local_target=1.05,region_transport=0.00,core=70.0,outside_lock=0.02,rec=0.15,struct=0.40,traj=0.10,pbud=0.12,pgain=1.6),
+ "t5_material":dict(operation="material",relation="none",layering="none",edit_hedit=1.30,edit_anchor=0.14,edit_region=0.30,edit_target=0.26,edit_source=0.01,local_target=1.05,region_transport=0.00,core=70.0,outside_lock=0.02,rec=0.15,struct=0.40,traj=0.10,pbud=0.12,pgain=1.6),
  # Backward-compatible aliases for old smoke scripts and overrides.
  "add":dict(operation="add_object",relation="on_surface",layering="object_contact",edit_hedit=0.95,edit_anchor=0.18,edit_region=0.32,edit_target=0.18,edit_source=0.02,local_target=0.95,region_transport=0.35,core=82.0,outside_lock=0.03,rec=0.18,struct=0.40,traj=0.12,pbud=0.20,pgain=2.2),
  "decal":dict(operation="add_decal",relation="on_surface",layering="object_contact",edit_hedit=0.98,edit_anchor=0.18,edit_region=0.34,edit_target=0.18,edit_source=0.015,local_target=0.90,region_transport=0.24,core=86.0,outside_lock=0.0,rec=0.28,struct=0.40,traj=0.18,pbud=0.14,pgain=3.2),
  "recolor":dict(operation="recolor",relation="none",layering="none",edit_hedit=0.55,edit_anchor=0.06,edit_region=0.14,edit_target=0.04,edit_source=0.0,local_target=0.18,region_transport=0.00,core=None,outside_lock=0.00,rec=0.50,struct=0.45,traj=0.40,pbud=0.10,pgain=3.0),
- "material":dict(operation="replace",relation="none",layering="none",edit_hedit=1.30,edit_anchor=0.14,edit_region=0.30,edit_target=0.26,edit_source=0.01,local_target=1.05,region_transport=0.00,core=70.0,outside_lock=0.02,rec=0.15,struct=0.40,traj=0.10,pbud=0.12,pgain=1.6)}
+ "material":dict(operation="material",relation="none",layering="none",edit_hedit=1.30,edit_anchor=0.14,edit_region=0.30,edit_target=0.26,edit_source=0.01,local_target=1.05,region_transport=0.00,core=70.0,outside_lock=0.02,rec=0.15,struct=0.40,traj=0.10,pbud=0.12,pgain=1.6)}
 FAM2KIND={"T1":"t1_accessory","F1":"t1_accessory",
           "T2":"t2_insert","F2":"t2_insert",
           "T3":"t3_decal","F3":"t3_decal",
@@ -250,6 +258,10 @@ def argv_for(e, od, P):
     kind=kind_of(e)
     t=e["target_prompt"]
     new_tokens,host_tokens=pp_tokens(e, kind)
+    removed_tokens=infer_removed_prompt_tokens(e.get("source_prompt",""),e.get("target_prompt",""),host_tokens)
+    operation=P["operation"]
+    if removed_tokens and kind in ("t1_accessory","t2_insert","t3_text","t3_decal","add","decal"):
+        operation="replace"
     t3_erase_stage=bool(e.get("_t3_erase_stage"))
     if kind in ("t3_text","t3_decal") and not t3_erase_stage:
         compact=t3_compact_prompt(e,new_tokens,host_tokens)
@@ -278,7 +290,7 @@ def argv_for(e, od, P):
       "--seed",SEED,"--num-inference-steps",FLUX_STEPS,"--n-max",FLUX_N_MAX,"--max-image-size","512","--max-sequence-length",FLUX_MAX_SEQ,
       "--src-guidance-scale","1.0","--base-guidance-scale","1.0","--tar-guidance-scale","5.0",
       "--support-control-mode","operation","--use-flux-attention-support",
-      "--edit-operation",P["operation"],"--support-relation",P["relation"],"--mask-layering-mode",P["layering"],
+      "--edit-operation",operation,"--mask-policy",MASK_POLICY,"--support-relation",P["relation"],"--mask-layering-mode",P["layering"],
       "--edit-hedit-guidance-scale",str(P["edit_hedit"]),"--edit-guidance-scale",str(P["edit_anchor"]),
       "--edit-region-guidance-scale",str(P["edit_region"]),"--edit-target-guidance-scale",str(P["edit_target"]),"--edit-source-guidance-scale",str(P["edit_source"]),
       "--edit-local-target-prompt",t,"--edit-local-target-guidance-scale",str(P["local_target"]),"--edit-local-target-cfg-scale","5.0",
@@ -318,7 +330,8 @@ def argv_for(e, od, P):
     if P["core"] is not None: a+=["--fixed-core-from-attention","--fixed-core-attention-percentile",str(P["core"])]
     if new_tokens: a+=["--new-tokens",new_tokens]
     if host_tokens: a+=["--host-tokens",host_tokens]
-    if P["operation"]=="recolor":
+    if removed_tokens: a+=["--removed-tokens",",".join(removed_tokens)]
+    if operation=="recolor":
         target=recolor_target(e)
         if target: a+=["--recolor-target",target]
         import os as _o
@@ -335,7 +348,7 @@ def argv_for(e, od, P):
         for _pat,_mp in _md.items():
             if _pat.lower() in _ek:
                 mask=_mp
-    if kind == "t5_material" and T5_EXPAND_EDIT_MASK:
+    if MASK_POLICY == "legacy" and kind == "t5_material" and T5_EXPAND_EDIT_MASK:
         mask=expanded_t5_mask(mask,e)
     if mask:
         a+=["--semantic-base-mask",mask,"--support-control-mode","fixed","--support-external-mask-role","attention"]
@@ -383,9 +396,40 @@ e0=work[0]; od0=OUT/e0["key"]/recipe/f"seed_{SEED}"; od0.mkdir(parents=True,exis
 base=build_parser().parse_args(argv_for(e0,od0,KIND[kind_of(e0)]))
 t0=time.time(); PIPE=load_flux_pipeline(base,dev); print("[ka-flux] loaded once %.1fs"%(time.time()-t0),flush=True)
 flux_hrec.load_flux_pipeline=lambda a,d=dev: PIPE
+def env_json(name):
+    raw=os.environ.get(name,"").strip()
+    return json.loads(raw) if raw else {}
+def canonical_sha256(value):
+    payload=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+def batch_recipe_config():
+    return {
+        "ablate":os.environ.get("ABLATE",""),
+        "run_purpose":RUN_PURPOSE,
+        "adaptive_component_control":ADAPTIVE_COMPONENT_CONTROL,
+        "mask_policy":MASK_POLICY,
+        "t3_neg_from_removed":T3_NEG_FROM_REMOVED,
+        "t3_compact_prompt":T3_COMPACT_PROMPT,
+        "t3_spell_text":T3_SPELL_TEXT,
+        "t3_surface_prompt":T3_SURFACE_PROMPT,
+        "t5_pose_prompt":T5_POSE_PROMPT,
+        "t5_auto_prompt_prefix":T5_AUTO_PROMPT_PREFIX,
+        "t5_prompt_prefix":T5_PROMPT_PREFIX,
+        "t5_negative_prompt":T5_NEGATIVE_PROMPT,
+        "t5_expand_edit_mask":T5_EXPAND_EDIT_MASK,
+        "t5_expand_edit_radius":T5_EXPAND_EDIT_RADIUS,
+        "t5_expand_edit_mask_blur":T5_EXPAND_EDIT_MASK_BLUR,
+        "kind_override":env_json("KIND_OVERRIDE_JSON"),
+        "key_override":env_json("KEY_OVERRIDE_JSON"),
+        "mask_override":env_json("MASK_OVERRIDE_JSON"),
+        "adapt_override":env_json("ADAPT_OVERRIDE_JSON"),
+    }
 def save_result(res,args):
     Path(args.output).parent.mkdir(parents=True,exist_ok=True)
     res.images[0].save(args.output)
+    recipe_config=batch_recipe_config()
+    res.metadata["batch_recipe_config"]=recipe_config
+    res.metadata["batch_recipe_config_sha256"]=canonical_sha256(recipe_config)
     json.dump(res.metadata,open(args.metadata_output,"w"),indent=2)
     json.dump(res.stats,open(args.stats_output,"w"),indent=2)
 def sha256(path):

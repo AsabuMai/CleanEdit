@@ -468,7 +468,7 @@ def flux_content_edit_words(words: list[str], max_words: int = 3) -> list[str]:
 
 
 @torch.no_grad()
-def extract_flux_prompt_attention_map(
+def extract_flux_prompt_attention_maps(
     pipe,
     latents: torch.Tensor,
     prompt_embeds: torch.Tensor,
@@ -479,10 +479,12 @@ def extract_flux_prompt_attention_map(
     guidance_scale: float,
     packed_h: int,
     packed_w: int,
-    token_indices: list[int] | None = None,
+    token_groups: dict[str, list[int] | None],
     layer_indices: list[int] | None = None,
     self_weight: float = 0.0,
-) -> torch.Tensor:
+) -> dict[str, torch.Tensor]:
+    """Capture several token-group maps in one transformer forward."""
+
     n_blocks = len(pipe.transformer.transformer_blocks)
     if layer_indices is None:
         lo = n_blocks // 4
@@ -504,12 +506,53 @@ def extract_flux_prompt_attention_map(
         )
     finally:
         store.remove_hooks(pipe.transformer)
-    cross = store.aggregate_cross(packed_h, packed_w, token_indices=token_indices).to(device=latents.device)
-    if self_weight <= 0.0:
-        return cross
-    self_map = store.aggregate_self(packed_h, packed_w).to(device=latents.device)
-    self_weight = max(0.0, min(1.0, float(self_weight)))
-    return _normalize_spatial_map((1.0 - self_weight) * cross + self_weight * self_map).to(dtype=transformer_dtype)
+    outputs = {
+        name: store.aggregate_cross(packed_h, packed_w, token_indices=indices).to(device=latents.device)
+        for name, indices in token_groups.items()
+    }
+    if self_weight > 0.0:
+        self_map = store.aggregate_self(packed_h, packed_w).to(device=latents.device)
+        self_weight = max(0.0, min(1.0, float(self_weight)))
+        outputs = {
+            name: _normalize_spatial_map((1.0 - self_weight) * cross + self_weight * self_map)
+            for name, cross in outputs.items()
+        }
+    return {name: value.to(dtype=transformer_dtype) for name, value in outputs.items()}
+
+
+@torch.no_grad()
+def extract_flux_prompt_attention_map(
+    pipe,
+    latents: torch.Tensor,
+    prompt_embeds: torch.Tensor,
+    pooled_prompt_embeds: torch.Tensor,
+    text_ids: torch.Tensor,
+    latent_image_ids: torch.Tensor,
+    t: torch.Tensor,
+    guidance_scale: float,
+    packed_h: int,
+    packed_w: int,
+    token_indices: list[int] | None = None,
+    layer_indices: list[int] | None = None,
+    self_weight: float = 0.0,
+) -> torch.Tensor:
+    """Backward-compatible single-group attention capture."""
+
+    return extract_flux_prompt_attention_maps(
+        pipe=pipe,
+        latents=latents,
+        prompt_embeds=prompt_embeds,
+        pooled_prompt_embeds=pooled_prompt_embeds,
+        text_ids=text_ids,
+        latent_image_ids=latent_image_ids,
+        t=t,
+        guidance_scale=guidance_scale,
+        packed_h=packed_h,
+        packed_w=packed_w,
+        token_groups={"attention": token_indices},
+        layer_indices=layer_indices,
+        self_weight=self_weight,
+    )["attention"]
 
 
 def predict_x0_from_linear_rf_path(
