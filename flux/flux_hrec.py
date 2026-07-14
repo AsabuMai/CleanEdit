@@ -621,6 +621,8 @@ def load_flux_pipeline(args, device: torch.device):
 
 
 def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict[str, object]]]:
+    if args.adaptive_component_control:
+        args.adaptive_clean_control = True
     sd3_interface = _normalize_sd3_interface_args(args)
     set_seed(args.seed)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -966,6 +968,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
         region_target_outside_lock_weight = 0.0
         trajectory_preserve_norm = 0.0
         trajectory_preserve_weight = 0.0
+        core_diagnostics: dict[str, float] = {}
 
         if args.method == "base_only_flux":
             v_total = v_src
@@ -1129,6 +1132,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
             v_rec = core_out.v_rec
             v_edit = core_out.v_edit
             v_total = core_out.v_total
+            core_diagnostics = core_out.diagnostics
             edit_terms_norm = core_out.edit_terms_norm
             adaptive_edit_weight = core_out.diagnostics["adaptive_edit_weight"]
             adaptive_preserve_weight = core_out.diagnostics["adaptive_preserve_weight"]
@@ -1288,6 +1292,7 @@ def run_flux_edit(args) -> tuple[list[Image.Image], dict[str, object], list[dict
                 "adaptive_preserve_clean_correction_norm": float(
                     locals().get("adaptive_preserve_clean_correction_norm", 0.0)
                 ),
+                **core_diagnostics,
             }
         )
         z_t = z_t.to(latents_dtype)

@@ -323,6 +323,9 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     """
 
     diagnostics: dict[str, float] = {}
+    adaptive_control_enabled = bool(
+        config.adaptive_clean_control or config.adaptive_component_control
+    )
     current_delta = step.x0_src - step.x_src.to(torch.float32)
     target_delta = step.x0_tar - step.x_src.to(torch.float32)
     target_gap = step.x0_tar - step.x0_src
@@ -353,7 +356,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     adaptive_projection_norm = 0.0
     adaptive_preserve_clean_correction_norm = 0.0
 
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         edit_progress_num = (_apply_gate(current_delta * target_delta, step.edit_gate)).sum()
         edit_progress_den = (_apply_gate(target_delta.square(), step.edit_gate)).sum().clamp_min(1e-8)
         edit_progress = float((edit_progress_num / edit_progress_den).detach().item())
@@ -397,7 +400,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         velocity_t_min=config.linear_path_t_min,
     )
     v_rec = step.alpha_t * step.map_to_native(rec_terms["total"]).to(device=step.z_t.device, dtype=torch.float32)
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         v_rec = adaptive_preserve_weight * v_rec
     v_rec = _apply_gate(v_rec, step.base_rec_post_gate)
 
@@ -474,7 +477,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         recolor_clean_projection_norm = float(recolor_guidance.norm().item())
 
     if (
-        config.adaptive_clean_control
+        adaptive_control_enabled
         and config.adaptive_preserve_clean_correction_scale > 0.0
         and preserve_drift > config.adaptive_preserve_drift_budget
     ):
@@ -488,7 +491,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
     adaptive_edit_weight_map = None
     adaptive_component_diagnostics: dict[str, float] = {}
     if (
-        config.adaptive_clean_control
+        adaptive_control_enabled
         and config.adaptive_component_control
         and config.adaptive_edit_gain > 0.0
     ):
@@ -512,7 +515,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         )
         adaptive_edit_weight = adaptive_component_diagnostics["adaptive_component_weight_mean"]
 
-    if config.adaptive_clean_control:
+    if adaptive_control_enabled:
         if adaptive_edit_weight_map is not None:
             w_native = step.map_to_native(adaptive_edit_weight_map).to(
                 device=step.z_t.device, dtype=torch.float32
@@ -521,7 +524,7 @@ def compute_dece_core_step(config: DeceCoreConfig, step: DeceCoreStepInput) -> D
         else:
             v_edit = adaptive_edit_weight * v_edit
 
-    if config.adaptive_clean_control and config.adaptive_projection_scale > 0.0:
+    if adaptive_control_enabled and config.adaptive_projection_scale > 0.0:
         clean_edit_effect = -step.t_scalar * v_edit
         preserve_error_eval = _apply_gate(current_delta, step.preserve_gate)
         clean_effect_eval = _apply_gate(clean_edit_effect, step.preserve_gate)

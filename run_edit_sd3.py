@@ -123,6 +123,9 @@ def load_image_latent(
 def main() -> None:
     run_started_at = time.perf_counter()
     args = build_parser().parse_args()
+    if args.adaptive_component_control:
+        args.adaptive_clean_control = True
+        args.shared_core_authoritative = True
     if torch.cuda.is_available():
         torch.cuda.reset_peak_memory_stats()
     edit_mask_box = parse_normalized_box(args.edit_mask_box, "--edit-mask-box")

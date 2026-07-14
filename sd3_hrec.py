@@ -1133,6 +1133,9 @@ def HRecSD3Edit(
     z_t = z_T.clone()
     step_stats: list[dict[str, float | str | None]] = []
     shared_core_shadow_rel_total: list[float] = []
+    if adaptive_component_control:
+        adaptive_clean_control = True
+        shared_core_authoritative = True
     shared_core_shadow_unsupported = []
     if edit_field_mode not in {"surrogate", "rf_diff"}:
         shared_core_shadow_unsupported.append(f"edit_field_mode={edit_field_mode}")
@@ -1164,8 +1167,6 @@ def HRecSD3Edit(
         shared_core_shadow_unsupported.append("adaptive_hybrid")
     if adaptive_clean_control and adaptive_preserve_gain > 0.0 and adaptive_preserve_drift_budget <= 0.0:
         shared_core_shadow_unsupported.append("zero_preserve_drift_budget")
-    if adaptive_component_control and not shared_core_authoritative:
-        raise ValueError("adaptive_component_control requires shared_core_authoritative for SD3")
     shared_core_requested = bool(shared_core_shadow or shared_core_authoritative)
     shared_core_supported = bool(shared_core_requested and not shared_core_shadow_unsupported)
     if shared_core_authoritative and shared_core_shadow_unsupported:
