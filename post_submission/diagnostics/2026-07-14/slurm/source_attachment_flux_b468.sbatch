@@ -77,6 +77,7 @@ from pathlib import Path
 root = Path(sys.argv[1])
 metadata = sorted(root.glob("**/metadata.json"))
 assert len(metadata) == 18, len(metadata)
+expected_active = 0
 for path in metadata:
     data = json.loads(path.read_text())
     assert data["seed"] == 10
@@ -89,6 +90,7 @@ for path in metadata:
     operation = data["support_stats"]["support_edit_operation"]
     expected = 0.35 if operation in {"recolor", "replace"} else 0.0
     assert data["source_attachment_release_scale"] == expected, path
+    expected_active += int(expected > 0.0)
 stats = sorted(root.glob("**/stats.json"))
 assert len(stats) == 18, len(stats)
 active = 0
@@ -96,6 +98,6 @@ for path in stats:
     rows = json.loads(path.read_text())
     if any(row.get("source_attachment_release_norm", 0.0) > 0.0 for row in rows):
         active += 1
-assert active == 16, active
-print("verified 18 fixed-budget runs; source release active on 16 recolor/material runs")
+assert active == expected_active, (active, expected_active)
+print(f"verified 18 fixed-budget runs; source release active on {active} recolor/material runs")
 PY
