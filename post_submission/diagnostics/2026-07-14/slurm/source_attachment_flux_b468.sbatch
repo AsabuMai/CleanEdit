@@ -138,7 +138,7 @@ for key in sorted(control):
         assert left[field] == right[field], (key, field)
     assert left["source_attachment_release_scale"] == 0.0, key
     release_scale = right["source_attachment_release_scale"]
-    for mask_name in ("M_edit.png", "M_core.png", "M_preserve.png"):
+    for mask_name in ("operation_v3_edit_mask.png", "M_core.png", "M_preserve.png"):
         left_mask = control_path.parent / "masks" / mask_name
         right_mask = release_path.parent / "masks" / mask_name
         assert left_mask.read_bytes() == right_mask.read_bytes(), (key, mask_name)
